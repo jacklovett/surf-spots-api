@@ -1,26 +1,28 @@
 package com.lovettj.surfspotsapi;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 
 import com.lovettj.surfspotsapi.service.SeedService;
 
 @SpringBootApplication
-public class SurfSpotsApplication {
+public class SurfSpotsApplication implements CommandLineRunner {
 
-	@Autowired
-	private SeedService seedService;
+	private final SeedService seedService;
+
+	// Constructor injection without @Autowired
+	public SurfSpotsApplication(SeedService seedService) {
+		this.seedService = seedService;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SurfSpotsApplication.class, args);
 	}
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void onApplicationReady() {
+	// CommandLineRunner method to run after the application starts
+	@Override
+	public void run(String... args) throws Exception {
 		seedService.seedData();
 	}
-
 }
