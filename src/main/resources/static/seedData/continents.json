@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Africa",
+    "description": "Africa offers world-class surf spots, particularly in South Africa and Morocco, with consistent waves and some of the best right-hand point breaks in the world."
+  },
+  {
+    "id": 2,
+    "name": "Asia",
+    "description": "Asia is home to famous surf destinations like Bali in Indonesia and the tropical waves of the Philippines and Sri Lanka, attracting surfers year-round."
+  },
+  {
+    "id": 3,
+    "name": "Australia",
+    "description": "Australia is a surfer's paradise, boasting iconic waves along both its east and west coasts, with famous breaks like Byron Bay and Bells Beach."
+  },
+  {
+    "id": 4,
+    "name": "Europe",
+    "description": "Europe has diverse surfing opportunities, from Portugal's giant waves in Nazaré to France's famous beach breaks and consistent swells along the Atlantic coast."
+  },
+  {
+    "id": 5,
+    "name": "North America",
+    "description": "North America offers a wide variety of surf spots, from California's consistent west coast breaks to Hawaii's legendary waves like Pipeline."
+  },
+  {
+    "id": 6,
+    "name": "South America",
+    "description": "South America provides epic surf destinations, particularly in Brazil, Chile, and Peru, with long left-hand waves and reliable swells year-round."
+  }
+]
