@@ -1,5 +1,7 @@
 package com.lovettj.surfspotsapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum SurfSpotType {
   BEACH_BREAK("Beach Break"),
   REEF_BREAK("Reef Break"),
@@ -11,6 +13,7 @@ public enum SurfSpotType {
     this.displayName = displayName;
   }
 
+  @JsonValue
   public String getDisplayName() {
     return displayName;
   }
