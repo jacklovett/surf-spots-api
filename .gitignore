@@ -40,11 +40,6 @@ Thumbs.db
 *.db
 *.sql
 
-# Application properties
-application*.properties
-application*.yaml
-application*.yml
-
 # Cache, temporary and plugin directories
 .mvn/
 .cache/
