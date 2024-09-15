@@ -10,8 +10,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_DB: surf_spots_db
+        ports:
+          - 5432:5432
+        options: > 
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -19,16 +35,18 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Set up environment variables for database
+    - name: Wait for PostgreSQL to be ready
       run: |
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-        echo "DB_USERNAME=postgres" >> $GITHUB_ENV
+        until pg_isready -h localhost -p 5432 -U postgres; do
+          echo "Waiting for database to be ready..."
+          sleep 5
+        done
 
     - name: Build with Maven
       env:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_USERNAME: postgres
-        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/surf_spots_db  # Adjust the DB URL as needed
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/surf_spots_db
       run: mvn clean package --file pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts
