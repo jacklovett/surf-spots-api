@@ -51,102 +51,51 @@ public class SeedService {
   }
 
   private void seedContinents() {
-    try {
-      File continentFile = new ClassPathResource("static/seedData/continents.json").getFile(); // Load file from
-                                                                                               // classpath
-      Continent[] continents = mapper.readValue(continentFile, Continent[].class);
-
-      if (continents == null || continents.length == 0) {
-        throw new IllegalStateException("No continent seed data found");
-      }
-
-      List<String> existingContinents = continentRepository.findAll()
-          .stream()
-          .map(Continent::getName)
-          .collect(Collectors.toList());
-
-      List<Continent> newContinents = Arrays.stream(continents)
-          .filter(continent -> !existingContinents.contains(continent.getName()))
-          .collect(Collectors.toList());
-
-      if (!newContinents.isEmpty()) {
-        continentRepository.saveAll(newContinents); // Batch insert for performance
-        logger.info("Successfully seeded {} continents", newContinents.size());
-      } else {
-        logger.info("No new continents to seed");
-      }
-    } catch (IOException e) {
-      logger.error("Failed to read or parse Continent seed data: {}",
-          e.getMessage(), e);
-    } catch (DataAccessException e) {
-      logger.error("Database access error while seeding continents: {}",
-          e.getMessage(), e);
-    }
+    seedEntities("continents.json", Continent[].class, continentRepository.findAll(), continentRepository::saveAll,
+        Continent::getName);
   }
 
   private void seedCountries() {
-    try {
-      File countryFile = new ClassPathResource("static/seedData/countries.json").getFile(); // Load file from classpath
-      Country[] countries = mapper.readValue(countryFile, Country[].class);
-
-      if (countries == null || countries.length == 0) {
-        throw new IllegalStateException("No country seed data found");
-      }
-
-      List<String> existingCountries = countryRepository.findAll()
-          .stream()
-          .map(Country::getName)
-          .collect(Collectors.toList());
-
-      List<Country> newCountries = Arrays.stream(countries)
-          .filter(country -> !existingCountries.contains(country.getName()))
-          .collect(Collectors.toList());
-
-      if (!newCountries.isEmpty()) {
-        countryRepository.saveAll(newCountries); // Batch insert for performance
-        logger.info("Successfully seeded {} countries", newCountries.size());
-      } else {
-        logger.info("No new countries to seed");
-      }
-    } catch (IOException e) {
-      logger.error("Failed to read or parse Country seed data: {}", e.getMessage(),
-          e);
-    } catch (DataAccessException e) {
-      logger.error("Database access error while seeding countries: {}",
-          e.getMessage(), e);
-    }
+    seedEntities("countries.json", Country[].class, countryRepository.findAll(), countryRepository::saveAll,
+        Country::getName);
   }
 
   private void seedRegions() {
-    try {
-      File regionFile = new ClassPathResource("static/seedData/regions.json").getFile(); // Load file from classpath
-      Region[] regions = mapper.readValue(regionFile, Region[].class);
+    seedEntities("regions.json", Region[].class, regionRepository.findAll(), regionRepository::saveAll,
+        Region::getName);
+  }
 
-      if (regions == null || regions.length == 0) {
-        throw new IllegalStateException("No region seed data found");
+  private <T> void seedEntities(String fileName, Class<T[]> entityType,
+      List<T> existingEntities,
+      java.util.function.Consumer<List<T>> saveAll,
+      java.util.function.Function<T, String> getNameFunction) {
+    try {
+      File file = new ClassPathResource("static/seedData/" + fileName).getFile();
+      T[] entities = mapper.readValue(file, entityType);
+
+      if (entities == null || entities.length == 0) {
+        throw new IllegalStateException("No seed data found in " + fileName);
       }
 
-      List<String> existingRegions = regionRepository.findAll()
+      List<String> existingEntityNames = existingEntities
           .stream()
-          .map(Region::getName)
+          .map(getNameFunction)
           .collect(Collectors.toList());
 
-      List<Region> newRegions = Arrays.stream(regions)
-          .filter(region -> !existingRegions.contains(region.getName()))
+      List<T> newEntities = Arrays.stream(entities)
+          .filter(entity -> !existingEntityNames.contains(getNameFunction.apply(entity)))
           .collect(Collectors.toList());
 
-      if (!newRegions.isEmpty()) {
-        regionRepository.saveAll(newRegions); // Batch insert for performance
-        logger.info("Successfully seeded {} regions", newRegions.size());
+      if (!newEntities.isEmpty()) {
+        saveAll.accept(newEntities);
+        logger.info("Successfully seeded {} entries from {}", newEntities.size(), fileName);
       } else {
-        logger.info("No new regions to seed");
+        logger.info("No new entries to seed from {}", fileName);
       }
     } catch (IOException e) {
-      logger.error("Failed to read or parse Region seed data: {}", e.getMessage(),
-          e);
+      logger.error("Failed to read or parse seed data from {}: {}", fileName, e.getMessage(), e);
     } catch (DataAccessException e) {
-      logger.error("Database access error while seeding regions: {}",
-          e.getMessage(), e);
+      logger.error("Database access error while seeding from {}: {}", fileName, e.getMessage(), e);
     }
   }
 }

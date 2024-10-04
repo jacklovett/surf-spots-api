@@ -1,3 +1,642 @@
 [
-
+    {
+      "name": "Algeria",
+      "description": "Algeria offers emerging surf spots along its Mediterranean coast, with warm waters and scenic views.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Angola",
+      "description": "Angola offers undiscovered surf potential, especially in spots like Cabo Ledo, with warm waters and empty lineups.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Cape Verde",
+      "description": "Cape Verde is known for its powerful Atlantic swells, offering world-class waves for surfers in places like Santa Maria.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Congo Republic",
+      "description": "The Republic of Congo offers lesser-known surf spots with warm tropical waters and uncrowded waves.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Egypt",
+      "description": "Egypt's Mediterranean coastline offers surf spots like Agami, with warm waters and consistent waves.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Ghana",
+      "description": "Ghana is home to spots like Busua Beach, with warm water and a growing surf community on the West African coast.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Ivory Coast",
+      "description": "Ivory Coast offers warm tropical waters and consistent waves in surf spots like Assinie and Grand-Bassam.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Liberia",
+      "description": "Liberia is famous for uncrowded surf breaks like Robertsport, with long, consistent waves in tropical surroundings.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Madagascar",
+      "description": "Madagascar offers beautiful and secluded surf spots with warm waters and uncrowded breaks along its Indian Ocean coastline.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Mauritius",
+      "description": "Mauritius has perfect reef breaks, particularly in Tamarin Bay, attracting surfers to the tropical island.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Morocco",
+      "description": "Morocco features world-class right-hand point breaks like Anchor Point and Taghazout, attracting surfers year-round.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Mozambique",
+      "description": "Mozambique offers pristine surf spots like Tofo Beach with crystal clear waters and uncrowded waves.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Namibia",
+      "description": "Namibia is home to Skeleton Bay, famous for its incredibly long and fast left-hand barrels.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Nigeria",
+      "description": "Nigeria is an emerging surf destination with warm water and beach breaks, offering potential for future surf exploration.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Republic of Benin",
+      "description": "Benin offers emerging surf spots along its Atlantic coast, with warm water and consistent small waves for beginners.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Republic of Congo",
+      "description": "The Republic of Congo offers a blend of tropical surf breaks with warm water and uncrowded waves along its coast.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Republic of Equatorial Guinea",
+      "description": "Equatorial Guinea features lesser-known surf spots along its Atlantic coast, with warm waters and scenic landscapes.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Réunion",
+      "description": "Réunion Island is known for its powerful waves and tropical surf breaks, attracting experienced surfers.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Senegal",
+      "description": "Senegal boasts consistent surf at spots like Ngor Right, with a warm climate and vibrant surf culture.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Seychelles",
+      "description": "Seychelles offers beautiful tropical surf spots with consistent waves and crystal-clear water, making it a unique surf destination.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Sierra Leone",
+      "description": "Sierra Leone features tropical surf breaks along its Atlantic coast, with warm waters and developing surf culture.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "South Africa",
+      "description": "South Africa is known for consistent surf spots like Jeffrey's Bay, attracting surfers from around the world.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "São Tomé and Príncipe",
+      "description": "São Tomé and Príncipe offers secluded surf spots with warm waters, attracting surfers looking for uncrowded waves.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Tanzania",
+      "description": "Tanzania features beautiful surf spots along its Indian Ocean coastline, with warm waters and consistent waves.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Togo",
+      "description": "Togo is an emerging surf destination with warm waters and consistent waves along its Atlantic coast.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Tunisia",
+      "description": "Tunisia offers Mediterranean surf spots with warm water and consistent swells during the winter months.",
+      "continent": { "id": 1 }
+    },
+    {
+      "name": "Western Sahara",
+      "description": "Western Sahara features uncrowded surf breaks along its Atlantic coast, with warm water and consistent waves.",
+      "continent": { "id": 1 }
+    },  
+  {
+    "name": "Brunei",
+    "description": "Brunei has pristine beaches with small to medium waves, perfect for beginners. Tanjung Aru offers lush rainforests and warm water year-round.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "China",
+    "description": "China features emerging surf spots in Hainan Island, with beach breaks and consistent waves in a vibrant cultural setting and tropical weather.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Hong Kong",
+    "description": "Hong Kong blends urban surf culture with spots like Big Wave Bay and Shek O, offering warm summers for surfers of all levels.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "India",
+    "description": "India boasts diverse surf spots like Kovalam and Varkala, with warm waters and a mix of beach and reef breaks amidst vibrant local communities.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Indonesia",
+    "description": "Indonesia is a surfer’s paradise with world-class spots like Uluwatu and the Mentawai Islands, attracting competitions and festivals.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Israel",
+    "description": "Israel features surf spots like Tel Aviv and Haifa, known for consistent waves and a Mediterranean climate that appeals year-round.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Japan",
+    "description": "Japan is known for its surf culture with spots like Chiba and Shonan, offering a mix of beautiful coastlines and seasonal typhoons.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Lebanon",
+    "description": "Lebanon offers Mediterranean surf spots like Jiyyeh, rich history, delicious cuisine, and vibrant nightlife for surfers.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Malaysia",
+    "description": "Malaysia has emerging surf spots like Cherating, featuring mellow waves and a mix of Malay, Chinese, and Indian cultures.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Maldives",
+    "description": "The Maldives is known for luxurious surf resorts and perfect waves at Pasta Point and Honkys, offering adventure and relaxation.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Myanmar",
+    "description": "Myanmar features lesser-known surf spots like Ngapali Beach, with warm waters and gentle waves for a tranquil surfing experience.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "North Korea",
+    "description": "North Korea offers scenic coastal views with limited surf spots, providing a unique experience for adventurous surfers.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Oman",
+    "description": "Oman features surf spots like Salalah and Masirah Island, known for consistent swells and a rich cultural heritage.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Palestine",
+    "description": "Palestine offers surf opportunities along the Gaza Strip, with warm Mediterranean waves and a backdrop of rich history.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Philippines",
+    "description": "The Philippines features famous surf spots like Siargao and Baler, attracting surfers with powerful waves and a laid-back culture.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Russia",
+    "description": "Russia has emerging surf spots in Kamchatka, offering wild landscapes and rugged waves for adventurous surfers.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "South Korea",
+    "description": "South Korea features surf spots like Jeju Island and Yangyang, blending vibrant surf culture with rich historical sites.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Sri Lanka",
+    "description": "Sri Lanka is renowned for surf spots like Arugam Bay, offering excellent waves and a laid-back vibe amidst rich biodiversity.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Taiwan",
+    "description": "Taiwan features surf spots like Jinzun Harbor, known for consistent waves and a vibrant culinary scene for surfers.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Thailand",
+    "description": "Thailand has emerging surf spots like Phuket, known for warm waters and stunning scenery, attracting surfers year-round.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Turkey",
+    "description": "Turkey offers surf spots along its stunning coastline, including Antalya, blending rich history with beautiful landscapes.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "United Arab Emirates",
+    "description": "The UAE includes surf spots like Jumeirah Beach, known for consistent waves amid luxury and modernity.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Vietnam",
+    "description": "Vietnam features popular surf spots like China Beach and Mui Ne, known for consistent waves and rich culture.",
+    "continent": { "id": 2 }
+  },
+  {
+    "name": "Belgium",
+    "description": "Belgium offers unique surf conditions with beach breaks along its coast, attracting adventurous surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Bulgaria",
+    "description": "Bulgaria features surf spots on the Black Sea, providing diverse waves and a growing surf community.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Cyprus",
+    "description": "Cyprus offers warm waters and a mix of beach and reef breaks, making it a hidden gem for surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Denmark",
+    "description": "Denmark's coastline features consistent waves, particularly in areas like Klitmøller, attracting surfers year-round.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Estonia",
+    "description": "Estonia offers surf spots along its Baltic coast, with a growing interest in surfing among locals.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Finland",
+    "description": "Finland's coastline features unique surf conditions with cold waters, attracting adventurous surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "France",
+    "description": "France is renowned for its world-class surf spots like Hossegor and Biarritz, offering consistent waves and a vibrant surf culture.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Georgia",
+    "description": "Georgia has emerging surf spots along the Black Sea, offering warm waters and diverse conditions.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Germany",
+    "description": "Germany features surf spots like Sylt and the famous river wave at Munich's Eisbach, attracting surfers year-round.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Gibraltar",
+    "description": "Gibraltar features diverse surf spots with a mix of beach and reef breaks, attracting local surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Greece",
+    "description": "Greece offers beautiful surf spots with warm waters and consistent waves, particularly on islands like Crete.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Iceland",
+    "description": "Iceland features unique surf spots with cold waters and stunning landscapes, offering an adventurous surf experience.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Ireland",
+    "description": "Ireland is known for its powerful waves and beautiful surf spots, like Bundoran and Lahinch, attracting surfers year-round.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Italy",
+    "description": "Italy offers a variety of surf spots, with consistent waves along its coastline, particularly in regions like Sardinia.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Latvia",
+    "description": "Latvia has emerging surf spots along the Baltic coast, attracting adventurous surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Lithuania",
+    "description": "Lithuania features surf spots along its Baltic coastline, providing unique conditions for surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Malta",
+    "description": "Malta offers beautiful surf spots with warm waters and consistent waves, attracting surfers from all over.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Netherlands",
+    "description": "The Netherlands features diverse surf spots along its coastline, attracting surfers to beach breaks.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Norway",
+    "description": "Norway offers unique surf conditions with stunning scenery, attracting adventurous surfers to its rugged coastline.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Poland",
+    "description": "Poland's coastline features emerging surf spots along the Baltic Sea, attracting local surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Portugal",
+    "description": "Portugal is famous for its world-class surf spots like Nazaré and Ericeira, offering consistent waves and a vibrant surf culture.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Romania",
+    "description": "Romania offers surf spots along the Black Sea, with a growing interest in surfing among locals.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Spain",
+    "description": "Spain is known for its diverse surf spots, with consistent waves in areas like the Basque Country and the Canary Islands.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Sweden",
+    "description": "Sweden offers unique surf conditions along its coastline, attracting adventurous surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Switzerland",
+    "description": "Switzerland is landlocked but has a growing surf scene with river surfing opportunities.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Ukraine",
+    "description": "Ukraine features surf spots along its coastline, particularly in areas like Odesa, attracting local surfers.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "United Kingdom",
+    "description": "The United Kingdom offers diverse surf spots, with consistent waves in regions like Cornwall and Scotland, attracting surfers year-round.",
+    "continent": { "id": 3 }
+  },
+  {
+    "name": "Aruba",
+    "description": "Aruba is known for its beautiful beaches and consistent surf spots, attracting surfers from around the world.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Bahamas",
+    "description": "The Bahamas offers clear waters and enjoyable waves, perfect for surfers seeking a tropical experience.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Barbados",
+    "description": "Barbados features famous surf spots like Soup Bowl, attracting surfers with its powerful waves.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Bermuda",
+    "description": "Bermuda has diverse surf conditions, with beach breaks and reef spots attracting surfers year-round.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "British Virgin Islands",
+    "description": "The British Virgin Islands offer scenic beaches and reliable surf spots, perfect for an island getaway.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Canada",
+    "description": "Canada's west coast, particularly Tofino, offers great surf spots with beautiful scenery.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Costa Rica",
+    "description": "Costa Rica is famous for its consistent waves and surf culture, making it a top destination for surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Cuba",
+    "description": "Cuba features beautiful beaches and emerging surf spots, offering a unique experience for adventurous surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Curaçao",
+    "description": "Curaçao offers stunning beaches and pleasant surf conditions, perfect for surfers of all levels.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Dominica",
+    "description": "Dominica boasts a vibrant surf scene, with beautiful landscapes and diverse wave options.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Dominican Republic",
+    "description": "The Dominican Republic offers popular surf spots like Cabarete, known for its consistent waves.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "El Salvador",
+    "description": "El Salvador is famous for its left-hand point breaks, attracting surfers from around the globe.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Grenada",
+    "description": "Grenada features stunning beaches and enjoyable surf conditions, making it an ideal spot for relaxation and adventure.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Guadeloupe",
+    "description": "Guadeloupe offers a variety of surf spots and beautiful landscapes, perfect for surfers and nature lovers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Guatemala",
+    "description": "Guatemala features scenic beaches and good surf conditions, ideal for surfers seeking new adventures.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Haiti",
+    "description": "Haiti offers beautiful coastlines and potential surf spots, providing a unique experience for adventurous surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Jamaica",
+    "description": "Jamaica features consistent waves and vibrant surf culture, attracting surfers from all over.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Martinique",
+    "description": "Martinique offers stunning beaches and enjoyable surf conditions, making it a great destination for surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Mexico",
+    "description": "Mexico is known for world-class surf spots like Puerto Escondido and Baja California, attracting surfers year-round.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Nicaragua",
+    "description": "Nicaragua features fantastic surf spots like San Juan del Sur, known for its consistent waves and warm waters.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Panama",
+    "description": "Panama offers diverse surf conditions, with beautiful beaches and great waves, ideal for surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Puerto Rico",
+    "description": "Puerto Rico is famous for its surf culture and consistent waves, making it a top destination for surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Saint Barthélemy",
+    "description": "Saint Barthélemy features beautiful beaches and great surf spots, perfect for surfers and sun-seekers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Saint Martin",
+    "description": "Saint Martin offers stunning beaches and enjoyable surf conditions, attracting surfers from around the world.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "St Lucia",
+    "description": "St Lucia features beautiful coastlines and emerging surf spots, providing a unique experience for surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "St Vincent and Grenadines",
+    "description": "St Vincent and the Grenadines offers beautiful beaches and pleasant surf conditions, perfect for a tropical getaway.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "description": "Trinidad and Tobago features scenic beaches and enjoyable surf spots, making it a popular destination for surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "U.S. Virgin Islands",
+    "description": "The U.S. Virgin Islands offers beautiful beaches and emerging surf spots, perfect for surfers seeking adventure.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "United States",
+    "description": "The United States offers world-class waves from California to Hawaii, a dream destination for surfers.",
+    "continent": { "id": 4 }
+  },
+  {
+    "name": "American Samoa",
+    "description": "American Samoa offers uncrowded surf spots with tropical waters and consistent waves in the South Pacific.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Australia",
+    "description": "Australia is renowned for its world-class surf spots like Bondi Beach and Bells Beach, offering consistent waves along its vast coastline.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Cook Islands",
+    "description": "The Cook Islands feature uncrowded surf breaks with tropical waters and consistent waves, attracting adventurous surfers.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Fiji",
+    "description": "Fiji is famous for its powerful reef breaks, like Cloudbreak, offering some of the best surfing in the South Pacific.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "French Polynesia",
+    "description": "French Polynesia is home to world-class surf spots like Teahupo'o, known for its perfect barrels and challenging waves.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Guam",
+    "description": "Guam offers warm tropical waters and consistent surf conditions with uncrowded breaks in the Western Pacific.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Micronesia",
+    "description": "Micronesia features hidden surf gems with warm waters and uncrowded waves across its vast island chains.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "New Caledonia",
+    "description": "New Caledonia offers consistent waves and uncrowded surf spots, with stunning coral reefs and warm waters in the Pacific Ocean.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "New Zealand",
+    "description": "New Zealand's diverse surf spots, such as Raglan, offer world-class waves with a backdrop of stunning landscapes.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Palau",
+    "description": "Palau's surf scene features tropical waters and uncrowded waves with growing interest in its hidden breaks.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Papua New Guinea",
+    "description": "Papua New Guinea offers uncrowded surf spots with tropical waters and consistent waves along its remote coastlines.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Samoa",
+    "description": "Samoa features warm waters and consistent surf breaks, with powerful reef waves in the heart of the South Pacific.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Solomon Islands",
+    "description": "The Solomon Islands offer pristine surf spots with warm waters and uncrowded waves, making them a hidden gem for surfers.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Tonga",
+    "description": "Tonga features remote, uncrowded surf spots with powerful reef breaks, offering consistent waves year-round.",
+    "continent": { "id": 5 }
+  },
+  {
+    "name": "Argentina",
+    "description": "Argentina is known for its stunning coastlines and surf spots like Playa Grande, offering great waves.",
+    "continent": { "id": 6 }
+  },
+  {
+    "name": "Brazil",
+    "description": "Brazil features world-renowned surf spots like Fernando de Noronha and Praia do Norte, attracting surfers globally.",
+    "continent": { "id": 6 }
+  },
+  {
+    "name": "Chile",
+    "description": "Chile boasts diverse surf conditions, with famous spots like Punta de Lobos attracting surfers year-round.",
+    "continent": { "id": 6 }
+  },
+  {
+    "name": "Colombia",
+    "description": "Colombia offers beautiful beaches and emerging surf spots, perfect for adventurous surfers.",
+    "continent": { "id": 6 }
+  },
+  {
+    "name": "Ecuador",
+    "description": "Ecuador features great surf conditions, with spots like Montañita known for consistent waves and vibrant culture.",
+    "continent": { "id": 6 }
+  },
+  {
+    "name": "Peru",
+    "description": "Peru is famous for its left-hand point breaks, particularly in Mancora, making it a top surfing destination.",
+    "continent": { "id": 6 }
+  },
+  {
+    "name": "Uruguay",
+    "description": "Uruguay offers beautiful beaches and great surf spots like Punta del Este, attracting surfers in summer.",
+    "continent": { "id": 6 }
+  },
+  {
+    "name": "Venezuela",
+    "description": "Venezuela features stunning coastlines and emerging surf spots, providing a unique experience for surfers.",
+    "continent": { "id": 6 }
+  }  
 ]

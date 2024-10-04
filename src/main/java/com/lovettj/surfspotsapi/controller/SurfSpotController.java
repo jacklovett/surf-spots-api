@@ -25,9 +25,21 @@ public class SurfSpotController {
     return new ResponseEntity<>(surfSpots, HttpStatus.OK);
   }
 
+  @GetMapping("/region/{regionSlug}")
+  public ResponseEntity<List<SurfSpot>> getSurfSpotsByRegion(@PathVariable String regionSlug) {
+    List<SurfSpot> surfSpots = surfSpotService.findSurfSpotsByRegionSlug(regionSlug);
+    return ResponseEntity.ok(surfSpots);
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<SurfSpot> getSurfSpotById(@PathVariable Long id) {
     Optional<SurfSpot> surfSpot = surfSpotService.getSurfSpotById(id);
+    return surfSpot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/{slug}")
+  public ResponseEntity<SurfSpot> getSurfSpotById(@PathVariable String slug) {
+    Optional<SurfSpot> surfSpot = surfSpotService.findBySlug(slug);
     return surfSpot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 

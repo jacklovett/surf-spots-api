@@ -1,6 +1,6 @@
 package com.lovettj.surfspotsapi.controller;
 
-import com.lovettj.surfspotsapi.entity.WishlistSurfSpot;
+import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.service.WishlistSurfSpotService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,9 @@ class WishlistSurfSpotControllerTests {
 
   @Test
   void testGetUsersWishlist() throws Exception {
-    WishlistSurfSpot spot1 = new WishlistSurfSpot();
-    WishlistSurfSpot spot2 = new WishlistSurfSpot();
-    List<WishlistSurfSpot> spots = Arrays.asList(spot1, spot2);
+    SurfSpot spot1 = new SurfSpot();
+    SurfSpot spot2 = new SurfSpot();
+    List<SurfSpot> spots = Arrays.asList(spot1, spot2);
 
     when(wishlistSurfSpotService.getUsersWishlist(anyLong())).thenReturn(spots);
 

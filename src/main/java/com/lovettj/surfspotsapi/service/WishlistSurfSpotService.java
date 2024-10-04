@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -54,9 +55,12 @@ public class WishlistSurfSpotService {
    * Get users surf spot wishlist
    * 
    * @param userId
-   * @return
+   * @return surfSpots
    */
-  public List<WishlistSurfSpot> getUsersWishlist(Long userId) {
-    return wishlistSurfSpotRepository.findByUserId(userId);
+  public List<SurfSpot> getUsersWishlist(Long userId) {
+    List<WishlistSurfSpot> wishlist = wishlistSurfSpotRepository.findByUserId(userId);
+    return wishlist.stream()
+        .map(WishlistSurfSpot::getSurfSpot)
+        .collect(Collectors.toList());
   }
 }

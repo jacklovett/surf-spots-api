@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot API Debug",
+      "request": "launch",
+      "mainClass": "com.lovettj.surfspotsapi.SurfSpotsApplication",
+      "projectName": "surf-spots-api",
+      "console": "integratedTerminal",
+      "vmArgs": "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005",
+    }
+  ]
+}

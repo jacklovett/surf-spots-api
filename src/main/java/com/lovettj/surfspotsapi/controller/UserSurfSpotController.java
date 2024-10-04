@@ -3,7 +3,8 @@ package com.lovettj.surfspotsapi.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.lovettj.surfspotsapi.entity.UserSurfSpot;
+import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.requests.UserSurfSpotRequest;
 import com.lovettj.surfspotsapi.service.UserSurfSpotService;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class UserSurfSpotController {
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<List<UserSurfSpot>> getUserSurfSpots(@PathVariable Long userId) {
+  public ResponseEntity<List<SurfSpot>> getUserSurfSpots(@PathVariable Long userId) {
     return ResponseEntity.ok(userSurfSpotService.getUserSurfSpots(userId));
   }
 
-  @PostMapping("/{userId}/add/{spotId}")
-  public ResponseEntity<String> addUserSurfSpot(@PathVariable Long userId, @PathVariable Long spotId) {
+  @PostMapping
+  public ResponseEntity<String> addUserSurfSpot(@RequestBody UserSurfSpotRequest request) {
+    Long userId = request.getUserId();
+    Long spotId = request.getSurfSpotId();
     userSurfSpotService.addUserSurfSpot(userId, spotId);
     return ResponseEntity.ok("Surf spot added to user’s list.");
   }
@@ -34,9 +37,9 @@ public class UserSurfSpotController {
     return ResponseEntity.ok("Surf spot removed from user’s list.");
   }
 
-  @PostMapping("/{userId}/toggle-favorite/{spotId}")
-  public ResponseEntity<String> toggleFavorite(@PathVariable Long userId, @PathVariable Long spotId) {
-    userSurfSpotService.toggleIsFavorite(userId, spotId);
-    return ResponseEntity.ok("Surf spot favorite status toggled.");
+  @PostMapping("/{userId}/toggle-favourite/{spotId}")
+  public ResponseEntity<String> toggleFavourite(@PathVariable Long userId, @PathVariable Long spotId) {
+    userSurfSpotService.toggleIsFavourite(userId, spotId);
+    return ResponseEntity.ok("Surf spot favourite status toggled.");
   }
 }

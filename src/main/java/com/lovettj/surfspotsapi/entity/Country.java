@@ -2,6 +2,8 @@ package com.lovettj.surfspotsapi.entity;
 
 import jakarta.persistence.*;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 @Entity
@@ -10,7 +12,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Country {
+@ToString(exclude = "regions") // Exclude regions to avoid circular references
+public class Country extends SluggableEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -20,8 +23,9 @@ public class Country {
 
   @ManyToOne
   @JoinColumn(name = "continent_id")
+  @JsonBackReference
   private Continent continent;
 
-  @OneToMany(mappedBy = "country")
+  @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
   private List<Region> regions;
 }

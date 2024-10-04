@@ -9,6 +9,7 @@ import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserSurfSpotService {
@@ -16,6 +17,13 @@ public class UserSurfSpotService {
 
   public UserSurfSpotService(UserSurfSpotRepository userSurfSpotRepository) {
     this.userSurfSpotRepository = userSurfSpotRepository;
+  }
+
+  public List<SurfSpot> getUserSurfSpots(Long userId) {
+    List<UserSurfSpot> userSurfSpots = userSurfSpotRepository.findByUserId(userId);
+    return userSurfSpots.stream()
+        .map(UserSurfSpot::getSurfSpot)
+        .collect(Collectors.toList());
   }
 
   public void addUserSurfSpot(Long userId, Long spotId) {
@@ -27,20 +35,18 @@ public class UserSurfSpotService {
       UserSurfSpot newEntry = UserSurfSpot.builder()
           .user(User.builder().id(userId).build()) // Assuming User object is fetched correctly
           .surfSpot(SurfSpot.builder().id(spotId).build()) // Assuming SurfSpot object is fetched correctly
-          .isFavourite(false) // Default to not a favorite
+          .isFavourite(false)
           .build();
       userSurfSpotRepository.save(newEntry);
     }
   }
 
   public void removeUserSurfSpot(Long userId, Long spotId) {
-    // Find and remove the surf spot from the user's list
     Optional<UserSurfSpot> existingEntry = userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, spotId);
-
     existingEntry.ifPresent(userSurfSpotRepository::delete);
   }
 
-  public void toggleIsFavorite(Long userId, Long spotId) {
+  public void toggleIsFavourite(Long userId, Long spotId) {
     Optional<UserSurfSpot> existingEntry = userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, spotId);
 
     if (existingEntry.isPresent()) {
@@ -48,9 +54,5 @@ public class UserSurfSpotService {
       userSurfSpot.setFavourite(!userSurfSpot.isFavourite());
       userSurfSpotRepository.save(userSurfSpot);
     }
-  }
-
-  public List<UserSurfSpot> getUserSurfSpots(Long userId) {
-    return userSurfSpotRepository.findByUserId(userId);
   }
 }

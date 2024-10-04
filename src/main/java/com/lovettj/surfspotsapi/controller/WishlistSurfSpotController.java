@@ -3,13 +3,14 @@ package com.lovettj.surfspotsapi.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.lovettj.surfspotsapi.entity.WishlistSurfSpot;
+import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.requests.UserSurfSpotRequest;
 import com.lovettj.surfspotsapi.service.WishlistSurfSpotService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/spots-wishlist")
+@RequestMapping("/api/wishlist")
 public class WishlistSurfSpotController {
   private final WishlistSurfSpotService wishlistSurfSpotService;
 
@@ -18,14 +19,16 @@ public class WishlistSurfSpotController {
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<List<WishlistSurfSpot>> getUsersWishlist(@PathVariable Long userId) {
+  public ResponseEntity<List<SurfSpot>> getUsersWishlist(@PathVariable Long userId) {
     return ResponseEntity.ok(wishlistSurfSpotService.getUsersWishlist(userId));
   }
 
-  @PostMapping("/{userId}/add/{spotId}")
-  public ResponseEntity<String> addWishlistSurfSpot(@PathVariable Long userId, @PathVariable Long spotId) {
+  @PostMapping
+  public ResponseEntity<String> addWishlistSurfSpot(@RequestBody UserSurfSpotRequest request) {
+    Long userId = request.getUserId();
+    Long spotId = request.getSurfSpotId();
     wishlistSurfSpotService.addSurfSpotToWishlist(userId, spotId);
-    return ResponseEntity.ok("Surf spot added to user’s list.");
+    return ResponseEntity.ok("Surf spot added to user’s wishlist.");
   }
 
   @DeleteMapping("/{userId}/remove/{spotId}")
