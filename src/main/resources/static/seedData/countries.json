@@ -51,7 +51,7 @@
     },
     {
       "name": "Morocco",
-      "description": "Morocco features world-class right-hand point breaks like Anchor Point and Taghazout, attracting surfers year-round.",
+      "description": "Morocco is famous for its world-class right-hand point breaks, including Anchor Point and Boilers in Taghazout. With scenic waves near Essaouira, it's a prime destination for surfers year-round.",
       "continent": { "id": 1 }
     },
     {
@@ -72,11 +72,6 @@
     {
       "name": "Republic of Benin",
       "description": "Benin offers emerging surf spots along its Atlantic coast, with warm water and consistent small waves for beginners.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Republic of Congo",
-      "description": "The Republic of Congo offers a blend of tropical surf breaks with warm water and uncrowded waves along its coast.",
       "continent": { "id": 1 }
     },
     {

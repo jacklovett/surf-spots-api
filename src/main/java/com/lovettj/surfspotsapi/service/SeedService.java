@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.Region;
+import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.repository.ContinentRepository;
 import com.lovettj.surfspotsapi.repository.CountryRepository;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
+import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -30,13 +32,15 @@ public class SeedService {
   private final ContinentRepository continentRepository;
   private final CountryRepository countryRepository;
   private final RegionRepository regionRepository;
+  private final SurfSpotRepository surfSpotRepository;
 
   public SeedService(ContinentRepository continentRepository,
       CountryRepository countryRepository,
-      RegionRepository regionRepository) {
+      RegionRepository regionRepository, SurfSpotRepository surfSpotRepository) {
     this.continentRepository = continentRepository;
     this.countryRepository = countryRepository;
     this.regionRepository = regionRepository;
+    this.surfSpotRepository = surfSpotRepository;
   }
 
   @Transactional
@@ -45,6 +49,7 @@ public class SeedService {
       seedContinents();
       seedCountries();
       seedRegions();
+      seedSurfSpots();
     } catch (Exception e) {
       logger.error("Error during seeding data: {}", e.getMessage(), e);
     }
@@ -63,6 +68,11 @@ public class SeedService {
   private void seedRegions() {
     seedEntities("regions.json", Region[].class, regionRepository.findAll(), regionRepository::saveAll,
         Region::getName);
+  }
+
+  private void seedSurfSpots() {
+    seedEntities("surf-spots.json", SurfSpot[].class, surfSpotRepository.findAll(), surfSpotRepository::saveAll,
+        SurfSpot::getName);
   }
 
   private <T> void seedEntities(String fileName, Class<T[]> entityType,

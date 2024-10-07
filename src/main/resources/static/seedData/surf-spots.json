@@ -1,0 +1,24 @@
+[{
+  "name": "Decaplage",
+  "description": "Decaplage is a consistent beach break in Boumerdes, Algeria, popular for its sandy bottom and forgiving waves, making it ideal for beginner and intermediate surfers.",
+  "type": "Beach Break",
+  "skillLevel": "Beginner",
+  "beachBottomType": "Sand",
+  "latitude": 36.7598,
+  "longitude": 3.4745,
+  "region": {
+    "id": 1
+  }
+},{
+  "name": "Plage Mandjane",
+  "description": "Located near El Kala, Plage Mandjane is a serene surf spot in the El Tarf region, offering sandy bottom waves perfect for beginners and intermediates alike.",
+  "type": "Beach Break",
+  "skillLevel": "Beginner",
+  "beachBottomType": "Sand",
+  "latitude": 36.8999,
+  "longitude": 8.4450,
+  "region": {
+    "id": 2
+  }
+}
+]

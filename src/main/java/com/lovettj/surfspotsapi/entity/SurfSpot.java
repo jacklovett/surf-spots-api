@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.*;
 
 @Entity
@@ -31,6 +33,16 @@ public class SurfSpot extends SluggableEntity {
   @Enumerated(EnumType.STRING)
   private SurfSpotType type;
 
+  @Enumerated(EnumType.STRING)
+  private SkillLevel skillLevel;
+
+  @Enumerated(EnumType.STRING)
+  private BeachBottomType beachBottomType;
+
+  private Double latitude;
+
+  private Double longitude;
+
   @CreationTimestamp
   @Column(updatable = false)
   private LocalDateTime createdAt;
@@ -40,5 +52,6 @@ public class SurfSpot extends SluggableEntity {
 
   @ManyToOne
   @JoinColumn(name = "region_id")
+  @JsonBackReference
   private Region region;
 }

@@ -1,2 +1,609 @@
 [
+  {
+    "name": "Boumerdes",
+    "country": {
+      "id": 1
+    },
+    "description": "Popular surfing destination in Algeria, known for its consistent waves and scenic coast."
+  },
+  {
+    "name": "El Tarf",
+    "country": {
+      "id": 1
+    },
+    "description": "Offers great surf spots with beautiful landscapes and vibrant marine life."
+  },
+  {
+    "name": "Chiundo",
+    "country": {
+      "id": 2
+    },
+    "description": "Features some hidden surf breaks, attracting adventurous surfers."
+  },
+  {
+    "name": "Kwanza Sul",
+    "country": {
+      "id": 2
+    },
+    "description": "Known for its stunning coastline and surf-friendly conditions."
+  },
+  {
+    "name": "Luanda",
+    "country": {
+      "id": 2
+    },
+    "description": "The capital offers urban surfing experiences with nearby beaches."
+  },
+  {
+    "name": "Zaire",
+    "country": {
+      "id": 2
+    },
+    "description": "Home to less crowded surf spots, perfect for those seeking solitude."
+  },
+  {
+    "name": "Boa Vista",
+    "country": {
+      "id": 3
+    },
+    "description": "Renowned for its pristine beaches and reliable surf conditions year-round."
+  },
+  {
+    "name": "Chã de Alecrim",
+    "country": {
+      "id": 3
+    },
+    "description": "Offers great surf opportunities, particularly for intermediate surfers."
+  },
+  {
+    "name": "Praia",
+    "country": {
+      "id": 3
+    },
+    "description": "The capital city has popular surf spots with vibrant surf culture."
+  },
+  {
+    "name": "Sal",
+    "country": {
+      "id": 3
+    },
+    "description": "Known for its world-class waves, attracting surfers from around the globe."
+  },
+  {
+    "name": "Sao Vicente",
+    "country": {
+      "id": 3
+    },
+    "description": "A vibrant surf scene with various beaches catering to all skill levels."
+  },
+  {
+    "name": "Tarrafal",
+    "country": {
+      "id": 3
+    },
+    "description": "Great surf breaks with beautiful views, ideal for a relaxing surf trip."
+  },
+  {
+    "name": "Tarrafal de Sao Nicolau",
+    "country": {
+      "id": 3
+    },
+    "description": "Offers a tranquil surf experience with breathtaking natural surroundings."
+  },
+  {
+    "name": "Kouilou",
+    "country": {
+      "id": 4
+    },
+    "description": "Known for its scenic beaches and excellent surfing conditions, attracting local and visiting surfers."
+  },
+  {
+    "name": "Pointe-Noire",
+    "country": {
+      "id": 4
+    },
+    "description": "Offers consistent waves with a mix of beach breaks, making it an appealing destination for surfers seeking new adventures."
+  },
+  {
+    "name": "Alexandria",
+    "country": {
+      "id": 5
+    },
+    "description": "Offers surf spots along the Mediterranean coast with reliable waves, ideal for beginners and experienced surfers."
+  },
+  {
+    "name": "Matruh",
+    "country": {
+      "id": 5
+    },
+    "description": "Famous for its clear waters and good surf conditions, making it a hidden gem for surfers."
+  },
+  {
+    "name": "Central Region",
+    "country": {
+      "id": 6
+    },
+    "description": "Features some lesser-known surf spots with beautiful scenery, perfect for those looking to explore."
+  },
+  {
+    "name": "Greater Accra Region",
+    "country": {
+      "id": 6
+    },
+    "description": "Known for its vibrant surf culture and a variety of beaches, catering to all surfing levels."
+  },
+  {
+    "name": "Western Region",
+    "country": {
+      "id": 6
+    },
+    "description": "Offers stunning surf spots with picturesque views, ideal for both relaxation and surfing adventures."
+  },
+  {
+    "name": "Abidjan",
+    "country": {
+      "id": 7
+    },
+    "description": "Urban surf spot with various beaches attracting a lively surf community."
+  },
+  {
+    "name": "Bas-Sassandra",
+    "country": {
+      "id": 7
+    },
+    "description": "Known for its consistent waves and picturesque coastlines, perfect for surfers of all skill levels."
+  },
+  {
+    "name": "Comoé",
+    "country": {
+      "id": 7
+    },
+    "description": "Features surf-friendly conditions and stunning natural beauty, attracting surf enthusiasts."
+  },
+  {
+    "name": "Lagunes",
+    "country": {
+      "id": 7
+    },
+    "description": "Offers great waves and a vibrant surf culture, making it a popular surf destination."
+  },
+  {
+    "name": "Grand Bassa County",
+    "country": {
+      "id": 8
+    },
+    "description": "Features beautiful beaches with consistent surf, appealing to both locals and tourists."
+  },
+  {
+    "name": "Grand Cape Mount County",
+    "country": {
+      "id": 8
+    },
+    "description": "Offers several surf spots with varying wave conditions, perfect for all skill levels."
+  },
+  {
+    "name": "Montserrado County",
+    "country": {
+      "id": 8
+    },
+    "description": "Home to urban beaches where surfers can enjoy both the surf and the local culture."
+  },
+  {
+    "name": "Androy Region",
+    "country": {
+      "id": 9
+    },
+    "description": "Features rugged coastline and good surf conditions, attracting adventurous surfers."
+  },
+  {
+    "name": "Anosy Region",
+    "country": {
+      "id": 9
+    },
+    "description": "Known for its beautiful beaches and consistent waves, perfect for surfers looking to explore."
+  },
+  {
+    "name": "Antsepoka",
+    "country": {
+      "id": 9
+    },
+    "description": "Offers great surf spots with beautiful scenery, ideal for those seeking unique surf experiences."
+  },
+  {
+    "name": "Atsimo-Andrefana Region",
+    "country": {
+      "id": 9
+    },
+    "description": "Features stunning beaches and reliable surf, making it a must-visit for surfers."
+  },
+  {
+    "name": "Belitsaka",
+    "country": {
+      "id": 9
+    },
+    "description": "Known for its local surf culture and good waves, attracting surfers from around the region."
+  },
+  {
+    "name": "Fampotakely",
+    "country": {
+      "id": 9
+    },
+    "description": "Offers hidden surf breaks with beautiful surroundings, ideal for adventurous surfers."
+  },
+  {
+    "name": "Black River District",
+    "country": {
+      "id": 10
+    },
+    "description": "Famous for its surf spots and vibrant beach culture, perfect for all surfers."
+  },
+  {
+    "name": "Pamplemousses District",
+    "country": {
+      "id": 10
+    },
+    "description": "Features scenic surf spots with great conditions, attracting surfers year-round."
+  },
+  {
+    "name": "Rodrigues",
+    "country": {
+      "id": 10
+    },
+    "description": "Known for its beautiful surf beaches and crystal-clear waters, ideal for surf trips."
+  },
+  {
+    "name": "Savanne District",
+    "country": {
+      "id": 10
+    },
+    "description": "Offers a variety of surf spots with consistent waves, making it popular among surfers."
+  },
+  {
+    "name": "Marrakesh-Safi",
+    "country": {
+      "id": 11
+    },
+    "description": "Includes Essaouira, a popular surf destination known for its consistent waves and vibrant surf culture."
+  },
+  {
+    "name": "Casablanca-Settat",
+    "country": {
+      "id": 11
+    },
+    "description": "Known for its vibrant surf scene, Casablanca-Settat offers a mix of urban beaches and excellent wave conditions for surfers."
+  },
+  {
+    "name": "Guelmim-Oued Noun",
+    "country": {
+      "id": 11
+    },
+    "description": "Features beautiful landscapes and remote surf spots, ideal for surfers seeking solitude and a serene experience."
+  },
+  {
+    "name": "Oriental",
+    "country": {
+      "id": 11
+    },
+    "description": "Renowned for its stunning beaches and good surf conditions, Oriental is perfect for surfers of all levels."
+  },
+  {
+    "name": "Rabat-Salé-Kénitra",
+    "country": {
+      "id": 11
+    },
+    "description": "Offers a vibrant surf culture with great waves, attracting both local and international surfers."
+  },
+  {
+    "name": "Souss-Massa",
+    "country": {
+      "id": 11
+    },
+    "description": "Home to Taghazout and the famous Anchor Point, a world-renowned right-hand point break known for its epic waves and stunning coastal scenery, making it a must-visit for surfers."
+  },
+  {
+    "name": "Tanger-Tetouan-Al Hoceima",
+    "country": {
+      "id": 11
+    },
+    "description": "Features diverse surf spots with stunning coastlines, perfect for exploring new waves."
+  },
+  {
+    "name": "Gaza Province",
+    "country": {
+      "id": 12
+    },
+    "description": "Known for its beautiful coastline and surf-friendly conditions, offering a more tranquil surf experience."
+  },
+  {
+    "name": "Inhambane Province",
+    "country": {
+      "id": 12
+    },
+    "description": "A popular surfing destination with consistent waves and vibrant marine life, ideal for surfers of all levels."
+  },
+  {
+    "name": "Erongo",
+    "country": {
+      "id": 13
+    },
+    "description": "Home to Skeleton Bay, renowned for its long, powerful left-hand barrels. This stunning surf spot attracts experienced surfers from around the globe, making Erongo a must-visit destination for wave riders."
+  },
+  {
+    "name": "Karas",
+    "country": {
+      "id": 13
+    },
+    "description": "Features lesser-known surf spots with beautiful landscapes, perfect for those seeking a unique surf experience."
+  },
+  {
+    "name": "Kunene",
+    "country": {
+      "id": 13
+    },
+    "description": "Known for its rugged coastline and less crowded surf spots, attracting adventurous surfers looking for solitude."
+  },
+  {
+    "name": "Lagos",
+    "country": {
+      "id": 14
+    },
+    "description": "A bustling city with great surf spots and a lively surf culture, attracting both local and visiting surfers."
+  },
+  {
+    "name": "Atlantique",
+    "country": {
+      "id": 15
+    },
+    "description": "A coastal region offering steady waves and uncrowded beach breaks, great for surfers looking for quieter spots."
+  },
+  {
+    "name": "Ouémé",
+    "country": {
+      "id": 15
+    },
+    "description": "Known for its scenic coastline, Ouémé provides gentle surf conditions, ideal for beginners and relaxed surfing."
+  },
+  {
+    "name": "Bioko Sur",
+    "country": {
+      "id": 16
+    },
+    "description": "Bioko Sur is a hidden gem for surfers in Equatorial Guinea, offering uncrowded waves and picturesque beaches."
+  },
+  {
+    "name": "San Antonio de Ureca",
+    "country": {
+      "id": 16
+    },
+    "description": "San Antonio de Ureca boasts stunning natural beauty and excellent conditions for surfing."
+  },
+  {
+    "name": "Armagnac",
+    "country": {
+      "id": 17
+    },
+    "description": "Armagnac is known for its challenging waves and beautiful surroundings, attracting experienced surfers."
+  },
+  {
+    "name": "Domaine d'Anjou",
+    "country": {
+      "id": 17
+    },
+    "description": "Domaine d'Anjou offers diverse wave conditions, ideal for surfers of all skill levels."
+  },
+  {
+    "name": "L'Établissement",
+    "country": {
+      "id": 17
+    },
+    "description": "L'Établissement features reliable waves that cater to different surfing styles."
+  },
+  {
+    "name": "La Balance",
+    "country": {
+      "id": 17
+    },
+    "description": "La Balance is known for its consistent surf conditions, perfect for local surfers."
+  },
+  {
+    "name": "La Ligne Paradis",
+    "country": {
+      "id": 17
+    },
+    "description": "La Ligne Paradis is renowned for its beautiful setting and enjoyable waves."
+  },
+  {
+    "name": "La Pointe au Sel",
+    "country": {
+      "id": 17
+    },
+    "description": "La Pointe au Sel offers diverse wave types, attracting both novice and seasoned surfers."
+  },
+  {
+    "name": "Lotissement Bellevue",
+    "country": {
+      "id": 17
+    },
+    "description": "Lotissement Bellevue features reliable surf conditions and a welcoming vibe for surfers."
+  },
+  {
+    "name": "Résidence Champagne",
+    "country": {
+      "id": 17
+    },
+    "description": "Résidence Champagne is a hidden surf spot known for unique wave patterns and scenic views."
+  },
+  {
+    "name": "Réunion",
+    "country": {
+      "id": 17
+    },
+    "description": "Réunion is a premier surf destination with diverse breaks and stunning landscapes."
+  },
+  {
+    "name": "Villa Bourbon",
+    "country": {
+      "id": 17
+    },
+    "description": "Villa Bourbon offers an excellent surfing experience with consistent waves and a beautiful backdrop."
+  },
+  {
+    "name": "Dakar",
+    "country": {
+      "id": 18
+    },
+    "description": "Dakar is a vibrant city known for its consistent waves, making it a favorite among surfers."
+  },
+  {
+    "name": "Région de Thiès",
+    "country": {
+      "id": 18
+    },
+    "description": "Région de Thiès offers a variety of surf spots with both challenging and beginner-friendly waves."
+  },
+  {
+    "name": "Saint-Louis",
+    "country": {
+      "id": 18
+    },
+    "description": "Saint-Louis is known for its picturesque landscapes and quality surf breaks, attracting surfers from around the world."
+  },
+  {
+    "name": "Baie Lazare",
+    "country": {
+      "id": 19
+    },
+    "description": "Baie Lazare features stunning beaches and great conditions for surfing, perfect for all skill levels."
+  },
+  {
+    "name": "Glacis",
+    "country": {
+      "id": 19
+    },
+    "description": "Glacis is known for its scenic coast and reliable waves, making it a popular surf destination."
+  },
+  {
+    "name": "La Digue",
+    "country": {
+      "id": 19
+    },
+    "description": "La Digue offers beautiful surroundings and unique surf spots, ideal for adventurous surfers."
+  },
+  {
+    "name": "Western Area",
+    "country": {
+      "id": 20
+    },
+    "description": "Western Area in Sierra Leone is celebrated for its picturesque beaches and developing surf scene."
+  },
+  {
+    "name": "Eastern Cape",
+    "country": {
+      "id": 21
+    },
+    "description": "The Eastern Cape is renowned for its stunning coastline and world-class surf spots, particularly Jeffreys Bay, celebrated for its perfect right-hand point break."
+  },
+  {
+    "name": "KwaZulu-Natal",
+    "country": {
+      "id": 21
+    },
+    "description": "KwaZulu-Natal offers a diverse range of surf conditions, with warm waters and famous breaks like Umhlanga and Durban, attracting surfers year-round."
+  },
+  {
+    "name": "Western Cape",
+    "country": {
+      "id": 21
+    },
+    "description": "The Western Cape boasts some of the best surf spots in the country, with scenic waves and vibrant surf culture in areas like Cape Town."
+  },        {
+    "name": "Príncipe",
+    "country": { "id": 22 },
+    "description": "Príncipe offers pristine beaches and consistent waves, making it a hidden gem for adventurous surfers seeking unspoiled surf conditions."
+},
+{
+    "name": "São Tomé Island",
+    "country": { "id": 22 },
+    "description": "São Tomé Island features diverse surf spots, with a mix of beach breaks and reef waves, ideal for surfers looking for both challenge and beauty."
+},
+{
+    "name": "Zanzibar",
+    "country": { "id": 23 },
+    "description": "Zanzibar is famous for its warm waters and consistent swells, attracting surfers to its idyllic beaches and vibrant local culture."
+},
+{
+    "name": "North",
+    "country": { "id": 23 },
+    "description": "The North region of Zanzibar offers fantastic surf conditions and stunning beaches, making it a popular destination for both relaxation and adventure."
+},
+{
+    "name": "Manyan",
+    "country": { "id": 23 },
+    "description": "Manyan is known for its scenic coastline and gentle surf, perfect for beginners and those looking for a laid-back surfing experience."
+},
+{
+    "name": "Bizerte",
+    "country": { "id": 24 },
+    "description": "Bizerte offers diverse surf spots with consistent waves, making it an attractive destination for local and visiting surfers."
+},
+{
+    "name": "Jendouba",
+    "country": { "id": 24 },
+    "description": "Jendouba features beautiful coastlines and a few hidden surf spots, ideal for surfers looking to explore off the beaten path."
+},
+{
+    "name": "Nabeul",
+    "country": { "id": 24 },
+    "description": "Nabeul is known for its vibrant surf culture and consistent waves, attracting surfers from around the region."
+},
+{
+    "name": "Tunis",
+    "country": { "id": 24 },
+    "description": "Tunis offers a blend of surf spots catering to various skill levels, with warm Mediterranean waters and a lively beach scene."
+},
+{
+    "name": "Bir Ganduz",
+    "country": { "id": 25 },
+    "description": "Bir Ganduz is characterized by its unique coastline and surf conditions, making it an intriguing spot for adventurous surfers."
+},
+{
+    "name": "Boujdour",
+    "country": { "id": 25 },
+    "description": "Boujdour features scenic beaches and consistent surf, providing opportunities for both relaxation and thrilling rides."
+},
+{
+    "name": "Dakhla",
+    "country": { "id": 25 },
+    "description": "Dakhla is renowned for its excellent surf conditions, attracting surfers from around the world to its stunning waves and breathtaking landscapes."
+},
+{
+    "name": "Echdera",
+    "country": { "id": 25 },
+    "description": "Echdera offers a unique surf experience with its picturesque beaches and reliable waves, appealing to both beginners and seasoned surfers."
+},
+{
+    "name": "El Aargub",
+    "country": { "id": 25 },
+    "description": "El Aargub features diverse surf spots, providing a variety of wave conditions for surfers of all skill levels."
+},
+{
+    "name": "Foum el Oued",
+    "country": { "id": 25 },
+    "description": "Foum el Oued is known for its scenic surf spots and consistent swells, making it a popular destination for local surfers."
+},
+{
+    "name": "Itmlily",
+    "country": { "id": 25 },
+    "description": "Itmlily offers a blend of beautiful scenery and surfable waves, attracting surfers looking for adventure in unique settings."
+},
+{
+    "name": "Laayoune Plage",
+    "country": { "id": 25 },
+    "description": "Laayoune Plage features stunning coastline and surf conditions, making it a favorite among surfers seeking both thrills and relaxation."
+},
+{
+    "name": "Uad Guenifa",
+    "country": { "id": 25 },
+    "description": "Uad Guenifa is a hidden gem for surfers, offering beautiful beaches and consistent waves in a tranquil setting."
+}
 ]
