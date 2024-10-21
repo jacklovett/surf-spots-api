@@ -14,7 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WishlistSurfSpot {
+public class WatchListSurfSpot {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

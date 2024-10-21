@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class Continent extends SluggableEntity {
   private Long id;
 
   private String name;
+
+  @Size(max = 1000)
   private String description;
 
   @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL)

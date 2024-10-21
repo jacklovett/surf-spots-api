@@ -24,10 +24,10 @@ public class SurfSpot extends SluggableEntity {
   private Long id;
 
   @NotBlank
-  @Size(max = 255)
   private String name;
 
   @Size(max = 1000)
+  @Column(length = 1000)
   private String description;
 
   @Enumerated(EnumType.STRING)

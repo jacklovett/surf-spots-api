@@ -1,6 +1,8 @@
 package com.lovettj.surfspotsapi.controller;
 
+import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
 import org.springframework.http.HttpStatus;
@@ -26,8 +28,8 @@ public class SurfSpotController {
   }
 
   @GetMapping("/region/{regionSlug}")
-  public ResponseEntity<List<SurfSpot>> getSurfSpotsByRegion(@PathVariable String regionSlug) {
-    List<SurfSpot> surfSpots = surfSpotService.findSurfSpotsByRegionSlug(regionSlug);
+  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegion(@PathVariable String regionSlug) {
+    List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlug(regionSlug);
     return ResponseEntity.ok(surfSpots);
   }
 
@@ -41,6 +43,11 @@ public class SurfSpotController {
   public ResponseEntity<SurfSpot> getSurfSpotById(@PathVariable Long id) {
     Optional<SurfSpot> surfSpot = surfSpotService.getSurfSpotById(id);
     return surfSpot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  @PostMapping("/within-bounds")
+  public List<SurfSpotDTO> getSurfSpotsWithinBounds(@RequestBody BoundingBox boundingBox) {
+    return surfSpotService.findSurfSpotsWithinBounds(boundingBox);
   }
 
   @PostMapping

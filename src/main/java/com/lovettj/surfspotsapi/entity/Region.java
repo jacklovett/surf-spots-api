@@ -1,6 +1,8 @@
 package com.lovettj.surfspotsapi.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -20,6 +22,8 @@ public class Region extends SluggableEntity {
   private Long id;
 
   private String name;
+
+  @Size(max = 1000)
   private String description;
 
   @ManyToOne

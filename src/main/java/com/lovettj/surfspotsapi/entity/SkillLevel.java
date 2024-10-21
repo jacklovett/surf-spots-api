@@ -7,7 +7,8 @@ public enum SkillLevel {
   BEGINNER_INTERMEDIATE("Beginner - Intermediate"),
   INTERMEDIATE("Intermediate"),
   INTERMEDIATE_ADVANCED("Intermediate - Advanced"),
-  ADVANCED("Advanced");
+  ADVANCED("Advanced"),
+  ALL_LEVELS("All Levels");
 
   private final String displayName;
 

@@ -2,12 +2,18 @@ package com.lovettj.surfspotsapi.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
+import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
+import com.lovettj.surfspotsapi.entity.Continent;
+import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
+import com.lovettj.surfspotsapi.requests.BoundingBox;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -25,10 +31,20 @@ public class SurfSpotService {
     return surfSpotRepository.findAll();
   }
 
-  public List<SurfSpot> findSurfSpotsByRegionSlug(String slug) {
+  public List<SurfSpotDTO> findSurfSpotsWithinBounds(BoundingBox boundingBox) {
+    List<SurfSpot> surfSpots = surfSpotRepository.findWithinBounds(boundingBox.getMinLatitude(),
+        boundingBox.getMaxLatitude(),
+        boundingBox.getMinLongitude(),
+        boundingBox.getMaxLongitude());
+    return surfSpots.stream()
+        .map(this::mapToSurfSpotDTO)
+        .collect(Collectors.toList());
+  }
+
+  public List<SurfSpotDTO> findSurfSpotsByRegionSlug(String slug) {
     Region region = regionRepository.findBySlug(slug)
         .orElseThrow(() -> new EntityNotFoundException("Region not found"));
-    return surfSpotRepository.findByRegion(region);
+    return surfSpotRepository.findByRegion(region).stream().map(this::mapToSurfSpotDTO).collect(Collectors.toList());
   }
 
   public Optional<SurfSpot> getSurfSpotById(Long id) {
@@ -54,5 +70,24 @@ public class SurfSpotService {
 
   public void deleteSurfSpot(Long id) {
     surfSpotRepository.deleteById(id);
+  }
+
+  private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot) {
+    SurfSpotDTO surfSpotDTO = new SurfSpotDTO(surfSpot);
+    surfSpotDTO.setPath(generateSurfSpotPath(surfSpot));
+    // Determine if is in users surfed/watchList
+    return surfSpotDTO;
+  }
+
+  private String generateSurfSpotPath(SurfSpot surfSpot) {
+    Region region = surfSpot.getRegion();
+    Country country = region.getCountry();
+    Continent continent = country.getContinent();
+
+    return String.format("/surf-spots/%s/%s/%s/%s",
+        continent.getSlug(),
+        country.getSlug(),
+        region.getSlug(),
+        surfSpot.getSlug());
   }
 }

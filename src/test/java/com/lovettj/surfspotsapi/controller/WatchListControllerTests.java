@@ -1,7 +1,7 @@
 package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.entity.SurfSpot;
-import com.lovettj.surfspotsapi.service.WishlistSurfSpotService;
+import com.lovettj.surfspotsapi.service.WatchListService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,25 +20,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class WishlistSurfSpotControllerTests {
+class WatchListControllerTests {
 
   @Autowired
   private MockMvc mockMvc;
 
   @MockBean
-  private WishlistSurfSpotService wishlistSurfSpotService;
+  private WatchListService watchListService;
 
   @Test
-  void testGetUsersWishlist() throws Exception {
+  void testGetUsersWatchList() throws Exception {
     SurfSpot spot1 = new SurfSpot();
     SurfSpot spot2 = new SurfSpot();
     List<SurfSpot> spots = Arrays.asList(spot1, spot2);
 
-    when(wishlistSurfSpotService.getUsersWishlist(anyLong())).thenReturn(spots);
+    when(watchListService.getUsersWatchList(anyLong())).thenReturn(spots);
 
-    mockMvc.perform(get("/api/spots-wishlist/1"))
+    mockMvc.perform(get("/api/spots-watchList/1"))
         .andExpect(status().isOk()); // Expected 200 status code
 
-    verify(wishlistSurfSpotService).getUsersWishlist(anyLong());
+    verify(watchListService).getUsersWatchList(anyLong());
   }
 }
