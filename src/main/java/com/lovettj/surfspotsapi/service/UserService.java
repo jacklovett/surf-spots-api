@@ -2,15 +2,23 @@ package com.lovettj.surfspotsapi.service;
 
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.lovettj.exceptions.AuthException;
 import com.lovettj.surfspotsapi.dto.UserProfile;
+import com.lovettj.surfspotsapi.entity.AuthProvider;
+import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.repository.UserRepository;
+import com.lovettj.surfspotsapi.requests.AuthRequest;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
   private final UserRepository userRepository;
+
+  private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   public Optional<UserProfile> getUserProfile(Long userId) {
     return userRepository.findById(userId)
@@ -20,23 +28,56 @@ public class UserService {
   public UserProfile updateUserProfile(Long userId, UserProfile updatedProfile) {
     return userRepository.findById(userId)
         .map(user -> {
-          user.setUsername(updatedProfile.getUsername());
           user.setName(updatedProfile.getName());
           user.setEmail(updatedProfile.getEmail());
-          user.setCountry(updatedProfile.getCountry());
-          user.setRegion(updatedProfile.getRegion());
-
           userRepository.save(user);
           return new UserProfile(user);
         })
         .orElseThrow(() -> new RuntimeException("User not found"));
   }
 
-  public void auth() {
+  public User findOrCreateUser(AuthRequest userRequest) {
+    String email = userRequest.getEmail();
+    Optional<User> user = userRepository.findByEmail(email);
 
+    if (user.isPresent()) {
+      return user.get();
+    } else {
+      AuthProvider provider = userRequest.getProvider();
+      String providerId = userRequest.getProviderId();
+
+      User newUser = new User();
+      newUser.setName(userRequest.getName());
+      newUser.setEmail(email);
+      newUser.setProvider(provider);
+      newUser.setProviderId(providerId);
+      userRepository.save(newUser);
+      return newUser;
+    }
   }
 
-  public void logout() {
+  public void registerUser(User userRequest) {
+    Optional<User> user = userRepository.findByEmail(userRequest.getEmail());
 
+    if (user.isPresent()) {
+      throw new AuthException("An account with this email already exists.");
+    }
+
+    // Logic to register user, including password hashing
+    String hashedPassword = passwordEncoder.encode(userRequest.getPassword());
+    userRequest.setPassword(hashedPassword);
+    userRepository.save(userRequest);
+  }
+
+  public User loginUser(String email, String password) {
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new AuthException("User not found")); // Throw exception if user not found
+
+    // Check if the password matches
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+      throw new AuthException("Invalid password"); // Throw exception if password doesn't match
+    }
+
+    return user; // Return the authenticated user
   }
 }

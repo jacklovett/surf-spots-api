@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.*;
-
 @Entity
 @Table(name = "app_user") // Rename table to avoid conflict with reserved keyword
 @Getter
@@ -21,12 +21,27 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = true)
   private String name;
+
   private String email;
-  private String username;
+
+  @Column(nullable = true)
   private String password;
-  private String country;
-  private String region;
+
+  @ManyToOne
+  @JoinColumn(name = "country_id", nullable = true)
+  private Country country;
+
+  @ManyToOne
+  @JoinColumn(name = "region_id", nullable = true)
+  private Region region;
+
+  @Enumerated(EnumType.STRING)
+  private AuthProvider provider; // Use enum for provider
+
+  @Column(nullable = true) // Make nullable for email sign-ups
+  private String providerId; // Unique ID from the provider
 
   @CreationTimestamp
   @Column(updatable = false)
