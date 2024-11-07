@@ -1,4 +1,4 @@
-package com.lovettj.responses;
+package com.lovettj.surfspotsapi.responses;
 
 import lombok.Data;
 

@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.*;
+
 @Entity
 @Table(name = "app_user") // Rename table to avoid conflict with reserved keyword
 @Getter
@@ -29,13 +30,11 @@ public class User {
   @Column(nullable = true)
   private String password;
 
-  @ManyToOne
-  @JoinColumn(name = "country_id", nullable = true)
-  private Country country;
+  @Column(nullable = true)
+  private String country;
 
-  @ManyToOne
-  @JoinColumn(name = "region_id", nullable = true)
-  private Region region;
+  @Column(nullable = true)
+  private String city;
 
   @Enumerated(EnumType.STRING)
   private AuthProvider provider; // Use enum for provider

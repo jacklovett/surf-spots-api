@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.lovettj.exceptions.AuthException;
+import com.lovettj.surfspotsapi.exceptions.AuthException;
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.User;
@@ -25,11 +25,13 @@ public class UserService {
         .map(UserProfile::new);
   }
 
-  public UserProfile updateUserProfile(Long userId, UserProfile updatedProfile) {
-    return userRepository.findById(userId)
+  public UserProfile updateUserProfile(User updateUserRequest) {
+    String email = updateUserRequest.getEmail();
+    return userRepository.findByEmail(email)
         .map(user -> {
-          user.setName(updatedProfile.getName());
-          user.setEmail(updatedProfile.getEmail());
+          user.setName(updateUserRequest.getName());
+          user.setCountry(updateUserRequest.getCountry());
+          user.setCity(updateUserRequest.getCity());
           userRepository.save(user);
           return new UserProfile(user);
         })
@@ -41,7 +43,14 @@ public class UserService {
     Optional<User> user = userRepository.findByEmail(email);
 
     if (user.isPresent()) {
-      return user.get();
+      User foundUser = user.get();
+      if (foundUser.getProviderId().isEmpty() && userRequest.getProviderId() != null) {
+        foundUser.setProvider(userRequest.getProvider());
+        foundUser.setProviderId(userRequest.getProviderId());
+        userRepository.save(foundUser);
+      }
+
+      return foundUser;
     } else {
       AuthProvider provider = userRequest.getProvider();
       String providerId = userRequest.getProviderId();

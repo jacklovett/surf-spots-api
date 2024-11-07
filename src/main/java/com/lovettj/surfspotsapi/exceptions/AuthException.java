@@ -1,4 +1,4 @@
-package com.lovettj.exceptions;
+package com.lovettj.surfspotsapi.exceptions;
 
 public class AuthException extends RuntimeException {
   public AuthException(String message) {
