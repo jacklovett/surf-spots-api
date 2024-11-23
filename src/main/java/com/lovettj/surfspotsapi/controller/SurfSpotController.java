@@ -34,9 +34,12 @@ public class SurfSpotController {
   }
 
   @GetMapping("/{slug}")
-  public ResponseEntity<SurfSpot> getSurfSpotBySlug(@PathVariable String slug) {
-    Optional<SurfSpot> surfSpot = surfSpotService.findBySlug(slug);
-    return surfSpot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  public ResponseEntity<SurfSpotDTO> getSurfSpotBySlug(
+          @PathVariable String slug,
+          @RequestParam(required = false) Long userId) {
+      return surfSpotService.findBySlugAndUserId(slug, userId)
+          .map(ResponseEntity::ok)
+          .orElseGet(() -> ResponseEntity.notFound().build());
   }
 
   @GetMapping("/id/{id}")
@@ -46,8 +49,8 @@ public class SurfSpotController {
   }
 
   @PostMapping("/within-bounds")
-  public List<SurfSpotDTO> getSurfSpotsWithinBounds(@RequestBody BoundingBox boundingBox) {
-    return surfSpotService.findSurfSpotsWithinBounds(boundingBox);
+  public List<SurfSpotDTO> getSurfSpotsWithinBounds(@RequestBody BoundingBox boundingBox, @RequestParam(required = false) Long userId) {
+    return surfSpotService.findSurfSpotsWithinBounds(boundingBox, userId);
   }
 
   @PostMapping

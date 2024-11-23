@@ -5,9 +5,13 @@ import com.lovettj.surfspotsapi.entity.SkillLevel;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.SurfSpotType;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class SurfSpotDTO {
   private Long id;
   private String slug;

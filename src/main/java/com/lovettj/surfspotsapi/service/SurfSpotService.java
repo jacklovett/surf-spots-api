@@ -21,38 +21,43 @@ import jakarta.persistence.EntityNotFoundException;
 public class SurfSpotService {
   private final SurfSpotRepository surfSpotRepository;
   private final RegionRepository regionRepository;
+  private final UserSurfSpotService userSurfSpotService;
+  private final WatchListService watchListService;
 
-  public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository) {
+  public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository, UserSurfSpotService userSurfSpotService,  WatchListService watchListService) {
     this.surfSpotRepository = surfSpotRepository;
     this.regionRepository = regionRepository;
+    this.userSurfSpotService = userSurfSpotService;
+    this.watchListService = watchListService;
   }
 
   public List<SurfSpot> getAllSurfSpots() {
     return surfSpotRepository.findAll();
   }
 
-  public List<SurfSpotDTO> findSurfSpotsWithinBounds(BoundingBox boundingBox) {
+  public List<SurfSpotDTO> findSurfSpotsWithinBounds(BoundingBox boundingBox, Long userId) {
     List<SurfSpot> surfSpots = surfSpotRepository.findWithinBounds(boundingBox.getMinLatitude(),
         boundingBox.getMaxLatitude(),
         boundingBox.getMinLongitude(),
         boundingBox.getMaxLongitude());
     return surfSpots.stream()
-        .map(this::mapToSurfSpotDTO)
+        .map(surfSpot -> mapToSurfSpotDTO(surfSpot, userId))
         .collect(Collectors.toList());
   }
 
   public List<SurfSpotDTO> findSurfSpotsByRegionSlug(String slug) {
     Region region = regionRepository.findBySlug(slug)
         .orElseThrow(() -> new EntityNotFoundException("Region not found"));
-    return surfSpotRepository.findByRegion(region).stream().map(this::mapToSurfSpotDTO).collect(Collectors.toList());
+    return surfSpotRepository.findByRegion(region).stream().map(surfSpot -> mapToSurfSpotDTO(surfSpot, null)).collect(Collectors.toList());
   }
 
   public Optional<SurfSpot> getSurfSpotById(Long id) {
     return surfSpotRepository.findById(id);
   }
 
-  public Optional<SurfSpot> findBySlug(String slug) {
-    return surfSpotRepository.findBySlug(slug);
+  public Optional<SurfSpotDTO> findBySlugAndUserId(String slug, Long userId) {
+      return surfSpotRepository.findBySlug(slug)
+          .map(surfSpot -> mapToSurfSpotDTO(surfSpot, userId));
   }
 
   public SurfSpot createSurfSpot(SurfSpot surfSpot) {
@@ -64,7 +69,7 @@ public class SurfSpotService {
       updatedSurfSpot.setId(id);
       return surfSpotRepository.save(updatedSurfSpot);
     } else {
-      throw new RuntimeException("SurfSpot not found");
+      throw new EntityNotFoundException("SurfSpot not found");
     }
   }
 
@@ -72,11 +77,20 @@ public class SurfSpotService {
     surfSpotRepository.deleteById(id);
   }
 
-  private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot) {
+  private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, Long userId) {
     SurfSpotDTO surfSpotDTO = new SurfSpotDTO(surfSpot);
     surfSpotDTO.setPath(generateSurfSpotPath(surfSpot));
-    // Determine if is in users surfed/watchList
-    return surfSpotDTO;
+
+    if (userId != null) {
+        Long surfSpotId = surfSpot.getId();
+        // Check if this is a users surfed spot or in the Watchlist
+        boolean isSurfedSpot = userSurfSpotService.isUserSurfedSpot(userId, surfSpotId);
+        boolean isWatched = watchListService.isWatched(userId, surfSpotId);
+        surfSpotDTO.setIsSurfedSpot(isSurfedSpot);
+        surfSpotDTO.setIsWatched(isWatched);
+      }
+
+      return surfSpotDTO;
   }
 
   private String generateSurfSpotPath(SurfSpot surfSpot) {

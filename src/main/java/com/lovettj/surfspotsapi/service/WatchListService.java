@@ -40,6 +40,11 @@ public class WatchListService {
     }
   }
 
+  public boolean isWatched(Long userId, Long spotId) {
+    Optional<WatchListSurfSpot> existingEntry = watchListRepository.findByUserIdAndSurfSpotId(userId, spotId);
+    return existingEntry.isPresent();
+  }
+
   /**
    * Find and remove the surf spot from the user's watchList
    * 

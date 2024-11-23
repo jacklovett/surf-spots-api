@@ -1,7 +1,6 @@
 package com.lovettj.surfspotsapi.dto;
 
-import com.lovettj.surfspotsapi.entity.Country;
-import com.lovettj.surfspotsapi.entity.Region;
+import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.User;
 
 import lombok.Data;
@@ -13,6 +12,7 @@ public class UserProfile {
   private String email;
   private String country;
   private String city;
+  private AuthProvider provider;
 
   public UserProfile(User user) {
     id = user.getId();
@@ -20,5 +20,6 @@ public class UserProfile {
     email = user.getEmail();
     country = user.getCountry();
     city = user.getCity();
+    provider = user.getProvider();
   }
 }

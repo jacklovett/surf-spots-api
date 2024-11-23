@@ -10,7 +10,7 @@ import com.lovettj.surfspotsapi.service.WatchListService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/watchlist")
+@RequestMapping("/api/watch")
 public class WatchListController {
   private final WatchListService watchListService;
 

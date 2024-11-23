@@ -41,6 +41,11 @@ public class UserSurfSpotService {
     }
   }
 
+  public boolean isUserSurfedSpot(Long userId, Long spotId) {
+    Optional<UserSurfSpot> existingEntry = userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, spotId);
+    return existingEntry.isPresent();
+  }
+
   public void removeUserSurfSpot(Long userId, Long spotId) {
     Optional<UserSurfSpot> existingEntry = userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, spotId);
     existingEntry.ifPresent(userSurfSpotRepository::delete);

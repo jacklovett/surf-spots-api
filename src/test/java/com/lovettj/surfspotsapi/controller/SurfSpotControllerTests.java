@@ -1,10 +1,9 @@
 package com.lovettj.surfspotsapi.controller;
 
-import com.lovettj.surfspotsapi.entity.Continent;
-import com.lovettj.surfspotsapi.entity.Country;
-import com.lovettj.surfspotsapi.entity.Region;
+import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.SurfSpotType;
+import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,131 +34,136 @@ class SurfSpotControllerTest {
   @MockBean
   private SurfSpotService surfSpotService;
 
-  private Continent continent;
-  private Country country;
-  private Region region;
+  private SurfSpotDTO surfSpotDTO;
 
   @BeforeEach
   public void setUp() {
-    continent = new Continent(1l, "North America", "", null);
-    country = new Country(1l, "USA", "dfgdfg", continent, null);
-    region = new Region(1L, "Oahu", "sdfsdf", country, null);
+    surfSpotDTO = SurfSpotDTO.builder()
+    .id(1L)
+    .name("Pipeline")
+    .description("A famous surf spot.")
+    .type(SurfSpotType.REEF_BREAK)
+    .build();
   }
 
   @Test
   void testGetAllSurfSpots() throws Exception {
-    SurfSpot spot = SurfSpot.builder()
-        .id(1L)
-        .name("Pipeline")
-        .description("A famous surf spot.")
-        .type(SurfSpotType.REEF_BREAK)
-        .region(region)
-        .createdAt(LocalDateTime.now())
-        .modifiedAt(LocalDateTime.now())
-        .build();
-
-    Mockito.when(surfSpotService.getAllSurfSpots()).thenReturn(Collections.singletonList(spot));
+    Mockito.when(surfSpotService.getAllSurfSpots()).thenReturn(Collections.singletonList(new SurfSpot()));
 
     mockMvc.perform(get("/api/surf-spots")
         .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void testGetSurfSpotsByRegion() throws Exception {
+    Mockito.when(surfSpotService.findSurfSpotsByRegionSlug("oahu")).thenReturn(Collections.singletonList(surfSpotDTO));
+
+    mockMvc.perform(get("/api/surf-spots/region/oahu")
+        .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].name", is("Pipeline")))
-        .andExpect(jsonPath("$[0].description", is("A famous surf spot.")))
-        .andExpect(jsonPath("$[0].type", is("Reef Break")))
-        .andExpect(jsonPath("$[0].region.name", is("Oahu")));
+        .andExpect(jsonPath("$[0].name", is("Pipeline")));
+  }
+
+  @Test
+  void testGetSurfSpotBySlug() throws Exception {
+    Mockito.when(surfSpotService.findBySlugAndUserId("pipeline", null)).thenReturn(Optional.of(surfSpotDTO));
+
+    mockMvc.perform(get("/api/surf-spots/pipeline")
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.name", is("Pipeline")));
   }
 
   @Test
   void testGetSurfSpotById() throws Exception {
-    SurfSpot spot = SurfSpot.builder()
+    SurfSpot surfSpot = SurfSpot.builder()
         .id(1L)
         .name("Pipeline")
         .description("A famous surf spot.")
         .type(SurfSpotType.REEF_BREAK)
-        .region(region)
         .createdAt(LocalDateTime.now())
         .modifiedAt(LocalDateTime.now())
         .build();
 
-    Mockito.when(surfSpotService.getSurfSpotById(1L)).thenReturn(Optional.of(spot));
+    Mockito.when(surfSpotService.getSurfSpotById(1L)).thenReturn(Optional.of(surfSpot));
 
-    mockMvc.perform(get("/api/surf-spots/1")
+    mockMvc.perform(get("/api/surf-spots/id/1")
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.name", is("Pipeline")))
-        .andExpect(jsonPath("$.description", is("A famous surf spot.")))
-        .andExpect(jsonPath("$.type", is("Reef Break")))
-        .andExpect(jsonPath("$.region.name", is("Oahu")));
+        .andExpect(jsonPath("$.name", is("Pipeline")));
+  }
+
+  @Test
+  void testGetSurfSpotsWithinBounds() throws Exception {
+    Mockito.when(surfSpotService.findSurfSpotsWithinBounds(Mockito.any(BoundingBox.class), Mockito.isNull()))
+        .thenReturn(Collections.singletonList(surfSpotDTO));
+
+    mockMvc.perform(post("/api/surf-spots/within-bounds")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("""
+            {
+              "minLat": 21.2,
+              "minLng": -158.1,
+              "maxLat": 21.7,
+              "maxLng": -157.7
+            }
+            """))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].name", is("Pipeline")));
   }
 
   @Test
   void testCreateSurfSpot() throws Exception {
-    SurfSpot spot = SurfSpot.builder()
+    SurfSpot surfSpot = SurfSpot.builder()
         .id(1L)
         .name("Pipeline")
         .description("A famous surf spot.")
         .type(SurfSpotType.REEF_BREAK)
-        .region(region)
         .createdAt(LocalDateTime.now())
         .modifiedAt(LocalDateTime.now())
         .build();
 
-    Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpot.class))).thenReturn(spot);
+    Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpot.class))).thenReturn(surfSpot);
 
     mockMvc.perform(post("/api/surf-spots")
         .contentType(MediaType.APPLICATION_JSON)
         .content("""
             {
-            "name": "Pipeline",
-            "description": "A famous surf spot.",
-            "type": "Reef Break",
-            "region": {
-            "id": 1,
-            "name": "Oahu"
-            }
+              "name": "Pipeline",
+              "description": "A famous surf spot.",
+              "type": "Reef Break",
             }
             """))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.name", is("Pipeline")))
-        .andExpect(jsonPath("$.description", is("A famous surf spot.")))
-        .andExpect(jsonPath("$.type", is("Reef Break")))
-        .andExpect(jsonPath("$.region.name", is("Oahu")));
+        .andExpect(jsonPath("$.name", is("Pipeline")));
   }
 
   @Test
   void testUpdateSurfSpot() throws Exception {
-    SurfSpot updatedSpot = SurfSpot.builder()
+    SurfSpot updatedSurfSpot = SurfSpot.builder()
         .id(1L)
         .name("Updated Pipeline")
         .description("An updated famous surf spot.")
         .type(SurfSpotType.REEF_BREAK)
-        .region(region)
         .createdAt(LocalDateTime.now())
         .modifiedAt(LocalDateTime.now())
         .build();
 
-    Mockito.when(surfSpotService.updateSurfSpot(Mockito.eq(1L),
-        Mockito.any(SurfSpot.class)))
-        .thenReturn(updatedSpot);
+    Mockito.when(surfSpotService.updateSurfSpot(Mockito.eq(1L), Mockito.any(SurfSpot.class)))
+        .thenReturn(updatedSurfSpot);
 
     mockMvc.perform(put("/api/surf-spots/1")
         .contentType(MediaType.APPLICATION_JSON)
         .content("""
             {
-            "name": "Updated Pipeline",
-            "description": "An updated famous surf spot.",
-            "type": "Reef Break",
-            "region": {
-            "id": 1,
-            "name": "Oahu"
-            }
+              "name": "Updated Pipeline",
+              "description": "An updated famous surf spot.",
+              "type": "Reef Break"
             }
             """))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.name", is("Updated Pipeline")))
-        .andExpect(jsonPath("$.description", is("An updated famous surf spot.")))
-        .andExpect(jsonPath("$.type", is("Reef Break")))
-        .andExpect(jsonPath("$.region.name", is("Oahu")));
+        .andExpect(jsonPath("$.name", is("Updated Pipeline")));
   }
 
   @Test
