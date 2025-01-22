@@ -1,11 +1,10 @@
 package com.lovettj.surfspotsapi.requests;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class UserSurfSpotRequest {
-  private Long userId;
-  private Long surfSpotId;
+
+    private Long userId;
+    private Long surfSpotId;
 }
