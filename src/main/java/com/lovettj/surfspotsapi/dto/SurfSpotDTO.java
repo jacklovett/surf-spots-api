@@ -32,6 +32,10 @@ public class SurfSpotDTO {
     private Continent continent;
     private Country country;
     private Region region;
+    private String swellDirection;
+    private String windDirection;
+    private String tide;
+    private String season;
 
     public SurfSpotDTO(SurfSpot surfSpot) {
         this.setId(surfSpot.getId());
@@ -50,5 +54,10 @@ public class SurfSpotDTO {
         this.setRegion(surfSpotRegion);
         this.setCountry(surfSpotCountry);
         this.setContinent(surfSpotContinent);
+
+        this.setSwellDirection(surfSpot.getSwellDirection());
+        this.setWindDirection(surfSpot.getWindDirection());
+        this.setTide(surfSpot.getTide().toString());
+        this.setSeason(surfSpot.getSeason());
     }
 }

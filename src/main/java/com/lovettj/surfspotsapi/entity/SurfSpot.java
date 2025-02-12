@@ -1,5 +1,7 @@
 package com.lovettj.surfspotsapi.entity;
 
+import com.lovettj.surfspotsapi.validators.*;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -19,39 +21,55 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class SurfSpot extends SluggableEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
 
-  @NotBlank
-  private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Size(max = 1000)
-  @Column(length = 1000)
-  private String description;
+    @NotBlank
+    private String name;
 
-  @Enumerated(EnumType.STRING)
-  private SurfSpotType type;
+    @ValidDirection
+    @Size(max = 7)
+    private String swellDirection;
 
-  @Enumerated(EnumType.STRING)
-  private SkillLevel skillLevel;
+    @ValidDirection
+    @Size(max = 7)
+    private String windDirection;
 
-  @Enumerated(EnumType.STRING)
-  private BeachBottomType beachBottomType;
+    @Size(max = 1000)
+    @Column(length = 1000)
+    private String description;
 
-  private Double latitude;
+    @Enumerated(EnumType.STRING)
+    private SurfSpotType type;
 
-  private Double longitude;
+    @Enumerated(EnumType.STRING)
+    private SkillLevel skillLevel;
 
-  @CreationTimestamp
-  @Column(updatable = false)
-  private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    private BeachBottomType beachBottomType;
 
-  @UpdateTimestamp
-  private LocalDateTime modifiedAt;
+    @Enumerated(EnumType.STRING)
+    private Tide tide;
 
-  @ManyToOne
-  @JoinColumn(name = "region_id")
-  @JsonBackReference
-  private Region region;
+    @ValidSeason
+    @Size(max = 21)
+    private String season;
+
+    private Double latitude;
+
+    private Double longitude;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime modifiedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "region_id")
+    @JsonBackReference
+    private Region region;
 }
