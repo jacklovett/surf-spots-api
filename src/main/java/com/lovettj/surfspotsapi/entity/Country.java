@@ -16,20 +16,21 @@ import lombok.*;
 @Builder
 @ToString(exclude = "regions") // Exclude regions to avoid circular references
 public class Country extends SluggableEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
 
-  private String name;
-  
-  @Size(max = 1000)
-  private String description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "continent_id")
-  @JsonBackReference
-  private Continent continent;
+    private String name;
 
-  @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-  private List<Region> regions;
+    @Size(max = 1000)
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "continent_id")
+    @JsonBackReference
+    private Continent continent;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    private List<Region> regions;
 }

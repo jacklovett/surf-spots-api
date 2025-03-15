@@ -7,6 +7,7 @@ import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SkillLevel;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.SurfSpotType;
+import com.lovettj.surfspotsapi.entity.Tide;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,13 +30,18 @@ public class SurfSpotDTO {
     private Double longitude;
     private Boolean isSurfedSpot;
     private Boolean isWatched;
+
     private Continent continent;
     private Country country;
     private Region region;
+
+    private Integer rating;
     private String swellDirection;
     private String windDirection;
-    private String tide;
+    private Tide tide;
     private String season;
+    private Double minSurfHeight;
+    private Double maxSurfHeight;
 
     public SurfSpotDTO(SurfSpot surfSpot) {
         this.setId(surfSpot.getId());
@@ -57,7 +63,10 @@ public class SurfSpotDTO {
 
         this.setSwellDirection(surfSpot.getSwellDirection());
         this.setWindDirection(surfSpot.getWindDirection());
-        this.setTide(surfSpot.getTide().toString());
+        this.setTide(surfSpot.getTide());
         this.setSeason(surfSpot.getSeason());
+        this.setRating(surfSpot.getRating());
+        this.setMinSurfHeight(surfSpot.getMinSurfHeight());
+        this.setMaxSurfHeight(surfSpot.getMaxSurfHeight());
     }
 }

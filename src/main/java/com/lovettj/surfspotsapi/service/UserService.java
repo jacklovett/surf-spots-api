@@ -2,14 +2,13 @@ package com.lovettj.surfspotsapi.service;
 
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
-import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.User;
-import com.lovettj.surfspotsapi.exceptions.AuthException;
-import com.lovettj.surfspotsapi.exceptions.SurfSpotsException;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
@@ -22,7 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public Optional<UserProfile> getUserProfile(Long userId) {
         return userRepository.findById(userId)
@@ -33,29 +32,24 @@ public class UserService {
         Long userId = changePasswordRequest.getUserId();
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new SurfSpotsException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         // Check if the current password matches the stored password
         if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
-            throw new AuthException("The provided password doesn’t match your current password.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The provided password doesn’t match your current password.");
         }
 
-        String hashedNewPassword = passwordEncoder.encode(changePasswordRequest.getNewPassword());
-        user.setPassword(hashedNewPassword);
-        userRepository.save(user);
+        setUserPassword(user, changePasswordRequest.getNewPassword());
     }
 
     public UserProfile updateUserProfile(User updateUserRequest) {
         String email = updateUserRequest.getEmail();
-        return userRepository.findByEmail(email)
-                .map(user -> {
-                    user.setName(updateUserRequest.getName());
-                    user.setCountry(updateUserRequest.getCountry());
-                    user.setCity(updateUserRequest.getCity());
-                    userRepository.save(user);
-                    return new UserProfile(user);
-                })
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = findUserByEmail(email);
+        user.setName(updateUserRequest.getName());
+        user.setCountry(updateUserRequest.getCountry());
+        user.setCity(updateUserRequest.getCity());
+        userRepository.save(user);
+        return new UserProfile(user);
     }
 
     public User findOrCreateUser(AuthRequest userRequest) {
@@ -64,22 +58,23 @@ public class UserService {
 
         if (user.isPresent()) {
             User foundUser = user.get();
-            if (foundUser.getProviderId().isEmpty() && userRequest.getProviderId() != null) {
+            String providerId = userRequest.getProviderId();
+            // Only update provider details if providerId is provided
+            if (providerId != null && !providerId.isEmpty()) {
                 foundUser.setProvider(userRequest.getProvider());
-                foundUser.setProviderId(userRequest.getProviderId());
+                foundUser.setProviderId(providerId);
                 userRepository.save(foundUser);
             }
-
             return foundUser;
         } else {
-            AuthProvider provider = userRequest.getProvider();
-            String providerId = userRequest.getProviderId();
-
             User newUser = new User();
             newUser.setName(userRequest.getName());
             newUser.setEmail(email);
-            newUser.setProvider(provider);
-            newUser.setProviderId(providerId);
+            newUser.setProvider(userRequest.getProvider());
+            // Only set providerId if it exists
+            if (userRequest.getProviderId() != null) {
+                newUser.setProviderId(userRequest.getProviderId());
+            }
             userRepository.save(newUser);
             return newUser;
         }
@@ -89,24 +84,39 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(userRequest.getEmail());
 
         if (user.isPresent()) {
-            throw new AuthException("An account with this email already exists.");
+            User existingUser = user.get();
+            if (existingUser.getPassword() != null) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "An account with this email already exists.");
+            }
+            setUserPassword(existingUser, userRequest.getPassword());
+        } else {
+            // Register new user with hashed password
+            setUserPassword(userRequest, userRequest.getPassword());
         }
-
-        // Logic to register user, including password hashing
-        String hashedPassword = passwordEncoder.encode(userRequest.getPassword());
-        userRequest.setPassword(hashedPassword);
-        userRepository.save(userRequest);
     }
 
     public User loginUser(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new AuthException("User not found")); // Throw exception if user not found
-
+        User user = findUserByEmail(email);
         // Check if the password matches
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new AuthException("Invalid password"); // Throw exception if password doesn't match
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
         }
 
-        return user; // Return the authenticated user
+        return user;
+    }
+
+    public void setUserPassword(User user, String password) {
+        if (password == null || password.length() < 8) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 8 characters");
+        }
+        // hash new password
+        String hashedPassword = passwordEncoder.encode(password);
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 }

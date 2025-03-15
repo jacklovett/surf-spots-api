@@ -1,19 +1,20 @@
 package com.lovettj.surfspotsapi.controller;
 
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
-import com.lovettj.surfspotsapi.responses.ApiResponse;
-import com.lovettj.surfspotsapi.exceptions.AuthException;
-import com.lovettj.surfspotsapi.exceptions.SurfSpotsException;
-import com.lovettj.surfspotsapi.dto.UserProfile;
-import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.service.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/user")
@@ -30,46 +31,13 @@ public class UserController {
     }
 
     @PutMapping("/update/profile")
-    public ResponseEntity<ApiResponse> updateUser(@RequestBody User user) {
+    public ResponseEntity<String> updateUser(@RequestBody User user) {
         try {
             userService.updateUserProfile(user);
-            return ResponseEntity.ok(new ApiResponse("Profile updated successfully!"));
-        } catch (SurfSpotsException e) {
+            return ResponseEntity.ok("Profile updated successfully!");
+        } catch (ResponseStatusException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Unable to update profile"));
-        }
-    }
-
-    @PutMapping("/update-password")
-    public ResponseEntity<ApiResponse> updatePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        try {
-            userService.updatePassword(changePasswordRequest);
-            return ResponseEntity.ok(new ApiResponse("Password changed successfully!"));
-        } catch (SurfSpotsException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ApiResponse("Unable to change password"));
-        }
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse> registerUser(@RequestBody User userRequest) {
-        try {
-            userService.registerUser(userRequest);
-            return ResponseEntity.ok(new ApiResponse("Account created successfully!"));
-        } catch (AuthException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ApiResponse(e.getMessage()));
-        }
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<UserProfile> loginUser(@RequestBody User userRequest) {
-        try {
-            User authenticatedUser = userService.loginUser(userRequest.getEmail(), userRequest.getPassword());
-            return ResponseEntity.ok(new UserProfile(authenticatedUser));
-        } catch (AuthException e) {
-            // Return 401 Unauthorized if the user is not found or password is invalid
-            return ResponseEntity.status(401).body(null);
+                    .body("Unable to update profile");
         }
     }
 }

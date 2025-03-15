@@ -22,8 +22,10 @@ public class SessionCookieFilter implements Filter {
     private static final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     protected static final String[] PUBLIC_ENDPOINTS = {
-        "/api/user/login",
-        "/api/user/register",
+        "/api/auth/login",
+        "/api/auth/register",
+        "/api/auth/forgot-password",
+        "/api/auth/reset-password",
         "/api/user/profile",
         "/api/continents/**",
         "/api/countries/**",
@@ -34,7 +36,7 @@ public class SessionCookieFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String requestURI = httpRequest.getRequestURI();
