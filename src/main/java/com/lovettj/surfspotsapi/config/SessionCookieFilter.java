@@ -22,16 +22,12 @@ public class SessionCookieFilter implements Filter {
     private static final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     protected static final String[] PUBLIC_ENDPOINTS = {
-        "/api/auth/login",
-        "/api/auth/register",
-        "/api/auth/forgot-password",
-        "/api/auth/reset-password",
-        "/api/user/profile",
+        "/api/auth/**",
         "/api/continents/**",
         "/api/countries/**",
         "/api/regions/**",
-        "/api/surf-spots/**"
-    };
+        "/api/surf-spots/**",
+        "/api/user/profile",};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

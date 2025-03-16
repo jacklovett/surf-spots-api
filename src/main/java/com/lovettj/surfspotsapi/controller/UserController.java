@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
+import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,17 @@ public class UserController {
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unable to update profile");
+        }
+    }
+
+    @PutMapping("/update-password")
+    public ResponseEntity<String> updatePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        try {
+            userService.updatePassword(changePasswordRequest);
+            return ResponseEntity.ok("Password changed successfully!");
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unable to change password");
         }
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class RateLimiter {
 
     private static final Logger logger = LoggerFactory.getLogger(RateLimiter.class);
-    private static final int MAX_ATTEMPTS = 3;
+    private static final int MAX_ATTEMPTS = 5;
     private static final long EXPIRY_SECONDS = 3600; // 1 hour
 
     private final Map<String, RateLimit> limiter = new ConcurrentHashMap<>();
