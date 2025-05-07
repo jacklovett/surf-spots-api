@@ -1,18 +1,20 @@
 package com.lovettj.surfspotsapi.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
-import com.lovettj.surfspotsapi.entity.Continent;
-import com.lovettj.surfspotsapi.entity.Country;
-import com.lovettj.surfspotsapi.entity.Region;
-import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
+import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -39,16 +41,16 @@ public class SurfSpotService {
         List<SurfSpot> surfSpots = surfSpotRepository.findWithinBounds(boundingBox.getMinLatitude(),
                 boundingBox.getMaxLatitude(),
                 boundingBox.getMinLongitude(),
-                boundingBox.getMaxLongitude());
+                boundingBox.getMaxLongitude(), userId);
         return surfSpots.stream()
                 .map(surfSpot -> mapToSurfSpotDTO(surfSpot, userId))
                 .toList();
     }
 
-    public List<SurfSpotDTO> findSurfSpotsByRegionSlug(String slug) {
+    public List<SurfSpotDTO> findSurfSpotsByRegionSlug(String slug, Long userId) {
         Region region = regionRepository.findBySlug(slug)
                 .orElseThrow(() -> new EntityNotFoundException("Region not found"));
-        return surfSpotRepository.findByRegion(region).stream().map(surfSpot -> mapToSurfSpotDTO(surfSpot, null)).toList();
+        return surfSpotRepository.findByRegion(region, userId).stream().map(surfSpot -> mapToSurfSpotDTO(surfSpot, null)).toList();
     }
 
     public Optional<SurfSpot> getSurfSpotById(Long id) {
@@ -56,11 +58,60 @@ public class SurfSpotService {
     }
 
     public Optional<SurfSpotDTO> findBySlugAndUserId(String slug, Long userId) {
-        return surfSpotRepository.findBySlug(slug)
+        return surfSpotRepository.findBySlug(slug, userId)
                 .map(surfSpot -> mapToSurfSpotDTO(surfSpot, userId));
     }
 
-    public SurfSpot createSurfSpot(SurfSpot surfSpot) {
+    public SurfSpot createSurfSpot(SurfSpotRequest surfSpotRequest) {
+        Long userId = surfSpotRequest.getUserId();
+
+        if (userId == null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to identifiy user");
+        }
+        
+        // Create a new SurfSpot entity
+        SurfSpot surfSpot = new SurfSpot();
+        surfSpot.setCreatedBy(userId);
+        // Set basic fields
+        surfSpot.setName(surfSpotRequest.getName());
+        surfSpot.setDescription(surfSpotRequest.getDescription());
+        surfSpot.setLatitude(surfSpotRequest.getLatitude());
+        surfSpot.setLongitude(surfSpotRequest.getLongitude());
+        surfSpot.setSwellDirection(surfSpotRequest.getSwellDirection());
+        surfSpot.setWindDirection(surfSpotRequest.getWindDirection());
+        surfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
+        surfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
+        surfSpot.setSeasonStart(surfSpotRequest.getSeasonStart());
+        surfSpot.setSeasonEnd(surfSpotRequest.getSeasonEnd());
+        surfSpot.setRating(surfSpotRequest.getRating());
+        surfSpot.setForecasts(surfSpotRequest.getForecasts());
+
+        // Enums
+        surfSpot.setType(surfSpotRequest.getType());
+        surfSpot.setBeachBottomType(surfSpotRequest.getBeachBottomType());
+        surfSpot.setSkillLevel(surfSpotRequest.getSkillLevel());
+        surfSpot.setTide(surfSpotRequest.getTide());
+        surfSpot.setParking(surfSpotRequest.getParking());
+        surfSpot.setStatus(surfSpotRequest.getStatus());
+
+        // Handle boolean fields
+        surfSpot.setBoatRequired(surfSpotRequest.isBoatRequired());
+        surfSpot.setAccommodationNearby(surfSpotRequest.isAccommodationNearby());
+        surfSpot.setFoodNearby(surfSpotRequest.isFoodNearby());
+
+        // Handle arrays of enums
+        surfSpot.setHazards(Optional.ofNullable(surfSpotRequest.getHazards())
+        .orElse(Collections.emptyList()));
+        surfSpot.setFoodOptions(Optional.ofNullable(surfSpotRequest.getFoodOptions()).orElse(Collections.emptyList()));
+        surfSpot.setAccommodationOptions(Optional.ofNullable(surfSpotRequest.getAccommodationOptions()).orElse(Collections.emptyList()));
+        surfSpot.setFacilities(Optional.ofNullable(surfSpotRequest.getFacilities()).orElse(Collections.emptyList()));
+
+        // Fetch and set related entities (region, country, continent)
+        Region region = regionRepository.findById(surfSpotRequest.getRegionId())
+                .orElseThrow(() -> new EntityNotFoundException("Region not found"));
+        surfSpot.setRegion(region);
+
+        // Save the SurfSpot entity
         return surfSpotRepository.save(surfSpot);
     }
 

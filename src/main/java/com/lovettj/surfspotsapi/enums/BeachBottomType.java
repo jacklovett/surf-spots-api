@@ -1,4 +1,4 @@
-package com.lovettj.surfspotsapi.entity;
+package com.lovettj.surfspotsapi.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

@@ -2,9 +2,9 @@ package com.lovettj.surfspotsapi.dto;
 
 import java.util.List;
 
-import com.lovettj.surfspotsapi.entity.BeachBottomType;
-import com.lovettj.surfspotsapi.entity.SkillLevel;
-import com.lovettj.surfspotsapi.entity.SurfSpotType;
+import com.lovettj.surfspotsapi.enums.BeachBottomType;
+import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.SurfSpotType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

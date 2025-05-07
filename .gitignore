@@ -45,4 +45,4 @@ Thumbs.db
 .cache/
 tmp/
 !src/main/resources/static
-.vscode/settings.json
+.vscode/

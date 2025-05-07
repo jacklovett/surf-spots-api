@@ -1,11 +1,13 @@
 package com.lovettj.surfspotsapi.entity;
 
 import com.lovettj.surfspotsapi.validators.*;
+import com.lovettj.surfspotsapi.enums.*;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,12 +28,12 @@ public class SurfSpot extends SluggableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    private String name;
+
     @Size(max = 1000)
     @Column(length = 1000)
     private String description;
-
-    @NotBlank
-    private String name;
 
     @Enumerated(EnumType.STRING)
     private BeachBottomType beachBottomType;
@@ -56,18 +58,6 @@ public class SurfSpot extends SluggableEntity {
     @Column(nullable = true)
     private Tide tide;
 
-    @ValidSeason
-    @Size(max = 21)
-    private String season;
-
-    private Double latitude;
-
-    private Double longitude;
-
-    @Min(0)
-    @Max(5)
-    private Integer rating;
-
     @Min(0)
     @Column(nullable = true)
     private Double minSurfHeight;
@@ -76,10 +66,68 @@ public class SurfSpot extends SluggableEntity {
     @Column(nullable = true)
     private Double maxSurfHeight;
 
+    @Min(0)
+    @Max(5)
+    private Integer rating;
+
+    private Double latitude;
+
+    private Double longitude;
+
     @ManyToOne
     @JoinColumn(name = "region_id")
     @JsonBackReference
     private Region region;
+
+    @Enumerated(EnumType.STRING)
+    private SurfSpotStatus status;
+
+    private Boolean foodNearby;
+
+    @ElementCollection(targetClass = FoodOption.class)
+    @CollectionTable(name = "surfspot_food_options", joinColumns = @JoinColumn(name = "surfspot_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "food_option")
+    private List<FoodOption> foodOptions;
+
+    private Boolean accommodationNearby;
+
+    @ElementCollection(targetClass = AccommodationOption.class)
+    @CollectionTable(name = "surfspot_accommodation_options", joinColumns = @JoinColumn(name = "surfspot_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "accommodation_option")
+    private List<AccommodationOption> accommodationOptions;
+
+    @ElementCollection(targetClass = Facility.class)
+    @CollectionTable(name = "surfspot_facilities", joinColumns = @JoinColumn(name = "surfspot_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "facility")
+    private List<Facility> facilities;
+
+    @ElementCollection(targetClass = Hazard.class)
+    @CollectionTable(name = "surfspot_hazards", joinColumns = @JoinColumn(name = "surfspot_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "hazard")
+    private List<Hazard> hazards;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private Parking parking;
+
+    private Boolean boatRequired;
+
+    @Size(max = 9)
+    private String seasonStart;
+
+    @Size(max = 9)
+    private String seasonEnd;
+
+    @ElementCollection
+    @Column(name = "forecasts")
+    private List<String> forecasts;
+
+    @Column(nullable = true)
+    private Long createdBy;
 
     @CreationTimestamp
     @Column(updatable = false)

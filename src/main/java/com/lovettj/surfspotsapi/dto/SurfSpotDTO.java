@@ -1,13 +1,13 @@
 package com.lovettj.surfspotsapi.dto;
 
-import com.lovettj.surfspotsapi.entity.BeachBottomType;
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.Region;
-import com.lovettj.surfspotsapi.entity.SkillLevel;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
-import com.lovettj.surfspotsapi.entity.SurfSpotType;
-import com.lovettj.surfspotsapi.entity.Tide;
+import com.lovettj.surfspotsapi.enums.BeachBottomType;
+import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.SurfSpotType;
+import com.lovettj.surfspotsapi.enums.Tide;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,7 +64,7 @@ public class SurfSpotDTO {
         this.setSwellDirection(surfSpot.getSwellDirection());
         this.setWindDirection(surfSpot.getWindDirection());
         this.setTide(surfSpot.getTide());
-        this.setSeason(surfSpot.getSeason());
+        this.setSeason(surfSpot.getSeasonStart() + " - " + surfSpot.getSeasonEnd());
         this.setRating(surfSpot.getRating());
         this.setMinSurfHeight(surfSpot.getMinSurfHeight());
         this.setMaxSurfHeight(surfSpot.getMaxSurfHeight());

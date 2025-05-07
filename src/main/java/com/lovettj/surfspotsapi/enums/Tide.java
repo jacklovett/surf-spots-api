@@ -1,4 +1,6 @@
-package com.lovettj.surfspotsapi.entity;
+package com.lovettj.surfspotsapi.enums;
+
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Tide {
     ANY("Any"),
@@ -14,6 +16,7 @@ public enum Tide {
         this.displayName = displayName;
     }
 
+    @JsonValue
     public String getDisplayName() {
         return displayName;
     }

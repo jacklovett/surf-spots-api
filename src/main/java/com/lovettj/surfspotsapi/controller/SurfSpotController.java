@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.controller;
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
+import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.net.URI;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/surf-spots")
@@ -28,9 +32,17 @@ public class SurfSpotController {
   }
 
   @GetMapping("/region/{regionSlug}")
-  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegion(@PathVariable String regionSlug) {
-    List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlug(regionSlug);
-    return ResponseEntity.ok(surfSpots);
+  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegion(
+      @PathVariable String regionSlug,
+      @RequestParam Long userId
+  ) {
+      List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlug(regionSlug, userId);
+  
+      if (surfSpots.isEmpty()) {
+          return ResponseEntity.notFound().build();
+      }
+  
+      return ResponseEntity.ok(surfSpots);
   }
 
   @GetMapping("/{slug}")
@@ -54,8 +66,10 @@ public class SurfSpotController {
   }
 
   @PostMapping
-  public SurfSpot createSurfSpot(@RequestBody SurfSpot surfSpot) {
-    return surfSpotService.createSurfSpot(surfSpot);
+  public ResponseEntity<Void> createSurfSpot(@Valid @RequestBody SurfSpotRequest surfSpotRequest) {
+      SurfSpot surfSpot = surfSpotService.createSurfSpot(surfSpotRequest);
+      URI location = URI.create("/api/surf-spots/" + surfSpot.getId());
+      return ResponseEntity.created(location).build();
   }
 
   @PutMapping("/{id}")

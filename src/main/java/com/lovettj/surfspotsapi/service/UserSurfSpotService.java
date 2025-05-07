@@ -4,11 +4,12 @@ import org.springframework.stereotype.Service;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
-import com.lovettj.surfspotsapi.entity.BeachBottomType;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
-import com.lovettj.surfspotsapi.entity.SurfSpotType;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.UserSurfSpot;
+import com.lovettj.surfspotsapi.enums.BeachBottomType;
+import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 
 import java.util.Collections;
@@ -18,7 +19,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.lovettj.surfspotsapi.entity.SkillLevel;
 
 @Service
 public class UserSurfSpotService {
