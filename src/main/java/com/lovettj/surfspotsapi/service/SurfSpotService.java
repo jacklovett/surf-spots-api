@@ -3,7 +3,6 @@ package com.lovettj.surfspotsapi.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class SurfSpotService {
         return surfSpotRepository.findAll();
     }
 
-    public List<SurfSpotDTO> findSurfSpotsWithinBounds(BoundingBox boundingBox, Long userId) {
+    public List<SurfSpotDTO> findSurfSpotsWithinBounds(BoundingBox boundingBox, String userId) {
         List<SurfSpot> surfSpots = surfSpotRepository.findWithinBounds(boundingBox.getMinLatitude(),
                 boundingBox.getMaxLatitude(),
                 boundingBox.getMinLongitude(),
@@ -47,7 +46,7 @@ public class SurfSpotService {
                 .toList();
     }
 
-    public List<SurfSpotDTO> findSurfSpotsByRegionSlug(String slug, Long userId) {
+    public List<SurfSpotDTO> findSurfSpotsByRegionSlug(String slug, String userId) {
         Region region = regionRepository.findBySlug(slug)
                 .orElseThrow(() -> new EntityNotFoundException("Region not found"));
         return surfSpotRepository.findByRegion(region, userId).stream().map(surfSpot -> mapToSurfSpotDTO(surfSpot, null)).toList();
@@ -57,13 +56,13 @@ public class SurfSpotService {
         return surfSpotRepository.findById(id);
     }
 
-    public Optional<SurfSpotDTO> findBySlugAndUserId(String slug, Long userId) {
+    public Optional<SurfSpotDTO> findBySlugAndUserId(String slug, String userId) {
         return surfSpotRepository.findBySlug(slug, userId)
                 .map(surfSpot -> mapToSurfSpotDTO(surfSpot, userId));
     }
 
     public SurfSpot createSurfSpot(SurfSpotRequest surfSpotRequest) {
-        Long userId = surfSpotRequest.getUserId();
+        String userId = surfSpotRequest.getUserId();
 
         if (userId == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to identifiy user");
@@ -128,7 +127,7 @@ public class SurfSpotService {
         surfSpotRepository.deleteById(id);
     }
 
-    private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, Long userId) {
+    private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId) {
         SurfSpotDTO surfSpotDTO = new SurfSpotDTO(surfSpot);
         surfSpotDTO.setPath(generateSurfSpotPath(surfSpot));
 

@@ -44,5 +44,5 @@ public class SurfSpotRequest {
     private List<AccommodationOption> accommodationOptions;
     private List<String> forecasts;
     private SurfSpotStatus status;
-    private Long userId;
+    private String userId;
 }

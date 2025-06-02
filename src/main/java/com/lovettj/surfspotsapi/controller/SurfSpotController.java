@@ -32,10 +32,8 @@ public class SurfSpotController {
   }
 
   @GetMapping("/region/{regionSlug}")
-  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegion(
-      @PathVariable String regionSlug,
-      @RequestParam Long userId
-  ) {
+  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegion(@PathVariable String regionSlug,
+          @RequestParam(required = false) String userId) {
       List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlug(regionSlug, userId);
   
       if (surfSpots.isEmpty()) {
@@ -46,12 +44,11 @@ public class SurfSpotController {
   }
 
   @GetMapping("/{slug}")
-  public ResponseEntity<SurfSpotDTO> getSurfSpotBySlug(
-          @PathVariable String slug,
-          @RequestParam(required = false) Long userId) {
+  public ResponseEntity<SurfSpotDTO> getSurfSpotBySlug(@PathVariable String slug,
+          @RequestParam(required = false) String userId) {
       return surfSpotService.findBySlugAndUserId(slug, userId)
-          .map(ResponseEntity::ok)
-          .orElseGet(() -> ResponseEntity.notFound().build());
+              .map(ResponseEntity::ok)
+              .orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping("/id/{id}")
@@ -60,9 +57,10 @@ public class SurfSpotController {
     return surfSpot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  @PostMapping("/within-bounds")
-  public List<SurfSpotDTO> getSurfSpotsWithinBounds(@RequestBody BoundingBox boundingBox, @RequestParam(required = false) Long userId) {
-    return surfSpotService.findSurfSpotsWithinBounds(boundingBox, userId);
+  @GetMapping("/within-bounds")
+  public List<SurfSpotDTO> getSurfSpotsWithinBounds(@RequestBody BoundingBox boundingBox, 
+          @RequestParam(required = false) String userId) {
+      return surfSpotService.findSurfSpotsWithinBounds(boundingBox, userId);
   }
 
   @PostMapping

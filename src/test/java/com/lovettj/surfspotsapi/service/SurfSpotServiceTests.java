@@ -11,14 +11,13 @@ import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.springframework.http.HttpStatus;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SurfSpotServiceTests {
 
@@ -36,10 +35,13 @@ public class SurfSpotServiceTests {
     
     private SurfSpotService surfSpotService;
 
+    private String testUserId;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         surfSpotService = new SurfSpotService(surfSpotRepository, regionRepository, userSurfSpotService, watchListService);
+        testUserId = "test-user-id-123";
     }
 
     @Test
@@ -56,7 +58,6 @@ public class SurfSpotServiceTests {
 
     @Test
     public void testFindSurfSpotsWithinBounds() {
-
         BoundingBox boundingBox = new BoundingBox(10.0, 20.0, 30.0, 40.0);
 
         Continent continent = new Continent();
@@ -78,19 +79,18 @@ public class SurfSpotServiceTests {
         
         List<SurfSpot> mockSurfSpots = Arrays.asList(spot1, spot2);
 
-        when(surfSpotRepository.findWithinBounds(10.0, 20.0, 30.0, 40.0, 1L))
+        when(surfSpotRepository.findWithinBounds(10.0, 20.0, 30.0, 40.0, testUserId))
                 .thenReturn(mockSurfSpots);
 
-        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsWithinBounds(boundingBox, 1L);
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsWithinBounds(boundingBox, testUserId);
 
         assertNotNull(result);
         assertEquals(2, result.size());
-        verify(surfSpotRepository).findWithinBounds(10.0, 20.0, 30.0, 40.0, 1L);
+        verify(surfSpotRepository).findWithinBounds(10.0, 20.0, 30.0, 40.0, testUserId);
     }
 
     @Test
     public void testFindSurfSpotsByRegionSlug() {
-
         String regionSlug = "region-slug";
         Continent continent = new Continent();
         continent.setName("Europe");
@@ -108,14 +108,14 @@ public class SurfSpotServiceTests {
         List<SurfSpot> mockSurfSpots = Collections.singletonList(mockSpot);
         
         when(regionRepository.findBySlug(regionSlug)).thenReturn(Optional.of(mockRegion));
-        when(surfSpotRepository.findByRegion(mockRegion, 1L)).thenReturn(mockSurfSpots);
+        when(surfSpotRepository.findByRegion(mockRegion, testUserId)).thenReturn(mockSurfSpots);
 
-        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlug(regionSlug, 1L);
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlug(regionSlug, testUserId);
 
         assertNotNull(result);
         assertEquals(1, result.size());
         verify(regionRepository).findBySlug(regionSlug);
-        verify(surfSpotRepository).findByRegion(mockRegion, 1L);
+        verify(surfSpotRepository).findByRegion(mockRegion, testUserId);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class SurfSpotServiceTests {
         SurfSpotRequest request = new SurfSpotRequest();
         request.setName("Test Spot");
         request.setDescription("Great surf spot!");
-        request.setUserId(1L);
+        request.setUserId(testUserId);
         request.setRegionId(1L);
 
         Region mockRegion = new Region();

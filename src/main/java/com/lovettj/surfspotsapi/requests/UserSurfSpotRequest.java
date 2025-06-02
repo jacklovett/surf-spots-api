@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class UserSurfSpotRequest {
-
-    private Long userId;
+    private String userId;
     private Long surfSpotId;
 }

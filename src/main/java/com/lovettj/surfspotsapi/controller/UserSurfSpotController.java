@@ -19,26 +19,24 @@ public class UserSurfSpotController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserSurfSpotsDTO> getUserSurfSpotsSummary(@PathVariable Long userId) {
+    public ResponseEntity<UserSurfSpotsDTO> getUserSurfSpotsSummary(@PathVariable String userId) {
         return ResponseEntity.ok(userSurfSpotService.getUserSurfSpotsSummary(userId));
     }
 
     @PostMapping
     public ResponseEntity<String> addUserSurfSpot(@RequestBody UserSurfSpotRequest request) {
-        Long userId = request.getUserId();
-        Long spotId = request.getSurfSpotId();
-        userSurfSpotService.addUserSurfSpot(userId, spotId);
+        userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
         return ResponseEntity.ok("Surf spot added to user’s list.");
     }
 
     @DeleteMapping("/{userId}/remove/{spotId}")
-    public ResponseEntity<String> removeUserSurfSpot(@PathVariable Long userId, @PathVariable Long spotId) {
+    public ResponseEntity<String> removeUserSurfSpot(@PathVariable String userId, @PathVariable Long spotId) {
         userSurfSpotService.removeUserSurfSpot(userId, spotId);
         return ResponseEntity.ok("Surf spot removed from user’s list.");
     }
 
     @PostMapping("/{userId}/toggle-favourite/{spotId}")
-    public ResponseEntity<String> toggleFavourite(@PathVariable Long userId, @PathVariable Long spotId) {
+    public ResponseEntity<String> toggleFavourite(@PathVariable String userId, @PathVariable Long spotId) {
         userSurfSpotService.toggleIsFavourite(userId, spotId);
         return ResponseEntity.ok("Surf spot favourite status toggled.");
     }

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.lovettj.surfspotsapi.entity.WatchListSurfSpot;
 
-public interface WatchListRepository extends JpaRepository<WatchListSurfSpot, Long> {
-  List<WatchListSurfSpot> findByUserId(Long userId);
+public interface WatchListRepository extends JpaRepository<WatchListSurfSpot, String> {
+  List<WatchListSurfSpot> findByUserId(String userId);
 
-  Optional<WatchListSurfSpot> findByUserIdAndSurfSpotId(Long userId, Long spotId);
+  Optional<WatchListSurfSpot> findByUserIdAndSurfSpotId(String userId, Long surfSpotId);
 }

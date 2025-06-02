@@ -58,7 +58,7 @@ class SurfSpotControllerTest {
 
     @Test
     void testGetSurfSpotsByRegion() throws Exception {
-        Mockito.when(surfSpotService.findSurfSpotsByRegionSlug("oahu", 1l)).thenReturn(Collections.singletonList(surfSpotDTO));
+        Mockito.when(surfSpotService.findSurfSpotsByRegionSlug("oahu", "test-user-id-123")).thenReturn(Collections.singletonList(surfSpotDTO));
 
         mockMvc.perform(get("/api/surf-spots/region/oahu")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -68,7 +68,7 @@ class SurfSpotControllerTest {
 
     @Test
     void testGetSurfSpotBySlug() throws Exception {
-        Mockito.when(surfSpotService.findBySlugAndUserId("pipeline", null)).thenReturn(Optional.of(surfSpotDTO));
+        Mockito.when(surfSpotService.findBySlugAndUserId("pipeline", "test-user-id-123")).thenReturn(Optional.of(surfSpotDTO));
 
         mockMvc.perform(get("/api/surf-spots/pipeline")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -97,7 +97,7 @@ class SurfSpotControllerTest {
 
     @Test
     void testGetSurfSpotsWithinBounds() throws Exception {
-        Mockito.when(surfSpotService.findSurfSpotsWithinBounds(Mockito.any(BoundingBox.class), Mockito.isNull()))
+        Mockito.when(surfSpotService.findSurfSpotsWithinBounds(Mockito.any(BoundingBox.class), Mockito.anyString()))
                 .thenReturn(Collections.singletonList(surfSpotDTO));
 
         mockMvc.perform(post("/api/surf-spots/within-bounds")
@@ -109,7 +109,8 @@ class SurfSpotControllerTest {
               "maxLat": 21.7,
               "maxLng": -157.7
             }
-            """))
+            """)
+                .param("userId", "test-user-id-123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is("Pipeline")));
     }
@@ -135,7 +136,8 @@ class SurfSpotControllerTest {
               "description": "A famous surf spot.",
               "type": "Reef Break",
             }
-            """))
+            """)
+                .param("userId", "test-user-id-123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Pipeline")));
     }
@@ -162,7 +164,8 @@ class SurfSpotControllerTest {
               "description": "An updated famous surf spot.",
               "type": "Reef Break"
             }
-            """))
+            """)
+                .param("userId", "test-user-id-123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Updated Pipeline")));
     }
@@ -172,7 +175,8 @@ class SurfSpotControllerTest {
         Mockito.doNothing().when(surfSpotService).deleteSurfSpot(1L);
 
         mockMvc.perform(delete("/api/surf-spots/1")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("userId", "test-user-id-123"))
                 .andExpect(status().isNoContent());
 
         Mockito.verify(surfSpotService, Mockito.times(1)).deleteSurfSpot(1L);

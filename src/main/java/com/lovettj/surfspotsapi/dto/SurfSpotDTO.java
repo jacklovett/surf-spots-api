@@ -1,10 +1,17 @@
 package com.lovettj.surfspotsapi.dto;
 
+import java.util.List;
+
+import com.lovettj.surfspotsapi.entity.AccommodationOption;
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
+import com.lovettj.surfspotsapi.entity.Facility;
+import com.lovettj.surfspotsapi.entity.FoodOption;
+import com.lovettj.surfspotsapi.entity.Hazard;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.enums.BeachBottomType;
+import com.lovettj.surfspotsapi.enums.Parking;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.enums.Tide;
@@ -43,6 +50,17 @@ public class SurfSpotDTO {
     private Double minSurfHeight;
     private Double maxSurfHeight;
 
+    private Parking parking;
+    private Boolean boatRequired;
+
+    private Boolean foodNearby;
+    private List<FoodOption> foodOptions;
+    private Boolean accommodationNearby;
+    private List<AccommodationOption> accommodationOptions;
+    private List<Facility> facilities;
+    private List<Hazard> hazards;
+    private List<String> forecasts;
+
     public SurfSpotDTO(SurfSpot surfSpot) {
         this.setId(surfSpot.getId());
         this.setName(surfSpot.getName());
@@ -68,5 +86,15 @@ public class SurfSpotDTO {
         this.setRating(surfSpot.getRating());
         this.setMinSurfHeight(surfSpot.getMinSurfHeight());
         this.setMaxSurfHeight(surfSpot.getMaxSurfHeight());
+        
+        this.setParking(surfSpot.getParking());
+        this.setBoatRequired(surfSpot.getBoatRequired());
+        this.setFoodNearby(surfSpot.getFoodNearby());
+        this.setFoodOptions(surfSpot.getFoodOptions());
+        this.setAccommodationNearby(surfSpot.getAccommodationNearby());
+        this.setAccommodationOptions(surfSpot.getAccommodationOptions());
+        this.setFacilities(surfSpot.getFacilities());
+        this.setHazards(surfSpot.getHazards());
+        this.setForecasts(surfSpot.getForecasts());
     }
 }

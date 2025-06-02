@@ -24,7 +24,7 @@ public interface SurfSpotRepository extends JpaRepository<SurfSpot, Long> {
             OR (s.status = 'PRIVATE' AND s.createdBy = :userId)
         )
     """)
-    List<SurfSpot> findByRegion(@Param("region") Region region, @Param("userId") Long userId);
+    List<SurfSpot> findByRegion(@Param("region") Region region, @Param("userId") String userId);
 
     @Query("""
         SELECT s FROM SurfSpot s
@@ -34,7 +34,7 @@ public interface SurfSpotRepository extends JpaRepository<SurfSpot, Long> {
             OR (s.status = 'PRIVATE' AND s.createdBy = :userId)
         )
     """)
-    Optional<SurfSpot> findBySlug(@Param("slug") String slug, @Param("userId") Long userId);
+    Optional<SurfSpot> findBySlug(@Param("slug") String slug, @Param("userId") String userId);
 
     @Query("""
         SELECT s FROM SurfSpot s
@@ -50,5 +50,5 @@ public interface SurfSpotRepository extends JpaRepository<SurfSpot, Long> {
             @Param("maxLat") double maxLatitude,
             @Param("minLon") double minLongitude,
             @Param("maxLon") double maxLongitude,
-            @Param("userId") Long userId);
+            @Param("userId") String userId);
 }

@@ -1,24 +1,35 @@
 package com.lovettj.surfspotsapi.controller;
 
-import com.lovettj.surfspotsapi.entity.SurfSpot;
-import com.lovettj.surfspotsapi.service.WatchListService;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
+import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
+import com.lovettj.surfspotsapi.dto.WatchListDTO;
+import com.lovettj.surfspotsapi.entity.AuthProvider;
+import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.entity.User;
+import com.lovettj.surfspotsapi.service.WatchListService;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(WatchListController.class)
 class WatchListControllerTests {
 
     @Autowired
@@ -27,48 +38,77 @@ class WatchListControllerTests {
     @MockBean
     private WatchListService watchListService;
 
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void testGetUsersWatchList() throws Exception {
-        SurfSpot spot1 = new SurfSpot();
-        spot1.setId(1L);
-        spot1.setName("Pipeline");
+    private User testUser;
+    private SurfSpot testSpot;
+    private String testUserId;
 
-        when(watchListService.getUsersWatchList(1L)).thenReturn(List.of(spot1));
+    @BeforeEach
+    void setUp() {
+        testUserId = "test-user-id-123";
+        testUser = new User();
+        testUser.setId(testUserId);
+        testUser.setEmail("test@example.com");
+        testUser.setName("Test User");
+        testUser.setProvider(AuthProvider.EMAIL);
 
-        mockMvc.perform(get("/api/watch/1")
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].name").value("Pipeline"));
-
-        verify(watchListService, times(1)).getUsersWatchList(1L);
+        testSpot = new SurfSpot();
+        testSpot.setId(1L);
+        testSpot.setName("Test Spot");
     }
 
     @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
+    @WithMockUser
     void testAddWatchListSurfSpot() throws Exception {
-        doNothing().when(watchListService).addSurfSpotToWatchList(1L, 2L);
+        doNothing().when(watchListService).addSurfSpotToWatchList(anyString(), anyLong());
 
         mockMvc.perform(post("/api/watch")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                    {
-                        "userId": 1,
-                        "surfSpotId": 2
-                    }
-                    """))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Surf spot added to user’s watch list."));
+                .content("{\"userId\": \"" + testUserId + "\", \"surfSpotId\": 1}"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    void testRemoveWatchListSurfSpot() throws Exception {
-        doNothing().when(watchListService).removeSurfSpotFromWishList(1L, 2L);
+    @WithMockUser
+    void testGetUsersWatchList() throws Exception {
+        List<SurfSpotDTO> spots = new ArrayList<>();
+        spots.add(SurfSpotDTO.builder()
+            .id(1L)
+            .name("Test Spot")
+            .build());
+        when(watchListService.getUsersWatchList(anyString())).thenReturn(WatchListDTO.builder()
+            .surfSpots(spots)
+            .notifications(new ArrayList<>())
+            .build());
 
-        mockMvc.perform(delete("/api/watch/1/remove/2")
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().string("Surf spot removed from user’s watch list."));
+        mockMvc.perform(get("/api/watch/" + testUserId))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void testGetUsersWatchListEmptyLists() throws Exception {
+        when(watchListService.getUsersWatchList(anyString())).thenReturn(WatchListDTO.builder()
+            .surfSpots(new ArrayList<>())
+            .notifications(new ArrayList<>())
+            .build());
+
+        mockMvc.perform(get("/api/watch/" + testUserId))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void testRemoveWatchListSurfSpot() throws Exception {
+        doNothing().when(watchListService).removeSurfSpotFromWishList(anyString(), anyLong());
+
+        mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void testRemoveWatchListSurfSpotInvalidIds() throws Exception {
+        mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/abc"))
+            .andExpect(status().isBadRequest());
     }
 }

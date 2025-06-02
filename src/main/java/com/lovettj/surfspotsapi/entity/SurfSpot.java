@@ -126,8 +126,8 @@ public class SurfSpot extends SluggableEntity {
     @Column(name = "forecasts")
     private List<String> forecasts;
 
-    @Column(nullable = true)
-    private Long createdBy;
+    @Column(name = "created_by")
+    private String createdBy;
 
     @CreationTimestamp
     @Column(updatable = false)
