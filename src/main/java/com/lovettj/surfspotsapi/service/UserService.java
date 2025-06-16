@@ -9,9 +9,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.User;
+import com.lovettj.surfspotsapi.entity.Settings;
+import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
+import com.lovettj.surfspotsapi.requests.SettingsRequest;
+import com.lovettj.surfspotsapi.requests.UserRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,26 +27,41 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public Optional<UserProfile> getUserProfile(Long userId) {
+    public Optional<UserProfile> getUserProfile(String userId) {
         return userRepository.findById(userId)
                 .map(UserProfile::new);
     }
 
     public void updatePassword(ChangePasswordRequest changePasswordRequest) {
-        Long userId = changePasswordRequest.getUserId();
+        String userId = changePasswordRequest.getUserId();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         // Check if the current password matches the stored password
         if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The provided password doesn’t match your current password.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The provided password doesn't match your current password.");
         }
 
         setUserPassword(user, changePasswordRequest.getNewPassword());
     }
 
-    public UserProfile updateUserProfile(User updateUserRequest) {
+    public void updateSettings(SettingsRequest settingsRequest) {
+        String userId = settingsRequest.getUserId();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        Settings settings = user.getSettings();
+        settings.setNewSurfSpotEmails(settingsRequest.isNewSurfSpotEmails());
+        settings.setNearbySurfSpotsEmails(settingsRequest.isNearbySurfSpotsEmails());
+        settings.setSwellSeasonEmails(settingsRequest.isSwellSeasonEmails());
+        settings.setEventEmails(settingsRequest.isEventEmails());
+        settings.setPromotionEmails(settingsRequest.isPromotionEmails());
+        userRepository.save(user);
+    }
+
+    public UserProfile updateUserProfile(UserRequest updateUserRequest) {
         String email = updateUserRequest.getEmail();
         User user = findUserByEmail(email);
         user.setName(updateUserRequest.getName());
@@ -52,53 +71,77 @@ public class UserService {
         return new UserProfile(user);
     }
 
-    public User findOrCreateUser(AuthRequest userRequest) {
-        String email = userRequest.getEmail();
-        Optional<User> user = userRepository.findByEmail(email);
+    public User registerUser(AuthRequest authRequest) {
+        Optional<User> existingUser = userRepository.findByEmail(authRequest.getEmail());
 
-        if (user.isPresent()) {
-            User foundUser = user.get();
-            String providerId = userRequest.getProviderId();
-            // Only update provider details if providerId is provided
-            if (providerId != null && !providerId.isEmpty()) {
-                foundUser.setProvider(userRequest.getProvider());
-                foundUser.setProviderId(providerId);
-                userRepository.save(foundUser);
-            }
-            return foundUser;
+        if (existingUser.isPresent()) {
+            return handleExistingUser(existingUser.get(), authRequest);
         } else {
-            User newUser = new User();
-            newUser.setName(userRequest.getName());
-            newUser.setEmail(email);
-            newUser.setProvider(userRequest.getProvider());
-            // Only set providerId if it exists
-            if (userRequest.getProviderId() != null) {
-                newUser.setProviderId(userRequest.getProviderId());
-            }
-            userRepository.save(newUser);
-            return newUser;
+           return createNewUser(authRequest);
         }
     }
 
-    public void registerUser(User userRequest) {
-        Optional<User> user = userRepository.findByEmail(userRequest.getEmail());
-
-        if (user.isPresent()) {
-            User existingUser = user.get();
-            if (existingUser.getPassword() != null) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "An account with this email already exists.");
-            }
-            setUserPassword(existingUser, userRequest.getPassword());
-        } else {
-            // Register new user with hashed password
-            setUserPassword(userRequest, userRequest.getPassword());
+    private User handleExistingUser(User existingUser, AuthRequest authRequest) {
+        if (existingUser.getPassword() != null && authRequest.getProvider() == AuthProvider.EMAIL) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, 
+                "An account with this email already exists. Try signing in.");
         }
+
+        if (authRequest.getProvider() != AuthProvider.EMAIL) {
+            return updateProviderDetails(existingUser, authRequest);
+        } else {
+            setUserPassword(existingUser, authRequest.getPassword());
+            return userRepository.save(existingUser);
+        }
+    }
+
+    private User updateProviderDetails(User user, AuthRequest authRequest) {
+        user.setProvider(authRequest.getProvider());
+        user.setProviderId(authRequest.getProviderId());
+        if (authRequest.getName() != null) {
+            user.setName(authRequest.getName());
+        }
+        return userRepository.save(user);
+    }
+
+    private User createNewUser(AuthRequest authRequest) {
+        User newUser = createUserFromRequest(authRequest);
+        setupUserSettings(newUser);
+        return userRepository.save(newUser);
+    }
+
+    private User createUserFromRequest(AuthRequest authRequest) {
+        User newUser = new User();
+        newUser.setEmail(authRequest.getEmail());
+        newUser.setName(authRequest.getName());
+        newUser.setProvider(authRequest.getProvider());
+        newUser.setProviderId(authRequest.getProviderId());
+        
+        if (authRequest.getProvider() == AuthProvider.EMAIL) {
+            setUserPassword(newUser, authRequest.getPassword());
+        }
+        
+        return newUser;
+    }
+
+    private void setupUserSettings(User user) {
+        Settings settings = Settings.builder()
+            .newSurfSpotEmails(true)
+            .nearbySurfSpotsEmails(true)
+            .swellSeasonEmails(true)
+            .eventEmails(true)
+            .promotionEmails(true)
+            .user(user)
+            .build();
+        user.setSettings(settings);
     }
 
     public User loginUser(String email, String password) {
         User user = findUserByEmail(email);
         // Check if the password matches
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        boolean passwordMatches = passwordEncoder.matches(password, user.getPassword());
+         
+        if (!passwordMatches) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
         }
 

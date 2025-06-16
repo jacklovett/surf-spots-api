@@ -26,8 +26,7 @@ public class SessionCookieFilter implements Filter {
         "/api/continents/**",
         "/api/countries/**",
         "/api/regions/**",
-        "/api/surf-spots/**",
-        "/api/user/profile",};
+        "/api/surf-spots/**",};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

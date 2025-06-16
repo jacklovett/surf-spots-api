@@ -4,16 +4,14 @@ import com.lovettj.surfspotsapi.entity.AuthProvider;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class AuthRequest {
   private String email;
+  private String password;
   private String name;
   @Enumerated(EnumType.STRING)
-  private AuthProvider provider; // Use enum for provider
-
-  private String providerId; // Unique ID from the provider
+  private AuthProvider provider;
+  private String providerId;
 }

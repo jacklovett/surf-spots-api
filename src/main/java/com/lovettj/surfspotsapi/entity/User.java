@@ -1,9 +1,9 @@
 package com.lovettj.surfspotsapi.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,36 +11,40 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.*;
 
 @Entity
-@Table(name = "app_user") // Rename table to avoid conflict with reserved keyword
-@Getter
-@Setter
+@Table(name = "users")
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @Column(length = 36)
+  private String id;
 
-  @Column(nullable = true)
-  private String name;
+  @PrePersist
+  public void generateId() {
+    this.id = UUID.randomUUID().toString();
+  }
 
+  @Column(unique = true)
   private String email;
 
-  @Column(nullable = true)
+  private String name;
   private String password;
-
-  @Column(nullable = true)
-  private String country;
-
-  @Column(nullable = true)
-  private String city;
+  private String providerId;
 
   @Enumerated(EnumType.STRING)
-  private AuthProvider provider; // Use enum for provider
+  private AuthProvider provider;
 
-  @Column(nullable = true) // Make nullable for email sign-ups
-  private String providerId; // Unique ID from the provider
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "settings_id")
+  private Settings settings;
+
+  private String country;
+  private String city;
+
+  @OneToMany(mappedBy = "user")
+  private List<UserSurfSpot> userSurfSpots;
 
   @CreationTimestamp
   @Column(updatable = false)
@@ -48,7 +52,4 @@ public class User {
 
   @UpdateTimestamp
   private LocalDateTime modifiedAt;
-
-  @OneToMany(mappedBy = "user")
-  private List<UserSurfSpot> userSurfSpots;
 }

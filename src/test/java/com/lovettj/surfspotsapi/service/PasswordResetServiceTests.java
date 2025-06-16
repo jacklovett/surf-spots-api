@@ -48,7 +48,7 @@ class PasswordResetServiceTests {
     @BeforeEach
     void setUp() {
         testUser = User.builder()
-                .id(1L)
+                .id("test-user-id-123")
                 .email("test@example.com")
                 .name("Test User")
                 .build();

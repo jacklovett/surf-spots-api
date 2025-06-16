@@ -7,12 +7,13 @@ import lombok.Data;
 
 @Data
 public class UserProfile {
-  private Long id;
+  private String id;
   private String name;
   private String email;
   private String country;
   private String city;
   private AuthProvider provider;
+  private SettingsDTO settings;
 
   public UserProfile(User user) {
     id = user.getId();
@@ -21,5 +22,6 @@ public class UserProfile {
     country = user.getCountry();
     city = user.getCity();
     provider = user.getProvider();
+    settings = new SettingsDTO(user.getSettings());
   }
 }
