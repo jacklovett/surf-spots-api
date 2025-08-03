@@ -7,6 +7,7 @@
     "beachBottomType": "Sand",
     "latitude": 36.787,
     "longitude": 3.324,
+    "status": "Approved",
     "region": {
       "id": 1
     }
@@ -19,6 +20,7 @@
     "beachBottomType": "Sand",
     "latitude": 36.898,
     "longitude": 8.429,
+    "status": "Approved",
     "region": {
       "id": 2
     }
@@ -31,18 +33,20 @@
     "beachBottomType": "Sand",
     "latitude": -12.1348,
     "longitude": 13.6881,
+    "status": "Approved",
     "region": {
       "id": 3
     }
   },
   {
     "name": "Praia do Golo",
-    "description": "Quiet beach with fun, consistent waves. A hidden gem along Angola’s coast, perfect for beginners seeking uncrowded waves.",
+    "description": "Quiet beach with fun, consistent waves. A hidden gem along Angola's coast, perfect for beginners seeking uncrowded waves.",
     "type": "Beach Break",
     "skillLevel": "Beginner",
     "beachBottomType": "Sand",
     "latitude": -12.1291,
     "longitude": 13.6917,
+    "status": "Approved",
     "region": {
       "id": 3
     }
@@ -55,6 +59,7 @@
     "beachBottomType": "Sand",
     "latitude": -10.850,
     "longitude": 13.940,
+    "status": "Approved",
     "region": {
       "id": 4
     }
@@ -67,6 +72,7 @@
     "beachBottomType": "Sand",
     "latitude": -11.210,
     "longitude": 13.850,
+    "status": "Approved",
     "region": {
       "id": 4
     }
@@ -79,6 +85,7 @@
     "beachBottomType": "Sand",
     "latitude": -11.200,
     "longitude": 13.830,
+    "status": "Approved",
     "region": {
       "id": 4
     }
@@ -91,6 +98,7 @@
     "beachBottomType": "Sand",
     "latitude": -9.343,
     "longitude": 13.105,
+    "status": "Approved",
     "region": {
       "id": 5
     }
@@ -103,6 +111,7 @@
     "beachBottomType": "Rock",
     "latitude": -8.938,
     "longitude": 13.166,
+    "status": "Approved",
     "region": {
       "id": 5
     }
@@ -115,6 +124,7 @@
     "beachBottomType": "Sand",
     "latitude": -9.651,
     "longitude": 13.120,
+    "status": "Approved",
     "region": {
       "id": 5
     }
@@ -127,8 +137,9 @@
     "beachBottomType": "Sand",
     "latitude": -8.813,
     "longitude": 13.235,
+    "status": "Approved",
     "region": {
-      "id": 5
+      "id": 6
     }
   },
   {
@@ -139,8 +150,9 @@
     "beachBottomType": "Rock",
     "latitude": -8.921,
     "longitude": 13.194,
+    "status": "Approved",
     "region": {
-      "id": 5
+      "id": 6
     }
   },
   {
@@ -151,8 +163,9 @@
     "beachBottomType": "Sand",
     "latitude": -8.924,
     "longitude": 13.163,
+    "status": "Approved",
     "region": {
-      "id": 5
+      "id": 6
     }
   },
   {
@@ -163,8 +176,9 @@
     "beachBottomType": "Rock",
     "latitude": -9.347,
     "longitude": 13.105,
+    "status": "Approved",
     "region": {
-      "id": 5
+      "id": 6
     }
   },
   {
@@ -175,17 +189,20 @@
     "beachBottomType": "Sand",
     "latitude": -6.000,
     "longitude": 12.600,
+    "status": "Approved",
     "region": {
       "id": 6
     }
-  },{
+  },
+  {
     "name": "Praia de Chaves",
-    "description": "Located in the neighbourhood of cabeçadas, on the island of Boa Vista, Praia de Chaves offers a long stretch of sandy beach with clean beach break waves. This spot is known for its mellow, rolling waves, perfect for intermediate surfers looking to enjoy the tranquility of Boa Vista.",
+    "description": "Located in the neighbourhood of cabe├ºadas, on the island of Boa Vista, Praia de Chaves offers a long stretch of sandy beach with clean beach break waves. This spot is known for its mellow, rolling waves, perfect for intermediate surfers looking to enjoy the tranquility of Boa Vista.",
     "type": "Beach Break",
     "skillLevel": "Intermediate",
     "beachBottomType": "Sand",
     "latitude": 16.1074,
     "longitude": -22.9231,
+    "status": "Approved",
     "region": {
       "id": 7
     }
@@ -198,6 +215,7 @@
     "beachBottomType": "Reef",
     "latitude": 16.1655,
     "longitude": -22.9129,
+    "status": "Approved",
     "region": {
       "id": 7
     }
@@ -210,10 +228,12 @@
     "beachBottomType": "Reef",
     "latitude": 16.6197,
     "longitude": -22.8955,
+    "status": "Approved",
     "region": {
       "id": 8
     }
-  },{
+  },
+  {
     "name": "Cocos Beach Praia",
     "description": "Cocos Beach, located on the island of Santiago near the capital city of Praia, is a stunning beach with consistent beach break waves. Its relaxed atmosphere and sandy bottom make it perfect for beginner to intermediate surfers looking for an enjoyable surfing experience in Santiago.",
     "type": "Beach Break",
@@ -221,6 +241,7 @@
     "beachBottomType": "Sand",
     "latitude": 14.9164,
     "longitude": -23.506,
+    "status": "Approved",
     "region": {
       "id": 9
     }
@@ -233,6 +254,7 @@
     "beachBottomType": "Reef",
     "latitude": 14.9225,
     "longitude": -23.5079,
+    "status": "Approved",
     "region": {
       "id": 9
     }
@@ -245,6 +267,7 @@
     "beachBottomType": "Reef",
     "latitude": 38.6429801,
     "longitude": -9.2398383,
+    "status": "Approved",
     "region": {
       "id": 9
     }

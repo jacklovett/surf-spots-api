@@ -58,8 +58,13 @@ public class SurfSpotController {
   }
 
   @GetMapping("/within-bounds")
-  public List<SurfSpotDTO> getSurfSpotsWithinBounds(@RequestBody BoundingBox boundingBox, 
+  public List<SurfSpotDTO> getSurfSpotsWithinBounds(
+          @RequestParam Double minLatitude,
+          @RequestParam Double maxLatitude,
+          @RequestParam Double minLongitude,
+          @RequestParam Double maxLongitude,
           @RequestParam(required = false) String userId) {
+      BoundingBox boundingBox = new BoundingBox(minLatitude, maxLatitude, minLongitude, maxLongitude);
       return surfSpotService.findSurfSpotsWithinBounds(boundingBox, userId);
   }
 
