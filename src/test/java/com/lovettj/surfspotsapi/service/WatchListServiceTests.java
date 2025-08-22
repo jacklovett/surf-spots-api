@@ -2,11 +2,9 @@ package com.lovettj.surfspotsapi.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
@@ -88,8 +85,6 @@ class WatchListServiceTests {
 
     @Test
     void testRemoveSurfSpotFromWishList() {
-        when(userRepository.findById(testUserId)).thenReturn(Optional.of(testUser));
-        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(testSpot));
         when(watchListRepository.findByUserIdAndSurfSpotId(testUserId, 1L))
             .thenReturn(Optional.of(testWatchListEntry));
 
@@ -107,4 +102,4 @@ class WatchListServiceTests {
 
         assertTrue(result);
     }
-} 
+}

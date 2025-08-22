@@ -72,6 +72,10 @@ public class UserService {
     }
 
     public User registerUser(AuthRequest authRequest) {
+        // Validate providerId for non-EMAIL providers
+        if (authRequest.getProvider() != AuthProvider.EMAIL && authRequest.getProviderId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A Provider Id is required for OAuth providers.");
+        }
         Optional<User> existingUser = userRepository.findByEmail(authRequest.getEmail());
 
         if (existingUser.isPresent()) {
@@ -84,7 +88,7 @@ public class UserService {
     private User handleExistingUser(User existingUser, AuthRequest authRequest) {
         if (existingUser.getPassword() != null && authRequest.getProvider() == AuthProvider.EMAIL) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, 
-                "An account with this email already exists. Try signing in.");
+                "An account with this email already exists. Please try signing in.");
         }
 
         if (authRequest.getProvider() != AuthProvider.EMAIL) {

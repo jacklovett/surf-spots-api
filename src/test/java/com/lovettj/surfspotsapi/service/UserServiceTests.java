@@ -202,7 +202,7 @@ class UserServiceTests {
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, 
             () -> userService.registerUser(request));
         
-        assertEquals("An account with this email already exists. Please try signing in instead.", 
+        assertEquals("An account with this email already exists. Please try signing in.", 
             exception.getReason());
     }
 
@@ -244,12 +244,10 @@ class UserServiceTests {
         request.setProvider(AuthProvider.GOOGLE);
         request.setName("Google User");
 
-        doReturn(Optional.empty()).when(userRepository).findByEmail("google@example.com");
-
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
             () -> userService.registerUser(request));
 
-        assertEquals("Provider ID is required for social authentication", exception.getReason());
+        assertEquals("A Provider Id is required for OAuth providers.", exception.getReason());
     }
 
     @Test

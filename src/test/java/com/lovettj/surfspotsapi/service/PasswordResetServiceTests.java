@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 
 import java.time.Instant;
 import java.util.Optional;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,7 +69,7 @@ class PasswordResetServiceTests {
         verify(emailService).sendEmail(eq("test@example.com"),
                 eq("Password Reset Request"),
                 eq("reset-password"),
-                any(Map.class));
+                anyMap());
     }
 
     @Test

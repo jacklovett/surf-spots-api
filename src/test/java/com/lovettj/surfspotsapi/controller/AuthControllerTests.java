@@ -1,8 +1,8 @@
 package com.lovettj.surfspotsapi.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,7 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
+import com.lovettj.surfspotsapi.entity.Settings;
+import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.service.UserService;
 
@@ -42,13 +46,28 @@ class AuthControllerTests {
         authRequest.setProvider(AuthProvider.EMAIL);
         authRequest.setName("Test User");
 
-        doNothing().when(userService).registerUser(any(AuthRequest.class));
+        Settings settings = new Settings();
+        settings.setNewSurfSpotEmails(false);
+
+        User user = new User();
+        user.setId("test-user-id");
+        user.setEmail("test@example.com");
+        user.setSettings(settings);
+
+        when(userService
+        .registerUser(any(AuthRequest.class))).thenReturn(user);
+
+        UserProfile expectedProfile = new UserProfile(user);
+        String expectedJson = objectMapper.writeValueAsString(expectedProfile);
 
         mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(authRequest)))
-                .andExpect(status().isCreated())
-                .andExpect(content().json("{\"message\":\"Account created successfully!\",\"status\":201}"));
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(authRequest)))
+        .andExpect(status().isCreated())
+        .andExpect(content().json(
+            "{\"message\":\"Account created successfully\",\"status\":201,\"success\":true," +
+            "\"data\":" + expectedJson + "}"
+        ));
     }
 
     @Test
@@ -59,13 +78,28 @@ class AuthControllerTests {
         authRequest.setProviderId("google123");
         authRequest.setName("Google User");
 
-        doNothing().when(userService).registerUser(any(AuthRequest.class));
+        Settings settings = new Settings();
+        settings.setNewSurfSpotEmails(false);
+
+        User user = new User();
+        user.setId("test-user-id");
+        user.setEmail("google@example.com");
+        user.setSettings(settings);
+
+        when(userService
+        .registerUser(any(AuthRequest.class))).thenReturn(user);
+
+        UserProfile expectedProfile = new UserProfile(user);
+        String expectedJson = objectMapper.writeValueAsString(expectedProfile);
 
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(authRequest)))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("{\"message\":\"Account created successfully!\",\"status\":201}"));
+                .andExpect(content().json(
+            "{\"message\":\"Account created successfully\",\"status\":201,\"success\":true," +
+            "\"data\":" + expectedJson + "}"
+        ));
     }
 
     @Test
@@ -132,13 +166,13 @@ class AuthControllerTests {
         authRequest.setName("Google User");
 
         doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, 
-            "Provider ID is required for social authentication"))
+            "A Provider Id is required for OAuth providers."))
             .when(userService).registerUser(any(AuthRequest.class));
 
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(authRequest)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().json("{\"message\":\"Provider ID is required for social authentication\",\"status\":400}"));
+                .andExpect(content().json("{\"message\":\"A Provider Id is required for OAuth providers.\",\"status\":400}"));
     }
 } 
