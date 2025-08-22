@@ -1,9 +1,12 @@
 package com.lovettj.surfspotsapi.service;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
@@ -44,78 +47,65 @@ public class SurfSpotServiceTests {
         testUserId = "test-user-id-123";
     }
 
-    @Test
-    public void testGetAllSurfSpots() {
-        List<SurfSpot> mockSurfSpots = Arrays.asList(new SurfSpot(), new SurfSpot());
-        when(surfSpotRepository.findAll()).thenReturn(mockSurfSpots);
-
-        List<SurfSpot> result = surfSpotService.getAllSurfSpots();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        verify(surfSpotRepository).findAll();
-    }
-
-    @Test
-    public void testFindSurfSpotsWithinBounds() {
-        BoundingBox boundingBox = new BoundingBox(10.0, 20.0, 30.0, 40.0);
-
+    // Helper to create a fully populated mock Region (with Country and Continent)
+    private Region createMockRegion() {
         Continent continent = new Continent();
         continent.setName("Africa");
-        
+        continent.setSlug("africa");
         Country country = new Country();
         country.setName("Morocco");
+        country.setSlug("morocco");
         country.setContinent(continent);
-        
         Region region = new Region();
         region.setName("Taghazout");
+        region.setSlug("taghazout");
         region.setCountry(country);
-        
-        SurfSpot spot1 = new SurfSpot();
-        spot1.setRegion(region);
-        
-        SurfSpot spot2 = new SurfSpot();
-        spot2.setRegion(region);
-        
-        List<SurfSpot> mockSurfSpots = Arrays.asList(spot1, spot2);
+        return region;
+    }
 
-        when(surfSpotRepository.findWithinBounds(10.0, 20.0, 30.0, 40.0, testUserId))
-                .thenReturn(mockSurfSpots);
-
-        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsWithinBounds(boundingBox, testUserId);
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        verify(surfSpotRepository).findWithinBounds(10.0, 20.0, 30.0, 40.0, testUserId);
+    // Helper to create a fully populated mock SurfSpot (with Region, Country, Continent)
+    private SurfSpot createMockSurfSpot() {
+        Region region = createMockRegion();
+        SurfSpot spot = new SurfSpot();
+        spot.setName("TestSpot");
+        spot.setRegion(region);
+        spot.setSlug("test-spot");
+        spot.setId(1L);
+        return spot;
     }
 
     @Test
-    public void testFindSurfSpotsByRegionSlug() {
+    public void testFindSurfSpotsWithinBoundsWithFilters() {
+        BoundingBox boundingBox = new BoundingBox(10.0, 20.0, 30.0, 40.0);
+        SurfSpotBoundsFilterDTO filters = new SurfSpotBoundsFilterDTO();
+        filters.setMinLatitude(10.0);
+        filters.setMaxLatitude(20.0);
+        filters.setMinLongitude(30.0);
+        filters.setMaxLongitude(40.0);
+        filters.setUserId(testUserId);
+        SurfSpot spot1 = createMockSurfSpot();
+        SurfSpot spot2 = createMockSurfSpot();
+        List<SurfSpot> mockSurfSpots = Arrays.asList(spot1, spot2);
+        when(surfSpotRepository.findWithinBoundsWithFilters(filters)).thenReturn(mockSurfSpots);
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsWithinBoundsWithFilters(boundingBox, filters);
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        verify(surfSpotRepository).findWithinBoundsWithFilters(filters);
+    }
+
+    @Test
+    public void testFindSurfSpotsByRegionSlugWithFilters() {
         String regionSlug = "region-slug";
-        Continent continent = new Continent();
-        continent.setName("Europe");
-        
-        Country country = new Country();
-        country.setName("Portugal");
-        country.setContinent(continent);
-        
-        Region mockRegion = new Region();
-        mockRegion.setSlug(regionSlug);
-        mockRegion.setCountry(country);
-
-        SurfSpot mockSpot = new SurfSpot();
-        mockSpot.setRegion(mockRegion);
-        List<SurfSpot> mockSurfSpots = Collections.singletonList(mockSpot);
-        
+        Region mockRegion = createMockRegion();
+        List<SurfSpot> mockSurfSpots = Collections.singletonList(createMockSurfSpot());
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
         when(regionRepository.findBySlug(regionSlug)).thenReturn(Optional.of(mockRegion));
-        when(surfSpotRepository.findByRegion(mockRegion, testUserId)).thenReturn(mockSurfSpots);
-
-        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlug(regionSlug, testUserId);
-
+        when(surfSpotRepository.findByRegionWithFilters(mockRegion, filters)).thenReturn(mockSurfSpots);
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters(regionSlug, filters);
         assertNotNull(result);
         assertEquals(1, result.size());
         verify(regionRepository).findBySlug(regionSlug);
-        verify(surfSpotRepository).findByRegion(mockRegion, testUserId);
+        verify(surfSpotRepository).findByRegionWithFilters(mockRegion, filters);
     }
 
     @Test
@@ -126,12 +116,12 @@ public class SurfSpotServiceTests {
         request.setUserId(testUserId);
         request.setRegionId(1L);
 
-        Region mockRegion = new Region();
-        mockRegion.setId(1L);
+        Region mockRegion = createMockRegion();
         when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
 
         SurfSpot mockSurfSpot = new SurfSpot();
         mockSurfSpot.setName(request.getName());
+        mockSurfSpot.setRegion(mockRegion);
         when(surfSpotRepository.save(any(SurfSpot.class))).thenReturn(mockSurfSpot);
 
         SurfSpot result = surfSpotService.createSurfSpot(request);

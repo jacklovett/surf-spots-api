@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
@@ -32,33 +34,14 @@ public class SurfSpotService {
         this.watchListService = watchListService;
     }
 
-    public List<SurfSpot> getAllSurfSpots() {
-        return surfSpotRepository.findAll();
-    }
-
-    public List<SurfSpotDTO> findSurfSpotsWithinBounds(BoundingBox boundingBox, String userId) {
-        List<SurfSpot> surfSpots = surfSpotRepository.findWithinBounds(boundingBox.getMinLatitude(),
-                boundingBox.getMaxLatitude(),
-                boundingBox.getMinLongitude(),
-                boundingBox.getMaxLongitude(), userId);
-        return surfSpots.stream()
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, userId))
-                .toList();
-    }
-
-    public List<SurfSpotDTO> findSurfSpotsByRegionSlug(String slug, String userId) {
-        Region region = regionRepository.findBySlug(slug)
-                .orElseThrow(() -> new EntityNotFoundException("Region not found"));
-        return surfSpotRepository.findByRegion(region, userId).stream().map(surfSpot -> mapToSurfSpotDTO(surfSpot, null)).toList();
-    }
 
     public Optional<SurfSpot> getSurfSpotById(Long id) {
         return surfSpotRepository.findById(id);
     }
 
     public Optional<SurfSpotDTO> findBySlugAndUserId(String slug, String userId) {
-        return surfSpotRepository.findBySlug(slug, userId)
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, userId));
+        Optional<SurfSpot> surfSpot = Optional.ofNullable(surfSpotRepository.findBySlug(slug, userId));
+        return surfSpot.map(sp -> mapToSurfSpotDTO(sp, userId));
     }
 
     public SurfSpot createSurfSpot(SurfSpotRequest surfSpotRequest) {
@@ -125,6 +108,23 @@ public class SurfSpotService {
 
     public void deleteSurfSpot(Long id) {
         surfSpotRepository.deleteById(id);
+    }
+
+    public List<SurfSpotDTO> findSurfSpotsWithinBoundsWithFilters(BoundingBox boundingBox, SurfSpotBoundsFilterDTO filters) {
+        List<SurfSpot> surfSpots = surfSpotRepository.findWithinBoundsWithFilters(
+                filters);
+        return surfSpots.stream()
+                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
+                .toList();
+    }
+
+    public List<SurfSpotDTO> findSurfSpotsByRegionSlugWithFilters(String slug, SurfSpotFilterDTO filters) {
+        Region region = regionRepository.findBySlug(slug)
+                .orElseThrow(() -> new EntityNotFoundException("Region not found"));
+        List<SurfSpot> surfSpots = surfSpotRepository.findByRegionWithFilters(region, filters);
+        return surfSpots.stream()
+                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
+                .toList();
     }
 
     private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId) {

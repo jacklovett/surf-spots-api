@@ -84,7 +84,7 @@ public class WatchListService {
 
         List<SurfSpotDTO> surfSpots = mapToSurfSpotDTO(watchList);
 
-        // TODO: Based on watchList, generate notifications
+        // TODO: Based on watchList, generate real time notifications data
 
         return WatchListDTO.builder()
                 .notifications(Collections.emptyList())

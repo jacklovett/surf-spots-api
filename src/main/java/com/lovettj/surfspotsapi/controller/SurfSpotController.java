@@ -1,12 +1,13 @@
 package com.lovettj.surfspotsapi.controller;
 
+import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,21 +26,14 @@ public class SurfSpotController {
     this.surfSpotService = surfSpotService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<SurfSpot>> getAllSurfSpots() {
-    List<SurfSpot> surfSpots = surfSpotService.getAllSurfSpots();
-    return new ResponseEntity<>(surfSpots, HttpStatus.OK);
-  }
-
-  @GetMapping("/region/{regionSlug}")
-  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegion(@PathVariable String regionSlug,
-          @RequestParam(required = false) String userId) {
-      List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlug(regionSlug, userId);
-  
+  @PostMapping("/region/{regionSlug}")
+  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegionWithFilters(
+          @PathVariable String regionSlug,
+          @RequestBody SurfSpotFilterDTO filters) {
+      List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlugWithFilters(regionSlug, filters);
       if (surfSpots.isEmpty()) {
           return ResponseEntity.notFound().build();
       }
-  
       return ResponseEntity.ok(surfSpots);
   }
 
@@ -57,15 +51,14 @@ public class SurfSpotController {
     return surfSpot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
   }
 
-  @GetMapping("/within-bounds")
-  public List<SurfSpotDTO> getSurfSpotsWithinBounds(
-          @RequestParam Double minLatitude,
-          @RequestParam Double maxLatitude,
-          @RequestParam Double minLongitude,
-          @RequestParam Double maxLongitude,
-          @RequestParam(required = false) String userId) {
-      BoundingBox boundingBox = new BoundingBox(minLatitude, maxLatitude, minLongitude, maxLongitude);
-      return surfSpotService.findSurfSpotsWithinBounds(boundingBox, userId);
+  @PostMapping("/within-bounds")
+  public List<SurfSpotDTO> getSurfSpotsWithinBoundsWithFilters(
+          @RequestBody SurfSpotBoundsFilterDTO boundsFilter) {
+      BoundingBox boundingBox = new BoundingBox(
+          boundsFilter.getMinLatitude(), boundsFilter.getMaxLatitude(),
+          boundsFilter.getMinLongitude(), boundsFilter.getMaxLongitude()
+      );
+      return surfSpotService.findSurfSpotsWithinBoundsWithFilters(boundingBox, boundsFilter);
   }
 
   @PostMapping

@@ -1,25 +1,36 @@
 package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.http.MediaType;
+
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -48,20 +59,16 @@ class SurfSpotControllerTest {
     }
 
     @Test
-    void testGetAllSurfSpots() throws Exception {
-        Mockito.when(surfSpotService.getAllSurfSpots()).thenReturn(Collections.singletonList(new SurfSpot()));
-
-        mockMvc.perform(get("/api/surf-spots")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void testGetSurfSpotsByRegion() throws Exception {
-        Mockito.when(surfSpotService.findSurfSpotsByRegionSlug("oahu", "test-user-id-123")).thenReturn(Collections.singletonList(surfSpotDTO));
-
-        mockMvc.perform(get("/api/surf-spots/region/oahu")
-                .contentType(MediaType.APPLICATION_JSON))
+    void testGetSurfSpotsByRegionWithFilters() throws Exception {
+        SurfSpotDTO surfSpotDTO = SurfSpotDTO.builder().id(1L).name("Pipeline").build();
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setType(Arrays.asList(SurfSpotType.REEF_BREAK)); // Add more filter fields as needed
+        String jsonBody = new ObjectMapper().writeValueAsString(filters);
+        Mockito.when(surfSpotService.findSurfSpotsByRegionSlugWithFilters(Mockito.eq("oahu"), Mockito.any(SurfSpotFilterDTO.class)))
+                .thenReturn(Collections.singletonList(surfSpotDTO));
+        mockMvc.perform(post("/api/surf-spots/region/oahu")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is("Pipeline")));
     }
@@ -96,21 +103,22 @@ class SurfSpotControllerTest {
     }
 
     @Test
-    void testGetSurfSpotsWithinBounds() throws Exception {
-        Mockito.when(surfSpotService.findSurfSpotsWithinBounds(Mockito.any(BoundingBox.class), Mockito.anyString()))
-                .thenReturn(Collections.singletonList(surfSpotDTO));
+    void testGetSurfSpotsWithinBoundsWithFilters() throws Exception {
+        SurfSpotDTO surfSpotDTO = SurfSpotDTO.builder().id(1L).name("Pipeline").build();
+        SurfSpotBoundsFilterDTO filters = new SurfSpotBoundsFilterDTO();
+        filters.setMinLatitude(21.2);
+        filters.setMaxLatitude(21.7);
+        filters.setMinLongitude(-158.1);
+        filters.setMaxLongitude(-157.7);
 
+        filters.setType(Arrays.asList(SurfSpotType.BEACH_BREAK));
+        String jsonBody = new ObjectMapper().writeValueAsString(filters);
+        
+        Mockito.when(surfSpotService.findSurfSpotsWithinBoundsWithFilters(Mockito.any(BoundingBox.class), Mockito.any(SurfSpotBoundsFilterDTO.class)))
+                .thenReturn(Collections.singletonList(surfSpotDTO));
         mockMvc.perform(post("/api/surf-spots/within-bounds")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-            {
-              "minLat": 21.2,
-              "minLng": -158.1,
-              "maxLat": 21.7,
-              "maxLng": -157.7
-            }
-            """)
-                .param("userId", "test-user-id-123"))
+                .content(jsonBody))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name", is("Pipeline")));
     }
@@ -122,6 +130,8 @@ class SurfSpotControllerTest {
                 .name("Pipeline")
                 .description("A famous surf spot.")
                 .type(SurfSpotType.REEF_BREAK)
+                .longitude(0.1)
+                .latitude(0.2)
                 .createdAt(LocalDateTime.now())
                 .modifiedAt(LocalDateTime.now())
                 .build();
