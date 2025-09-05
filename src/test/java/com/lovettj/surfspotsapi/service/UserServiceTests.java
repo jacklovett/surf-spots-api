@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,8 +26,10 @@ import org.springframework.web.server.ResponseStatusException;
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.User;
+import com.lovettj.surfspotsapi.entity.UserAuthProvider;
 import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.repository.UserRepository;
+import com.lovettj.surfspotsapi.repository.UserAuthProviderRepository;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
@@ -39,6 +40,9 @@ class UserServiceTests {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private UserAuthProviderRepository userAuthProviderRepository;
 
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
@@ -56,7 +60,6 @@ class UserServiceTests {
         testUser.setId(testUserId);
         testUser.setEmail("test@example.com");
         testUser.setName("Test User");
-        testUser.setProvider(AuthProvider.EMAIL);
         testUser.setPassword("hashedPassword");
         
         // Initialize settings
@@ -146,22 +149,26 @@ class UserServiceTests {
         request.setName("Google User");
 
         doReturn(Optional.empty()).when(userRepository).findByEmail("google@example.com");
+        doReturn(Optional.empty()).when(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
 
         userService.registerUser(request);
 
         verify(userRepository).findByEmail("google@example.com");
+        verify(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
         verify(userRepository).save(argThat(user -> {
             assertEquals("google@example.com", user.getEmail());
             assertEquals("Google User", user.getName());
-            assertEquals(AuthProvider.GOOGLE, user.getProvider());
-            assertEquals("google123", user.getProviderId());
-            assertNull(user.getPassword());
             assertNotNull(user.getSettings());
             assertTrue(user.getSettings().isNewSurfSpotEmails());
             assertTrue(user.getSettings().isNearbySurfSpotsEmails());
             assertTrue(user.getSettings().isSwellSeasonEmails());
             assertTrue(user.getSettings().isEventEmails());
             assertTrue(user.getSettings().isPromotionEmails());
+            return true;
+        }));
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.GOOGLE, authProvider.getProvider());
+            assertEquals("google123", authProvider.getProviderId());
             return true;
         }));
     }
@@ -175,16 +182,21 @@ class UserServiceTests {
         request.setName("Updated Name");
 
         doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+        doReturn(false).when(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
 
         userService.registerUser(request);
 
         verify(userRepository).findByEmail("test@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.GOOGLE, authProvider.getProvider());
+            assertEquals("google123", authProvider.getProviderId());
+            assertEquals(testUser, authProvider.getUser());
+            return true;
+        }));
+        // User should be saved when name is updated (since testUser already has a name)
         verify(userRepository).save(argThat(user -> {
-            assertEquals("test@example.com", user.getEmail());
             assertEquals("Updated Name", user.getName());
-            assertEquals(AuthProvider.GOOGLE, user.getProvider());
-            assertEquals("google123", user.getProviderId());
-            assertEquals("hashedPassword", user.getPassword()); // Password should remain unchanged
             return true;
         }));
     }
@@ -251,6 +263,163 @@ class UserServiceTests {
     }
 
     @Test
+    void registerUserShouldCreateNewFacebookUser() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("facebook@example.com");
+        request.setProvider(AuthProvider.FACEBOOK);
+        request.setProviderId("facebook123");
+        request.setName("Facebook User");
+
+        doReturn(Optional.empty()).when(userRepository).findByEmail("facebook@example.com");
+        doReturn(Optional.empty()).when(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.FACEBOOK, "facebook123");
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("facebook@example.com");
+        verify(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.FACEBOOK, "facebook123");
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("facebook@example.com", user.getEmail());
+            assertEquals("Facebook User", user.getName());
+            assertNotNull(user.getSettings());
+            assertTrue(user.getSettings().isNewSurfSpotEmails());
+            assertTrue(user.getSettings().isNearbySurfSpotsEmails());
+            assertTrue(user.getSettings().isSwellSeasonEmails());
+            assertTrue(user.getSettings().isEventEmails());
+            assertTrue(user.getSettings().isPromotionEmails());
+            return true;
+        }));
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.FACEBOOK, authProvider.getProvider());
+            assertEquals("facebook123", authProvider.getProviderId());
+            return true;
+        }));
+    }
+
+    @Test
+    void registerUserShouldUpdateExistingUserWithFacebookAuth() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("test@example.com");
+        request.setProvider(AuthProvider.FACEBOOK);
+        request.setProviderId("facebook123");
+        request.setName("Updated Name");
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+        doReturn(false).when(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.FACEBOOK);
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("test@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.FACEBOOK);
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.FACEBOOK, authProvider.getProvider());
+            assertEquals("facebook123", authProvider.getProviderId());
+            assertEquals(testUser, authProvider.getUser());
+            return true;
+        }));
+        // User should be saved when name is updated (since testUser already has a name)
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("Updated Name", user.getName());
+            return true;
+        }));
+    }
+
+    @Test
+    void registerUserShouldNotAddDuplicateProvider() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("test@example.com");
+        request.setProvider(AuthProvider.GOOGLE);
+        request.setProviderId("google123");
+        request.setName("Updated Name");
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+        doReturn(true).when(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("test@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
+        // Should not save new auth provider since it already exists
+        verify(userAuthProviderRepository, times(0)).save(any(UserAuthProvider.class));
+        // Should still update user name if provided
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("Updated Name", user.getName());
+            return true;
+        }));
+    }
+
+    @Test
+    void registerUserShouldAddProviderToUserWithoutName() {
+        // Create a user without a name
+        User userWithoutName = new User();
+        userWithoutName.setId("user-no-name");
+        userWithoutName.setEmail("noname@example.com");
+        userWithoutName.setName(null); // No name
+        userWithoutName.setPassword("hashedPassword");
+
+        AuthRequest request = new AuthRequest();
+        request.setEmail("noname@example.com");
+        request.setProvider(AuthProvider.FACEBOOK);
+        request.setProviderId("facebook123");
+        request.setName("New Name");
+
+        doReturn(Optional.of(userWithoutName)).when(userRepository).findByEmail("noname@example.com");
+        doReturn(false).when(userAuthProviderRepository).existsByUserIdAndProvider("user-no-name", AuthProvider.FACEBOOK);
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("noname@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider("user-no-name", AuthProvider.FACEBOOK);
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.FACEBOOK, authProvider.getProvider());
+            assertEquals("facebook123", authProvider.getProviderId());
+            assertEquals(userWithoutName, authProvider.getUser());
+            return true;
+        }));
+        // User should be saved when name is provided for user without name
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("New Name", user.getName());
+            return true;
+        }));
+    }
+
+    @Test
+    void registerUserShouldThrowWhenProviderIdMissingForFacebookProvider() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("facebook@example.com");
+        request.setProvider(AuthProvider.FACEBOOK);
+        request.setName("Facebook User");
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+            () -> userService.registerUser(request));
+
+        assertEquals("A Provider Id is required for OAuth providers.", exception.getReason());
+    }
+
+    @Test
+    void registerUserShouldReturnExistingUserWhenOAuthProviderExists() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("new@example.com");
+        request.setProvider(AuthProvider.GOOGLE);
+        request.setProviderId("google123");
+        request.setName("New User");
+
+        UserAuthProvider existingAuthProvider = new UserAuthProvider();
+        existingAuthProvider.setUser(testUser);
+        existingAuthProvider.setProvider(AuthProvider.GOOGLE);
+        existingAuthProvider.setProviderId("google123");
+
+        doReturn(Optional.of(existingAuthProvider)).when(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
+
+        User result = userService.registerUser(request);
+
+        assertEquals(testUser, result);
+        verify(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
+        // Should not check email or create new user since OAuth provider already exists
+        verify(userRepository, times(0)).findByEmail(anyString());
+        verify(userRepository, times(0)).save(any(User.class));
+    }
+
+    @Test
     void loginUserShouldReturnUserWithValidCredentials() {
         // First verify testUser has the password we expect
         assertEquals("hashedPassword", testUser.getPassword());
@@ -308,5 +477,132 @@ class UserServiceTests {
 
         userService.updateSettings(request);
         verify(userRepository).save(any(User.class));
+    }
+
+
+
+
+
+    @Test
+    void registerUserShouldHandleExistingUserWithNoPasswordAddingOAuth() {
+        // Create a user that exists but has no password (OAuth user)
+        User oauthUser = new User();
+        oauthUser.setId("oauth-user");
+        oauthUser.setEmail("oauth@example.com");
+        oauthUser.setName("OAuth User");
+        oauthUser.setPassword(null); // No password
+
+        AuthRequest request = new AuthRequest();
+        request.setEmail("oauth@example.com");
+        request.setProvider(AuthProvider.FACEBOOK);
+        request.setProviderId("facebook123");
+        request.setName("Updated OAuth User");
+
+        doReturn(Optional.of(oauthUser)).when(userRepository).findByEmail("oauth@example.com");
+        doReturn(false).when(userAuthProviderRepository).existsByUserIdAndProvider("oauth-user", AuthProvider.FACEBOOK);
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("oauth@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider("oauth-user", AuthProvider.FACEBOOK);
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.FACEBOOK, authProvider.getProvider());
+            assertEquals("facebook123", authProvider.getProviderId());
+            assertEquals(oauthUser, authProvider.getUser());
+            return true;
+        }));
+        // User should be saved when name is updated
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("Updated OAuth User", user.getName());
+            return true;
+        }));
+    }
+
+    @Test
+    void registerUserShouldHandleExistingUserWithPasswordAddingOAuth() {
+        // Create a user that exists with password (email user)
+        User emailUser = new User();
+        emailUser.setId("email-user");
+        emailUser.setEmail("email@example.com");
+        emailUser.setName("Email User");
+        emailUser.setPassword("hashedPassword");
+
+        AuthRequest request = new AuthRequest();
+        request.setEmail("email@example.com");
+        request.setProvider(AuthProvider.GOOGLE);
+        request.setProviderId("google123");
+        request.setName("Updated Email User");
+
+        doReturn(Optional.of(emailUser)).when(userRepository).findByEmail("email@example.com");
+        doReturn(false).when(userAuthProviderRepository).existsByUserIdAndProvider("email-user", AuthProvider.GOOGLE);
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("email@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider("email-user", AuthProvider.GOOGLE);
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.GOOGLE, authProvider.getProvider());
+            assertEquals("google123", authProvider.getProviderId());
+            assertEquals(emailUser, authProvider.getUser());
+            return true;
+        }));
+        // User should be saved when name is updated
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("Updated Email User", user.getName());
+            return true;
+        }));
+    }
+
+    @Test
+    void registerUserShouldNotUpdateNameWhenUserAlreadyHasName() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("test@example.com");
+        request.setProvider(AuthProvider.GOOGLE);
+        request.setProviderId("google123");
+        request.setName("New Name"); // Different name
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+        doReturn(false).when(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("test@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.GOOGLE, authProvider.getProvider());
+            assertEquals("google123", authProvider.getProviderId());
+            assertEquals(testUser, authProvider.getUser());
+            return true;
+        }));
+        // User should be saved when name is updated (since testUser already has a name)
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("New Name", user.getName());
+            return true;
+        }));
+    }
+
+    @Test
+    void registerUserShouldHandleEmptyNameInRequest() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("test@example.com");
+        request.setProvider(AuthProvider.GOOGLE);
+        request.setProviderId("google123");
+        request.setName(""); // Empty name
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+        doReturn(false).when(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
+
+        userService.registerUser(request);
+
+        verify(userRepository).findByEmail("test@example.com");
+        verify(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
+        verify(userAuthProviderRepository).save(argThat(authProvider -> {
+            assertEquals(AuthProvider.GOOGLE, authProvider.getProvider());
+            assertEquals("google123", authProvider.getProviderId());
+            assertEquals(testUser, authProvider.getUser());
+            return true;
+        }));
+        // User should not be saved since name is empty and testUser already has a name
+        verify(userRepository, times(0)).save(any(User.class));
     }
 }

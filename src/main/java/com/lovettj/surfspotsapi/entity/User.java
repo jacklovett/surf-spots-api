@@ -31,10 +31,6 @@ public class User {
 
   private String name;
   private String password;
-  private String providerId;
-
-  @Enumerated(EnumType.STRING)
-  private AuthProvider provider;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "settings_id")

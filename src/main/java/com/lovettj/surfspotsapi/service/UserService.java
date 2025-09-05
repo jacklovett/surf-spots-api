@@ -9,8 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.User;
+import com.lovettj.surfspotsapi.entity.UserAuthProvider;
 import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
+import com.lovettj.surfspotsapi.repository.UserAuthProviderRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
@@ -24,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final UserAuthProviderRepository userAuthProviderRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public Optional<UserProfile> getUserProfile(String userId) {
@@ -72,54 +74,93 @@ public class UserService {
     }
 
     public User registerUser(AuthRequest authRequest) {
-        // Validate providerId for non-EMAIL providers
-        if (authRequest.getProvider() != AuthProvider.EMAIL && authRequest.getProviderId() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A Provider Id is required for OAuth providers.");
+        boolean isOAuthProvider = authRequest.getProvider() != AuthProvider.EMAIL;
+        
+        if (isOAuthProvider) {
+            // Validate providerId for OAuth providers
+            if (authRequest.getProviderId() == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A Provider Id is required for OAuth providers.");
+            }
+            
+            // Check if this provider+providerId combination already exists
+            Optional<UserAuthProvider> existingProvider = userAuthProviderRepository
+                .findByProviderAndProviderId(authRequest.getProvider(), authRequest.getProviderId());
+            if (existingProvider.isPresent()) {
+                // User already exists with this OAuth provider
+                return existingProvider.get().getUser();
+            }
         }
+        
         Optional<User> existingUser = userRepository.findByEmail(authRequest.getEmail());
 
         if (existingUser.isPresent()) {
-            return handleExistingUser(existingUser.get(), authRequest);
+            return handleExistingUser(existingUser.get(), authRequest, isOAuthProvider);
         } else {
-           return createNewUser(authRequest);
+           return createNewUser(authRequest, isOAuthProvider);
         }
     }
 
-    private User handleExistingUser(User existingUser, AuthRequest authRequest) {
-        if (existingUser.getPassword() != null && authRequest.getProvider() == AuthProvider.EMAIL) {
+    private User handleExistingUser(User existingUser, AuthRequest authRequest, boolean isOAuthProvider) {
+        if (existingUser.getPassword() != null && !isOAuthProvider) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, 
                 "An account with this email already exists. Please try signing in.");
         }
 
-        if (authRequest.getProvider() != AuthProvider.EMAIL) {
-            return updateProviderDetails(existingUser, authRequest);
+        if (isOAuthProvider) {
+            return addProviderToExistingUser(existingUser, authRequest);
         } else {
             setUserPassword(existingUser, authRequest.getPassword());
             return userRepository.save(existingUser);
         }
     }
 
-    private User updateProviderDetails(User user, AuthRequest authRequest) {
-        user.setProvider(authRequest.getProvider());
-        user.setProviderId(authRequest.getProviderId());
-        if (authRequest.getName() != null) {
-            user.setName(authRequest.getName());
+    private User addProviderToExistingUser(User user, AuthRequest authRequest) {
+        // Check if user already has this provider
+        if (userAuthProviderRepository.existsByUserIdAndProvider(user.getId(), authRequest.getProvider())) {
+            // User already has this provider, just return the user
+            return user;
         }
-        return userRepository.save(user);
+        
+        // Add new provider to existing user
+        UserAuthProvider newProvider = UserAuthProvider.builder()
+            .user(user)
+            .provider(authRequest.getProvider())
+            .providerId(authRequest.getProviderId())
+            .build();
+        
+        userAuthProviderRepository.save(newProvider);
+        
+        // Update user name if provided and user doesn't have a name
+        if (authRequest.getName() != null && (user.getName() == null || user.getName().trim().isEmpty())) {
+            user.setName(authRequest.getName());
+            userRepository.save(user);
+        }
+        
+        return user;
     }
 
-    private User createNewUser(AuthRequest authRequest) {
+    private User createNewUser(AuthRequest authRequest, boolean isOAuthProvider) {
         User newUser = createUserFromRequest(authRequest);
         setupUserSettings(newUser);
-        return userRepository.save(newUser);
+        newUser = userRepository.save(newUser);
+        
+        // Add the auth provider to the new user
+        if (isOAuthProvider) {
+            UserAuthProvider authProvider = UserAuthProvider.builder()
+                .user(newUser)
+                .provider(authRequest.getProvider())
+                .providerId(authRequest.getProviderId())
+                .build();
+            userAuthProviderRepository.save(authProvider);
+        }
+        
+        return newUser;
     }
 
     private User createUserFromRequest(AuthRequest authRequest) {
         User newUser = new User();
         newUser.setEmail(authRequest.getEmail());
         newUser.setName(authRequest.getName());
-        newUser.setProvider(authRequest.getProvider());
-        newUser.setProviderId(authRequest.getProviderId());
         
         if (authRequest.getProvider() == AuthProvider.EMAIL) {
             setUserPassword(newUser, authRequest.getPassword());
@@ -166,4 +207,5 @@ public class UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
+    
 }
