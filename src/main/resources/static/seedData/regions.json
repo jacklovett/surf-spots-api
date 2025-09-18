@@ -605,5 +605,25 @@
     "name": "Uad Guenifa",
     "country": { "id": 25 },
     "description": "Uad Guenifa is a hidden gem for surfers, offering beautiful beaches and consistent waves in a tranquil setting."
+},
+{
+    "name": "California",
+    "country": { "id": 26 },
+    "description": "California offers world-class surf spots from Malibu to Mavericks, with consistent waves and vibrant surf culture."
+},
+{
+    "name": "Hawaii",
+    "country": { "id": 26 },
+    "description": "Hawaii is the birthplace of surfing, home to legendary breaks like Pipeline and Waimea Bay."
+},
+{
+    "name": "Queensland",
+    "country": { "id": 27 },
+    "description": "Queensland features the famous Gold Coast and Sunshine Coast with world-class point breaks and consistent waves."
+},
+{
+    "name": "New South Wales",
+    "country": { "id": 27 },
+    "description": "New South Wales is home to Sydney's famous beaches and the iconic Bondi Beach with consistent waves year-round."
 }
 ]

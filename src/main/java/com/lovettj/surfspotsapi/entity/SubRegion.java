@@ -16,7 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Region extends SluggableEntity {
+public class SubRegion extends SluggableEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -27,15 +27,12 @@ public class Region extends SluggableEntity {
   private String description;
 
   @ManyToOne
-  @JoinColumn(name = "country_id")
+  @JoinColumn(name = "region_id")
   @JsonBackReference
-  private Country country;
+  private Region region;
 
-  @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
-  @JsonManagedReference("surfSpot-region")
+  @OneToMany(mappedBy = "subRegion", cascade = CascadeType.ALL)
+  @JsonManagedReference("surfSpot-subRegion")
   private List<SurfSpot> surfSpots;
-
-  @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
-  @JsonManagedReference
-  private List<SubRegion> subRegions;
 }
+

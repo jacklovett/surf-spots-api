@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.net.URI;
 
 import jakarta.validation.Valid;
+import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/surf-spots")
@@ -30,11 +31,30 @@ public class SurfSpotController {
   public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegionWithFilters(
           @PathVariable String regionSlug,
           @RequestBody SurfSpotFilterDTO filters) {
-      List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlugWithFilters(regionSlug, filters);
-      if (surfSpots.isEmpty()) {
-          return ResponseEntity.notFound().build();
+      try {
+          List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlugWithFilters(regionSlug, filters);
+          if (surfSpots.isEmpty()) {
+              return ResponseEntity.notFound().build();
+          }
+          return ResponseEntity.ok(surfSpots);
+      } catch (EntityNotFoundException e) {
+          return ResponseEntity.status(500).build();
       }
-      return ResponseEntity.ok(surfSpots);
+  }
+
+  @PostMapping("/sub-region/{subRegionSlug}")
+  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsBySubRegionWithFilters(
+          @PathVariable String subRegionSlug,
+          @RequestBody SurfSpotFilterDTO filters) {
+      try {
+          List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(subRegionSlug, filters);
+          if (surfSpots.isEmpty()) {
+              return ResponseEntity.notFound().build();
+          }
+          return ResponseEntity.ok(surfSpots);
+      } catch (EntityNotFoundException e) {
+          return ResponseEntity.status(500).build();
+      }
   }
 
   @GetMapping("/{slug}")

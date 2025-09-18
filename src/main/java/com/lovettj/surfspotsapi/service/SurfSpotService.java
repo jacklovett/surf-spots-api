@@ -13,6 +13,7 @@ import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
+import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
@@ -24,12 +25,14 @@ public class SurfSpotService {
 
     private final SurfSpotRepository surfSpotRepository;
     private final RegionRepository regionRepository;
+    private final SubRegionRepository subRegionRepository;
     private final UserSurfSpotService userSurfSpotService;
     private final WatchListService watchListService;
 
-    public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository, UserSurfSpotService userSurfSpotService, WatchListService watchListService) {
+    public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository, SubRegionRepository subRegionRepository, UserSurfSpotService userSurfSpotService, WatchListService watchListService) {
         this.surfSpotRepository = surfSpotRepository;
         this.regionRepository = regionRepository;
+        this.subRegionRepository = subRegionRepository;
         this.userSurfSpotService = userSurfSpotService;
         this.watchListService = watchListService;
     }
@@ -127,6 +130,15 @@ public class SurfSpotService {
                 .toList();
     }
 
+    public List<SurfSpotDTO> findSurfSpotsBySubRegionSlugWithFilters(String slug, SurfSpotFilterDTO filters) {
+        SubRegion subRegion = subRegionRepository.findBySlug(slug)
+                .orElseThrow(() -> new EntityNotFoundException("SubRegion not found"));
+        List<SurfSpot> surfSpots = surfSpotRepository.findBySubRegionWithFilters(subRegion, filters);
+        return surfSpots.stream()
+                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
+                .toList();
+    }
+
     private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId) {
         SurfSpotDTO surfSpotDTO = new SurfSpotDTO(surfSpot);
         surfSpotDTO.setPath(generateSurfSpotPath(surfSpot));
@@ -148,10 +160,19 @@ public class SurfSpotService {
         Country country = region.getCountry();
         Continent continent = country.getContinent();
 
-        return String.format("/surf-spots/%s/%s/%s/%s",
-                continent.getSlug(),
-                country.getSlug(),
-                region.getSlug(),
-                surfSpot.getSlug());
+        if (surfSpot.getSubRegion() != null) {
+            return String.format("/surf-spots/%s/%s/%s/sub-regions/%s/%s",
+                    continent.getSlug(),
+                    country.getSlug(),
+                    region.getSlug(),
+                    surfSpot.getSubRegion().getSlug(),
+                    surfSpot.getSlug());
+        } else {
+            return String.format("/surf-spots/%s/%s/%s/%s",
+                    continent.getSlug(),
+                    country.getSlug(),
+                    region.getSlug(),
+                    surfSpot.getSlug());
+        }
     }
 }

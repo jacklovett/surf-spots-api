@@ -13,6 +13,7 @@ import java.util.List;
 import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.Region;
+import com.lovettj.surfspotsapi.entity.SubRegion;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 
 @Repository
@@ -28,6 +29,23 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(cb.equal(root.get("region"), region));
+        // Only include surf spots that don't belong to a sub-region
+        predicates.add(cb.isNull(root.get("subRegion")));
+        addCommonPredicates(cb, root, predicates, filters);
+        addPrivateSpotsFilters(cb, root, predicates, filters.getUserId());
+
+        cq.where(predicates.toArray(new Predicate[0]));
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<SurfSpot> findBySubRegionWithFilters(SubRegion subRegion, SurfSpotFilterDTO filters) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<SurfSpot> cq = cb.createQuery(SurfSpot.class);
+        Root<SurfSpot> root = cq.from(SurfSpot.class);
+        
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.equal(root.get("subRegion"), subRegion));
         addCommonPredicates(cb, root, predicates, filters);
         addPrivateSpotsFilters(cb, root, predicates, filters.getUserId());
 

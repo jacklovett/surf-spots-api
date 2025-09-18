@@ -32,13 +32,15 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.Arrays;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class SurfSpotControllerTest {
+class SurfSpotControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -59,7 +61,7 @@ class SurfSpotControllerTest {
     }
 
     @Test
-    void testGetSurfSpotsByRegionWithFilters() throws Exception {
+    void testGetSurfSpotsByRegionWithFiltersShouldReturnFilteredSpots() throws Exception {
         SurfSpotDTO surfSpotDTO = SurfSpotDTO.builder().id(1L).name("Pipeline").build();
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
         filters.setType(Arrays.asList(SurfSpotType.REEF_BREAK)); // Add more filter fields as needed
@@ -74,17 +76,18 @@ class SurfSpotControllerTest {
     }
 
     @Test
-    void testGetSurfSpotBySlug() throws Exception {
+    void testGetSurfSpotBySlugShouldReturnSurfSpot() throws Exception {
         Mockito.when(surfSpotService.findBySlugAndUserId("pipeline", "test-user-id-123")).thenReturn(Optional.of(surfSpotDTO));
 
         mockMvc.perform(get("/api/surf-spots/pipeline")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("userId", "test-user-id-123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Pipeline")));
     }
 
     @Test
-    void testGetSurfSpotById() throws Exception {
+    void testGetSurfSpotByIdShouldReturnSurfSpot() throws Exception {
         SurfSpot surfSpot = SurfSpot.builder()
                 .id(1L)
                 .name("Pipeline")
@@ -103,7 +106,7 @@ class SurfSpotControllerTest {
     }
 
     @Test
-    void testGetSurfSpotsWithinBoundsWithFilters() throws Exception {
+    void testGetSurfSpotsWithinBoundsWithFiltersShouldReturnFilteredSpots() throws Exception {
         SurfSpotDTO surfSpotDTO = SurfSpotDTO.builder().id(1L).name("Pipeline").build();
         SurfSpotBoundsFilterDTO filters = new SurfSpotBoundsFilterDTO();
         filters.setMinLatitude(21.2);
@@ -124,7 +127,7 @@ class SurfSpotControllerTest {
     }
 
     @Test
-    void testCreateSurfSpot() throws Exception {
+    void testCreateSurfSpotShouldReturnCreatedSurfSpot() throws Exception {
         SurfSpot surfSpot = SurfSpot.builder()
                 .id(1L)
                 .name("Pipeline")
@@ -144,16 +147,16 @@ class SurfSpotControllerTest {
             {
               "name": "Pipeline",
               "description": "A famous surf spot.",
-              "type": "Reef Break",
+              "type": "Reef Break"
             }
             """)
                 .param("userId", "test-user-id-123"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Pipeline")));
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/surf-spots/1"));
     }
 
     @Test
-    void testUpdateSurfSpot() throws Exception {
+    void testUpdateSurfSpotShouldReturnUpdatedSurfSpot() throws Exception {
         SurfSpot updatedSurfSpot = SurfSpot.builder()
                 .id(1L)
                 .name("Updated Pipeline")
@@ -181,7 +184,7 @@ class SurfSpotControllerTest {
     }
 
     @Test
-    void testDeleteSurfSpot() throws Exception {
+    void testDeleteSurfSpotShouldReturnNoContent() throws Exception {
         Mockito.doNothing().when(surfSpotService).deleteSurfSpot(1L);
 
         mockMvc.perform(delete("/api/surf-spots/1")
@@ -190,5 +193,73 @@ class SurfSpotControllerTest {
                 .andExpect(status().isNoContent());
 
         Mockito.verify(surfSpotService, Mockito.times(1)).deleteSurfSpot(1L);
+    }
+
+    @Test
+    void testGetSurfSpotsBySubRegionWithFiltersShouldReturnFilteredSpots() throws Exception {
+        // Arrange
+        String subRegionSlug = "test-sub-region";
+        SurfSpotDTO surfSpotDTO1 = SurfSpotDTO.builder()
+                .id(1L)
+                .name("Test Surf Spot 1")
+                .path("/surf-spots/north-america/united-states/california/test-sub-region/test-surf-spot-1")
+                .build();
+        
+        SurfSpotDTO surfSpotDTO2 = SurfSpotDTO.builder()
+                .id(2L)
+                .name("Test Surf Spot 2")
+                .path("/surf-spots/north-america/united-states/california/test-sub-region/test-surf-spot-2")
+                .build();
+        
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setUserId("user123");
+        String jsonBody = new ObjectMapper().writeValueAsString(filters);
+        
+        Mockito.when(surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(Mockito.eq(subRegionSlug), Mockito.any(SurfSpotFilterDTO.class)))
+                .thenReturn(Arrays.asList(surfSpotDTO1, surfSpotDTO2));
+
+        // Act & Assert
+        mockMvc.perform(post("/api/surf-spots/sub-region/" + subRegionSlug)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is("Test Surf Spot 1")))
+                .andExpect(jsonPath("$[1].name", is("Test Surf Spot 2")));
+    }
+
+    @Test
+    void testGetSurfSpotsBySubRegionWithFiltersShouldReturnNotFoundWhenSubRegionHasNoSurfSpots() throws Exception {
+        // Arrange
+        String subRegionSlug = "test-sub-region";
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setUserId("user123");
+        String jsonBody = new ObjectMapper().writeValueAsString(filters);
+        
+        Mockito.when(surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(Mockito.eq(subRegionSlug), Mockito.any(SurfSpotFilterDTO.class)))
+                .thenReturn(Arrays.asList());
+
+        // Act & Assert
+        mockMvc.perform(post("/api/surf-spots/sub-region/" + subRegionSlug)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testGetSurfSpotsBySubRegionWithFiltersShouldThrowExceptionWhenSubRegionDoesNotExist() throws Exception {
+        // Arrange
+        String subRegionSlug = "non-existent-sub-region";
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setUserId("user123");
+        String jsonBody = new ObjectMapper().writeValueAsString(filters);
+        
+        Mockito.when(surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(Mockito.eq(subRegionSlug), Mockito.any(SurfSpotFilterDTO.class)))
+                .thenThrow(new EntityNotFoundException("SubRegion not found"));
+
+        // Act & Assert
+        mockMvc.perform(post("/api/surf-spots/sub-region/" + subRegionSlug)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isInternalServerError());
     }
 }
