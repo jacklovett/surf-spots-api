@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lovettj.surfspotsapi.requests.UserSurfSpotRequest;
+import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.UserSurfSpotService;
 
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
@@ -24,15 +25,15 @@ public class UserSurfSpotController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addUserSurfSpot(@RequestBody UserSurfSpotRequest request) {
+    public ResponseEntity<ApiResponse<String>> addUserSurfSpot(@RequestBody UserSurfSpotRequest request) {
         userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
-        return ResponseEntity.ok("Surf spot added to user’s list.");
+        return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's list."));
     }
 
     @DeleteMapping("/{userId}/remove/{spotId}")
-    public ResponseEntity<String> removeUserSurfSpot(@PathVariable String userId, @PathVariable Long spotId) {
+    public ResponseEntity<ApiResponse<String>> removeUserSurfSpot(@PathVariable String userId, @PathVariable Long spotId) {
         userSurfSpotService.removeUserSurfSpot(userId, spotId);
-        return ResponseEntity.ok("Surf spot removed from user’s list.");
+        return ResponseEntity.ok(ApiResponse.success("Surf spot removed from user's list."));
     }
 
     @PostMapping("/{userId}/toggle-favourite/{spotId}")

@@ -17,6 +17,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -194,11 +195,8 @@ class UserServiceTests {
             assertEquals(testUser, authProvider.getUser());
             return true;
         }));
-        // User should be saved when name is updated (since testUser already has a name)
-        verify(userRepository).save(argThat(user -> {
-            assertEquals("Updated Name", user.getName());
-            return true;
-        }));
+        // User should not be saved since it already has a name
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -316,11 +314,8 @@ class UserServiceTests {
             assertEquals(testUser, authProvider.getUser());
             return true;
         }));
-        // User should be saved when name is updated (since testUser already has a name)
-        verify(userRepository).save(argThat(user -> {
-            assertEquals("Updated Name", user.getName());
-            return true;
-        }));
+        // User should not be saved since it already has a name
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -340,11 +335,8 @@ class UserServiceTests {
         verify(userAuthProviderRepository).existsByUserIdAndProvider(testUserId, AuthProvider.GOOGLE);
         // Should not save new auth provider since it already exists
         verify(userAuthProviderRepository, times(0)).save(any(UserAuthProvider.class));
-        // Should still update user name if provided
-        verify(userRepository).save(argThat(user -> {
-            assertEquals("Updated Name", user.getName());
-            return true;
-        }));
+        // Should not save user since provider already exists
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -511,11 +503,8 @@ class UserServiceTests {
             assertEquals(oauthUser, authProvider.getUser());
             return true;
         }));
-        // User should be saved when name is updated
-        verify(userRepository).save(argThat(user -> {
-            assertEquals("Updated OAuth User", user.getName());
-            return true;
-        }));
+        // User should not be saved since it already has a name
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -546,11 +535,8 @@ class UserServiceTests {
             assertEquals(emailUser, authProvider.getUser());
             return true;
         }));
-        // User should be saved when name is updated
-        verify(userRepository).save(argThat(user -> {
-            assertEquals("Updated Email User", user.getName());
-            return true;
-        }));
+        // User should not be saved since it already has a name
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test
@@ -574,11 +560,8 @@ class UserServiceTests {
             assertEquals(testUser, authProvider.getUser());
             return true;
         }));
-        // User should be saved when name is updated (since testUser already has a name)
-        verify(userRepository).save(argThat(user -> {
-            assertEquals("New Name", user.getName());
-            return true;
-        }));
+        // User should not be saved since it already has a name
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test

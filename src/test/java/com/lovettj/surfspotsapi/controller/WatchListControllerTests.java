@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
-import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.service.WatchListService;
@@ -48,7 +47,6 @@ class WatchListControllerTests {
         testUser.setId(testUserId);
         testUser.setEmail("test@example.com");
         testUser.setName("Test User");
-        testUser.setProvider(AuthProvider.EMAIL);
 
         testSpot = new SurfSpot();
         testSpot.setId(1L);
@@ -56,8 +54,16 @@ class WatchListControllerTests {
     }
 
     @Test
+    void testAddWatchListSurfSpotShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
+        mockMvc.perform(post("/api/watch")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"userId\": \"" + testUserId + "\", \"surfSpotId\": 1}"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     @WithMockUser
-    void testAddWatchListSurfSpot() throws Exception {
+    void testAddWatchListSurfSpotShouldReturnOkWhenAuthenticated() throws Exception {
         doNothing().when(watchListService).addSurfSpotToWatchList(anyString(), anyLong());
 
         mockMvc.perform(post("/api/watch")
@@ -67,8 +73,14 @@ class WatchListControllerTests {
     }
 
     @Test
+    void testGetUsersWatchListShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
+        mockMvc.perform(get("/api/watch/" + testUserId))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     @WithMockUser
-    void testGetUsersWatchList() throws Exception {
+    void testGetUsersWatchListShouldReturnOkWhenAuthenticated() throws Exception {
         List<SurfSpotDTO> spots = new ArrayList<>();
         spots.add(SurfSpotDTO.builder()
             .id(1L)
@@ -85,7 +97,7 @@ class WatchListControllerTests {
 
     @Test
     @WithMockUser
-    void testGetUsersWatchListEmptyLists() throws Exception {
+    void testGetUsersWatchListShouldReturnOkWhenAuthenticatedWithEmptyLists() throws Exception {
         when(watchListService.getUsersWatchList(anyString())).thenReturn(WatchListDTO.builder()
             .surfSpots(new ArrayList<>())
             .notifications(new ArrayList<>())
@@ -96,8 +108,14 @@ class WatchListControllerTests {
     }
 
     @Test
+    void testRemoveWatchListSurfSpotShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
+        mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/1"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     @WithMockUser
-    void testRemoveWatchListSurfSpot() throws Exception {
+    void testRemoveWatchListSurfSpotShouldReturnOkWhenAuthenticated() throws Exception {
         doNothing().when(watchListService).removeSurfSpotFromWishList(anyString(), anyLong());
 
         mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/1"))
@@ -105,9 +123,17 @@ class WatchListControllerTests {
     }
 
     @Test
-    @WithMockUser
-    void testRemoveWatchListSurfSpotInvalidIds() throws Exception {
+    void testRemoveWatchListSurfSpotWithInvalidIdsShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
         mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/abc"))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser
+    void testRemoveWatchListSurfSpotWithInvalidIdsShouldReturnBadRequestWhenAuthenticated() throws Exception {
+        String invalidUserId = "invalid-user-id";
+
+        mockMvc.perform(delete("/api/watch/" + invalidUserId + "/remove/abc@#$"))
             .andExpect(status().isBadRequest());
     }
 }

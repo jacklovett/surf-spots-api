@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
 import com.lovettj.surfspotsapi.requests.UserSurfSpotRequest;
+import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.WatchListService;
 
 @RestController
@@ -22,14 +23,14 @@ public class WatchListController {
   }
 
   @PostMapping
-  public ResponseEntity<String> addSurfSpotToWatchList(@RequestBody UserSurfSpotRequest request) {
+  public ResponseEntity<ApiResponse<String>> addSurfSpotToWatchList(@RequestBody UserSurfSpotRequest request) {
     watchListService.addSurfSpotToWatchList(request.getUserId(), request.getSurfSpotId());
-    return ResponseEntity.ok("Surf spot added to user’s watch list.");
+    return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's watch list."));
   }
 
   @DeleteMapping("/{userId}/remove/{spotId}")
-  public ResponseEntity<String> removeWatchListSurfSpot(@PathVariable String userId, @PathVariable Long spotId) {
+  public ResponseEntity<ApiResponse<String>> removeWatchListSurfSpot(@PathVariable String userId, @PathVariable Long spotId) {
     watchListService.removeSurfSpotFromWishList(userId, spotId);
-    return ResponseEntity.ok("Surf spot removed from user’s watch list.");
+    return ResponseEntity.ok(ApiResponse.success("Surf spot removed from user's watch list."));
   }
 }
