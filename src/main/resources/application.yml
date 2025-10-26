@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev # Default to dev profile for local development
   datasource:
     url: jdbc:postgresql://localhost:5432/surf_spots_db
     username: postgres
@@ -9,8 +11,6 @@ spring:
       hibernate:
         default_schema: public
     show-sql: true
-    hibernate:
-      ddl-auto: update
   mail:
     host: smtp.scaleway.com
     port: 587

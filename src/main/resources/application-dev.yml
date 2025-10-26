@@ -1,0 +1,8 @@
+# Development profile - for local development
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update # Hibernate automatically updates schema
+  flyway:
+    enabled: false # Disable Flyway in development
+

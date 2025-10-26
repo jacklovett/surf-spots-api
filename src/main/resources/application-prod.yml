@@ -1,0 +1,16 @@
+# Production profile - for staging/production
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate        # Only validate schema, don't modify
+    show-sql: false             # Disable SQL logging in production
+  flyway:
+    enabled: true               # Use Flyway for schema migrations
+    baseline-on-migrate: true
+    baseline-version: 0
+server:
+  port: 8080
