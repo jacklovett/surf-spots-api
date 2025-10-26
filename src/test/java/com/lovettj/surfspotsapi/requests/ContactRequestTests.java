@@ -126,12 +126,3 @@ class ContactRequestTests {
         assertEquals(longString, contactRequest.getMessage());
     }
 }
-
-
-
-
-
-
-
-
-
