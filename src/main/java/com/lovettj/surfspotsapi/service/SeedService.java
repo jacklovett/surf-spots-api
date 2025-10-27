@@ -19,7 +19,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -92,8 +91,8 @@ public class SeedService {
       java.util.function.Consumer<List<T>> saveAll,
       java.util.function.Function<T, String> getNameFunction) {
     try {
-      File file = new ClassPathResource("static/seedData/" + fileName).getFile();
-      T[] entities = mapper.readValue(file, entityType);
+      ClassPathResource resource = new ClassPathResource("static/seedData/" + fileName);
+      T[] entities = mapper.readValue(resource.getInputStream(), entityType);
 
       if (entities == null || entities.length == 0) {
         throw new IllegalStateException("No seed data found in " + fileName);
