@@ -39,6 +39,8 @@ Thumbs.db
 # Database
 *.db
 *.sql
+# But allow Flyway migration scripts
+!src/main/resources/db/migration/*.sql
 
 # Cache, temporary and plugin directories
 .mvn/
