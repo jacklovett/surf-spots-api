@@ -285,7 +285,7 @@
     "seasonStart": "September",
     "seasonEnd": "May",
     "region": {
-      "id": 629
+      "id": 97
     }
   },
   {
@@ -314,7 +314,7 @@
     "seasonStart": "September",
     "seasonEnd": "May",
     "region": {
-      "id": 630
+      "id": 98
     }
   },
   {
@@ -343,7 +343,7 @@
     "seasonStart": "September",
     "seasonEnd": "May",
     "region": {
-      "id": 631
+      "id": 99
     }
   },
   {
@@ -372,7 +372,7 @@
     "seasonStart": "October",
     "seasonEnd": "March",
     "region": {
-      "id": 631
+      "id": 99
     }
   },
   {
@@ -401,7 +401,7 @@
     "seasonStart": "October",
     "seasonEnd": "March",
     "region": {
-      "id": 630
+      "id": 98
     }
   },
   {
@@ -430,7 +430,7 @@
     "seasonStart": "September",
     "seasonEnd": "May",
     "region": {
-      "id": 632
+      "id": 100
     }
   },
   {
@@ -459,7 +459,7 @@
     "seasonStart": "September",
     "seasonEnd": "April",
     "region": {
-      "id": 633
+      "id": 101
     }
   },
   {
@@ -488,7 +488,7 @@
     "seasonStart": "Year-round",
     "seasonEnd": "Year-round",
     "region": {
-      "id": 633
+      "id": 101
     }
   },
   {
@@ -517,7 +517,7 @@
     "seasonStart": "September",
     "seasonEnd": "April",
     "region": {
-      "id": 634
+      "id": 102
     }
   },
   {
@@ -546,7 +546,7 @@
     "seasonStart": "Year-round",
     "seasonEnd": "Year-round",
     "region": {
-      "id": 634
+      "id": 102
     }
   },
   {
@@ -575,7 +575,7 @@
     "seasonStart": "Year-round",
     "seasonEnd": "Year-round",
     "region": {
-      "id": 635
+      "id": 103
     }
   },
   {
@@ -604,7 +604,7 @@
     "seasonStart": "Year-round",
     "seasonEnd": "Year-round",
     "region": {
-      "id": 636
+      "id": 104
     }
   },
   {
@@ -633,7 +633,7 @@
     "seasonStart": "September",
     "seasonEnd": "April",
     "region": {
-      "id": 638
+      "id": 106
     }
   },
   {
@@ -662,7 +662,7 @@
     "seasonStart": "Year-round",
     "seasonEnd": "Year-round",
     "region": {
-      "id": 639
+      "id": 107
     }
   },
   {
@@ -691,7 +691,7 @@
     "seasonStart": "September",
     "seasonEnd": "April",
     "region": {
-      "id": 637
+      "id": 105
     }
   }
 ]

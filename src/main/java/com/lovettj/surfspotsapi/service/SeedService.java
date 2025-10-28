@@ -98,20 +98,27 @@ public class SeedService {
         throw new IllegalStateException("No seed data found in " + fileName);
       }
 
+      logger.info("Read {} total entities from {}", entities.length, fileName);
+
       List<String> existingEntityNames = existingEntities
           .stream()
           .map(getNameFunction)
           .collect(Collectors.toList());
+
+      logger.info("Found {} existing entities in database for {}", existingEntityNames.size(), fileName);
 
       List<T> newEntities = Arrays.stream(entities)
           .filter(entity -> !existingEntityNames.contains(getNameFunction.apply(entity)))
           .collect(Collectors.toList());
 
       if (!newEntities.isEmpty()) {
+        logger.info("Found {} new entities to seed. First few: {}", 
+          newEntities.size(),
+          newEntities.stream().limit(5).map(getNameFunction).collect(Collectors.toList()));
         saveAll.accept(newEntities);
         logger.info("Successfully seeded {} entries from {}", newEntities.size(), fileName);
       } else {
-        logger.info("No new entries to seed from {}", fileName);
+        logger.info("No new entries to seed from {} - all {} entities already exist", fileName, entities.length);
       }
     } catch (IOException e) {
       logger.error("Failed to read or parse seed data from {}: {}", fileName, e.getMessage(), e);

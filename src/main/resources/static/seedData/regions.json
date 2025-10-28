@@ -628,57 +628,57 @@
 },
 {
     "name": "Lisbon",
-    "country": { "id": 68 },
+    "country": { "id": 70 },
     "description": "Lisbon region features Costa da Caparica's endless beach breaks and powerful Carcavelos, delivering quality waves within minutes of Portugal's vibrant capital."
 },
 {
     "name": "Peniche",
-    "country": { "id": 68 },
+    "country": { "id": 70 },
     "description": "Legendary surf hub home to Supertubos' perfect barrels and Nazaré's record-breaking monster waves at Praia do Norte. This wave-rich peninsula offers world-class breaks for all levels."
 },
 {
     "name": "Ericeira",
-    "country": { "id": 68 },
+    "country": { "id": 70 },
     "description": "Europe's first World Surfing Reserve boasts Ribeira d'Ilhas' dreamy point break and Coxos' heavy reef, delivering consistent world-class waves along this historic fishing village coastline."
 },
 {
     "name": "Algarve",
-    "country": { "id": 68 },
+    "country": { "id": 70 },
     "description": "Portugal's southern paradise combines year-round sunshine, warm waters, and dramatic cliff-backed beaches. From Tonel's consistent peaks to Arrifana's long walls, the Algarve delivers perfect conditions for progression."
 },
 {
     "name": "Nouvelle-Aquitaine",
-    "country": { "id": 58 },
+    "country": { "id": 56 },
     "description": "The legendary heart of European surfing. Hossegor's La Gravière produces some of the world's most perfect sand barrels, while Biarritz's elegant breaks launched surfing across Europe in the 1950s."
 },
 {
     "name": "Basque Country",
-    "country": { "id": 76 },
+    "country": { "id": 72 },
     "description": "Where mountains meet powerful Atlantic swells. Mundaka's rivermouth delivers Europe's longest left-hand barrel, while San Sebastian's Zurriola brings world-class waves to a stunning urban setting."
 },
 {
     "name": "Andalusia",
-    "country": { "id": 76 },
+    "country": { "id": 72 },
     "description": "Where Europe meets Africa at the Strait of Gibraltar. Tarifa's wind-whipped beaches catch consistent swells, offering warm Mediterranean waters and a unique blend of Spanish and Moorish culture."
 },
 {
     "name": "Cornwall",
-    "country": { "id": 78 },
+    "country": { "id": 76 },
     "description": "The beating heart of UK surfing. Fistral Beach hosts international competitions while dozens of hidden coves and reef breaks pepper the rugged coastline, creating Britain's most surf-obsessed county."
 },
 {
     "name": "Scotland",
-    "country": { "id": 78 },
+    "country": { "id": 76 },
     "description": "Raw North Atlantic power meets dramatic Highland scenery. Thurso East rivals any European reef break, delivering world-class barrels to those brave enough to paddle out in Scotland's frigid waters."
 },
 {
     "name": "Donegal",
-    "country": { "id": 56 },
+    "country": { "id": 62 },
     "description": "Ireland's wild northwest corner catches the full force of Atlantic storms. The Peak at Bundoran produces perfect waves for the European Championships, while countless slab reefs await the adventurous."
 },
 {
     "name": "Clare",
-    "country": { "id": 56 },
+    "country": { "id": 62 },
     "description": "Where the Atlantic crashes into Ireland's limestone coast. Lahinch's powerful beach break sits beneath the towering Cliffs of Moher, offering consistent waves and traditional Irish hospitality in equal measure."
 }
 ]
