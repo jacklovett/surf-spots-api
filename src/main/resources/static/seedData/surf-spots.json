@@ -1,5 +1,5 @@
 [
-  {
+    {
     "name": "Decaplage",
     "description": "Decaplage is a consistent beach break in Boumerdes, Algeria, popular for its sandy bottom and forgiving waves, making it ideal for beginner and intermediate surfers.",
     "type": "Beach Break",
@@ -8,9 +8,17 @@
     "latitude": 36.787,
     "longitude": 3.324,
     "status": "Approved",
-    "region": {
-      "id": 1
-    }
+    "region": { "id": 1 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Hotel", "Guesthouse"],
+    "facilities": ["WC", "Showers", "Surf Lessons"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "September",
+    "seasonEnd": "May"
   },
   {
     "name": "Plage Mandjane",
@@ -21,9 +29,17 @@
     "latitude": 36.898,
     "longitude": 8.429,
     "status": "Approved",
-    "region": {
-      "id": 2
-    }
+    "region": { "id": 2 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Hotel", "Guesthouse"],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "September",
+    "seasonEnd": "May"
   },
   {
     "name": "Praia do Bimbe",
@@ -34,9 +50,17 @@
     "latitude": -12.1348,
     "longitude": 13.6881,
     "status": "Approved",
-    "region": {
-      "id": 3
-    }
+    "region": { "id": 3 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "June",
+    "seasonEnd": "September"
   },
   {
     "name": "Praia do Golo",
@@ -47,9 +71,17 @@
     "latitude": -12.1291,
     "longitude": 13.6917,
     "status": "Approved",
-    "region": {
-      "id": 3
-    }
+    "region": { "id": 3 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "June",
+    "seasonEnd": "September"
   },
   {
     "name": "Praia da Chitamba",
@@ -60,9 +92,17 @@
     "latitude": -10.850,
     "longitude": 13.940,
     "status": "Approved",
-    "region": {
-      "id": 4
-    }
+    "region": { "id": 4 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Guesthouse"],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents", "Rips"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Quicombo",
@@ -73,9 +113,17 @@
     "latitude": -11.210,
     "longitude": 13.850,
     "status": "Approved",
-    "region": {
-      "id": 4
-    }
+    "region": { "id": 4 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Guesthouse"],
+    "facilities": ["WC", "Showers", "Surf Shop"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Sumbe",
@@ -86,11 +134,19 @@
     "latitude": -11.200,
     "longitude": 13.830,
     "status": "Approved",
-    "region": {
-      "id": 4
-    }
+    "region": { "id": 4 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Guesthouse", "Hotel"],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
-  {
+    {
     "name": "Barra da Cuanza",
     "description": "A scenic beach break at the mouth of the Cuanza River, surrounded by beautiful natural landscapes. It offers consistent surf and is a favorite spot for locals seeking peaceful waves.",
     "type": "Beach Break",
@@ -99,9 +155,17 @@
     "latitude": -9.343,
     "longitude": 13.105,
     "status": "Approved",
-    "region": {
-      "id": 5
-    }
+    "region": { "id": 5 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents", "Rips"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Buraco",
@@ -112,9 +176,17 @@
     "latitude": -8.938,
     "longitude": 13.166,
     "status": "Approved",
-    "region": {
-      "id": 5
-    }
+    "region": { "id": 5 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Rocks", "Powerful Waves", "Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Cabo Ledo",
@@ -125,9 +197,17 @@
     "latitude": -9.651,
     "longitude": 13.120,
     "status": "Approved",
-    "region": {
-      "id": 5
-    }
+    "region": { "id": 5 },
+    "foodNearby": true,
+    "foodOptions": ["Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Hotel", "Guesthouse"],
+    "facilities": ["WC", "Showers", "Surf Lessons"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Chicala",
@@ -138,9 +218,17 @@
     "latitude": -8.813,
     "longitude": 13.235,
     "status": "Approved",
-    "region": {
-      "id": 6
-    }
+    "region": { "id": 6 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Guesthouse"],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Miradouro",
@@ -151,9 +239,17 @@
     "latitude": -8.921,
     "longitude": 13.194,
     "status": "Approved",
-    "region": {
-      "id": 6
-    }
+    "region": { "id": 6 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Rocks", "Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Mussulo",
@@ -164,9 +260,17 @@
     "latitude": -8.924,
     "longitude": 13.163,
     "status": "Approved",
-    "region": {
-      "id": 6
-    }
+    "region": { "id": 6 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Guesthouse"],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Shipwreck",
@@ -177,9 +281,17 @@
     "latitude": -9.347,
     "longitude": 13.105,
     "status": "Approved",
-    "region": {
-      "id": 6
-    }
+    "region": { "id": 6 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Rocks", "Powerful Waves", "Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Praia da Mucula",
@@ -190,9 +302,17 @@
     "latitude": -6.000,
     "longitude": 12.600,
     "status": "Approved",
-    "region": {
-      "id": 6
-    }
+    "region": { "id": 6 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Currents", "Rips"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "May",
+    "seasonEnd": "October"
   },
   {
     "name": "Praia de Chaves",
@@ -203,9 +323,17 @@
     "latitude": 16.1074,
     "longitude": -22.9231,
     "status": "Approved",
-    "region": {
-      "id": 7
-    }
+    "region": { "id": 7 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Hotel", "Guesthouse"],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "November",
+    "seasonEnd": "May"
   },
   {
     "name": "Boa Vista Bahia",
@@ -216,9 +344,17 @@
     "latitude": 16.1655,
     "longitude": -22.9129,
     "status": "Approved",
-    "region": {
-      "id": 7
-    }
+    "region": { "id": 7 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Hotel", "Guesthouse"],
+    "facilities": ["WC", "Showers", "Surf Lessons"],
+    "hazards": ["Reef", "Powerful Waves"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "November",
+    "seasonEnd": "May"
   },
   {
     "name": "Fragata",
@@ -229,9 +365,17 @@
     "latitude": 16.6197,
     "longitude": -22.8955,
     "status": "Approved",
-    "region": {
-      "id": 8
-    }
+    "region": { "id": 8 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Reef", "Powerful Waves"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "November",
+    "seasonEnd": "May"
   },
   {
     "name": "Cocos Beach Praia",
@@ -242,9 +386,17 @@
     "latitude": 14.9164,
     "longitude": -23.506,
     "status": "Approved",
-    "region": {
-      "id": 9
-    }
+    "region": { "id": 9 },
+    "foodNearby": true,
+    "foodOptions": ["Cafe", "Restaurant"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Guesthouse", "Hotel"],
+    "facilities": ["WC", "Showers"],
+    "hazards": ["Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "November",
+    "seasonEnd": "May"
   },
   {
     "name": "Coragi",
@@ -255,9 +407,17 @@
     "latitude": 14.9225,
     "longitude": -23.5079,
     "status": "Approved",
-    "region": {
-      "id": 9
-    }
+    "region": { "id": 9 },
+    "foodNearby": false,
+    "foodOptions": [],
+    "accommodationNearby": false,
+    "accommodationOptions": [],
+    "facilities": ["WC"],
+    "hazards": ["Reef", "Currents"],
+    "parking": "Street",
+    "boatRequired": false,
+    "seasonStart": "November",
+    "seasonEnd": "May"
   },
   {
     "name": "Costa da Caparica",
