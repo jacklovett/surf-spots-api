@@ -6,7 +6,7 @@ spring:
     password: ${DATABASE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: validate        # Only validate schema, don't modify
+      ddl-auto: none        
     show-sql: false             # Disable SQL logging in production
   flyway:
     enabled: true               # Use Flyway for schema migrations
