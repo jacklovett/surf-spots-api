@@ -191,3 +191,10 @@ CREATE INDEX idx_user_surf_spot_spot ON user_surf_spot(surf_spot_id);
 CREATE INDEX idx_watch_list_user ON watch_list_surf_spot(user_id);
 CREATE INDEX idx_watch_list_spot ON watch_list_surf_spot(surf_spot_id);
 
+
+
+
+
+
+
+

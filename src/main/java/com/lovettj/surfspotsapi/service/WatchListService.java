@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
+import com.lovettj.surfspotsapi.dto.WatchListSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.WatchListSurfSpot;
@@ -82,7 +83,7 @@ public class WatchListService {
             return new WatchListDTO(Collections.emptyList(), Collections.emptyList());
         }
 
-        List<SurfSpotDTO> surfSpots = mapToSurfSpotDTO(watchList);
+    List<WatchListSpotDTO> surfSpots = mapToSurfSpotDTO(watchList);
 
         // TODO: Based on watchList, generate real time notifications data
 
@@ -92,9 +93,9 @@ public class WatchListService {
                 .build();
     }
 
-    private List<SurfSpotDTO> mapToSurfSpotDTO(List<WatchListSurfSpot> watchListSurfSpots) {
+    private List<WatchListSpotDTO> mapToSurfSpotDTO(List<WatchListSurfSpot> watchListSurfSpots) {
         return watchListSurfSpots.stream()
-            .map(wls -> new SurfSpotDTO(wls.getSurfSpot()))
+            .map(WatchListSpotDTO::fromWatchListSurfSpot)
             .toList();
     }
 }

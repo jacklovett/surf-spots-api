@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
+import com.lovettj.surfspotsapi.dto.WatchListSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.service.WatchListService;
@@ -81,11 +82,15 @@ class WatchListControllerTests {
     @Test
     @WithMockUser
     void testGetUsersWatchListShouldReturnOkWhenAuthenticated() throws Exception {
-        List<SurfSpotDTO> spots = new ArrayList<>();
-        spots.add(SurfSpotDTO.builder()
-            .id(1L)
-            .name("Test Spot")
+        List<WatchListSpotDTO> spots = new ArrayList<>();
+        spots.add(WatchListSpotDTO.builder()
+            .surfSpot(SurfSpotDTO.builder()
+                .id(1L)
+                .name("Test Spot")
+                .build())
+            .addedAt(null)
             .build());
+
         when(watchListService.getUsersWatchList(anyString())).thenReturn(WatchListDTO.builder()
             .surfSpots(spots)
             .notifications(new ArrayList<>())

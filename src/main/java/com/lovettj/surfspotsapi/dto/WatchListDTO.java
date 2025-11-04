@@ -11,5 +11,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class WatchListDTO {
   private List<NotificationDTO> notifications;
-  private List<SurfSpotDTO> surfSpots;
+  private List<WatchListSpotDTO> surfSpots;
 }

@@ -76,11 +76,12 @@ class WatchListServiceTests {
         when(watchListRepository.findByUserId(testUserId))
             .thenReturn(Arrays.asList(testWatchListEntry));
 
-        WatchListDTO result = watchListService.getUsersWatchList(testUserId);
+    WatchListDTO result = watchListService.getUsersWatchList(testUserId);
 
-        assertNotNull(result);
-        assertFalse(result.getSurfSpots().isEmpty());
-        assertEquals(testSpot.getName(), result.getSurfSpots().get(0).getName());
+    assertNotNull(result);
+    assertFalse(result.getSurfSpots().isEmpty());
+    // surfSpots now contains WatchListSpotDTO wrappers
+    assertEquals(testSpot.getName(), result.getSurfSpots().get(0).getSurfSpot().getName());
     }
 
     @Test

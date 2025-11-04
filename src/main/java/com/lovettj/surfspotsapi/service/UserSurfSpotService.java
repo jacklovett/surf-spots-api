@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.service;
 import org.springframework.stereotype.Service;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
+import com.lovettj.surfspotsapi.dto.SurfedSpotDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
@@ -43,8 +44,8 @@ public class UserSurfSpotService {
         int continentCount = distinctContinents.size();
         SurfSpotType mostSurfedSpotType = getMostSurfedSpotType(userSurfSpots);
         BeachBottomType mostSurfedBeachType = getMostSurfedBeachType(userSurfSpots);
-        SkillLevel skillLevel = getSkillLevel(userSurfSpots);
-        List<SurfSpotDTO> surfedSpots = mapToSurfSpotDTO(userSurfSpots);
+    SkillLevel skillLevel = getSkillLevel(userSurfSpots);
+    List<SurfedSpotDTO> surfedSpots = mapToSurfSpotDTO(userSurfSpots);
 
         return UserSurfSpotsDTO.builder()
                 .totalCount(totalCount)
@@ -113,9 +114,10 @@ public class UserSurfSpotService {
         return getMostCommonAttribute(userSurfSpots, uss -> uss.getSurfSpot().getSkillLevel());
     }
 
-    private List<SurfSpotDTO> mapToSurfSpotDTO(List<UserSurfSpot> userSurfSpots) {
+    private List<SurfedSpotDTO> mapToSurfSpotDTO(List<UserSurfSpot> userSurfSpots) {
         return userSurfSpots.stream()
-                .map(uss -> new SurfSpotDTO(uss.getSurfSpot())).toList();
+                .map(SurfedSpotDTO::fromUserSurfSpot)
+                .toList();
     }
 
     private <T> Set<T> getDistinctAttributes(List<UserSurfSpot> userSurfSpots, java.util.function.Function<UserSurfSpot, T> mapper) {

@@ -96,5 +96,33 @@ public class SurfSpotDTO {
         this.setFacilities(surfSpot.getFacilities());
         this.setHazards(surfSpot.getHazards());
         this.setForecasts(surfSpot.getForecasts());
+        
+        // Generate and set the path for the surf spot
+        this.setPath(generateSurfSpotPath(surfSpot));
+    }
+    
+    private String generateSurfSpotPath(SurfSpot surfSpot) {
+        Region region = surfSpot.getRegion();
+        Country country = region != null ? region.getCountry() : null;
+        Continent continent = country != null ? country.getContinent() : null;
+
+        if (continent == null || country == null || region == null) {
+            return "";
+        }
+
+        if (surfSpot.getSubRegion() != null) {
+            return String.format("/surf-spots/%s/%s/%s/sub-regions/%s/%s",
+                    continent.getSlug(),
+                    country.getSlug(),
+                    region.getSlug(),
+                    surfSpot.getSubRegion().getSlug(),
+                    surfSpot.getSlug());
+        } else {
+            return String.format("/surf-spots/%s/%s/%s/%s",
+                    continent.getSlug(),
+                    country.getSlug(),
+                    region.getSlug(),
+                    surfSpot.getSlug());
+        }
     }
 }

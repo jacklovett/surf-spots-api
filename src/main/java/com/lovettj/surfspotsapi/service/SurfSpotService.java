@@ -140,8 +140,8 @@ public class SurfSpotService {
     }
 
     private SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId) {
+        // SurfSpotDTO constructor now sets the path automatically
         SurfSpotDTO surfSpotDTO = new SurfSpotDTO(surfSpot);
-        surfSpotDTO.setPath(generateSurfSpotPath(surfSpot));
 
         if (userId != null) {
             Long surfSpotId = surfSpot.getId();
@@ -153,26 +153,5 @@ public class SurfSpotService {
         }
 
         return surfSpotDTO;
-    }
-
-    private String generateSurfSpotPath(SurfSpot surfSpot) {
-        Region region = surfSpot.getRegion();
-        Country country = region.getCountry();
-        Continent continent = country.getContinent();
-
-        if (surfSpot.getSubRegion() != null) {
-            return String.format("/surf-spots/%s/%s/%s/sub-regions/%s/%s",
-                    continent.getSlug(),
-                    country.getSlug(),
-                    region.getSlug(),
-                    surfSpot.getSubRegion().getSlug(),
-                    surfSpot.getSlug());
-        } else {
-            return String.format("/surf-spots/%s/%s/%s/%s",
-                    continent.getSlug(),
-                    country.getSlug(),
-                    region.getSlug(),
-                    surfSpot.getSlug());
-        }
     }
 }

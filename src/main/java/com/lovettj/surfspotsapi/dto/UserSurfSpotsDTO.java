@@ -20,5 +20,5 @@ public class UserSurfSpotsDTO {
   private SurfSpotType mostSurfedSpotType;
   private BeachBottomType mostSurfedBeachBottomType;
   private SkillLevel skillLevel;
-  private List<SurfSpotDTO> surfedSpots;
+  private List<SurfedSpotDTO> surfedSpots;
 }
