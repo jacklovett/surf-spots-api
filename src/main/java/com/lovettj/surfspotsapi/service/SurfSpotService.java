@@ -76,6 +76,7 @@ public class SurfSpotService {
         surfSpot.setBeachBottomType(surfSpotRequest.getBeachBottomType());
         surfSpot.setSkillLevel(surfSpotRequest.getSkillLevel());
         surfSpot.setTide(surfSpotRequest.getTide());
+        surfSpot.setWaveDirection(surfSpotRequest.getWaveDirection());
         surfSpot.setParking(surfSpotRequest.getParking());
         surfSpot.setStatus(surfSpotRequest.getStatus());
 

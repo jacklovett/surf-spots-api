@@ -113,6 +113,11 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             predicates.add(root.get("tide").in(filters.getTide()));
         }
 
+        // WaveDirection (enum)
+        if (filters.getWaveDirection() != null && !filters.getWaveDirection().isEmpty()) {
+            predicates.add(root.get("waveDirection").in(filters.getWaveDirection()));
+        }
+
         // Parking (enum)
         if (filters.getParking() != null && !filters.getParking().isEmpty()) {
             predicates.add(root.get("parking").in(filters.getParking()));

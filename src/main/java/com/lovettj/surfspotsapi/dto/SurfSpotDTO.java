@@ -15,6 +15,7 @@ import com.lovettj.surfspotsapi.enums.Parking;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.enums.Tide;
+import com.lovettj.surfspotsapi.enums.WaveDirection;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +47,7 @@ public class SurfSpotDTO {
     private String swellDirection;
     private String windDirection;
     private Tide tide;
+    private WaveDirection waveDirection;
     private String seasonStart;
     private String seasonEnd;
     private Double minSurfHeight;
@@ -83,6 +85,7 @@ public class SurfSpotDTO {
         this.setSwellDirection(surfSpot.getSwellDirection());
         this.setWindDirection(surfSpot.getWindDirection());
         this.setTide(surfSpot.getTide());
+        this.setWaveDirection(surfSpot.getWaveDirection());
         this.setSeasonStart(surfSpot.getSeasonStart());
         this.setSeasonEnd(surfSpot.getSeasonEnd());
         this.setRating(surfSpot.getRating());

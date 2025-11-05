@@ -12,6 +12,7 @@ import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.enums.Tide;
+import com.lovettj.surfspotsapi.enums.WaveDirection;
 
 import lombok.Data;
 
@@ -27,6 +28,7 @@ public class SurfSpotRequest {
     private BeachBottomType beachBottomType;
     private SkillLevel skillLevel;
     private Tide tide;
+    private WaveDirection waveDirection;
     private Parking parking;
     private String swellDirection;
     private String windDirection;

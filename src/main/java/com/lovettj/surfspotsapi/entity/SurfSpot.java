@@ -58,6 +58,10 @@ public class SurfSpot extends SluggableEntity {
     @Column(nullable = true)
     private Tide tide;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private WaveDirection waveDirection;
+
     @Min(0)
     @Column(nullable = true)
     private Double minSurfHeight;

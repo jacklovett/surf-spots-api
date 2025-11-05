@@ -4,6 +4,7 @@ import com.lovettj.surfspotsapi.enums.BeachBottomType;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.enums.Tide;
+import com.lovettj.surfspotsapi.enums.WaveDirection;
 
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class SurfSpotFilterDTO {
     private List<BeachBottomType> beachBottomType;
     private List<SkillLevel> skillLevel;
     private List<Tide> tide;
+    private List<WaveDirection> waveDirection;
     private Double minSurfHeight;
     private Double maxSurfHeight;
     private Integer minRating;
