@@ -46,7 +46,8 @@ public class SurfSpotDTO {
     private String swellDirection;
     private String windDirection;
     private Tide tide;
-    private String season;
+    private String seasonStart;
+    private String seasonEnd;
     private Double minSurfHeight;
     private Double maxSurfHeight;
 
@@ -82,7 +83,8 @@ public class SurfSpotDTO {
         this.setSwellDirection(surfSpot.getSwellDirection());
         this.setWindDirection(surfSpot.getWindDirection());
         this.setTide(surfSpot.getTide());
-        this.setSeason(surfSpot.getSeasonStart() + " - " + surfSpot.getSeasonEnd());
+        this.setSeasonStart(surfSpot.getSeasonStart());
+        this.setSeasonEnd(surfSpot.getSeasonEnd());
         this.setRating(surfSpot.getRating());
         this.setMinSurfHeight(surfSpot.getMinSurfHeight());
         this.setMaxSurfHeight(surfSpot.getMaxSurfHeight());
