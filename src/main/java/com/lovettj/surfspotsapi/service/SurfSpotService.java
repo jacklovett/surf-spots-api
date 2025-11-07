@@ -1,8 +1,11 @@
 package com.lovettj.surfspotsapi.service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,12 +32,92 @@ public class SurfSpotService {
     private final UserSurfSpotService userSurfSpotService;
     private final WatchListService watchListService;
 
+    /**
+     * Map month names to numeric indices (1-12) for efficient range comparisons.
+     * We convert month names to numbers to simplify handling of wrapping ranges
+     * (e.g., December to April) which would be more complex with string comparisons.
+     * The numeric approach allows straightforward comparison: for wrapping ranges,
+     * a month is in range if it's >= start OR <= end.
+     */
+    private static final Map<String, Integer> MONTH_INDICES = new HashMap<>();
+    static {
+        MONTH_INDICES.put("january", 1);
+        MONTH_INDICES.put("february", 2);
+        MONTH_INDICES.put("march", 3);
+        MONTH_INDICES.put("april", 4);
+        MONTH_INDICES.put("may", 5);
+        MONTH_INDICES.put("june", 6);
+        MONTH_INDICES.put("july", 7);
+        MONTH_INDICES.put("august", 8);
+        MONTH_INDICES.put("september", 9);
+        MONTH_INDICES.put("october", 10);
+        MONTH_INDICES.put("november", 11);
+        MONTH_INDICES.put("december", 12);
+    }
+
     public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository, SubRegionRepository subRegionRepository, UserSurfSpotService userSurfSpotService, WatchListService watchListService) {
         this.surfSpotRepository = surfSpotRepository;
         this.regionRepository = regionRepository;
         this.subRegionRepository = subRegionRepository;
         this.userSurfSpotService = userSurfSpotService;
         this.watchListService = watchListService;
+    }
+
+    /**
+     * Converts a month name to its numeric index (1-12)
+     */
+    private Integer getMonthIndex(String monthName) {
+        if (monthName == null) return null;
+        return MONTH_INDICES.get(monthName.toLowerCase());
+    }
+
+    /**
+     * Checks if a selected month falls within a season range.
+     * Handles both normal ranges (e.g., March-June) and wrapping ranges (e.g., December-April).
+     * Uses numeric indices for efficient comparison of month ranges.
+     */
+    private boolean isMonthInSeasonRange(String selectedMonth, String seasonStart, String seasonEnd) {
+        Integer selectedIndex = getMonthIndex(selectedMonth);
+        Integer startIndex = getMonthIndex(seasonStart);
+        Integer endIndex = getMonthIndex(seasonEnd);
+
+        if (selectedIndex == null || startIndex == null || endIndex == null) {
+            return false;
+        }
+
+        // Case 1: Normal range (start <= end), e.g., March (3) - June (6)
+        if (startIndex <= endIndex) {
+            return selectedIndex >= startIndex && selectedIndex <= endIndex;
+        }
+        // Case 2: Wrapping range (start > end), e.g., December (12) - April (4)
+        // Selected month must be >= start OR <= end
+        else {
+            return selectedIndex >= startIndex || selectedIndex <= endIndex;
+        }
+    }
+
+    /**
+     * Filters surf spots by season if season filter is provided
+     */
+    private List<SurfSpot> filterBySeason(List<SurfSpot> surfSpots, SurfSpotFilterDTO filters) {
+        if (filters.getSeasons() == null || filters.getSeasons().isEmpty()) {
+            return surfSpots;
+        }
+
+        return surfSpots.stream()
+                .filter(spot -> {
+                    String seasonStart = spot.getSeasonStart();
+                    String seasonEnd = spot.getSeasonEnd();
+                    
+                    if (seasonStart == null || seasonEnd == null) {
+                        return false;
+                    }
+
+                    // Check if any selected month falls within this spot's season range
+                    return filters.getSeasons().stream()
+                            .anyMatch(selectedMonth -> isMonthInSeasonRange(selectedMonth, seasonStart, seasonEnd));
+                })
+                .collect(Collectors.toList());
     }
 
 
@@ -117,6 +200,8 @@ public class SurfSpotService {
     public List<SurfSpotDTO> findSurfSpotsWithinBoundsWithFilters(BoundingBox boundingBox, SurfSpotBoundsFilterDTO filters) {
         List<SurfSpot> surfSpots = surfSpotRepository.findWithinBoundsWithFilters(
                 filters);
+        // Filter by season if needed
+        surfSpots = filterBySeason(surfSpots, filters);
         return surfSpots.stream()
                 .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
                 .toList();
@@ -126,6 +211,8 @@ public class SurfSpotService {
         Region region = regionRepository.findBySlug(slug)
                 .orElseThrow(() -> new EntityNotFoundException("Region not found"));
         List<SurfSpot> surfSpots = surfSpotRepository.findByRegionWithFilters(region, filters);
+        // Filter by season if needed
+        surfSpots = filterBySeason(surfSpots, filters);
         return surfSpots.stream()
                 .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
                 .toList();
@@ -135,6 +222,8 @@ public class SurfSpotService {
         SubRegion subRegion = subRegionRepository.findBySlug(slug)
                 .orElseThrow(() -> new EntityNotFoundException("SubRegion not found"));
         List<SurfSpot> surfSpots = surfSpotRepository.findBySubRegionWithFilters(subRegion, filters);
+        // Filter by season if needed
+        surfSpots = filterBySeason(surfSpots, filters);
         return surfSpots.stream()
                 .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
                 .toList();

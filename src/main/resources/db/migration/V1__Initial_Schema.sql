@@ -198,3 +198,6 @@ CREATE INDEX idx_watch_list_spot ON watch_list_surf_spot(surf_spot_id);
 
 
 
+
+
+

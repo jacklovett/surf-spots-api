@@ -409,4 +409,148 @@ class SurfSpotServiceTests {
         verify(regionRepository).findBySlug(regionSlug);
         verify(surfSpotRepository).findByRegionWithFilters(region, filters);
     }
+
+    @Test
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterBySeasonWhenNormalRange() {
+        // Arrange
+        SurfSpot spot1 = createMockSurfSpot();
+        spot1.setSeasonStart("march");
+        spot1.setSeasonEnd("june");
+        
+        SurfSpot spot2 = createMockSurfSpot();
+        spot2.setSeasonStart("july");
+        spot2.setSeasonEnd("september");
+        
+        List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setSeasons(Arrays.asList("april", "may")); // Should match spot1
+        
+        when(regionRepository.findBySlug(any())).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.findByRegionWithFilters(any(), any())).thenReturn(surfSpots);
+        
+        // Act
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
+        
+        // Assert - spot1 should be included (april and may are in march-june range)
+        assertEquals(1, result.size());
+        assertEquals(spot1.getName(), result.get(0).getName());
+    }
+
+    @Test
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterBySeasonWhenWrappingRange() {
+        // Arrange
+        SurfSpot spot1 = createMockSurfSpot();
+        spot1.setSeasonStart("december");
+        spot1.setSeasonEnd("april"); // Wrapping range
+        
+        SurfSpot spot2 = createMockSurfSpot();
+        spot2.setSeasonStart("may");
+        spot2.setSeasonEnd("august");
+        
+        List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setSeasons(Arrays.asList("january", "february")); // Should match spot1 (wrapping range)
+        
+        when(regionRepository.findBySlug(any())).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.findByRegionWithFilters(any(), any())).thenReturn(surfSpots);
+        
+        // Act
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
+        
+        // Assert - spot1 should be included (january and february are in december-april wrapping range)
+        assertEquals(1, result.size());
+        assertEquals(spot1.getName(), result.get(0).getName());
+    }
+
+    @Test
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldReturnEmptyListWhenNoSeasonMatch() {
+        // Arrange
+        SurfSpot spot1 = createMockSurfSpot();
+        spot1.setSeasonStart("march");
+        spot1.setSeasonEnd("june");
+        
+        List<SurfSpot> surfSpots = Arrays.asList(spot1);
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setSeasons(Arrays.asList("july", "august")); // Should not match spot1
+        
+        when(regionRepository.findBySlug(any())).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.findByRegionWithFilters(any(), any())).thenReturn(surfSpots);
+        
+        // Act
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
+        
+        // Assert - no spots should match
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterBySeasonWhenMultipleSelectedMonths() {
+        // Arrange
+        SurfSpot spot1 = createMockSurfSpot();
+        spot1.setSeasonStart("march");
+        spot1.setSeasonEnd("june");
+        
+        SurfSpot spot2 = createMockSurfSpot();
+        spot2.setSeasonStart("july");
+        spot2.setSeasonEnd("september");
+        
+        List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setSeasons(Arrays.asList("april", "august")); // april matches spot1, august matches spot2
+        
+        when(regionRepository.findBySlug(any())).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.findByRegionWithFilters(any(), any())).thenReturn(surfSpots);
+        
+        // Act
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
+        
+        // Assert - both spots should match
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldExcludeSpotsWhenSeasonFieldsAreNull() {
+        // Arrange
+        SurfSpot spot1 = createMockSurfSpot();
+        spot1.setSeasonStart(null);
+        spot1.setSeasonEnd("june");
+        
+        SurfSpot spot2 = createMockSurfSpot();
+        spot2.setSeasonStart("july");
+        spot2.setSeasonEnd(null);
+        
+        List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setSeasons(Arrays.asList("april"));
+        
+        when(regionRepository.findBySlug(any())).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.findByRegionWithFilters(any(), any())).thenReturn(surfSpots);
+        
+        // Act
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
+        
+        // Assert - spots with null season fields should be excluded
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldReturnAllSpotsWhenSeasonFilterIsEmpty() {
+        // Arrange
+        SurfSpot spot1 = createMockSurfSpot();
+        spot1.setSeasonStart("march");
+        spot1.setSeasonEnd("june");
+        
+        List<SurfSpot> surfSpots = Arrays.asList(spot1);
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setSeasons(Collections.emptyList()); // Empty filter
+        
+        when(regionRepository.findBySlug(any())).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.findByRegionWithFilters(any(), any())).thenReturn(surfSpots);
+        
+        // Act
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
+        
+        // Assert - all spots should be returned when filter is empty
+        assertEquals(1, result.size());
+    }
 }
