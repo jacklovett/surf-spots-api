@@ -2,7 +2,6 @@ package com.lovettj.surfspotsapi.service;
 
 import org.springframework.stereotype.Service;
 
-import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.SurfedSpotDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;

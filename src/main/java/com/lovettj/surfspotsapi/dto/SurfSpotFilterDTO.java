@@ -25,8 +25,8 @@ public class SurfSpotFilterDTO {
     private Double maxSurfHeight;
     private Integer minRating;
     private Integer maxRating;
-    private String swellDirection;
-    private String windDirection;
+    private List<String> swellDirection;
+    private List<String> windDirection;
     private String seasonStart;
     private String seasonEnd;
     private List<Parking> parking;

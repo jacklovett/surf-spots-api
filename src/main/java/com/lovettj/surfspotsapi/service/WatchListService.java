@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
 import com.lovettj.surfspotsapi.dto.WatchListSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;

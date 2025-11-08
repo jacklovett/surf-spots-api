@@ -8,69 +8,22 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SubRegion;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.Tide;
+import com.lovettj.surfspotsapi.enums.WaveDirection;
 
 @Repository
 public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
-
-    // Map month names to numeric indices (1-12)
-    private static final Map<String, Integer> MONTH_INDICES = new HashMap<>();
-    static {
-        MONTH_INDICES.put("january", 1);
-        MONTH_INDICES.put("february", 2);
-        MONTH_INDICES.put("march", 3);
-        MONTH_INDICES.put("april", 4);
-        MONTH_INDICES.put("may", 5);
-        MONTH_INDICES.put("june", 6);
-        MONTH_INDICES.put("july", 7);
-        MONTH_INDICES.put("august", 8);
-        MONTH_INDICES.put("september", 9);
-        MONTH_INDICES.put("october", 10);
-        MONTH_INDICES.put("november", 11);
-        MONTH_INDICES.put("december", 12);
-    }
-
-    /**
-     * Converts a month name to its numeric index (1-12)
-     */
-    private Integer getMonthIndex(String monthName) {
-        if (monthName == null) return null;
-        return MONTH_INDICES.get(monthName.toLowerCase());
-    }
-
-    /**
-     * Checks if a selected month falls within a season range
-     * Handles both normal ranges (e.g., March-June) and wrapping ranges (e.g., December-April)
-     */
-    private boolean isMonthInSeasonRange(String selectedMonth, String seasonStart, String seasonEnd) {
-        Integer selectedIndex = getMonthIndex(selectedMonth);
-        Integer startIndex = getMonthIndex(seasonStart);
-        Integer endIndex = getMonthIndex(seasonEnd);
-
-        if (selectedIndex == null || startIndex == null || endIndex == null) {
-            return false;
-        }
-
-        // Case 1: Normal range (start <= end), e.g., March (3) - June (6)
-        if (startIndex <= endIndex) {
-            return selectedIndex >= startIndex && selectedIndex <= endIndex;
-        }
-        // Case 2: Wrapping range (start > end), e.g., December (12) - April (4)
-        // Selected month must be >= start OR <= end
-        else {
-            return selectedIndex >= startIndex || selectedIndex <= endIndex;
-        }
-    }
 
     @Override
     public List<SurfSpot> findByRegionWithFilters(Region region, SurfSpotFilterDTO filters) {
@@ -142,16 +95,19 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
     }
 
     private void addCommonPredicates(CriteriaBuilder cb, Root<SurfSpot> root, List<Predicate> predicates, SurfSpotFilterDTO filters) {
-
-        System.out.println("Filters: " + filters);
         // Type (enum)
         if (filters.getType() != null && !filters.getType().isEmpty()) {
             predicates.add(root.get("type").in(filters.getType()));
         }
 
-        // SkillLevel (enum)
+        // SkillLevel (enum) - smart filtering: if filtering by "Intermediate", also match "Beginner - Intermediate", "Intermediate - Advanced", and "All Levels"
         if (filters.getSkillLevel() != null && !filters.getSkillLevel().isEmpty()) {
-            predicates.add(root.get("skillLevel").in(filters.getSkillLevel()));
+            List<SkillLevel> expandedSkillLevels = expandEnumFilter(filters.getSkillLevel(), SkillLevel.values());
+            // Also include "All Levels" as it matches any filter
+            if (!expandedSkillLevels.contains(SkillLevel.ALL_LEVELS)) {
+                expandedSkillLevels.add(SkillLevel.ALL_LEVELS);
+            }
+            predicates.add(root.get("skillLevel").in(expandedSkillLevels));
         }
 
         // BeachBottomType (enum)
@@ -159,14 +115,20 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             predicates.add(root.get("beachBottomType").in(filters.getBeachBottomType()));
         }
 
-        // Tide (enum)
+        // Tide (enum) - smart filtering: if filtering by "Low", also match "Low - Mid" and "Any"
         if (filters.getTide() != null && !filters.getTide().isEmpty()) {
-            predicates.add(root.get("tide").in(filters.getTide()));
+            List<Tide> expandedTides = expandEnumFilter(filters.getTide(), Tide.values());
+            // Also include "Any" as it matches any filter
+            if (!expandedTides.contains(Tide.ANY)) {
+                expandedTides.add(Tide.ANY);
+            }
+            predicates.add(root.get("tide").in(expandedTides));
         }
 
-        // WaveDirection (enum)
+        // WaveDirection (enum) - smart filtering: if filtering by "Left", also match "Left and Right"
         if (filters.getWaveDirection() != null && !filters.getWaveDirection().isEmpty()) {
-            predicates.add(root.get("waveDirection").in(filters.getWaveDirection()));
+            List<WaveDirection> expandedWaveDirections = expandEnumFilter(filters.getWaveDirection(), WaveDirection.values());
+            predicates.add(root.get("waveDirection").in(expandedWaveDirections));
         }
 
         // Parking (enum)
@@ -190,12 +152,24 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             predicates.add(cb.lessThanOrEqualTo(root.get("rating"), filters.getMaxRating()));
         }
 
-        if (filters.getSwellDirection() != null) {
-            predicates.add(cb.equal(cb.lower(root.get("swellDirection")), filters.getSwellDirection().toLowerCase()));
+        // SwellDirection (string array) - smart filtering: if filtering by "E", also match "E-NE", "E-SE", etc.
+        if (filters.getSwellDirection() != null && !filters.getSwellDirection().isEmpty()) {
+            List<Predicate> swellPredicates = new ArrayList<>();
+            for (String direction : filters.getSwellDirection()) {
+                swellPredicates.add(cb.like(cb.lower(root.get("swellDirection")), 
+                    "%" + direction.toLowerCase() + "%"));
+            }
+            predicates.add(cb.or(swellPredicates.toArray(new Predicate[0])));
         }
 
-        if (filters.getWindDirection() != null) {
-            predicates.add(cb.equal(cb.lower(root.get("windDirection")), filters.getWindDirection().toLowerCase()));
+        // WindDirection (string array) - smart filtering: if filtering by "E", also match "E-NE", "E-SE", etc.
+        if (filters.getWindDirection() != null && !filters.getWindDirection().isEmpty()) {
+            List<Predicate> windPredicates = new ArrayList<>();
+            for (String direction : filters.getWindDirection()) {
+                windPredicates.add(cb.like(cb.lower(root.get("windDirection")), 
+                    "%" + direction.toLowerCase() + "%"));
+            }
+            predicates.add(cb.or(windPredicates.toArray(new Predicate[0])));
         }
 
         if (filters.getSeasonStart() != null) {
@@ -227,16 +201,6 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             predicates.add(accommodationOptionsJoin.in(filters.getAccommodationOptions()));
         }
 
-        // Season filtering - check if any selected month falls within the spot's season range
-        // Note: This is done in-memory after fetching because JPA Criteria API doesn't easily support
-        // complex month range comparisons with wrapping. We'll filter in the service layer instead.
-        // For now, we'll use a simpler approach that works for most cases.
-        if (filters.getSeasons() != null && !filters.getSeasons().isEmpty()) {
-            // We'll need to filter this in the service layer after fetching results
-            // because month range comparisons with wrapping are complex in SQL/JPA
-            // For now, add a placeholder predicate that will be handled in the service
-            // This is a limitation - we'll filter in memory in the service layer
-        }
     }
 
     void addPrivateSpotsFilters(CriteriaBuilder cb, Root<SurfSpot> root, List<Predicate> predicates, String userId) {
@@ -251,6 +215,41 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             ));
         } else {
             predicates.add(cb.equal(root.get("status"), "APPROVED"));
+        }
+    }
+
+    /**
+     * Expands enum filter to include all enum values that contain the filter value as a substring.
+     * For example, if filtering by "Intermediate", it will also include "Beginner - Intermediate" and "Intermediate - Advanced".
+     * 
+     * @param filterValues The selected filter values
+     * @param allEnumValues All possible enum values
+     * @return List of expanded enum values that match any of the filter values
+     */
+    private <T extends Enum<T>> List<T> expandEnumFilter(List<T> filterValues, T[] allEnumValues) {
+        return filterValues.stream()
+            .flatMap(filterValue -> {
+                String filterDisplayName = getEnumDisplayName(filterValue);
+                return java.util.Arrays.stream(allEnumValues)
+                    .filter(enumValue -> {
+                        String enumDisplayName = getEnumDisplayName(enumValue);
+                        return enumDisplayName.toLowerCase().contains(filterDisplayName.toLowerCase());
+                    });
+            })
+            .distinct()
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets the display name from an enum value.
+     * Uses reflection to call getDisplayName() if available, otherwise uses name().
+     */
+    private <T extends Enum<T>> String getEnumDisplayName(T enumValue) {
+        try {
+            java.lang.reflect.Method getDisplayName = enumValue.getClass().getMethod("getDisplayName");
+            return (String) getDisplayName.invoke(enumValue);
+        } catch (Exception e) {
+            return enumValue.name();
         }
     }
 }
