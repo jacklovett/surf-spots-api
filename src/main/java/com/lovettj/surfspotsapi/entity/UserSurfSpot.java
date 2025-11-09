@@ -9,6 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.*;
 
 @Entity
+@Table(name = "user_surf_spot", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"user_id", "surf_spot_id"})
+})
 @Getter
 @Setter
 @NoArgsConstructor

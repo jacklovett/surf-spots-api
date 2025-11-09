@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lovettj.surfspotsapi.dto.SurfedSpotDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
@@ -56,6 +57,7 @@ public class UserSurfSpotService {
                 .surfedSpots(surfedSpots).build();
     }
 
+    @Transactional
     public void addUserSurfSpot(String userId, Long spotId) {
         // Check if the spot is already in the user's list
         Optional<UserSurfSpot> existingEntry = userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, spotId);

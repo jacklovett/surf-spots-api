@@ -156,8 +156,12 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         if (filters.getSwellDirection() != null && !filters.getSwellDirection().isEmpty()) {
             List<Predicate> swellPredicates = new ArrayList<>();
             for (String direction : filters.getSwellDirection()) {
-                swellPredicates.add(cb.like(cb.lower(root.get("swellDirection")), 
-                    "%" + direction.toLowerCase() + "%"));
+                // Only match non-null swellDirection values
+                swellPredicates.add(cb.and(
+                    cb.isNotNull(root.get("swellDirection")),
+                    cb.like(cb.lower(root.get("swellDirection")), 
+                        "%" + direction.toLowerCase() + "%")
+                ));
             }
             predicates.add(cb.or(swellPredicates.toArray(new Predicate[0])));
         }
@@ -166,8 +170,12 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         if (filters.getWindDirection() != null && !filters.getWindDirection().isEmpty()) {
             List<Predicate> windPredicates = new ArrayList<>();
             for (String direction : filters.getWindDirection()) {
-                windPredicates.add(cb.like(cb.lower(root.get("windDirection")), 
-                    "%" + direction.toLowerCase() + "%"));
+                // Only match non-null windDirection values
+                windPredicates.add(cb.and(
+                    cb.isNotNull(root.get("windDirection")),
+                    cb.like(cb.lower(root.get("windDirection")), 
+                        "%" + direction.toLowerCase() + "%")
+                ));
             }
             predicates.add(cb.or(windPredicates.toArray(new Predicate[0])));
         }
