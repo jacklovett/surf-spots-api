@@ -31,6 +31,7 @@ public class SurfSpotDTO {
     private String path;
     private String name;
     private String description;
+    private String createdBy;
     private SurfSpotType type;
     private SkillLevel skillLevel;
     private BeachBottomType beachBottomType;
@@ -68,6 +69,7 @@ public class SurfSpotDTO {
         this.setId(surfSpot.getId());
         this.setName(surfSpot.getName());
         this.setDescription(surfSpot.getDescription());
+        this.setCreatedBy(surfSpot.getCreatedBy());
         this.setType(surfSpot.getType());
         this.setSkillLevel(surfSpot.getSkillLevel());
         this.setBeachBottomType(surfSpot.getBeachBottomType());
