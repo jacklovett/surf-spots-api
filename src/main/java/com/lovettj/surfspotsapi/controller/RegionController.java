@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.dto.RegionAndCountryResult;
+import com.lovettj.surfspotsapi.dto.RegionLookupRequest;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.service.RegionService;
 
@@ -22,22 +23,20 @@ public class RegionController {
    * Find region and country by coordinates and country name.
    * This combines the country lookup and region lookup into a single call.
    * 
-   * IMPORTANT: This must be defined BEFORE the generic /{regionSlug} route
-   * to ensure Spring matches /by-coordinates correctly.
-   * Using explicit path value to ensure proper route matching.
+   * Using POST to avoid conflict with GET /{regionSlug} route.
+   * This ensures Spring matches the correct route handler.
    * 
-   * @param longitude The longitude coordinate
-   * @param latitude The latitude coordinate
-   * @param countryName The country name from Mapbox (case-insensitive)
+   * @param request The lookup request containing longitude, latitude, and countryName
    * @return RegionAndCountryResult containing both region and country, or 404 if country not found
    */
-  @GetMapping(value = "/by-coordinates", produces = "application/json")
+  @PostMapping("/by-coordinates")
   public ResponseEntity<RegionAndCountryResult> getRegionAndCountryByCoordinates(
-      @RequestParam Double longitude,
-      @RequestParam Double latitude,
-      @RequestParam String countryName) {
+      @RequestBody RegionLookupRequest request) {
     RegionAndCountryResult result = 
-        regionService.findRegionAndCountryByCoordinates(longitude, latitude, countryName);
+        regionService.findRegionAndCountryByCoordinates(
+            request.getLongitude(), 
+            request.getLatitude(), 
+            request.getCountryName());
     if (result == null) {
       return ResponseEntity.notFound().build();
     }
@@ -59,14 +58,8 @@ public class RegionController {
     return ResponseEntity.ok(regions);
   }
 
-  // This generic route must come LAST to avoid matching /by-coordinates
-  // Add explicit check to prevent matching reserved paths
   @GetMapping("/{regionSlug}")
   public ResponseEntity<Region> getRegionBySlug(@PathVariable String regionSlug) {
-    // Prevent matching reserved paths like "by-coordinates"
-    if ("by-coordinates".equals(regionSlug) || "country".equals(regionSlug)) {
-      return ResponseEntity.notFound().build();
-    }
     Region region = regionService.getRegionBySlug(regionSlug);
     return ResponseEntity.ok(region);
   }

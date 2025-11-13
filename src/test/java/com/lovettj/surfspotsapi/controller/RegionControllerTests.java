@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.dto.RegionAndCountryResult;
+import com.lovettj.surfspotsapi.dto.RegionLookupRequest;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.service.RegionService;
 import org.junit.jupiter.api.BeforeEach;
@@ -145,6 +146,7 @@ class RegionControllerTests {
         Double longitude = -9.7167;
         Double latitude = 30.5333;
         String countryName = "morocco";
+        RegionLookupRequest request = new RegionLookupRequest(longitude, latitude, countryName);
         RegionAndCountryResult expectedResult = 
             new RegionAndCountryResult(testRegion1, testCountry);
         when(regionService.findRegionAndCountryByCoordinates(longitude, latitude, countryName))
@@ -152,7 +154,7 @@ class RegionControllerTests {
 
         // Act
         ResponseEntity<RegionAndCountryResult> response = 
-            regionController.getRegionAndCountryByCoordinates(longitude, latitude, countryName);
+            regionController.getRegionAndCountryByCoordinates(request);
 
         // Assert
         assertNotNull(response);
@@ -170,6 +172,7 @@ class RegionControllerTests {
         Double longitude = -9.7167;
         Double latitude = 30.5333;
         String countryName = "morocco";
+        RegionLookupRequest request = new RegionLookupRequest(longitude, latitude, countryName);
         // Region is null but country is found
         RegionAndCountryResult expectedResult = 
             new RegionAndCountryResult(null, testCountry);
@@ -178,7 +181,7 @@ class RegionControllerTests {
 
         // Act
         ResponseEntity<RegionAndCountryResult> response = 
-            regionController.getRegionAndCountryByCoordinates(longitude, latitude, countryName);
+            regionController.getRegionAndCountryByCoordinates(request);
 
         // Assert
         assertNotNull(response);
@@ -196,12 +199,13 @@ class RegionControllerTests {
         Double longitude = -9.7167;
         Double latitude = 30.5333;
         String countryName = "nonexistent";
+        RegionLookupRequest request = new RegionLookupRequest(longitude, latitude, countryName);
         when(regionService.findRegionAndCountryByCoordinates(longitude, latitude, countryName))
             .thenReturn(null);
 
         // Act
         ResponseEntity<RegionAndCountryResult> response = 
-            regionController.getRegionAndCountryByCoordinates(longitude, latitude, countryName);
+            regionController.getRegionAndCountryByCoordinates(request);
 
         // Assert
         assertNotNull(response);
@@ -216,6 +220,7 @@ class RegionControllerTests {
         Double longitude = -9.7167;
         Double latitude = 30.5333;
         String countryName = "MOROCCO"; // Uppercase
+        RegionLookupRequest request = new RegionLookupRequest(longitude, latitude, countryName);
         RegionAndCountryResult expectedResult = 
             new RegionAndCountryResult(testRegion1, testCountry);
         when(regionService.findRegionAndCountryByCoordinates(longitude, latitude, countryName))
@@ -223,7 +228,7 @@ class RegionControllerTests {
 
         // Act
         ResponseEntity<RegionAndCountryResult> response = 
-            regionController.getRegionAndCountryByCoordinates(longitude, latitude, countryName);
+            regionController.getRegionAndCountryByCoordinates(request);
 
         // Assert
         assertNotNull(response);

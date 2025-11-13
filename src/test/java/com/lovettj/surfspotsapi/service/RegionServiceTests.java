@@ -139,7 +139,7 @@ class RegionServiceTests {
         String countrySlug = "morocco";
         List<Region> expectedRegions = Arrays.asList(testRegion1, testRegion2);
         when(countryRepository.findBySlug(countrySlug)).thenReturn(Optional.of(testCountry));
-        when(regionRepository.findByCountry(testCountry)).thenReturn(expectedRegions);
+        when(regionRepository.findByCountryId(testCountry.getId())).thenReturn(expectedRegions);
 
         // Act
         List<Region> result = regionService.findRegionsByCountrySlug(countrySlug);
@@ -150,7 +150,7 @@ class RegionServiceTests {
         assertEquals(testRegion1, result.get(0));
         assertEquals(testRegion2, result.get(1));
         verify(countryRepository).findBySlug(countrySlug);
-        verify(regionRepository).findByCountry(testCountry);
+        verify(regionRepository).findByCountryId(testCountry.getId());
     }
 
     @Test
@@ -164,7 +164,7 @@ class RegionServiceTests {
                 () -> regionService.findRegionsByCountrySlug(countrySlug));
         assertEquals("Country not found", exception.getMessage());
         verify(countryRepository).findBySlug(countrySlug);
-        verify(regionRepository, never()).findByCountry(any());
+        verify(regionRepository, never()).findByCountryId(any());
     }
 
     @Test
@@ -179,7 +179,7 @@ class RegionServiceTests {
         
         List<Region> allRegions = Arrays.asList(testRegion1, testRegion2);
         when(regionRepository.findAll()).thenReturn(allRegions);
-        when(regionRepository.findRegionContainingPoint(longitude, latitude))
+        when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.of(testRegion1));
 
         // Act
@@ -188,7 +188,7 @@ class RegionServiceTests {
         // Assert
         assertNotNull(result);
         assertEquals(testRegion1.getId(), result.getId());
-        verify(regionRepository).findRegionContainingPoint(longitude, latitude);
+        verify(regionRepository).findRegionContainingPoint(longitude, latitude, null);
     }
 
     @Test
@@ -203,11 +203,11 @@ class RegionServiceTests {
         
         List<Region> allRegions = Arrays.asList(testRegion1, testRegion2);
         when(regionRepository.findAll()).thenReturn(allRegions);
-        when(regionRepository.findRegionContainingPoint(longitude, latitude))
+        when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.empty());
-        when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble()))
+        when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble(), eq(null)))
             .thenReturn(Optional.empty());
-        when(regionRepository.findAllWithSurfSpots())
+        when(regionRepository.findAllWithSurfSpots(null))
             .thenReturn(Arrays.asList(testRegion1, testRegion2));
 
         // Act
@@ -216,7 +216,7 @@ class RegionServiceTests {
         // Assert
         assertNotNull(result);
         assertEquals(testRegion1.getId(), result.getId());
-        verify(regionRepository).findAllWithSurfSpots();
+        verify(regionRepository).findAllWithSurfSpots(null);
     }
 
     @Test
@@ -268,7 +268,7 @@ class RegionServiceTests {
         
         List<Region> allRegions = Arrays.asList(testRegion1, testRegion2);
         when(regionRepository.findAll()).thenReturn(allRegions);
-        when(regionRepository.findRegionContainingPoint(longitude, latitude))
+        when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.of(testRegion1));
 
         // Act
@@ -277,7 +277,7 @@ class RegionServiceTests {
         // Assert
         assertNotNull(result);
         assertEquals(testRegion1.getId(), result.getId()); // Should prefer bounding box match
-        verify(regionRepository).findRegionContainingPoint(longitude, latitude);
+        verify(regionRepository).findRegionContainingPoint(longitude, latitude, null);
     }
 
     @Test
@@ -306,11 +306,11 @@ class RegionServiceTests {
         
         List<Region> allRegions = Arrays.asList(testRegion1);
         when(regionRepository.findAll()).thenReturn(allRegions);
-        when(regionRepository.findRegionContainingPoint(longitude, latitude))
+        when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.empty());
-        when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble()))
+        when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble(), eq(null)))
             .thenReturn(Optional.empty());
-        when(regionRepository.findAllWithSurfSpots())
+        when(regionRepository.findAllWithSurfSpots(null))
             .thenReturn(Arrays.asList(testRegion1));
 
         // Act
@@ -319,7 +319,7 @@ class RegionServiceTests {
         // Assert
         assertNotNull(result);
         assertEquals(testRegion1.getId(), result.getId());
-        verify(regionRepository).findAllWithSurfSpots();
+        verify(regionRepository).findAllWithSurfSpots(null);
     }
 
     @Test
@@ -335,11 +335,11 @@ class RegionServiceTests {
         
         List<Region> allRegions = Arrays.asList(testRegion1);
         when(regionRepository.findAll()).thenReturn(allRegions);
-        when(regionRepository.findRegionContainingPoint(longitude, latitude))
+        when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.empty());
-        when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble()))
+        when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble(), eq(null)))
             .thenReturn(Optional.empty());
-        when(regionRepository.findAllWithSurfSpots())
+        when(regionRepository.findAllWithSurfSpots(null))
             .thenReturn(Arrays.asList(testRegion1));
 
         // Act
@@ -348,7 +348,7 @@ class RegionServiceTests {
         // Assert
         assertNotNull(result);
         assertEquals(testRegion1.getId(), result.getId()); // Should fall back to closest surf spot
-        verify(regionRepository).findAllWithSurfSpots();
+        verify(regionRepository).findAllWithSurfSpots(null);
     }
 }
 
