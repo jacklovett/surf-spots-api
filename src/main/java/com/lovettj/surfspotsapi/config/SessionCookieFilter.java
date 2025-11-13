@@ -52,40 +52,39 @@ public class SessionCookieFilter implements Filter {
 
         logger.info("Entering SessionCookieFilter for request: {} {} (matching against: {})", 
                     method, requestURI, pathToMatch);
+        
+        // Log all public endpoint patterns for debugging
+        logger.debug("Available public endpoint patterns: {}", java.util.Arrays.toString(PUBLIC_ENDPOINTS));
 
         // Check if the endpoint is public and skip session validation if so
-        if (isPublicEndpoint(pathToMatch, method)) {
-            logger.info("Public endpoint, skipping session validation: {} {}", method, pathToMatch);
-            chain.doFilter(request, response);
-            return;
-        }
+        boolean isPublic = isPublicEndpoint(pathToMatch, method);
+        logger.info("Is public endpoint: {} for path: {}", isPublic, pathToMatch);
         
-        // Log if endpoint was not recognized as public (for debugging)
-        logger.warn("Endpoint not recognized as public: {} {} (checked path: {})", 
-                    method, requestURI, pathToMatch);
-
-        // Locate the session cookie
+        // Always check for session cookie and set authentication if valid
+        // This helps authenticated requests work, but doesn't block unauthenticated ones
         Cookie sessionCookie = findSessionCookie(httpRequest.getCookies());
         if (sessionCookie != null) {
             logger.info("Session cookie found: {}", sessionCookie.getValue());
+            
+            // Validate the session cookie structure
+            if (validateSessionCookieFormat(sessionCookie)) {
+                logger.info("Session cookie format validated");
+
+                PreAuthenticatedAuthenticationToken authToken = new PreAuthenticatedAuthenticationToken(
+                        "authenticatedUser", null, null
+                );
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                logger.warn("Session cookie format invalid, but continuing to let Spring Security handle authorization");
+            }
         } else {
-            logger.info("No session cookie found");
+            logger.info("No session cookie found, letting Spring Security handle authorization");
         }
-
-        // Validate the session cookie structure
-        if (sessionCookie != null && validateSessionCookieFormat(sessionCookie)) {
-            logger.info("Session cookie format validated");
-
-            PreAuthenticatedAuthenticationToken authToken = new PreAuthenticatedAuthenticationToken(
-                    "authenticatedUser", null, null
-            );
-            SecurityContextHolder.getContext().setAuthentication(authToken);
-
-            chain.doFilter(request, response);
-        } else {
-            logger.error("Session cookie validation failed");
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        }
+        
+        // ALWAYS continue the filter chain - NEVER return 401 from this filter
+        // Let Spring Security decide if the request should be allowed based on permitAll() configuration
+        logger.info("Continuing filter chain for: {} {}", method, pathToMatch);
+        chain.doFilter(request, response);
     }
 
     private Cookie findSessionCookie(Cookie[] cookies) {
@@ -109,17 +108,24 @@ public class SessionCookieFilter implements Filter {
     private boolean isPublicEndpoint(String uri, String method) {
         // Check if endpoint matches public paths
         for (String publicPath : PUBLIC_ENDPOINTS) {
-            if (pathMatcher.match(publicPath, uri)) {
+            boolean matches = pathMatcher.match(publicPath, uri);
+            logger.debug("Checking path '{}' against pattern '{}': {}", uri, publicPath, matches);
+            
+            if (matches) {
                 // For surf-spots POST endpoints, only filtering endpoints are public
                 if (uri.startsWith("/api/surf-spots") && "POST".equals(method)) {
                     // POST to region/sub-region/within-bounds are public (filtering)
-                    return uri.startsWith("/api/surf-spots/region/") ||
+                    boolean isPublicPost = uri.startsWith("/api/surf-spots/region/") ||
                            uri.startsWith("/api/surf-spots/sub-region/") ||
                            uri.equals("/api/surf-spots/within-bounds");
+                    logger.debug("Surf-spots POST endpoint check: {}", isPublicPost);
+                    return isPublicPost;
                 }
+                logger.debug("Matched public endpoint pattern: {}", publicPath);
                 return true;
             }
         }
+        logger.debug("No public endpoint pattern matched for: {}", uri);
         return false;
     }
 }

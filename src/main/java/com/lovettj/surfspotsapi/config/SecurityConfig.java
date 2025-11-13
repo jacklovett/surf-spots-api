@@ -29,8 +29,17 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // Enable CORS using the CorsConfig bean
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for API usage
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers(SessionCookieFilter.PUBLIC_ENDPOINTS)
-                .permitAll() // Public endpoints
+                // Explicitly allow all public endpoints
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/continents/**").permitAll()
+                .requestMatchers("/api/countries/**").permitAll()
+                .requestMatchers("/api/regions/**").permitAll() // Explicitly include this
+                .requestMatchers("/api/surf-spots/region/**").permitAll()
+                .requestMatchers("/api/surf-spots/sub-region/**").permitAll()
+                .requestMatchers("/api/surf-spots/within-bounds").permitAll()
+                .requestMatchers("/api/surf-spots/*").permitAll() // GET by slug
+                .requestMatchers("/api/surf-spots/id/*").permitAll() // GET by id
+                .requestMatchers("/error").permitAll() // Allow error endpoint for public requests
                 .anyRequest().authenticated() // Protect other endpoints
                 )
                 .addFilterBefore(sessionCookieFilter(), UsernamePasswordAuthenticationFilter.class);

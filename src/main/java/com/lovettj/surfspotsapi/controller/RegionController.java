@@ -22,12 +22,16 @@ public class RegionController {
    * Find region and country by coordinates and country name.
    * This combines the country lookup and region lookup into a single call.
    * 
+   * IMPORTANT: This must be defined BEFORE the generic /{regionSlug} route
+   * to ensure Spring matches /by-coordinates correctly.
+   * Using explicit path value to ensure proper route matching.
+   * 
    * @param longitude The longitude coordinate
    * @param latitude The latitude coordinate
    * @param countryName The country name from Mapbox (case-insensitive)
    * @return RegionAndCountryResult containing both region and country, or 404 if country not found
    */
-  @GetMapping("/by-coordinates")
+  @GetMapping(value = "/by-coordinates", produces = "application/json")
   public ResponseEntity<RegionAndCountryResult> getRegionAndCountryByCoordinates(
       @RequestParam Double longitude,
       @RequestParam Double latitude,
@@ -55,8 +59,14 @@ public class RegionController {
     return ResponseEntity.ok(regions);
   }
 
+  // This generic route must come LAST to avoid matching /by-coordinates
+  // Add explicit check to prevent matching reserved paths
   @GetMapping("/{regionSlug}")
   public ResponseEntity<Region> getRegionBySlug(@PathVariable String regionSlug) {
+    // Prevent matching reserved paths like "by-coordinates"
+    if ("by-coordinates".equals(regionSlug) || "country".equals(regionSlug)) {
+      return ResponseEntity.notFound().build();
+    }
     Region region = regionService.getRegionBySlug(regionSlug);
     return ResponseEntity.ok(region);
   }
