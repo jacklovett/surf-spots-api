@@ -42,15 +42,27 @@ public class SessionCookieFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String requestURI = httpRequest.getRequestURI();
         String method = httpRequest.getMethod();
+        
+        // Strip context path if present (for proper path matching)
+        String contextPath = httpRequest.getContextPath();
+        String pathToMatch = requestURI;
+        if (contextPath != null && !contextPath.isEmpty() && requestURI.startsWith(contextPath)) {
+            pathToMatch = requestURI.substring(contextPath.length());
+        }
 
-        logger.info("Entering SessionCookieFilter for request: {} {}", method, requestURI);
+        logger.info("Entering SessionCookieFilter for request: {} {} (matching against: {})", 
+                    method, requestURI, pathToMatch);
 
         // Check if the endpoint is public and skip session validation if so
-        if (isPublicEndpoint(requestURI, method)) {
-            logger.info("Public endpoint, skipping session validation: {} {}", method, requestURI);
+        if (isPublicEndpoint(pathToMatch, method)) {
+            logger.info("Public endpoint, skipping session validation: {} {}", method, pathToMatch);
             chain.doFilter(request, response);
             return;
         }
+        
+        // Log if endpoint was not recognized as public (for debugging)
+        logger.warn("Endpoint not recognized as public: {} {} (checked path: {})", 
+                    method, requestURI, pathToMatch);
 
         // Locate the session cookie
         Cookie sessionCookie = findSessionCookie(httpRequest.getCookies());
