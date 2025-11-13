@@ -26,7 +26,13 @@ public class SessionCookieFilter implements Filter {
         "/api/continents/**",
         "/api/countries/**",
         "/api/regions/**",
-        "/api/surf-spots/**",};
+        // Public surf-spots endpoints (GET and filtering POSTs)
+        // Exclude /api/surf-spots/management/** which requires authentication
+        "/api/surf-spots/region/**",
+        "/api/surf-spots/sub-region/**",
+        "/api/surf-spots/within-bounds",
+        "/api/surf-spots/*",  // GET by slug
+        "/api/surf-spots/id/*"};  // GET by id
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -35,12 +41,13 @@ public class SessionCookieFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String requestURI = httpRequest.getRequestURI();
+        String method = httpRequest.getMethod();
 
-        logger.info("Entering SessionCookieFilter for request: {}", requestURI);
+        logger.info("Entering SessionCookieFilter for request: {} {}", method, requestURI);
 
         // Check if the endpoint is public and skip session validation if so
-        if (isPublicEndpoint(requestURI)) {
-            logger.info("Public endpoint, skipping session validation: {}", requestURI);
+        if (isPublicEndpoint(requestURI, method)) {
+            logger.info("Public endpoint, skipping session validation: {} {}", method, requestURI);
             chain.doFilter(request, response);
             return;
         }
@@ -87,9 +94,17 @@ public class SessionCookieFilter implements Filter {
         return parts.length == 2;  // Valid if two parts exist
     }
 
-    private boolean isPublicEndpoint(String uri) {
+    private boolean isPublicEndpoint(String uri, String method) {
+        // Check if endpoint matches public paths
         for (String publicPath : PUBLIC_ENDPOINTS) {
             if (pathMatcher.match(publicPath, uri)) {
+                // For surf-spots POST endpoints, only filtering endpoints are public
+                if (uri.startsWith("/api/surf-spots") && "POST".equals(method)) {
+                    // POST to region/sub-region/within-bounds are public (filtering)
+                    return uri.startsWith("/api/surf-spots/region/") ||
+                           uri.startsWith("/api/surf-spots/sub-region/") ||
+                           uri.equals("/api/surf-spots/within-bounds");
+                }
                 return true;
             }
         }

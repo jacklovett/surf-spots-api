@@ -47,7 +47,7 @@ public class ContactController {
             logger.info("Contact form message sent from {} ({})", 
                 contactRequest.getName(), contactRequest.getEmail());
                 
-            return ResponseEntity.ok(ApiResponse.success("Contact message sent successfully."));
+            return ResponseEntity.ok(ApiResponse.success(null, "Contact message sent successfully."));
             
         } catch (Exception e) {
             logger.error("Failed to send contact form message from {}: {}", 

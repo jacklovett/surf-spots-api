@@ -3,21 +3,19 @@ package com.lovettj.surfspotsapi.controller;
 import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
-import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
-import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.net.URI;
 
-import jakarta.validation.Valid;
 import jakarta.persistence.EntityNotFoundException;
 
+/**
+ * Controller for read-only surf spot endpoints that don't require authentication
+ */
 @RestController
 @RequestMapping("/api/surf-spots")
 public class SurfSpotController {
@@ -66,9 +64,11 @@ public class SurfSpotController {
   }
 
   @GetMapping("/id/{id}")
-  public ResponseEntity<SurfSpot> getSurfSpotById(@PathVariable Long id) {
-    Optional<SurfSpot> surfSpot = surfSpotService.getSurfSpotById(id);
-    return surfSpot.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  public ResponseEntity<SurfSpotDTO> getSurfSpotById(@PathVariable Long id,
+          @RequestParam(required = false) String userId) {
+    return surfSpotService.findByIdAndUserId(id, userId)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping("/within-bounds")
@@ -79,28 +79,5 @@ public class SurfSpotController {
           boundsFilter.getMinLongitude(), boundsFilter.getMaxLongitude()
       );
       return surfSpotService.findSurfSpotsWithinBoundsWithFilters(boundingBox, boundsFilter);
-  }
-
-  @PostMapping
-  public ResponseEntity<Void> createSurfSpot(@Valid @RequestBody SurfSpotRequest surfSpotRequest) {
-      SurfSpot surfSpot = surfSpotService.createSurfSpot(surfSpotRequest);
-      URI location = URI.create("/api/surf-spots/" + surfSpot.getId());
-      return ResponseEntity.created(location).build();
-  }
-
-  @PutMapping("/{id}")
-  public ResponseEntity<SurfSpot> updateSurfSpot(@PathVariable Long id, @RequestBody SurfSpot surfSpot) {
-    try {
-      SurfSpot updatedSurfSpot = surfSpotService.updateSurfSpot(id, surfSpot);
-      return ResponseEntity.ok(updatedSurfSpot);
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
-  }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteSurfSpot(@PathVariable Long id) {
-    surfSpotService.deleteSurfSpot(id);
-    return ResponseEntity.noContent().build();
   }
 }

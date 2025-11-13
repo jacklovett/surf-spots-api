@@ -649,7 +649,8 @@
 {
     "name": "Nouvelle-Aquitaine",
     "country": { "id": 56 },
-    "description": "The legendary heart of European surfing. Hossegor's La Gravière produces some of the world's most perfect sand barrels, while Biarritz's elegant breaks launched surfing across Europe in the 1950s."
+    "description": "The legendary heart of European surfing. Hossegor's La Gravière produces some of the world's most perfect sand barrels, while Biarritz's elegant breaks launched surfing across Europe in the 1950s.",
+    "boundingBox": [-1.8,42.5,2.5,47]
 },
 {
     "name": "Basque Country",

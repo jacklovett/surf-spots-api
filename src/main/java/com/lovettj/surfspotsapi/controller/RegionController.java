@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.controller;
 
+import com.lovettj.surfspotsapi.dto.RegionAndCountryResult;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.service.RegionService;
 
@@ -17,10 +18,26 @@ public class RegionController {
     this.regionService = regionService;
   }
 
-  @GetMapping("/{regionSlug}")
-  public ResponseEntity<Region> getRegionBySlug(@PathVariable String regionSlug) {
-    Region region = regionService.getRegionBySlug(regionSlug);
-    return ResponseEntity.ok(region);
+  /**
+   * Find region and country by coordinates and country name.
+   * This combines the country lookup and region lookup into a single call.
+   * 
+   * @param longitude The longitude coordinate
+   * @param latitude The latitude coordinate
+   * @param countryName The country name from Mapbox (case-insensitive)
+   * @return RegionAndCountryResult containing both region and country, or 404 if country not found
+   */
+  @GetMapping("/by-coordinates")
+  public ResponseEntity<RegionAndCountryResult> getRegionAndCountryByCoordinates(
+      @RequestParam Double longitude,
+      @RequestParam Double latitude,
+      @RequestParam String countryName) {
+    RegionAndCountryResult result = 
+        regionService.findRegionAndCountryByCoordinates(longitude, latitude, countryName);
+    if (result == null) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(result);
   }
 
   @GetMapping("/country/{countryId}")
@@ -36,5 +53,11 @@ public class RegionController {
       return ResponseEntity.notFound().build();
     }
     return ResponseEntity.ok(regions);
+  }
+
+  @GetMapping("/{regionSlug}")
+  public ResponseEntity<Region> getRegionBySlug(@PathVariable String regionSlug) {
+    Region region = regionService.getRegionBySlug(regionSlug);
+    return ResponseEntity.ok(region);
   }
 }

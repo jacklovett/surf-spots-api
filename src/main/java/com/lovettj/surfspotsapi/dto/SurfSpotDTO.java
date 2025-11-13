@@ -13,6 +13,7 @@ import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.enums.BeachBottomType;
 import com.lovettj.surfspotsapi.enums.Parking;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveDirection;
@@ -56,6 +57,7 @@ public class SurfSpotDTO {
 
     private Parking parking;
     private Boolean boatRequired;
+    private SurfSpotStatus status;
 
     private Boolean foodNearby;
     private List<FoodOption> foodOptions;
@@ -67,6 +69,7 @@ public class SurfSpotDTO {
 
     public SurfSpotDTO(SurfSpot surfSpot) {
         this.setId(surfSpot.getId());
+        this.setSlug(surfSpot.getSlug());
         this.setName(surfSpot.getName());
         this.setDescription(surfSpot.getDescription());
         this.setCreatedBy(surfSpot.getCreatedBy());
@@ -96,6 +99,7 @@ public class SurfSpotDTO {
         
         this.setParking(surfSpot.getParking());
         this.setBoatRequired(surfSpot.getBoatRequired());
+        this.setStatus(surfSpot.getStatus());
         this.setFoodNearby(surfSpot.getFoodNearby());
         this.setFoodOptions(surfSpot.getFoodOptions());
         this.setAccommodationNearby(surfSpot.getAccommodationNearby());

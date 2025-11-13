@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.*;
@@ -26,9 +26,9 @@ public class Region extends SluggableEntity {
   @Size(max = 1000)
   private String description;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "country_id")
-  @JsonBackReference
+  @JsonIgnoreProperties({"regions"}) // Prevent circular reference but allow country to be serialized
   private Country country;
 
   @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
@@ -38,4 +38,9 @@ public class Region extends SluggableEntity {
   @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
   @JsonManagedReference
   private List<SubRegion> subRegions;
+
+  // Bounding box: array of 4 coordinates [minLongitude, minLatitude, maxLongitude, maxLatitude]
+  // Used for efficient spatial queries using simple array comparisons
+  @Column(name = "bounding_box", columnDefinition = "double precision[]")
+  private Double[] boundingBox;
 }

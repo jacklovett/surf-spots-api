@@ -145,27 +145,35 @@ class SurfSpotServiceTests {
 
     @Test
     void testUpdateSurfSpotShouldReturnUpdatedSurfSpot() {
-        SurfSpot updatedSpot = new SurfSpot();
-        updatedSpot.setId(1L);
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("Original Name");
 
-        when(surfSpotRepository.existsById(1L)).thenReturn(true);
-        when(surfSpotRepository.save(any(SurfSpot.class))).thenReturn(updatedSpot);
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Updated Name");
+        request.setDescription("Updated Description");
+        request.setUserId("test-user-id");
 
-        SurfSpot result = surfSpotService.updateSurfSpot(1L, updatedSpot);
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenReturn(existingSpot);
+
+        SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
+        verify(surfSpotRepository).findById(1L);
         verify(surfSpotRepository).save(any(SurfSpot.class));
     }
 
     @Test
     void testUpdateSurfSpotShouldThrowExceptionWhenSurfSpotNotFound() {
-        SurfSpot updatedSpot = new SurfSpot();
-        updatedSpot.setId(1L);
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Updated Name");
+        request.setUserId("test-user-id");
 
-        when(surfSpotRepository.existsById(1L)).thenReturn(false);
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> surfSpotService.updateSurfSpot(1L, updatedSpot));
+        assertThrows(EntityNotFoundException.class, () -> surfSpotService.updateSurfSpot(1L, request));
     }
 
     @Test

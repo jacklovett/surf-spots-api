@@ -11,6 +11,10 @@ spring:
       hibernate:
         default_schema: public
     show-sql: true
+  cache:
+    type: simple
+    cache-names:
+      - regionLookup
   mail:
     host: smtp.scaleway.com
     port: 587

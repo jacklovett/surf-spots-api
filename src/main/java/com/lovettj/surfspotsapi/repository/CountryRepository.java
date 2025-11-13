@@ -12,4 +12,9 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
   Optional<Country> findBySlug(String slug);
 
   List<Country> findByContinent(Continent continent);
+
+  /**
+   * Find country by name (case-insensitive, for matching Mapbox country names)
+   */
+  Optional<Country> findByNameIgnoreCase(String name);
 }

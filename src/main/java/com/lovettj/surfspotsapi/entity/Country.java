@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 @Entity
@@ -26,10 +26,10 @@ public class Country extends SluggableEntity {
     @Size(max = 1000)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "continent_id")
-    @JsonBackReference
-    private Continent continent;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "continent_id")
+  @JsonIgnoreProperties({"countries"}) // Prevent circular reference but allow continent to be serialized
+  private Continent continent;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private List<Region> regions;
