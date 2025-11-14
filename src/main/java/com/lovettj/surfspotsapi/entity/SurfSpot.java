@@ -80,12 +80,12 @@ public class SurfSpot extends SluggableEntity {
 
     @ManyToOne
     @JoinColumn(name = "region_id")
-    @JsonBackReference("surfSpot-region")
+    @JsonBackReference
     private Region region;
 
     @ManyToOne
     @JoinColumn(name = "sub_region_id")
-    @JsonBackReference("surfSpot-subRegion")
+    @JsonBackReference
     private SubRegion subRegion;
 
     @Enumerated(EnumType.STRING)
