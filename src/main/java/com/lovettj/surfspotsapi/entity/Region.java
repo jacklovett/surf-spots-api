@@ -29,16 +29,16 @@ public class Region extends SluggableEntity {
 
   @ManyToOne
   @JoinColumn(name = "country_id")
-  @JsonBackReference
+  @JsonBackReference("country-regions")
   private Country country;
-
+  
   @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
-  @JsonManagedReference("surfSpot-region")
+  @JsonManagedReference("region-surfspots")
   private List<SurfSpot> surfSpots;
-
+  
   @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
-  @JsonManagedReference
-  private List<SubRegion> subRegions;
+  @JsonManagedReference("region-subregions")
+  private List<SubRegion> subRegions;  
 
   // Bounding box: array of 4 coordinates [minLongitude, minLatitude, maxLongitude, maxLatitude]
   // Used for efficient spatial queries using simple array comparisons

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.*;
 
 @Entity
@@ -29,9 +30,10 @@ public class Country extends SluggableEntity {
 
     @ManyToOne
     @JoinColumn(name = "continent_id")
-    @JsonBackReference
+    @JsonBackReference("continent-countries")
     private Continent continent;
     
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    @JsonManagedReference("country-regions")
     private List<Region> regions;
 }

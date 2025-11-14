@@ -28,11 +28,11 @@ public class SubRegion extends SluggableEntity {
 
   @ManyToOne
   @JoinColumn(name = "region_id")
-  @JsonBackReference
+  @JsonBackReference("region-subregions")
   private Region region;
-
+  
   @OneToMany(mappedBy = "subRegion", cascade = CascadeType.ALL)
-  @JsonManagedReference("surfSpot-subRegion")
-  private List<SurfSpot> surfSpots;
+  @JsonManagedReference("subregion-surfspots")
+  private List<SurfSpot> surfSpots;  
 }
 

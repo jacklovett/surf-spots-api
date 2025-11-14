@@ -24,6 +24,6 @@ public class Continent extends SluggableEntity {
   private String description;
 
   @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL)
-  @JsonManagedReference
+  @JsonManagedReference("continent-countries")
   private List<Country> countries;
 }
