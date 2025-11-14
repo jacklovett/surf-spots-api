@@ -4,7 +4,11 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
+    properties:
+      hibernate:
+        default_schema: public
     hibernate:
       ddl-auto: none        
     show-sql: false             # Disable SQL logging in production
@@ -12,5 +16,9 @@ spring:
     enabled: true               # Use Flyway for schema migrations
     baseline-on-migrate: true
     baseline-version: 0
+  cache:
+    type: simple
+    cache-names:
+      - regionLookup
 server:
   port: 8080
