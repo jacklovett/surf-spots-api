@@ -165,6 +165,8 @@ public class SurfSpotService {
 
         // Handle boolean fields
         surfSpot.setBoatRequired(surfSpotRequest.isBoatRequired());
+        surfSpot.setIsWavepool(surfSpotRequest.isWavepool());
+        surfSpot.setWavepoolUrl(surfSpotRequest.getWavepoolUrl());
         surfSpot.setAccommodationNearby(surfSpotRequest.isAccommodationNearby());
         surfSpot.setFoodNearby(surfSpotRequest.isFoodNearby());
 
@@ -217,6 +219,8 @@ public class SurfSpotService {
 
         // Update boolean fields
         existingSurfSpot.setBoatRequired(surfSpotRequest.isBoatRequired());
+        existingSurfSpot.setIsWavepool(surfSpotRequest.isWavepool());
+        existingSurfSpot.setWavepoolUrl(surfSpotRequest.getWavepoolUrl());
         existingSurfSpot.setAccommodationNearby(surfSpotRequest.isAccommodationNearby());
         existingSurfSpot.setFoodNearby(surfSpotRequest.isFoodNearby());
 

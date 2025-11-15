@@ -826,7 +826,7 @@
     "seasonStart": "September",
     "seasonEnd": "April",
     "region": {
-      "id": 106
+      "id": 107
     }
   },
   {
@@ -856,7 +856,7 @@
     "seasonStart": "September",
     "seasonEnd": "April",
     "region": {
-      "id": 107
+      "id": 108
     }
   },
   {
@@ -886,7 +886,39 @@
     "seasonStart": "September",
     "seasonEnd": "April",
     "region": {
-      "id": 105
+      "id": 107
+    }
+  },
+  {
+    "name": "Surf Snowdonia",
+    "description": "Europe's first commercial wave pool, located in the stunning Snowdonia National Park. This Wavegarden technology facility produces perfect, consistent waves every 90 seconds, making it ideal for surfers of all levels. Book sessions online for guaranteed waves in a controlled environment.",
+    "type": null,
+    "skillLevel": "All Levels",
+    "beachBottomType": null,
+    "swellDirection": null,
+    "windDirection": null,
+    "tide": null,
+    "waveDirection": null,
+    "minSurfHeight": null,
+    "maxSurfHeight": null,
+    "rating": 4,
+    "latitude": 53.1844,
+    "longitude": -3.8333,
+    "status": "Approved",
+    "foodNearby": true,
+    "foodOptions": ["Restaurant", "Cafe"],
+    "accommodationNearby": true,
+    "accommodationOptions": ["Hotel", "Campsite"],
+    "facilities": ["WC", "Showers", "Rentals", "Surf Shop", "Surf Lessons"],
+    "hazards": [],
+    "parking": null,
+    "boatRequired": false,
+    "isWavepool": true,
+    "wavepoolUrl": "https://www.adventureparcsnowdonia.com",
+    "seasonStart": "May",
+    "seasonEnd": "September",
+    "region": {
+      "id": 106
     }
   }
 ]

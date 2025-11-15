@@ -38,6 +38,8 @@ public class SurfSpotRequest {
     private String seasonEnd;
     private Integer rating;
     private boolean boatRequired;
+    private boolean isWavepool;
+    private String wavepoolUrl;
     private boolean accommodationNearby;
     private boolean foodNearby;
     private List<Hazard> hazards;

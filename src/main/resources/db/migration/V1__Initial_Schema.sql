@@ -61,6 +61,8 @@ CREATE TABLE surf_spot (
     accommodation_nearby BOOLEAN,
     parking VARCHAR(50),
     boat_required BOOLEAN,
+    is_wavepool BOOLEAN DEFAULT false,
+    wavepool_url VARCHAR(500),
     season_start VARCHAR(9),
     season_end VARCHAR(9),
     created_by VARCHAR(255),
@@ -190,6 +192,8 @@ CREATE INDEX idx_user_surf_spot_user ON user_surf_spot(user_id);
 CREATE INDEX idx_user_surf_spot_spot ON user_surf_spot(surf_spot_id);
 CREATE INDEX idx_watch_list_user ON watch_list_surf_spot(user_id);
 CREATE INDEX idx_watch_list_spot ON watch_list_surf_spot(surf_spot_id);
+
+
 
 
 

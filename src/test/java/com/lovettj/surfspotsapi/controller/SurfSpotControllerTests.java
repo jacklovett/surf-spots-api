@@ -170,7 +170,7 @@ class SurfSpotControllerTests {
     }
 
     @Test
-    void testGetSurfSpotsBySubRegionWithFiltersShouldReturnNotFoundWhenSubRegionHasNoSurfSpots() throws Exception {
+    void testGetSurfSpotsBySubRegionWithFiltersShouldReturnEmptyListWhenSubRegionHasNoSurfSpots() throws Exception {
         // Arrange
         String subRegionSlug = "test-sub-region";
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -180,11 +180,12 @@ class SurfSpotControllerTests {
         Mockito.when(surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(Mockito.eq(subRegionSlug), Mockito.any(SurfSpotFilterDTO.class)))
                 .thenReturn(Arrays.asList());
 
-        // Act & Assert
+        // Act & Assert - Should return 200 OK with empty list, not 404
         mockMvc.perform(post("/api/surf-spots/sub-region/" + subRegionSlug)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test

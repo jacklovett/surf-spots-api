@@ -671,6 +671,10 @@
     "name": "Scotland",
     "country": { "id": 76 },
     "description": "Raw North Atlantic power meets dramatic Highland scenery. Thurso East rivals any European reef break, delivering world-class barrels to those brave enough to paddle out in Scotland's frigid waters."
+},{
+  "name": "Wales",
+  "country": { "id": 76 },
+  "description": "Wales offers diverse surf spots along its rugged coastline, from the powerful reef breaks of Porthcawl to the consistent beach breaks of the Gower Peninsula, attracting surfers year-round."
 },
 {
     "name": "Donegal",

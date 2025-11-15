@@ -537,8 +537,36 @@ class SurfSpotServiceTests {
         // Act
         List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
         
-        // Assert - spots with null season fields should be excluded
+        // Assert - spots with null season fields should be excluded (including wavepools)
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterWavepoolsBySeason() {
+        // Arrange
+        SurfSpot wavepool = createMockSurfSpot();
+        wavepool.setSeasonStart("may");
+        wavepool.setSeasonEnd("september");
+        wavepool.setIsWavepool(true); // Wavepool with seasons
+        
+        SurfSpot regularSpot = createMockSurfSpot();
+        regularSpot.setSeasonStart("march");
+        regularSpot.setSeasonEnd("june");
+        regularSpot.setIsWavepool(false);
+        
+        List<SurfSpot> surfSpots = Arrays.asList(wavepool, regularSpot);
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setSeasons(Arrays.asList("april"));
+        
+        when(regionRepository.findBySlug(any())).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.findByRegionWithFilters(any(), any())).thenReturn(surfSpots);
+        
+        // Act
+        List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
+        
+        // Assert - regular spot should match april, wavepool should not (april is not in may-september)
+        assertEquals(1, result.size());
+        assertEquals(regularSpot.getName(), result.get(0).getName());
     }
 
     @Test
