@@ -31,9 +31,6 @@ public class SurfSpotController {
           @RequestBody SurfSpotFilterDTO filters) {
       try {
           List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlugWithFilters(regionSlug, filters);
-          if (surfSpots.isEmpty()) {
-              return ResponseEntity.notFound().build();
-          }
           return ResponseEntity.ok(surfSpots);
       } catch (EntityNotFoundException e) {
           return ResponseEntity.status(500).build();
@@ -46,9 +43,6 @@ public class SurfSpotController {
           @RequestBody SurfSpotFilterDTO filters) {
       try {
           List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(subRegionSlug, filters);
-          if (surfSpots.isEmpty()) {
-              return ResponseEntity.notFound().build();
-          }
           return ResponseEntity.ok(surfSpots);
       } catch (EntityNotFoundException e) {
           return ResponseEntity.status(500).build();

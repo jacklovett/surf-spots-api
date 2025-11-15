@@ -57,6 +57,8 @@ public class SurfSpotDTO {
 
     private Parking parking;
     private Boolean boatRequired;
+    private Boolean isWavepool;
+    private String wavepoolUrl;
     private SurfSpotStatus status;
 
     private Boolean foodNearby;
@@ -99,6 +101,8 @@ public class SurfSpotDTO {
         
         this.setParking(surfSpot.getParking());
         this.setBoatRequired(surfSpot.getBoatRequired());
+        this.setIsWavepool(surfSpot.getIsWavepool());
+        this.setWavepoolUrl(surfSpot.getWavepoolUrl());
         this.setStatus(surfSpot.getStatus());
         this.setFoodNearby(surfSpot.getFoodNearby());
         this.setFoodOptions(surfSpot.getFoodOptions());

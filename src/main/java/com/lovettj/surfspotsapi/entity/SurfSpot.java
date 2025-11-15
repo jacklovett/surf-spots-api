@@ -125,6 +125,12 @@ public class SurfSpot extends SluggableEntity {
 
     private Boolean boatRequired;
 
+    private Boolean isWavepool;
+
+    @Size(max = 500)
+    @Column(length = 500)
+    private String wavepoolUrl;
+
     @Size(max = 9)
     private String seasonStart;
 
