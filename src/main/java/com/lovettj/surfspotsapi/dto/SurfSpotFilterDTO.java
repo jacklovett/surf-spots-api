@@ -32,6 +32,7 @@ public class SurfSpotFilterDTO {
     private List<Parking> parking;
     private SurfSpotStatus status;
     private Boolean boatRequired;
+    private Boolean isWavepool;
     private List<String> foodOptions;
     private List<String> accommodationOptions;
     private List<String> facilities;

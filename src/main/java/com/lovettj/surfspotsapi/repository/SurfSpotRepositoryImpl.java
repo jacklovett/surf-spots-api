@@ -144,6 +144,10 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             predicates.add(cb.equal(root.get("boatRequired"), filters.getBoatRequired()));
         }
 
+        if (filters.getIsWavepool() != null) {
+            predicates.add(cb.equal(root.get("isWavepool"), filters.getIsWavepool()));
+        }
+
         if (filters.getMinRating() != null) {
             predicates.add(cb.greaterThanOrEqualTo(root.get("rating"), filters.getMinRating()));
         }

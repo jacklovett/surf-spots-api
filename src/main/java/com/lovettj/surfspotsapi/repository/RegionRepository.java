@@ -1,6 +1,5 @@
 package com.lovettj.surfspotsapi.repository;
 
-import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.Region;
 
 import java.util.List;
