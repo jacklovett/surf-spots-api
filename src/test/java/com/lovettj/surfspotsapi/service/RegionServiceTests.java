@@ -177,8 +177,6 @@ class RegionServiceTests {
         Double[] boundingBox = new Double[]{-10.0, 30.0, -9.0, 31.0}; // [minLong, minLat, maxLong, maxLat]
         testRegion1.setBoundingBox(boundingBox);
         
-        List<Region> allRegions = Arrays.asList(testRegion1, testRegion2);
-        when(regionRepository.findAll()).thenReturn(allRegions);
         when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.of(testRegion1));
 
@@ -201,8 +199,6 @@ class RegionServiceTests {
         testRegion1.setSurfSpots(Arrays.asList(testSurfSpot1, testSurfSpot2));
         testRegion2.setSurfSpots(Arrays.asList());
         
-        List<Region> allRegions = Arrays.asList(testRegion1, testRegion2);
-        when(regionRepository.findAll()).thenReturn(allRegions);
         when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.empty());
         when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble(), eq(null)))
@@ -235,15 +231,12 @@ class RegionServiceTests {
                 .build();
         testRegion1.setSurfSpots(Arrays.asList(farSurfSpot));
         
-        List<Region> allRegions = Arrays.asList(testRegion1);
-        when(regionRepository.findAll()).thenReturn(allRegions);
-
         // Act
         Region result = regionService.findRegionByCoordinates(longitude, latitude);
 
         // Assert
         assertNull(result);
-        verify(regionRepository).findAll();
+        verify(regionRepository).findAllWithSurfSpots(null);
     }
 
     @Test
@@ -266,8 +259,6 @@ class RegionServiceTests {
                 .build();
         testRegion2.setSurfSpots(Arrays.asList(closerSurfSpot));
         
-        List<Region> allRegions = Arrays.asList(testRegion1, testRegion2);
-        when(regionRepository.findAll()).thenReturn(allRegions);
         when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.of(testRegion1));
 
@@ -285,14 +276,19 @@ class RegionServiceTests {
         // Arrange
         Double longitude = -9.7167;
         Double latitude = 30.5333;
-        when(regionRepository.findAll()).thenReturn(Arrays.asList());
+        when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
+            .thenReturn(Optional.empty());
+        when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble(), eq(null)))
+            .thenReturn(Optional.empty());
+        when(regionRepository.findAllWithSurfSpots(null))
+            .thenReturn(Arrays.asList());
 
         // Act
         Region result = regionService.findRegionByCoordinates(longitude, latitude);
 
         // Assert
         assertNull(result);
-        verify(regionRepository).findAll();
+        verify(regionRepository).findAllWithSurfSpots(null);
     }
 
     @Test
@@ -304,8 +300,6 @@ class RegionServiceTests {
         testRegion1.setBoundingBox(null);
         testRegion1.setSurfSpots(Arrays.asList(testSurfSpot1));
         
-        List<Region> allRegions = Arrays.asList(testRegion1);
-        when(regionRepository.findAll()).thenReturn(allRegions);
         when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.empty());
         when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble(), eq(null)))
@@ -333,8 +327,6 @@ class RegionServiceTests {
         testRegion1.setBoundingBox(invalidBoundingBox);
         testRegion1.setSurfSpots(Arrays.asList(testSurfSpot1));
         
-        List<Region> allRegions = Arrays.asList(testRegion1);
-        when(regionRepository.findAll()).thenReturn(allRegions);
         when(regionRepository.findRegionContainingPoint(longitude, latitude, null))
             .thenReturn(Optional.empty());
         when(regionRepository.findRegionNearPoint(eq(longitude), eq(latitude), anyDouble(), eq(null)))

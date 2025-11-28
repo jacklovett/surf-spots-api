@@ -34,6 +34,9 @@ class WatchListServiceTests {
     @Mock
     private SurfSpotRepository surfSpotRepository;
 
+    @Mock
+    private NotificationService notificationService;
+
     @InjectMocks
     private WatchListService watchListService;
 
@@ -75,13 +78,17 @@ class WatchListServiceTests {
     void testGetUsersWatchList() {
         when(watchListRepository.findByUserId(testUserId))
             .thenReturn(Arrays.asList(testWatchListEntry));
+        when(notificationService.generateNotifications(any()))
+            .thenReturn(Arrays.asList());
 
-    WatchListDTO result = watchListService.getUsersWatchList(testUserId);
+        WatchListDTO result = watchListService.getUsersWatchList(testUserId);
 
-    assertNotNull(result);
-    assertFalse(result.getSurfSpots().isEmpty());
-    // surfSpots now contains WatchListSpotDTO wrappers
-    assertEquals(testSpot.getName(), result.getSurfSpots().get(0).getSurfSpot().getName());
+        assertNotNull(result);
+        assertFalse(result.getSurfSpots().isEmpty());
+        assertNotNull(result.getNotifications());
+        // surfSpots now contains WatchListSpotDTO wrappers
+        assertEquals(testSpot.getName(), result.getSurfSpots().get(0).getSurfSpot().getName());
+        verify(notificationService).generateNotifications(any());
     }
 
     @Test

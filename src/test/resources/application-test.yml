@@ -1,0 +1,13 @@
+# Test profile - for all integration tests
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update # Hibernate automatically updates schema
+  flyway:
+    enabled: false # Disable Flyway in tests
+
+# Disable automatic seeding for all tests
+app:
+  seed:
+    enabled: false
+

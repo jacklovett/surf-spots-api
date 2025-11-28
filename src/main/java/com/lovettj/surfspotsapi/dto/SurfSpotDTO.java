@@ -10,6 +10,7 @@ import com.lovettj.surfspotsapi.entity.FoodOption;
 import com.lovettj.surfspotsapi.entity.Hazard;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.entity.SwellSeason;
 import com.lovettj.surfspotsapi.enums.BeachBottomType;
 import com.lovettj.surfspotsapi.enums.Parking;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
@@ -50,8 +51,7 @@ public class SurfSpotDTO {
     private String windDirection;
     private Tide tide;
     private WaveDirection waveDirection;
-    private String seasonStart;
-    private String seasonEnd;
+    private SwellSeason swellSeason;
     private Double minSurfHeight;
     private Double maxSurfHeight;
 
@@ -82,19 +82,20 @@ public class SurfSpotDTO {
         this.setLongitude(surfSpot.getLongitude());
 
         Region surfSpotRegion = surfSpot.getRegion();
-        Country surfSpotCountry = (surfSpotRegion != null) ? surfSpotRegion.getCountry() : null;
-        Continent surfSpotContinent = (surfSpotCountry != null) ? surfSpotCountry.getContinent() : null;
+        if (surfSpotRegion != null) {
+            Country surfSpotCountry = surfSpotRegion.getCountry();
+            Continent surfSpotContinent = surfSpotCountry != null ? surfSpotCountry.getContinent() : null;
 
-        this.setRegion(surfSpotRegion);
-        this.setCountry(surfSpotCountry);
-        this.setContinent(surfSpotContinent);
+            this.setRegion(surfSpotRegion);
+            this.setCountry(surfSpotCountry);
+            this.setContinent(surfSpotContinent);
+        }
 
         this.setSwellDirection(surfSpot.getSwellDirection());
         this.setWindDirection(surfSpot.getWindDirection());
         this.setTide(surfSpot.getTide());
         this.setWaveDirection(surfSpot.getWaveDirection());
-        this.setSeasonStart(surfSpot.getSeasonStart());
-        this.setSeasonEnd(surfSpot.getSeasonEnd());
+        this.setSwellSeason(surfSpot.getSwellSeason());
         this.setRating(surfSpot.getRating());
         this.setMinSurfHeight(surfSpot.getMinSurfHeight());
         this.setMaxSurfHeight(surfSpot.getMaxSurfHeight());

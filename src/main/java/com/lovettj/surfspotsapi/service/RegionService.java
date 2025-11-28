@@ -143,6 +143,9 @@ public class RegionService {
     }
     
     Country country = countryOpt.get();
+    if (country.getContinent() != null) {
+      country.getContinent().getSlug();
+    }
     Long countryId = country.getId();
     
     // Then find the region using the country ID

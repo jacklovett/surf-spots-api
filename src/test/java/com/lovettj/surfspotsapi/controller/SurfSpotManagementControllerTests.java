@@ -6,7 +6,6 @@ import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
@@ -20,6 +19,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
+
+import jakarta.servlet.http.Cookie;
 
 import java.time.LocalDateTime;
 
@@ -37,9 +38,11 @@ class SurfSpotManagementControllerTests {
     @MockBean
     private SurfSpotService surfSpotService;
 
-    @BeforeEach
-    public void setUp() {
-        // Setup if needed
+    private Cookie createValidSessionCookie() {
+        // SessionCookieFilter expects a cookie with exactly two parts (payload.signature)
+        // Format: "payload.signature" - when split by ".", should have exactly 2 parts
+        Cookie sessionCookie = new Cookie("session", "testpayload.testsignature");
+        return sessionCookie;
     }
 
     @Test
@@ -59,6 +62,7 @@ class SurfSpotManagementControllerTests {
 
         mockMvc.perform(post("/api/surf-spots/management")
                 .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
                 .content("""
             {
               "name": "Pipeline",
@@ -96,6 +100,7 @@ class SurfSpotManagementControllerTests {
 
         mockMvc.perform(patch("/api/surf-spots/management/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
                 .content("""
             {
               "name": "Updated Pipeline",
@@ -114,6 +119,7 @@ class SurfSpotManagementControllerTests {
 
         mockMvc.perform(delete("/api/surf-spots/management/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
                 .param("userId", "test-user-id-123"))
                 .andExpect(status().isNoContent());
 

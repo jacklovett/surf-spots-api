@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +25,11 @@ public class SessionCookieFilter implements Filter {
         "/api/continents/**",
         "/api/countries/**",
         "/api/regions/**",
-        // Public surf-spots endpoints (GET and filtering POSTs)
-        // Exclude /api/surf-spots/management/** which requires authentication
         "/api/surf-spots/region/**",
         "/api/surf-spots/sub-region/**",
         "/api/surf-spots/within-bounds",
-        "/api/surf-spots/*",  // GET by slug
-        "/api/surf-spots/id/*"};  // GET by id
+        "/api/surf-spots/*",
+        "/api/surf-spots/id/*"};
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

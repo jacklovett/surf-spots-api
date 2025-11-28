@@ -17,9 +17,7 @@
     "facilities": ["WC", "Showers", "Surf Lessons"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "May"
+    "boatRequired": false
   },
   {
     "name": "Plage Mandjane",
@@ -39,9 +37,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "May"
+    "boatRequired": false
   },
   {
     "name": "Praia do Bimbe",
@@ -61,9 +57,7 @@
     "facilities": ["WC"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "June",
-    "seasonEnd": "September"
+    "boatRequired": false
   },
   {
     "name": "Praia do Golo",
@@ -83,9 +77,7 @@
     "facilities": ["WC"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "June",
-    "seasonEnd": "September"
+    "boatRequired": false
   },
   {
     "name": "Praia da Chitamba",
@@ -105,9 +97,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents", "Rips"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Quicombo",
@@ -127,9 +117,7 @@
     "facilities": ["WC", "Showers", "Surf Shop"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Sumbe",
@@ -149,9 +137,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
     {
     "name": "Barra da Cuanza",
@@ -171,9 +157,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents", "Rips"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Buraco",
@@ -193,9 +177,7 @@
     "facilities": ["WC"],
     "hazards": ["Rocks", "Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Cabo Ledo",
@@ -215,9 +197,7 @@
     "facilities": ["WC", "Showers", "Surf Lessons"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Chicala",
@@ -237,9 +217,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Miradouro",
@@ -259,9 +237,7 @@
     "facilities": ["WC"],
     "hazards": ["Rocks", "Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Mussulo",
@@ -281,9 +257,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Shipwreck",
@@ -303,9 +277,7 @@
     "facilities": ["WC"],
     "hazards": ["Rocks", "Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Praia da Mucula",
@@ -325,9 +297,7 @@
     "facilities": ["WC"],
     "hazards": ["Currents", "Rips"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "May",
-    "seasonEnd": "October"
+    "boatRequired": false
   },
   {
     "name": "Praia de Chaves",
@@ -347,9 +317,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "November",
-    "seasonEnd": "May"
+    "boatRequired": false
   },
   {
     "name": "Boa Vista Bahia",
@@ -369,9 +337,7 @@
     "facilities": ["WC", "Showers", "Surf Lessons"],
     "hazards": ["Reef"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "November",
-    "seasonEnd": "May"
+    "boatRequired": false
   },
   {
     "name": "Fragata",
@@ -391,9 +357,7 @@
     "facilities": ["WC"],
     "hazards": ["Reef"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "November",
-    "seasonEnd": "May"
+    "boatRequired": false
   },
   {
     "name": "Cocos Beach Praia",
@@ -413,9 +377,7 @@
     "facilities": ["WC", "Showers"],
     "hazards": ["Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "November",
-    "seasonEnd": "May"
+    "boatRequired": false
   },
   {
     "name": "Coragi",
@@ -435,9 +397,7 @@
     "facilities": ["WC"],
     "hazards": ["Reef", "Currents"],
     "parking": "Street",
-    "boatRequired": false,
-    "seasonStart": "November",
-    "seasonEnd": "May"
+    "boatRequired": false
   },
   {
     "name": "Costa da Caparica",
@@ -463,8 +423,6 @@
     "hazards": ["Currents", "Rips"],
     "parking": "Paid",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "May",
     "region": {
       "id": 97
     }
@@ -493,8 +451,6 @@
     "hazards": ["Currents", "Rips", "Localism"],
     "parking": "Free",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "May",
     "region": {
       "id": 98
     }
@@ -523,8 +479,6 @@
     "hazards": ["Rocks", "Currents", "Localism"],
     "parking": "Free",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "May",
     "region": {
       "id": 99
     }
@@ -553,8 +507,6 @@
     "hazards": ["Reef", "Rocks", "Currents", "Localism"],
     "parking": "Street",
     "boatRequired": false,
-    "seasonStart": "October",
-    "seasonEnd": "March",
     "region": {
       "id": 99
     }
@@ -583,8 +535,6 @@
     "hazards": ["Currents", "Rips"],
     "parking": "Free",
     "boatRequired": true,
-    "seasonStart": "October",
-    "seasonEnd": "March",
     "region": {
       "id": 98
     }
@@ -613,8 +563,6 @@
     "hazards": ["Currents", "Rips"],
     "parking": "Free",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "May",
     "region": {
       "id": 100
     }
@@ -643,8 +591,6 @@
     "hazards": ["Currents", "Rips", "Localism"],
     "parking": "Paid",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 101
     }
@@ -673,8 +619,6 @@
     "hazards": ["Currents"],
     "parking": "Paid",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 101
     }
@@ -703,8 +647,6 @@
     "hazards": ["Currents", "Localism"],
     "parking": "Street",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 102
     }
@@ -733,8 +675,6 @@
     "hazards": ["Currents"],
     "parking": "Paid",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 102
     }
@@ -763,8 +703,6 @@
     "hazards": ["Currents"],
     "parking": "Free",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 103
     }
@@ -793,8 +731,6 @@
     "hazards": ["Currents", "Rips"],
     "parking": "Paid",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 104
     }
@@ -823,8 +759,6 @@
     "hazards": ["Reef", "Currents", "Localism"],
     "parking": "Free",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 107
     }
@@ -853,8 +787,6 @@
     "hazards": ["Currents", "Rips"],
     "parking": "Free",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 108
     }
@@ -883,8 +815,6 @@
     "hazards": ["Reef", "Rocks", "Currents"],
     "parking": "Free",
     "boatRequired": false,
-    "seasonStart": "September",
-    "seasonEnd": "April",
     "region": {
       "id": 107
     }
@@ -915,8 +845,6 @@
     "boatRequired": false,
     "isWavepool": true,
     "wavepoolUrl": "https://www.adventureparcsnowdonia.com",
-    "seasonStart": "May",
-    "seasonEnd": "September",
     "region": {
       "id": 106
     }

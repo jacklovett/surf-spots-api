@@ -184,13 +184,6 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             predicates.add(cb.or(windPredicates.toArray(new Predicate[0])));
         }
 
-        if (filters.getSeasonStart() != null) {
-            predicates.add(cb.equal(cb.lower(root.get("seasonStart")), filters.getSeasonStart().toLowerCase()));
-        }
-
-        if (filters.getSeasonEnd() != null) {
-            predicates.add(cb.equal(cb.lower(root.get("seasonEnd")), filters.getSeasonEnd().toLowerCase()));
-        }
         // For arrays of enums (hazards, facilities, foodOptions, accommodationOptions), use join or member of if mapped as @ElementCollection or @ManyToMany
         // Example for hazards:
         if (filters.getHazards() != null && !filters.getHazards().isEmpty()) {
@@ -212,7 +205,6 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             SetJoin<SurfSpot, Object> accommodationOptionsJoin = root.joinSet("accommodationOptions", JoinType.LEFT);
             predicates.add(accommodationOptionsJoin.in(filters.getAccommodationOptions()));
         }
-
     }
 
     void addPrivateSpotsFilters(CriteriaBuilder cb, Root<SurfSpot> root, List<Predicate> predicates, String userId) {

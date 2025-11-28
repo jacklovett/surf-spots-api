@@ -132,11 +132,9 @@ public class SurfSpot extends SluggableEntity {
     @Column(length = 500)
     private String wavepoolUrl;
 
-    @Size(max = 9)
-    private String seasonStart;
-
-    @Size(max = 9)
-    private String seasonEnd;
+    @ManyToOne
+    @JoinColumn(name = "swell_season_id")
+    private SwellSeason swellSeason;
 
     @ElementCollection
     @Column(name = "forecasts")

@@ -1,9 +1,8 @@
 package com.lovettj.surfspotsapi.service;
 
+import java.time.Month;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,6 +19,7 @@ import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
+import com.lovettj.surfspotsapi.util.MonthUtils;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -31,68 +31,42 @@ public class SurfSpotService {
     private final SubRegionRepository subRegionRepository;
     private final UserSurfSpotService userSurfSpotService;
     private final WatchListService watchListService;
+    private final SwellSeasonDeterminationService swellSeasonDeterminationService;
 
-    /**
-     * Map month names to numeric indices (1-12) for efficient range comparisons.
-     * We convert month names to numbers to simplify handling of wrapping ranges
-     * (e.g., December to April) which would be more complex with string comparisons.
-     * The numeric approach allows straightforward comparison: for wrapping ranges,
-     * a month is in range if it's >= start OR <= end.
-     */
-    private static final Map<String, Integer> MONTH_INDICES = new HashMap<>();
-    static {
-        MONTH_INDICES.put("january", 1);
-        MONTH_INDICES.put("february", 2);
-        MONTH_INDICES.put("march", 3);
-        MONTH_INDICES.put("april", 4);
-        MONTH_INDICES.put("may", 5);
-        MONTH_INDICES.put("june", 6);
-        MONTH_INDICES.put("july", 7);
-        MONTH_INDICES.put("august", 8);
-        MONTH_INDICES.put("september", 9);
-        MONTH_INDICES.put("october", 10);
-        MONTH_INDICES.put("november", 11);
-        MONTH_INDICES.put("december", 12);
-    }
-
-    public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository, SubRegionRepository subRegionRepository, UserSurfSpotService userSurfSpotService, WatchListService watchListService) {
+    public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository, SubRegionRepository subRegionRepository, UserSurfSpotService userSurfSpotService, WatchListService watchListService, SwellSeasonDeterminationService swellSeasonDeterminationService) {
         this.surfSpotRepository = surfSpotRepository;
         this.regionRepository = regionRepository;
         this.subRegionRepository = subRegionRepository;
         this.userSurfSpotService = userSurfSpotService;
         this.watchListService = watchListService;
+        this.swellSeasonDeterminationService = swellSeasonDeterminationService;
     }
 
     /**
-     * Converts a month name to its numeric index (1-12)
-     */
-    private Integer getMonthIndex(String monthName) {
-        if (monthName == null) return null;
-        return MONTH_INDICES.get(monthName.toLowerCase());
-    }
-
-    /**
-     * Checks if a selected month falls within a season range.
+     * Checks if a selected month falls within a season range using month names.
      * Handles both normal ranges (e.g., March-June) and wrapping ranges (e.g., December-April).
-     * Uses numeric indices for efficient comparison of month ranges.
      */
-    private boolean isMonthInSeasonRange(String selectedMonth, String seasonStart, String seasonEnd) {
-        Integer selectedIndex = getMonthIndex(selectedMonth);
-        Integer startIndex = getMonthIndex(seasonStart);
-        Integer endIndex = getMonthIndex(seasonEnd);
-
-        if (selectedIndex == null || startIndex == null || endIndex == null) {
+    private boolean isMonthInSeasonRange(String selectedMonth, String startMonth, String endMonth) {
+        Month selected = MonthUtils.parseMonthString(selectedMonth);
+        Month start = MonthUtils.parseMonthString(startMonth);
+        Month end = MonthUtils.parseMonthString(endMonth);
+        
+        if (selected == null || start == null || end == null) {
             return false;
         }
 
+        int selectedValue = selected.getValue();
+        int startValue = start.getValue();
+        int endValue = end.getValue();
+
         // Case 1: Normal range (start <= end), e.g., March (3) - June (6)
-        if (startIndex <= endIndex) {
-            return selectedIndex >= startIndex && selectedIndex <= endIndex;
+        if (startValue <= endValue) {
+            return selectedValue >= startValue && selectedValue <= endValue;
         }
         // Case 2: Wrapping range (start > end), e.g., December (12) - April (4)
         // Selected month must be >= start OR <= end
         else {
-            return selectedIndex >= startIndex || selectedIndex <= endIndex;
+            return selectedValue >= startValue || selectedValue <= endValue;
         }
     }
 
@@ -106,16 +80,20 @@ public class SurfSpotService {
 
         return surfSpots.stream()
                 .filter(spot -> {
-                    String seasonStart = spot.getSeasonStart();
-                    String seasonEnd = spot.getSeasonEnd();
+                    if (spot.getSwellSeason() == null) {
+                        return false;
+                    }
+
+                    String start = spot.getSwellSeason().getStartMonth();
+                    String end = spot.getSwellSeason().getEndMonth();
                     
-                    if (seasonStart == null || seasonEnd == null) {
+                    if (start == null || end == null) {
                         return false;
                     }
 
                     // Check if any selected month falls within this spot's season range
                     return filters.getSeasons().stream()
-                            .anyMatch(selectedMonth -> isMonthInSeasonRange(selectedMonth, seasonStart, seasonEnd));
+                            .anyMatch(selectedMonth -> isMonthInSeasonRange(selectedMonth, start, end));
                 })
                 .collect(Collectors.toList());
     }
@@ -149,8 +127,6 @@ public class SurfSpotService {
         surfSpot.setWindDirection(surfSpotRequest.getWindDirection());
         surfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         surfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
-        surfSpot.setSeasonStart(surfSpotRequest.getSeasonStart());
-        surfSpot.setSeasonEnd(surfSpotRequest.getSeasonEnd());
         surfSpot.setRating(surfSpotRequest.getRating());
         surfSpot.setForecasts(surfSpotRequest.getForecasts());
 
@@ -186,6 +162,17 @@ public class SurfSpotService {
                 .orElseThrow(() -> new EntityNotFoundException("Region not found"));
         surfSpot.setRegion(region);
 
+        // Automatically determine swell season based on coordinates
+        // Skip for wavepools as they don't have natural swell seasons
+        // This is done at surf spot level because regions can have multiple coastlines
+        // (e.g., Andalusia has both Mediterranean and Atlantic coasts)
+        if (!surfSpot.getIsWavepool()) {
+            swellSeasonDeterminationService.determineSwellSeason(
+                    surfSpot.getLatitude(), 
+                    surfSpot.getLongitude()
+            ).ifPresent(surfSpot::setSwellSeason);
+        }
+
         // Save the SurfSpot entity
         return surfSpotRepository.save(surfSpot);
     }
@@ -203,8 +190,6 @@ public class SurfSpotService {
         existingSurfSpot.setWindDirection(surfSpotRequest.getWindDirection());
         existingSurfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         existingSurfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
-        existingSurfSpot.setSeasonStart(surfSpotRequest.getSeasonStart());
-        existingSurfSpot.setSeasonEnd(surfSpotRequest.getSeasonEnd());
         existingSurfSpot.setRating(surfSpotRequest.getRating());
         existingSurfSpot.setForecasts(surfSpotRequest.getForecasts());
 
@@ -240,6 +225,19 @@ public class SurfSpotService {
             Region region = regionRepository.findById(regionId)
                     .orElseThrow(() -> new EntityNotFoundException("Region not found"));
             existingSurfSpot.setRegion(region);
+        }
+
+        // Automatically determine and update swell season based on coordinates
+        // Skip for wavepools as they don't have natural swell seasons
+        // This is done at surf spot level because regions can have multiple coastlines
+        if (!existingSurfSpot.getIsWavepool()) {
+            swellSeasonDeterminationService.determineSwellSeason(
+                    existingSurfSpot.getLatitude(), 
+                    existingSurfSpot.getLongitude()
+            ).ifPresent(existingSurfSpot::setSwellSeason);
+        } else {
+            // Clear swell season for wavepools
+            existingSurfSpot.setSwellSeason(null);
         }
 
         // Save and return the updated entity

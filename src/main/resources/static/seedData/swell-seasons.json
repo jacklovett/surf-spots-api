@@ -1,0 +1,103 @@
+[
+  {
+    "name": "North Atlantic",
+    "startMonth": "September",
+    "endMonth": "April"
+  },
+  {
+    "name": "North Sea",
+    "startMonth": "September",
+    "endMonth": "April"
+  },
+  {
+    "name": "Baltic Sea",
+    "startMonth": "October",
+    "endMonth": "April"
+  },
+  {
+    "name": "Mediterranean",
+    "startMonth": "October",
+    "endMonth": "March"
+  },
+  {
+    "name": "Caribbean",
+    "startMonth": "June",
+    "endMonth": "November"
+  },
+  {
+    "name": "Gulf of Mexico",
+    "startMonth": "June",
+    "endMonth": "November"
+  },
+  {
+    "name": "North Pacific",
+    "startMonth": "September",
+    "endMonth": "April"
+  },
+  {
+    "name": "Central America Pacific",
+    "startMonth": "April",
+    "endMonth": "October"
+  },
+  {
+    "name": "South Pacific",
+    "startMonth": "March",
+    "endMonth": "October"
+  },
+  {
+    "name": "Indian Ocean",
+    "startMonth": "March",
+    "endMonth": "October"
+  },
+  {
+    "name": "Red Sea",
+    "startMonth": "October",
+    "endMonth": "April"
+  },
+  {
+    "name": "Arabian Sea",
+    "startMonth": "May",
+    "endMonth": "September"
+  },
+  {
+    "name": "Bay of Bengal",
+    "startMonth": "May",
+    "endMonth": "September"
+  },
+  {
+    "name": "West Africa Atlantic",
+    "startMonth": "April",
+    "endMonth": "October"
+  },
+  {
+    "name": "South Atlantic",
+    "startMonth": "March",
+    "endMonth": "October"
+  },
+  {
+    "name": "Tasman Sea",
+    "startMonth": "March",
+    "endMonth": "October"
+  },
+  {
+    "name": "Coral Sea",
+    "startMonth": "April",
+    "endMonth": "October"
+  },
+  {
+    "name": "Japan / Northwest Pacific",
+    "startMonth": "August",
+    "endMonth": "November"
+  },
+  {
+    "name": "South China Sea",
+    "startMonth": "May",
+    "endMonth": "October"
+  },
+  {
+    "name": "Indonesia",
+    "startMonth": "April",
+    "endMonth": "October"
+  }
+]
+

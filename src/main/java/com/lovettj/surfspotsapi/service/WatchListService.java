@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lovettj.surfspotsapi.dto.NotificationDTO;
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
 import com.lovettj.surfspotsapi.dto.WatchListSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
@@ -21,13 +22,16 @@ public class WatchListService {
     private final WatchListRepository watchListRepository;
     private final UserRepository userRepository;
     private final SurfSpotRepository surfSpotRepository;
+    private final NotificationService notificationService;
 
     public WatchListService(WatchListRepository watchListRepository, 
                           UserRepository userRepository,
-                          SurfSpotRepository surfSpotRepository) {
+                          SurfSpotRepository surfSpotRepository,
+                          NotificationService notificationService) {
         this.watchListRepository = watchListRepository;
         this.userRepository = userRepository;
         this.surfSpotRepository = surfSpotRepository;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -82,12 +86,14 @@ public class WatchListService {
             return new WatchListDTO(Collections.emptyList(), Collections.emptyList());
         }
 
-    List<WatchListSpotDTO> surfSpots = mapToSurfSpotDTO(watchList);
-
-        // TODO: Based on watchList, generate real time notifications data
+        List<WatchListSpotDTO> surfSpots = mapToSurfSpotDTO(watchList);
+        
+        // Generate notifications based on watched surf spots
+        List<NotificationDTO> notifications = 
+            notificationService.generateNotifications(watchList);
 
         return WatchListDTO.builder()
-                .notifications(Collections.emptyList())
+                .notifications(notifications)
                 .surfSpots(surfSpots)
                 .build();
     }

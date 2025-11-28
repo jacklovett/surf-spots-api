@@ -15,14 +15,16 @@ import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.*;
 
+@ExtendWith(MockitoExtension.class)
 class SurfSpotServiceTests {
 
     @Mock
@@ -40,14 +42,16 @@ class SurfSpotServiceTests {
     @Mock
     private WatchListService watchListService;
     
+    @Mock
+    private SwellSeasonDeterminationService swellSeasonDeterminationService;
+    
     private SurfSpotService surfSpotService;
 
     private String testUserId;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        surfSpotService = new SurfSpotService(surfSpotRepository, regionRepository, subRegionRepository, userSurfSpotService, watchListService);
+        surfSpotService = new SurfSpotService(surfSpotRepository, regionRepository, subRegionRepository, userSurfSpotService, watchListService, swellSeasonDeterminationService);
         testUserId = "test-user-id-123";
     }
 
@@ -119,20 +123,102 @@ class SurfSpotServiceTests {
         request.setDescription("Great surf spot!");
         request.setUserId(testUserId);
         request.setRegionId(1L);
+        request.setLatitude(36.5270); // Cadiz, Spain - Atlantic coast
+        request.setLongitude(-6.2886);
 
         Region mockRegion = createMockRegion();
         when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
 
+        SwellSeason mockSwellSeason = new SwellSeason();
+        mockSwellSeason.setId(1L);
+        mockSwellSeason.setName("North Atlantic");
+        mockSwellSeason.setStartMonth("September");
+        mockSwellSeason.setEndMonth("April");
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.of(mockSwellSeason));
+
         SurfSpot mockSurfSpot = new SurfSpot();
         mockSurfSpot.setName(request.getName());
         mockSurfSpot.setRegion(mockRegion);
-        when(surfSpotRepository.save(any(SurfSpot.class))).thenReturn(mockSurfSpot);
+        mockSurfSpot.setSwellSeason(mockSwellSeason);
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
 
         SurfSpot result = surfSpotService.createSurfSpot(request);
 
         assertNotNull(result);
         assertEquals(request.getName(), result.getName());
+        assertNotNull(result.getSwellSeason());
+        assertEquals("North Atlantic", result.getSwellSeason().getName());
         verify(surfSpotRepository).save(any(SurfSpot.class));
+        verify(swellSeasonDeterminationService).determineSwellSeason(36.5270, -6.2886);
+    }
+
+    @Test
+    public void testCreateSurfSpotShouldAutomaticallySetSwellSeasonForMediterranean() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Mediterranean Spot");
+        request.setDescription("Mediterranean surf spot");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.7213); // Malaga, Spain - Mediterranean coast
+        request.setLongitude(-4.4214);
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        SwellSeason mockSwellSeason = new SwellSeason();
+        mockSwellSeason.setId(2L);
+        mockSwellSeason.setName("Mediterranean");
+        mockSwellSeason.setStartMonth("October");
+        mockSwellSeason.setEndMonth("March");
+        when(swellSeasonDeterminationService.determineSwellSeason(36.7213, -4.4214))
+                .thenReturn(Optional.of(mockSwellSeason));
+
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertNotNull(result);
+        assertNotNull(result.getSwellSeason());
+        assertEquals("Mediterranean", result.getSwellSeason().getName());
+        verify(swellSeasonDeterminationService).determineSwellSeason(36.7213, -4.4214);
+    }
+
+    @Test
+    public void testCreateSurfSpotShouldNotSetSwellSeasonWhenCoordinatesNotDetermined() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Unknown Region Spot");
+        request.setDescription("Spot in unknown region");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(0.0); // Middle of ocean - no known region
+        request.setLongitude(0.0);
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        when(swellSeasonDeterminationService.determineSwellSeason(0.0, 0.0))
+                .thenReturn(Optional.empty());
+
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertNotNull(result);
+        assertNull(result.getSwellSeason()); // No swell season when not determined
+        verify(swellSeasonDeterminationService).determineSwellSeason(0.0, 0.0);
     }
 
     @Test
@@ -148,11 +234,21 @@ class SurfSpotServiceTests {
         SurfSpot existingSpot = new SurfSpot();
         existingSpot.setId(1L);
         existingSpot.setName("Original Name");
+        existingSpot.setLatitude(36.5270);
+        existingSpot.setLongitude(-6.2886);
 
         SurfSpotRequest request = new SurfSpotRequest();
         request.setName("Updated Name");
         request.setDescription("Updated Description");
         request.setUserId("test-user-id");
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+
+        SwellSeason mockSwellSeason = new SwellSeason();
+        mockSwellSeason.setId(1L);
+        mockSwellSeason.setName("North Atlantic");
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.of(mockSwellSeason));
 
         when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
         when(surfSpotRepository.save(any(SurfSpot.class))).thenReturn(existingSpot);
@@ -161,8 +257,45 @@ class SurfSpotServiceTests {
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
+        assertNotNull(result.getSwellSeason());
         verify(surfSpotRepository).findById(1L);
         verify(surfSpotRepository).save(any(SurfSpot.class));
+        verify(swellSeasonDeterminationService).determineSwellSeason(36.5270, -6.2886);
+    }
+
+    @Test
+    void testUpdateSurfSpotShouldUpdateSwellSeasonWhenCoordinatesChange() {
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("Original Spot");
+        existingSpot.setLatitude(36.5270); // Atlantic coast
+        existingSpot.setLongitude(-6.2886);
+        
+        SwellSeason oldSwellSeason = new SwellSeason();
+        oldSwellSeason.setName("North Atlantic");
+        existingSpot.setSwellSeason(oldSwellSeason);
+
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Updated Spot");
+        request.setUserId("test-user-id");
+        request.setLatitude(36.7213); // Mediterranean coast - different swell season
+        request.setLongitude(-4.4214);
+
+        SwellSeason newSwellSeason = new SwellSeason();
+        newSwellSeason.setId(2L);
+        newSwellSeason.setName("Mediterranean");
+        when(swellSeasonDeterminationService.determineSwellSeason(36.7213, -4.4214))
+                .thenReturn(Optional.of(newSwellSeason));
+
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
+
+        assertNotNull(result);
+        assertNotNull(result.getSwellSeason());
+        assertEquals("Mediterranean", result.getSwellSeason().getName());
+        verify(swellSeasonDeterminationService).determineSwellSeason(36.7213, -4.4214);
     }
 
     @Test
@@ -421,13 +554,23 @@ class SurfSpotServiceTests {
     @Test
     void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterBySeasonWhenNormalRange() {
         // Arrange
+        SwellSeason season1 = new SwellSeason();
+        season1.setId(1L);
+        season1.setName("Test Season 1");
+        season1.setStartMonth("March");
+        season1.setEndMonth("June");
+        
+        SwellSeason season2 = new SwellSeason();
+        season2.setId(2L);
+        season2.setName("Test Season 2");
+        season2.setStartMonth("July");
+        season2.setEndMonth("September");
+        
         SurfSpot spot1 = createMockSurfSpot();
-        spot1.setSeasonStart("march");
-        spot1.setSeasonEnd("june");
+        spot1.setSwellSeason(season1);
         
         SurfSpot spot2 = createMockSurfSpot();
-        spot2.setSeasonStart("july");
-        spot2.setSeasonEnd("september");
+        spot2.setSwellSeason(season2);
         
         List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -447,13 +590,23 @@ class SurfSpotServiceTests {
     @Test
     void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterBySeasonWhenWrappingRange() {
         // Arrange
+        SwellSeason season1 = new SwellSeason();
+        season1.setId(1L);
+        season1.setName("Test Season 1");
+        season1.setStartMonth("December");
+        season1.setEndMonth("April"); // Wrapping range
+        
+        SwellSeason season2 = new SwellSeason();
+        season2.setId(2L);
+        season2.setName("Test Season 2");
+        season2.setStartMonth("May");
+        season2.setEndMonth("August");
+        
         SurfSpot spot1 = createMockSurfSpot();
-        spot1.setSeasonStart("december");
-        spot1.setSeasonEnd("april"); // Wrapping range
+        spot1.setSwellSeason(season1);
         
         SurfSpot spot2 = createMockSurfSpot();
-        spot2.setSeasonStart("may");
-        spot2.setSeasonEnd("august");
+        spot2.setSwellSeason(season2);
         
         List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -473,9 +626,14 @@ class SurfSpotServiceTests {
     @Test
     void testFindSurfSpotsByRegionSlugWithFiltersShouldReturnEmptyListWhenNoSeasonMatch() {
         // Arrange
+        SwellSeason season1 = new SwellSeason();
+        season1.setId(1L);
+        season1.setName("Test Season 1");
+        season1.setStartMonth("March");
+        season1.setEndMonth("June");
+        
         SurfSpot spot1 = createMockSurfSpot();
-        spot1.setSeasonStart("march");
-        spot1.setSeasonEnd("june");
+        spot1.setSwellSeason(season1);
         
         List<SurfSpot> surfSpots = Arrays.asList(spot1);
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -494,13 +652,23 @@ class SurfSpotServiceTests {
     @Test
     void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterBySeasonWhenMultipleSelectedMonths() {
         // Arrange
+        SwellSeason season1 = new SwellSeason();
+        season1.setId(1L);
+        season1.setName("Test Season 1");
+        season1.setStartMonth("March");
+        season1.setEndMonth("June");
+        
+        SwellSeason season2 = new SwellSeason();
+        season2.setId(2L);
+        season2.setName("Test Season 2");
+        season2.setStartMonth("July");
+        season2.setEndMonth("September");
+        
         SurfSpot spot1 = createMockSurfSpot();
-        spot1.setSeasonStart("march");
-        spot1.setSeasonEnd("june");
+        spot1.setSwellSeason(season1);
         
         SurfSpot spot2 = createMockSurfSpot();
-        spot2.setSeasonStart("july");
-        spot2.setSeasonEnd("september");
+        spot2.setSwellSeason(season2);
         
         List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -517,15 +685,18 @@ class SurfSpotServiceTests {
     }
 
     @Test
-    void testFindSurfSpotsByRegionSlugWithFiltersShouldExcludeSpotsWhenSeasonFieldsAreNull() {
+    void testFindSurfSpotsByRegionSlugWithFiltersShouldExcludeSpotsWhenSwellSeasonIsNull() {
         // Arrange
         SurfSpot spot1 = createMockSurfSpot();
-        spot1.setSeasonStart(null);
-        spot1.setSeasonEnd("june");
+        spot1.setSwellSeason(null); // No swell season
         
         SurfSpot spot2 = createMockSurfSpot();
-        spot2.setSeasonStart("july");
-        spot2.setSeasonEnd(null);
+        SwellSeason season2 = new SwellSeason();
+        season2.setId(2L);
+        season2.setName("Test Season");
+        season2.setStartMonth("July");
+        season2.setEndMonth("September");
+        spot2.setSwellSeason(season2);
         
         List<SurfSpot> surfSpots = Arrays.asList(spot1, spot2);
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -537,21 +708,31 @@ class SurfSpotServiceTests {
         // Act
         List<SurfSpotDTO> result = surfSpotService.findSurfSpotsByRegionSlugWithFilters("test-region", filters);
         
-        // Assert - spots with null season fields should be excluded (including wavepools)
+        // Assert - spot1 (null swell season) should be excluded, spot2 doesn't match april
         assertTrue(result.isEmpty());
     }
 
     @Test
     void testFindSurfSpotsByRegionSlugWithFiltersShouldFilterWavepoolsBySeason() {
         // Arrange
+        SwellSeason season1 = new SwellSeason();
+        season1.setId(1L);
+        season1.setName("Test Season 1");
+        season1.setStartMonth("May");
+        season1.setEndMonth("September");
+        
+        SwellSeason season2 = new SwellSeason();
+        season2.setId(2L);
+        season2.setName("Test Season 2");
+        season2.setStartMonth("March");
+        season2.setEndMonth("June");
+        
         SurfSpot wavepool = createMockSurfSpot();
-        wavepool.setSeasonStart("may");
-        wavepool.setSeasonEnd("september");
+        wavepool.setSwellSeason(season1);
         wavepool.setIsWavepool(true); // Wavepool with seasons
         
         SurfSpot regularSpot = createMockSurfSpot();
-        regularSpot.setSeasonStart("march");
-        regularSpot.setSeasonEnd("june");
+        regularSpot.setSwellSeason(season2);
         regularSpot.setIsWavepool(false);
         
         List<SurfSpot> surfSpots = Arrays.asList(wavepool, regularSpot);
@@ -572,9 +753,14 @@ class SurfSpotServiceTests {
     @Test
     void testFindSurfSpotsByRegionSlugWithFiltersShouldReturnAllSpotsWhenSeasonFilterIsEmpty() {
         // Arrange
+        SwellSeason season1 = new SwellSeason();
+        season1.setId(1L);
+        season1.setName("Test Season 1");
+        season1.setStartMonth("March");
+        season1.setEndMonth("June");
+        
         SurfSpot spot1 = createMockSurfSpot();
-        spot1.setSeasonStart("march");
-        spot1.setSeasonEnd("june");
+        spot1.setSwellSeason(season1);
         
         List<SurfSpot> surfSpots = Arrays.asList(spot1);
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -588,5 +774,62 @@ class SurfSpotServiceTests {
         
         // Assert - all spots should be returned when filter is empty
         assertEquals(1, result.size());
+    }
+
+    @Test
+    void testCreateSurfSpotShouldDetermineCorrectSwellSeasonForRegionWithMultipleCoastlines() {
+        // Test the edge case where a region (like Andalusia) has multiple coastlines
+        // Atlantic coast should get North Atlantic, Mediterranean coast should get Mediterranean
+        
+        // Test Atlantic coast (Cadiz, Spain)
+        SurfSpotRequest atlanticRequest = new SurfSpotRequest();
+        atlanticRequest.setName("Atlantic Coast Spot");
+        atlanticRequest.setUserId(testUserId);
+        atlanticRequest.setRegionId(1L);
+        atlanticRequest.setLatitude(36.5270); // Cadiz - Atlantic coast
+        atlanticRequest.setLongitude(-6.2886);
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        SwellSeason atlanticSeason = new SwellSeason();
+        atlanticSeason.setId(1L);
+        atlanticSeason.setName("North Atlantic");
+        atlanticSeason.setStartMonth("September");
+        atlanticSeason.setEndMonth("April");
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.of(atlanticSeason));
+
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot atlanticResult = surfSpotService.createSurfSpot(atlanticRequest);
+        assertEquals("North Atlantic", atlanticResult.getSwellSeason().getName());
+
+        // Test Mediterranean coast (Malaga, Spain)
+        SurfSpotRequest medRequest = new SurfSpotRequest();
+        medRequest.setName("Mediterranean Coast Spot");
+        medRequest.setUserId(testUserId);
+        medRequest.setRegionId(1L);
+        medRequest.setLatitude(36.7213); // Malaga - Mediterranean coast
+        medRequest.setLongitude(-4.4214);
+
+        SwellSeason medSeason = new SwellSeason();
+        medSeason.setId(2L);
+        medSeason.setName("Mediterranean");
+        medSeason.setStartMonth("October");
+        medSeason.setEndMonth("March");
+        when(swellSeasonDeterminationService.determineSwellSeason(36.7213, -4.4214))
+                .thenReturn(Optional.of(medSeason));
+
+        SurfSpot medResult = surfSpotService.createSurfSpot(medRequest);
+        assertEquals("Mediterranean", medResult.getSwellSeason().getName());
+
+        // Verify both determinations were called
+        verify(swellSeasonDeterminationService).determineSwellSeason(36.5270, -6.2886);
+        verify(swellSeasonDeterminationService).determineSwellSeason(36.7213, -4.4214);
     }
 }
