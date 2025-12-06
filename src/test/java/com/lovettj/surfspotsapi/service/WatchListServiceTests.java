@@ -20,6 +20,7 @@ import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.WatchListSurfSpot;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
+import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +34,9 @@ class WatchListServiceTests {
 
     @Mock
     private SurfSpotRepository surfSpotRepository;
+
+    @Mock
+    private UserSurfSpotRepository userSurfSpotRepository;
 
     @Mock
     private NotificationService notificationService;
@@ -78,6 +82,8 @@ class WatchListServiceTests {
     void testGetUsersWatchList() {
         when(watchListRepository.findByUserId(testUserId))
             .thenReturn(Arrays.asList(testWatchListEntry));
+        when(userSurfSpotRepository.findByUserId(testUserId))
+            .thenReturn(Arrays.asList());
         when(notificationService.generateNotifications(any()))
             .thenReturn(Arrays.asList());
 

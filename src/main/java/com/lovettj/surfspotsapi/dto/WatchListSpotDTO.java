@@ -13,10 +13,9 @@ public class WatchListSpotDTO {
     private SurfSpotDTO surfSpot;
     private LocalDateTime addedAt;
 
-    public static WatchListSpotDTO fromWatchListSurfSpot(WatchListSurfSpot watchListSurfSpot) {
-        // SurfSpotDTO constructor now sets the path automatically
+    public static WatchListSpotDTO fromWatchListSurfSpot(WatchListSurfSpot watchListSurfSpot, SurfSpotDTO surfSpotDTO) {
         return WatchListSpotDTO.builder()
-                .surfSpot(new SurfSpotDTO(watchListSurfSpot.getSurfSpot()))
+                .surfSpot(surfSpotDTO)
                 .addedAt(watchListSurfSpot.getCreatedAt())
                 .build();
     }

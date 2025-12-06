@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lovettj.surfspotsapi.dto.SurfedSpotDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
@@ -12,6 +13,7 @@ import com.lovettj.surfspotsapi.enums.BeachBottomType;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
+import com.lovettj.surfspotsapi.repository.WatchListRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,9 +27,12 @@ import java.util.stream.Collectors;
 public class UserSurfSpotService {
 
     private final UserSurfSpotRepository userSurfSpotRepository;
+    private final WatchListRepository watchListRepository;
 
-    public UserSurfSpotService(UserSurfSpotRepository userSurfSpotRepository) {
+    public UserSurfSpotService(UserSurfSpotRepository userSurfSpotRepository,
+                               WatchListRepository watchListRepository) {
         this.userSurfSpotRepository = userSurfSpotRepository;
+        this.watchListRepository = watchListRepository;
     }
 
     public UserSurfSpotsDTO getUserSurfSpotsSummary(String userId) {
@@ -116,8 +121,25 @@ public class UserSurfSpotService {
     }
 
     private List<SurfedSpotDTO> mapToSurfSpotDTO(List<UserSurfSpot> userSurfSpots) {
+        if (userSurfSpots.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        String userId = userSurfSpots.get(0).getUser().getId();
+        
+        // Get all watched spot IDs for this user
+        Set<Long> watchedSpotIds = watchListRepository.findByUserId(userId).stream()
+                .map(wls -> wls.getSurfSpot().getId())
+                .collect(Collectors.toSet());
+        
         return userSurfSpots.stream()
-                .map(SurfedSpotDTO::fromUserSurfSpot)
+                .map(userSurfSpot -> {
+                    SurfSpotDTO surfSpotDTO = new SurfSpotDTO(userSurfSpot.getSurfSpot());
+                    // Set both flags
+                    surfSpotDTO.setIsSurfedSpot(true);
+                    surfSpotDTO.setIsWatched(watchedSpotIds.contains(userSurfSpot.getSurfSpot().getId()));
+                    return SurfedSpotDTO.fromUserSurfSpot(userSurfSpot, surfSpotDTO);
+                })
                 .toList();
     }
 

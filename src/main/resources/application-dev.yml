@@ -5,4 +5,19 @@ spring:
       ddl-auto: update # Hibernate automatically updates schema
   flyway:
     enabled: false # Disable Flyway in development
+  mail:
+    # Disable email sending in development - emails will be logged instead
+    host: localhost
+    port: 1025 # Use a mock SMTP server like MailHog or just disable
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+# App-specific settings
+app:
+  mail:
+    enabled: false # Set to true when you want to enable email in dev
 

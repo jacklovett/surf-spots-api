@@ -9,12 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lovettj.surfspotsapi.dto.NotificationDTO;
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
 import com.lovettj.surfspotsapi.dto.WatchListSpotDTO;
+import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.WatchListSurfSpot;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
+import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -22,15 +26,18 @@ public class WatchListService {
     private final WatchListRepository watchListRepository;
     private final UserRepository userRepository;
     private final SurfSpotRepository surfSpotRepository;
+    private final UserSurfSpotRepository userSurfSpotRepository;
     private final NotificationService notificationService;
 
     public WatchListService(WatchListRepository watchListRepository, 
                           UserRepository userRepository,
                           SurfSpotRepository surfSpotRepository,
+                          UserSurfSpotRepository userSurfSpotRepository,
                           NotificationService notificationService) {
         this.watchListRepository = watchListRepository;
         this.userRepository = userRepository;
         this.surfSpotRepository = surfSpotRepository;
+        this.userSurfSpotRepository = userSurfSpotRepository;
         this.notificationService = notificationService;
     }
 
@@ -99,8 +106,25 @@ public class WatchListService {
     }
 
     private List<WatchListSpotDTO> mapToSurfSpotDTO(List<WatchListSurfSpot> watchListSurfSpots) {
+        if (watchListSurfSpots.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        String userId = watchListSurfSpots.get(0).getUser().getId();
+        
+        // Get all surfed spot IDs for this user
+        Set<Long> surfedSpotIds = userSurfSpotRepository.findByUserId(userId).stream()
+                .map(uss -> uss.getSurfSpot().getId())
+                .collect(Collectors.toSet());
+        
         return watchListSurfSpots.stream()
-            .map(WatchListSpotDTO::fromWatchListSurfSpot)
+            .map(watchListSurfSpot -> {
+                SurfSpotDTO surfSpotDTO = new SurfSpotDTO(watchListSurfSpot.getSurfSpot());
+                // Set both flags
+                surfSpotDTO.setIsWatched(true);
+                surfSpotDTO.setIsSurfedSpot(surfedSpotIds.contains(watchListSurfSpot.getSurfSpot().getId()));
+                return WatchListSpotDTO.fromWatchListSurfSpot(watchListSurfSpot, surfSpotDTO);
+            })
             .toList();
     }
 }

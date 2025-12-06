@@ -20,6 +20,7 @@ import com.lovettj.surfspotsapi.requests.SettingsRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserAuthProviderRepository userAuthProviderRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    @Lazy
+    private final TripService tripService;
 
     public Optional<UserProfile> getUserProfile(String userId) {
         return userRepository.findById(userId)
@@ -153,6 +156,9 @@ public class UserService {
                 .build();
             userAuthProviderRepository.save(authProvider);
         }
+        
+        // Process any pending trip invitations for this email
+        tripService.processPendingInvitations(newUser.getEmail(), newUser.getId());
         
         return newUser;
     }

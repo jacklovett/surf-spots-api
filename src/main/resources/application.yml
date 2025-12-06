@@ -18,11 +18,16 @@ spring:
   mail:
     host: smtp.scaleway.com
     port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+
+# App-specific settings
+app:
+  mail:
+    enabled: ${MAIL_ENABLED:true} # Set to false to disable email sending

@@ -7,9 +7,12 @@ import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SwellSeasonRepository;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
+import com.lovettj.surfspotsapi.repository.TripSpotRepository;
+import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.service.SeedService;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @SpringBootTest
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class SeedServiceIntegrationTest {
 
     @Autowired
@@ -51,11 +55,20 @@ class SeedServiceIntegrationTest {
     @Autowired
     private SurfSpotRepository surfSpotRepository;
 
-    @BeforeEach
+    @Autowired
+    private TripSpotRepository tripSpotRepository;
+
+    @Autowired
+    private UserSurfSpotRepository userSurfSpotRepository;
+
+    @BeforeAll
     void setUp() {
         // Clean any existing data (from previous test runs or before conditional was added)
         // This ensures we start with a clean slate
         // Order matters: delete in reverse order of FK dependencies
+        // Only runs ONCE for all tests in this class
+        tripSpotRepository.deleteAll();
+        userSurfSpotRepository.deleteAll();
         watchListRepository.deleteAll();
         surfSpotRepository.deleteAll();
         subRegionRepository.deleteAll();

@@ -14,10 +14,9 @@ public class SurfedSpotDTO {
     private LocalDateTime addedAt;
     private boolean isFavourite;
 
-    public static SurfedSpotDTO fromUserSurfSpot(UserSurfSpot userSurfSpot) {
-        // SurfSpotDTO constructor now sets the path automatically
+    public static SurfedSpotDTO fromUserSurfSpot(UserSurfSpot userSurfSpot, SurfSpotDTO surfSpotDTO) {
         return SurfedSpotDTO.builder()
-                .surfSpot(new SurfSpotDTO(userSurfSpot.getSurfSpot()))
+                .surfSpot(surfSpotDTO)
                 .addedAt(userSurfSpot.getCreatedAt())
                 .isFavourite(userSurfSpot.isFavourite())
                 .build();
