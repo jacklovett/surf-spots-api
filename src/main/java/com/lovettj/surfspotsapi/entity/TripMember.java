@@ -36,10 +36,3 @@ public class TripMember {
     @Column(name = "added_at", updatable = false)
     private LocalDateTime addedAt;
 }
-
-
-
-
-
-
-

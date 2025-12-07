@@ -10,10 +10,3 @@ public class CreateTripRequest {
     private LocalDate startDate;
     private LocalDate endDate;
 }
-
-
-
-
-
-
-

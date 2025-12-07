@@ -13,9 +13,11 @@ import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.SwellSeasonRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,9 @@ public class SeedService {
     private final SwellSeasonRepository swellSeasonRepository;
     private final SwellSeasonDeterminationService swellSeasonDeterminationService;
 
+    @Value("${app.seed.enabled:true}")
+    private boolean seedEnabled;
+
     public SeedService(
             ContinentRepository continentRepository,
             CountryRepository countryRepository,
@@ -55,6 +60,16 @@ public class SeedService {
         this.surfSpotRepository = surfSpotRepository;
         this.swellSeasonRepository = swellSeasonRepository;
         this.swellSeasonDeterminationService = swellSeasonDeterminationService;
+    }
+
+    @PostConstruct
+    public void init() {
+        if (seedEnabled) {
+            logger.info("Automatic seeding is enabled. Starting seed data initialization...");
+            seedData();
+        } else {
+            logger.info("Automatic seeding is disabled. Skipping seed data initialization.");
+        }
     }
 
     public void seedData() {

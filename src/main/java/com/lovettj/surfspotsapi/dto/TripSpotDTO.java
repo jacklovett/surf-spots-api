@@ -27,10 +27,3 @@ public class TripSpotDTO {
         this.addedAt = tripSpot.getAddedAt();
     }
 }
-
-
-
-
-
-
-

@@ -29,10 +29,3 @@ public class TripMediaDTO {
         this.uploadedAt = tripMedia.getUploadedAt();
     }
 }
-
-
-
-
-
-
-

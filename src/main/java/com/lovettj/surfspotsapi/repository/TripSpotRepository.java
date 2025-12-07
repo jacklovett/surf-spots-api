@@ -15,10 +15,3 @@ public interface TripSpotRepository extends JpaRepository<TripSpot, String> {
     @Query("SELECT ts FROM TripSpot ts WHERE ts.trip.id = :tripId AND ts.surfSpot.id = :surfSpotId")
     Optional<TripSpot> findByTripIdAndSurfSpotId(@Param("tripId") String tripId, @Param("surfSpotId") Long surfSpotId);
 }
-
-
-
-
-
-
-

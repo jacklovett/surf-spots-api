@@ -6,10 +6,3 @@ import lombok.Data;
 public class UploadMediaRequest {
     private String mediaType;
 }
-
-
-
-
-
-
-

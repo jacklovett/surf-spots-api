@@ -14,7 +14,3 @@ public interface TripInvitationRepository extends JpaRepository<TripInvitation, 
     Optional<TripInvitation> findByToken(String token);
     Optional<TripInvitation> findByTripIdAndEmail(String tripId, String email);
 }
-
-
-
-

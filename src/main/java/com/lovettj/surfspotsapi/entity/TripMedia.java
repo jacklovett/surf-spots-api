@@ -42,10 +42,3 @@ public class TripMedia {
     @Column(name = "uploaded_at", updatable = false)
     private LocalDateTime uploadedAt;
 }
-
-
-
-
-
-
-

@@ -14,10 +14,3 @@ public interface TripMediaRepository extends JpaRepository<TripMedia, String> {
     @Query("SELECT COUNT(tm) FROM TripMedia tm WHERE tm.trip.id = :tripId AND tm.owner.id = :userId")
     long countByTripIdAndOwnerId(@Param("tripId") String tripId, @Param("userId") String userId);
 }
-
-
-
-
-
-
-

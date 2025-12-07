@@ -10,10 +10,3 @@ spring:
 app:
   seed:
     enabled: false
-
-
-
-
-
-
-

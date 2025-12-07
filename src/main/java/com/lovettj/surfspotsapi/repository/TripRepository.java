@@ -17,10 +17,3 @@ public interface TripRepository extends JpaRepository<Trip, String> {
     @Query("SELECT t FROM Trip t WHERE t.owner.id = :userId OR EXISTS (SELECT 1 FROM TripMember tm WHERE tm.trip.id = t.id AND tm.user.id = :userId)")
     List<Trip> findByOwnerIdOrMemberId(@Param("userId") String userId);
 }
-
-
-
-
-
-
-
