@@ -1,0 +1,62 @@
+version: '3.8'
+
+# Development Docker Compose - Full stack (PostgreSQL + Spring Boot API)
+# Everything runs in Docker - no need to install Java or Maven locally!
+services:
+  postgres:
+    image: postgres:16
+    container_name: surf-spots-postgres-dev
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: surf_spots_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - surf-spots-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: surf-spots-api-dev
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/surf_spots_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      MAIL_ENABLED: ${MAIL_ENABLED:-false}
+      # Test configuration - tests will use these when running in Docker
+      # When running tests, Spring will use the 'test' profile and these env vars
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount source code for hot reload (changes require container restart, but faster than rebuild)
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      # Cache Maven dependencies
+      - maven_cache:/root/.m2
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - surf-spots-network
+    # Keep container running even if build fails initially
+    restart: unless-stopped
+
+volumes:
+  postgres_data_dev:
+  maven_cache:
+
+networks:
+  surf-spots-network:
+    driver: bridge
+
