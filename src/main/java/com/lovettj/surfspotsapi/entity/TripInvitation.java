@@ -23,7 +23,7 @@ public class TripInvitation {
     @PrePersist
     public void generateId() {
         if (this.id == null) {
-            this.id = java.util.UUID.randomUUID().toString();
+            this.id = UUID.randomUUID().toString();
         }
     }
 

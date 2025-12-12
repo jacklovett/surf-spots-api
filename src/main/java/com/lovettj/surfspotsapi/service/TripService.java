@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.service;
 import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.dto.TripMemberDTO;
 import com.lovettj.surfspotsapi.dto.TripSpotDTO;
+import com.lovettj.surfspotsapi.dto.TripSurfboardDTO;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.*;
 import com.lovettj.surfspotsapi.requests.*;
@@ -25,8 +26,10 @@ public class TripService {
     private final TripSpotRepository tripSpotRepository;
     private final TripMediaRepository tripMediaRepository;
     private final TripInvitationRepository tripInvitationRepository;
+    private final TripSurfboardRepository tripSurfboardRepository;
     private final UserRepository userRepository;
     private final SurfSpotRepository surfSpotRepository;
+    private final SurfboardRepository surfboardRepository;
     private final EmailService emailService;
 
     public TripService(
@@ -35,16 +38,20 @@ public class TripService {
             TripSpotRepository tripSpotRepository,
             TripMediaRepository tripMediaRepository,
             TripInvitationRepository tripInvitationRepository,
+            TripSurfboardRepository tripSurfboardRepository,
             UserRepository userRepository,
             SurfSpotRepository surfSpotRepository,
+            SurfboardRepository surfboardRepository,
             EmailService emailService) {
         this.tripRepository = tripRepository;
         this.tripMemberRepository = tripMemberRepository;
         this.tripSpotRepository = tripSpotRepository;
         this.tripMediaRepository = tripMediaRepository;
         this.tripInvitationRepository = tripInvitationRepository;
+        this.tripSurfboardRepository = tripSurfboardRepository;
         this.userRepository = userRepository;
         this.surfSpotRepository = surfSpotRepository;
+        this.surfboardRepository = surfboardRepository;
         this.emailService = emailService;
     }
 
@@ -107,6 +114,7 @@ public class TripService {
         tripInvitationRepository.deleteAll(tripInvitationRepository.findByTripId(tripId));
         tripMediaRepository.deleteAll(tripMediaRepository.findByTripIdOrderByUploadedAtDesc(tripId));
         tripSpotRepository.deleteAll(tripSpotRepository.findByTripId(tripId));
+        tripSurfboardRepository.deleteAll(tripSurfboardRepository.findByTripId(tripId));
         tripMemberRepository.deleteAll(tripMemberRepository.findByTripId(tripId));
 
         tripRepository.delete(trip);
@@ -135,6 +143,12 @@ public class TripService {
                         .thenComparing(TripSpotDTO::getAddedAt))
                 .collect(Collectors.toList());
 
+        // Load surfboards
+        List<TripSurfboard> tripSurfboards = tripSurfboardRepository.findByTripId(tripId);
+        List<TripSurfboardDTO> surfboards = tripSurfboards.stream()
+                .map(TripSurfboardDTO::new)
+                .collect(Collectors.toList());
+
         // Load members and pending invitations, merge into single list
         List<TripMemberDTO> allMembers = new java.util.ArrayList<>();
         
@@ -157,6 +171,7 @@ public class TripService {
         TripDTO dto = new TripDTO(trip, userId);
         dto.setSpots(sortedSpots);
         dto.setMembers(allMembers);
+        dto.setSurfboards(surfboards);
         return dto;
     }
 
@@ -230,6 +245,54 @@ public class TripService {
         }
 
         tripSpotRepository.delete(tripSpot);
+    }
+
+    @Transactional
+    public void addSurfboard(String userId, String tripId, String surfboardId) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found"));
+
+        // Check if user is the owner
+        if (!trip.getOwner().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only trip owner can add surfboards");
+        }
+
+        Surfboard surfboard = surfboardRepository.findById(surfboardId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Surfboard not found"));
+
+        // Check if surfboard belongs to the user
+        if (!surfboard.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only add your own surfboards");
+        }
+
+        // Check if surfboard is already in trip
+        List<TripSurfboard> existing = tripSurfboardRepository.findByTripId(tripId);
+        boolean alreadyExists = existing.stream()
+                .anyMatch(ts -> ts.getSurfboard().getId().equals(surfboardId));
+        if (alreadyExists) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Surfboard already in trip");
+        }
+
+        TripSurfboard tripSurfboard = TripSurfboard.builder()
+                .id(UUID.randomUUID().toString())
+                .trip(trip)
+                .surfboard(surfboard)
+                .build();
+
+        tripSurfboardRepository.save(tripSurfboard);
+    }
+
+    @Transactional
+    public void removeSurfboard(String userId, String tripId, String tripSurfboardId) {
+        TripSurfboard tripSurfboard = tripSurfboardRepository.findById(tripSurfboardId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip surfboard not found"));
+
+        // Check if user is the owner
+        if (!tripSurfboard.getTrip().getOwner().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only trip owner can remove surfboards");
+        }
+
+        tripSurfboardRepository.delete(tripSurfboard);
     }
 
     @Transactional

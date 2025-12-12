@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -35,7 +34,6 @@ class EmailServiceTests {
     @Mock
     private MimeMessage mimeMessage;
 
-    @InjectMocks
     private EmailService emailService;
 
     private Map<String, Object> variables;
@@ -44,6 +42,8 @@ class EmailServiceTests {
     void setUp() {
         variables = new HashMap<>();
         doReturn(mimeMessage).when(mailSender).createMimeMessage();
+        // Manually instantiate EmailService since it has no default constructor
+        emailService = new EmailService(mailSender, templateEngine, true);
     }
 
     @Test

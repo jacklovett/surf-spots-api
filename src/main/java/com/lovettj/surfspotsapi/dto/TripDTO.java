@@ -28,6 +28,7 @@ public class TripDTO {
     private List<TripSpotDTO> spots;
     private List<TripMemberDTO> members; // Includes both accepted members and pending invitations
     private List<TripMediaDTO> media;
+    private List<TripSurfboardDTO> surfboards;
     private Boolean isOwner;
 
     public TripDTO(Trip trip, String currentUserId) {
@@ -57,6 +58,12 @@ public class TripDTO {
         if (trip.getMedia() != null) {
             this.media = trip.getMedia().stream()
                     .map(TripMediaDTO::new)
+                    .collect(Collectors.toList());
+        }
+
+        if (trip.getSurfboards() != null) {
+            this.surfboards = trip.getSurfboards().stream()
+                    .map(TripSurfboardDTO::new)
                     .collect(Collectors.toList());
         }
     }

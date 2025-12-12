@@ -53,3 +53,5 @@ CREATE INDEX idx_trip_spot_trip ON trip_spot(trip_id);
 CREATE INDEX idx_trip_spot_surf_spot ON trip_spot(surf_spot_id);
 CREATE INDEX idx_trip_media_trip ON trip_media(trip_id);
 CREATE INDEX idx_trip_media_owner ON trip_media(owner_id);
+
+

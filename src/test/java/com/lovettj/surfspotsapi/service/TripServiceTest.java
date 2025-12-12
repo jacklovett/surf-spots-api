@@ -43,6 +43,18 @@ class TripServiceTest {
     @Mock
     private SurfSpotRepository surfSpotRepository;
 
+    @Mock
+    private TripInvitationRepository tripInvitationRepository;
+
+    @Mock
+    private TripSurfboardRepository tripSurfboardRepository;
+
+    @Mock
+    private SurfboardRepository surfboardRepository;
+
+    @Mock
+    private EmailService emailService;
+
     @InjectMocks
     private TripService tripService;
 

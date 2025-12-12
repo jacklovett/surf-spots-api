@@ -133,6 +133,40 @@ public class TripController {
         }
     }
 
+    @PostMapping("/{tripId}/surfboards/{surfboardId}")
+    public ResponseEntity<ApiResponse<String>> addSurfboard(
+            @PathVariable String tripId,
+            @PathVariable String surfboardId,
+            @RequestParam String userId) {
+        try {
+            tripService.addSurfboard(userId, tripId, surfboardId);
+            return ResponseEntity.ok(ApiResponse.success("Surfboard added to trip"));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
+
+    @DeleteMapping("/{tripId}/surfboards/{tripSurfboardId}")
+    public ResponseEntity<ApiResponse<String>> removeSurfboard(
+            @PathVariable String tripId,
+            @PathVariable String tripSurfboardId,
+            @RequestParam String userId) {
+        try {
+            tripService.removeSurfboard(userId, tripId, tripSurfboardId);
+            return ResponseEntity.ok(ApiResponse.success("Surfboard removed from trip"));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
+
     @PostMapping("/{tripId}/members")
     public ResponseEntity<ApiResponse<String>> addMember(
             @PathVariable String tripId,

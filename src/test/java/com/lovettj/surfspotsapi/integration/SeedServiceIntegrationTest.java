@@ -63,10 +63,12 @@ class SeedServiceIntegrationTest {
 
     @BeforeAll
     void setUp() {
-        // Clean any existing data (from previous test runs or before conditional was added)
+        // Clean any existing data (from previous test runs or from @PostConstruct if it ran)
         // This ensures we start with a clean slate
         // Order matters: delete in reverse order of FK dependencies
         // Only runs ONCE for all tests in this class
+        // Note: @PostConstruct may have run during Spring context initialization,
+        // so we clean up any data that was seeded automatically
         tripSpotRepository.deleteAll();
         userSurfSpotRepository.deleteAll();
         watchListRepository.deleteAll();
@@ -80,6 +82,18 @@ class SeedServiceIntegrationTest {
 
     @Test
     void testSeedingFromEmptyDatabase() {
+        // Clean up any data that might have been seeded by @PostConstruct
+        // (even though it should be disabled in test profile, we ensure clean state)
+        tripSpotRepository.deleteAll();
+        userSurfSpotRepository.deleteAll();
+        watchListRepository.deleteAll();
+        surfSpotRepository.deleteAll();
+        subRegionRepository.deleteAll();
+        regionRepository.deleteAll();
+        countryRepository.deleteAll();
+        continentRepository.deleteAll();
+        swellSeasonRepository.deleteAll();
+        
         // Verify database is empty before seeding
         assertEquals(0, continentRepository.count(), "Database should be empty before seeding");
         assertEquals(0, swellSeasonRepository.count(), "Database should be empty before seeding");

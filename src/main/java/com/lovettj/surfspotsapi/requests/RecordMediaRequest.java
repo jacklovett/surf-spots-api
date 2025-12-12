@@ -8,3 +8,5 @@ public class RecordMediaRequest {
     private String url;
     private String mediaType;
 }
+
+

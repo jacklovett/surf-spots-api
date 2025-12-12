@@ -16,6 +16,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -47,6 +49,9 @@ class UserServiceTests {
 
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Mock
+    private TripService tripService;
 
     @InjectMocks
     private UserService userService;
@@ -133,12 +138,21 @@ class UserServiceTests {
 
         doReturn(Optional.empty()).when(userRepository).findByEmail("new@example.com");
         doReturn("hashedPassword").when(passwordEncoder).encode("password123");
+        doAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            if (user.getId() == null) {
+                user.setId("generated-user-id");
+            }
+            return user;
+        }).when(userRepository).save(any(User.class));
+        doNothing().when(tripService).processPendingInvitations(anyString(), anyString());
 
         userService.registerUser(request);
 
         verify(userRepository).findByEmail("new@example.com");
         verify(passwordEncoder).encode("password123");
         verify(userRepository, times(2)).save(any(User.class)); // Now expecting 2 saves
+        verify(tripService).processPendingInvitations(anyString(), anyString());
     }
 
     @Test
@@ -151,6 +165,14 @@ class UserServiceTests {
 
         doReturn(Optional.empty()).when(userRepository).findByEmail("google@example.com");
         doReturn(Optional.empty()).when(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
+        doAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            if (user.getId() == null) {
+                user.setId("generated-user-id");
+            }
+            return user;
+        }).when(userRepository).save(any(User.class));
+        doNothing().when(tripService).processPendingInvitations(anyString(), anyString());
 
         userService.registerUser(request);
 
@@ -270,6 +292,14 @@ class UserServiceTests {
 
         doReturn(Optional.empty()).when(userRepository).findByEmail("facebook@example.com");
         doReturn(Optional.empty()).when(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.FACEBOOK, "facebook123");
+        doAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            if (user.getId() == null) {
+                user.setId("generated-user-id");
+            }
+            return user;
+        }).when(userRepository).save(any(User.class));
+        doNothing().when(tripService).processPendingInvitations(anyString(), anyString());
 
         userService.registerUser(request);
 
