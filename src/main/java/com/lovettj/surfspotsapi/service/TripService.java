@@ -7,6 +7,8 @@ import com.lovettj.surfspotsapi.dto.TripSurfboardDTO;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.*;
 import com.lovettj.surfspotsapi.requests.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class TripService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TripService.class);
 
     private final TripRepository tripRepository;
     private final TripMemberRepository tripMemberRepository;
@@ -361,7 +365,7 @@ public class TripService {
                 );
             } catch (Exception e) {
                 // Log but don't fail the request
-                System.err.println("Failed to send notification email: " + e.getMessage());
+                logger.warn("Failed to send notification email: {}", e.getMessage(), e);
             }
         } else {
             // User doesn't exist - create invitation and send invite email
@@ -392,7 +396,7 @@ public class TripService {
                 );
             } catch (Exception e) {
                 // Log but don't fail the request
-                System.err.println("Failed to send invitation email: " + e.getMessage());
+                logger.warn("Failed to send invitation email: {}", e.getMessage(), e);
             }
         }
     }
@@ -540,9 +544,58 @@ public class TripService {
                     tripInvitationRepository.save(invitation);
                 } catch (Exception e) {
                     // Log error but continue processing other invitations
-                    System.err.println("Failed to process invitation " + invitation.getId() + ": " + e.getMessage());
+                    logger.warn("Failed to process invitation {}: {}", invitation.getId(), e.getMessage(), e);
                 }
             }
+        }
+    }
+
+    /**
+     * Deletes all trip-related data for a user.
+     * Called explicitly during account deletion.
+     * 
+     * Handles:
+     * - Trip invitations where user was invited (by email)
+     * - Trip invitations where user was the inviter
+     * - Trip memberships (where user is a member but not owner)
+     * - Trips owned by the user
+     * 
+     * @param userId The ID of the user whose trip data should be deleted
+     * @param userEmail The email of the user (for finding invitations by email)
+     */
+    @Transactional
+    public void deleteAllUserTrips(String userId, String userEmail) {
+        // Delete trip invitations where user was invited (by email)
+        List<TripInvitation> invitationsByEmail = tripInvitationRepository.findByEmail(userEmail);
+        if (!invitationsByEmail.isEmpty()) {
+            tripInvitationRepository.deleteAll(invitationsByEmail);
+        }
+
+        // Delete trip invitations where user was the inviter
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found during trip deletion: " + userId));
+        List<TripInvitation> invitationsByInviter = tripInvitationRepository.findByInvitedBy(user);
+        if (!invitationsByInviter.isEmpty()) {
+            tripInvitationRepository.deleteAll(invitationsByInviter);
+        }
+
+        // Delete trip memberships (where user is a member but not owner)
+        List<TripMember> tripMemberships = tripMemberRepository.findByUserId(userId);
+        if (!tripMemberships.isEmpty()) {
+            tripMemberRepository.deleteAll(tripMemberships);
+        }
+
+        // Delete trips owned by the user
+        List<Trip> userTrips = tripRepository.findByOwnerId(userId);
+        for (Trip trip : userTrips) {
+            // Delete related entities first to avoid foreign key constraint violations
+            tripInvitationRepository.deleteAll(tripInvitationRepository.findByTripId(trip.getId()));
+            tripMediaRepository.deleteAll(tripMediaRepository.findByTripIdOrderByUploadedAtDesc(trip.getId()));
+            tripSpotRepository.deleteAll(tripSpotRepository.findByTripId(trip.getId()));
+            tripSurfboardRepository.deleteAll(tripSurfboardRepository.findByTripId(trip.getId()));
+            tripMemberRepository.deleteAll(tripMemberRepository.findByTripId(trip.getId()));
+            
+            tripRepository.delete(trip);
         }
     }
 }

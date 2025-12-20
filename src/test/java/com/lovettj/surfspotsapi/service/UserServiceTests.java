@@ -618,4 +618,21 @@ class UserServiceTests {
         // User should not be saved since name is empty and testUser already has a name
         verify(userRepository, times(0)).save(any(User.class));
     }
+
+    @Test
+    void deleteAccountShouldDeleteUserAndTripEdgeCases() {
+        User testUser = User.builder()
+                .id(testUserId)
+                .email("test@example.com")
+                .build();
+        
+        when(userRepository.findById(testUserId)).thenReturn(Optional.of(testUser));
+        doNothing().when(tripService).deleteAllUserTrips(testUserId, testUser.getEmail());
+        doNothing().when(userRepository).delete(testUser);
+
+        userService.deleteAccount(testUserId);
+
+        verify(tripService).deleteAllUserTrips(testUserId, testUser.getEmail());
+        verify(userRepository).delete(testUser);
+    }
 }

@@ -2,6 +2,8 @@ package com.lovettj.surfspotsapi.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +54,20 @@ public class UserController {
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unable to update settings");
+        }
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteAccount(@PathVariable String userId) {
+        try {
+            userService.deleteAccount(userId);
+            return ResponseEntity.ok("Account deleted successfully");
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(e.getReason() != null ? e.getReason() : "Unable to delete account");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unable to delete account: " + e.getMessage());
         }
     }
 }

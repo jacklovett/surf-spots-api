@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.repository;
 
 import com.lovettj.surfspotsapi.entity.TripInvitation;
+import com.lovettj.surfspotsapi.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,5 @@ public interface TripInvitationRepository extends JpaRepository<TripInvitation, 
     List<TripInvitation> findByTripId(String tripId);
     Optional<TripInvitation> findByToken(String token);
     Optional<TripInvitation> findByTripIdAndEmail(String tripId, String email);
+    List<TripInvitation> findByInvitedBy(User invitedBy);
 }

@@ -17,6 +17,9 @@ public interface TripMemberRepository extends JpaRepository<TripMember, String> 
 
     @Query("SELECT tm FROM TripMember tm WHERE tm.trip.id = :tripId")
     List<TripMember> findByTripId(@Param("tripId") String tripId);
+
+    @Query("SELECT tm FROM TripMember tm WHERE tm.user.id = :userId")
+    List<TripMember> findByUserId(@Param("userId") String userId);
 }
 
 

@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -9,9 +10,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.User;
-import com.lovettj.surfspotsapi.entity.UserAuthProvider;
 import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
+import com.lovettj.surfspotsapi.entity.UserAuthProvider;
 import com.lovettj.surfspotsapi.repository.UserAuthProviderRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
@@ -20,7 +21,7 @@ import com.lovettj.surfspotsapi.requests.SettingsRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserAuthProviderRepository userAuthProviderRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    @Lazy
     private final TripService tripService;
 
     public Optional<UserProfile> getUserProfile(String userId) {
@@ -213,5 +213,29 @@ public class UserService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
-    
+
+    /**
+     * Deletes a user and all associated data.
+     * 
+     * Handles trip edge cases (invitations and memberships not covered by orphanRemoval),
+     * then deletes the user entity which triggers orphanRemoval for all other relationships.
+     * 
+     * @param userId The ID of the user to delete
+     * @throws ResponseStatusException if user not found or deletion fails
+     */
+    @Transactional
+    public void deleteAccount(String userId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+            
+            tripService.deleteAllUserTrips(userId, user.getEmail());
+            userRepository.delete(user);
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, 
+                "Unexpected error during user deletion: " + e.getMessage(), e);
+        }
+    }
 }
