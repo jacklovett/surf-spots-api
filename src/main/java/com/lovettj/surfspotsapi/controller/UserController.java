@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,7 +26,7 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/update/profile")
-    public ResponseEntity<String> updateUser(@RequestBody UserRequest user) {
+    public ResponseEntity<String> updateUser(@Valid @RequestBody UserRequest user) {
         try {
             userService.updateUserProfile(user);
             return ResponseEntity.ok("Profile updated successfully!");

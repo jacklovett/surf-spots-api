@@ -1,12 +1,16 @@
 package com.lovettj.surfspotsapi.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.lovettj.surfspotsapi.enums.SkillLevel;
 
 import lombok.*;
 
@@ -38,6 +42,23 @@ public class User {
 
   private String country;
   private String city;
+  
+  @Min(13)
+  @Max(120)
+  private Integer age;
+  
+  private String gender;
+  
+  @Min(50)
+  @Max(300)
+  private Integer height; // stored in cm
+  
+  @Min(10)
+  @Max(500)
+  private Integer weight; // stored in kg
+  
+  @Enumerated(EnumType.STRING)
+  private SkillLevel skillLevel;
 
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<UserSurfSpot> userSurfSpots;

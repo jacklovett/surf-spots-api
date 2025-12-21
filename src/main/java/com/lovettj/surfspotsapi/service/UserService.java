@@ -72,6 +72,11 @@ public class UserService {
         user.setName(updateUserRequest.getName());
         user.setCountry(updateUserRequest.getCountry());
         user.setCity(updateUserRequest.getCity());
+        user.setAge(updateUserRequest.getAge());
+        user.setGender(updateUserRequest.getGender());
+        user.setHeight(updateUserRequest.getHeight());
+        user.setWeight(updateUserRequest.getWeight());
+        user.setSkillLevel(updateUserRequest.getSkillLevel());
         userRepository.save(user);
         return new UserProfile(user);
     }

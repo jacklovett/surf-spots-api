@@ -22,6 +22,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
@@ -119,12 +120,22 @@ class UserServiceTests {
         UserRequest updateRequest = new UserRequest();
         updateRequest.setEmail("test@example.com");
         updateRequest.setCity("New City");
+        updateRequest.setAge(25);
+        updateRequest.setGender("Male");
+        updateRequest.setHeight(180); // height in cm
+        updateRequest.setWeight(75); // weight in kg
+        updateRequest.setSkillLevel(com.lovettj.surfspotsapi.enums.SkillLevel.INTERMEDIATE);
 
         doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
 
         UserProfile result = userService.updateUserProfile(updateRequest);
 
         assertEquals("New City", result.getCity());
+        assertEquals(25, result.getAge());
+        assertEquals("Male", result.getGender());
+        assertEquals(180, result.getHeight());
+        assertEquals(75, result.getWeight());
+        assertEquals(com.lovettj.surfspotsapi.enums.SkillLevel.INTERMEDIATE, result.getSkillLevel());
         verify(userRepository).save(testUser);
     }
 
