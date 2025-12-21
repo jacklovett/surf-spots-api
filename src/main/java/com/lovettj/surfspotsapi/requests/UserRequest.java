@@ -18,12 +18,12 @@ public class UserRequest {
   
   private String gender;
   
-  @Min(50)
-  @Max(300)
+  @Min(50) // 50 cm (metric min) or 20 inches = 51 cm (imperial min, but metric min is lower)
+  @Max(305) // 120 inches = 305 cm (imperial max after conversion)
   private Integer height; // stored in cm
   
-  @Min(10)
-  @Max(500)
+  @Min(9) // 20 lbs = 9 kg (imperial min after conversion)
+  @Max(500) // 500 kg (metric max)
   private Integer weight; // stored in kg
   
   private SkillLevel skillLevel;

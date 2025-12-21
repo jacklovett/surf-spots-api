@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -136,6 +137,64 @@ class UserServiceTests {
         assertEquals(180, result.getHeight());
         assertEquals(75, result.getWeight());
         assertEquals(com.lovettj.surfspotsapi.enums.SkillLevel.INTERMEDIATE, result.getSkillLevel());
+        verify(userRepository).save(testUser);
+    }
+
+    @Test
+    void updateUserProfileShouldAcceptBoundaryValues() {
+        UserRequest updateRequest = new UserRequest();
+        updateRequest.setEmail("test@example.com");
+        updateRequest.setAge(13); // min age
+        updateRequest.setHeight(50); // min height
+        updateRequest.setWeight(9); // min weight
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+
+        UserProfile result = userService.updateUserProfile(updateRequest);
+
+        assertEquals(13, result.getAge());
+        assertEquals(50, result.getHeight());
+        assertEquals(9, result.getWeight());
+        verify(userRepository).save(testUser);
+    }
+
+    @Test
+    void updateUserProfileShouldAcceptMaxBoundaryValues() {
+        UserRequest updateRequest = new UserRequest();
+        updateRequest.setEmail("test@example.com");
+        updateRequest.setAge(120); // max age
+        updateRequest.setHeight(305); // max height (120 inches converted)
+        updateRequest.setWeight(500); // max weight
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+
+        UserProfile result = userService.updateUserProfile(updateRequest);
+
+        assertEquals(120, result.getAge());
+        assertEquals(305, result.getHeight());
+        assertEquals(500, result.getWeight());
+        verify(userRepository).save(testUser);
+    }
+
+    @Test
+    void updateUserProfileShouldAcceptNullOptionalFields() {
+        UserRequest updateRequest = new UserRequest();
+        updateRequest.setEmail("test@example.com");
+        updateRequest.setAge(null);
+        updateRequest.setHeight(null);
+        updateRequest.setWeight(null);
+        updateRequest.setGender(null);
+        updateRequest.setSkillLevel(null);
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+
+        UserProfile result = userService.updateUserProfile(updateRequest);
+
+        assertNull(result.getAge());
+        assertNull(result.getHeight());
+        assertNull(result.getWeight());
+        assertNull(result.getGender());
+        assertNull(result.getSkillLevel());
         verify(userRepository).save(testUser);
     }
 
