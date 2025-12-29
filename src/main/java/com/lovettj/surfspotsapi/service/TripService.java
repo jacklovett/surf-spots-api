@@ -35,6 +35,7 @@ public class TripService {
     private final SurfSpotRepository surfSpotRepository;
     private final SurfboardRepository surfboardRepository;
     private final EmailService emailService;
+    private final StorageService storageService;
 
     public TripService(
             TripRepository tripRepository,
@@ -46,7 +47,8 @@ public class TripService {
             UserRepository userRepository,
             SurfSpotRepository surfSpotRepository,
             SurfboardRepository surfboardRepository,
-            EmailService emailService) {
+            EmailService emailService,
+            StorageService storageService) {
         this.tripRepository = tripRepository;
         this.tripMemberRepository = tripMemberRepository;
         this.tripSpotRepository = tripSpotRepository;
@@ -57,6 +59,7 @@ public class TripService {
         this.surfSpotRepository = surfSpotRepository;
         this.surfboardRepository = surfboardRepository;
         this.emailService = emailService;
+        this.storageService = storageService;
     }
 
     @Transactional
@@ -445,7 +448,7 @@ public class TripService {
         tripInvitationRepository.delete(invitation);
     }
 
-    public String getUploadUrl(String userId, String tripId, UploadMediaRequest request) {
+    public String getUploadUrl(String userId, String tripId, UploadMediaRequest request, String mediaId) {
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found"));
 
@@ -458,11 +461,20 @@ public class TripService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have access to this trip");
         }
 
-        // Generate media ID and return upload URL
-        // For now, return a placeholder - will implement Scaleway S3 integration
-        String mediaId = UUID.randomUUID().toString();
-        // TODO: Generate actual Scaleway S3 signed URL
-        return "https://placeholder-upload-url.com/" + mediaId;
+        // Validate media type
+        String mediaType = request.getMediaType();
+        if (mediaType == null || (!mediaType.equals("image") && !mediaType.equals("video"))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media type must be 'image' or 'video'");
+        }
+
+        // Determine content type based on media type
+        String contentType = "image".equals(mediaType) ? "image/jpeg" : "video/mp4";
+        
+        // Generate S3 key for the media file
+        String s3Key = storageService.generateMediaKey(mediaId, mediaType, "trips/media");
+        
+        // Generate presigned URL for uploading to S3
+        return storageService.generatePresignedUploadUrl(s3Key, contentType);
     }
 
     @Transactional

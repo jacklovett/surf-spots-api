@@ -1,10 +1,11 @@
 package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.dto.SurfboardDTO;
-import com.lovettj.surfspotsapi.dto.SurfboardImageDTO;
-import com.lovettj.surfspotsapi.requests.CreateSurfboardImageRequest;
+import com.lovettj.surfspotsapi.dto.SurfboardMediaDTO;
+import com.lovettj.surfspotsapi.requests.CreateSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UpdateSurfboardRequest;
+import com.lovettj.surfspotsapi.requests.UploadSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.SurfboardService;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/surfboards")
@@ -101,15 +104,15 @@ public class SurfboardController {
         }
     }
 
-    @PostMapping("/{surfboardId}/images")
-    public ResponseEntity<ApiResponse<SurfboardImageDTO>> addImage(
+    @PostMapping("/{surfboardId}/media/upload-url")
+    public ResponseEntity<ApiResponse<Map<String, String>>> getUploadUrl(
             @PathVariable String surfboardId,
-            @RequestBody CreateSurfboardImageRequest request,
+            @RequestBody UploadSurfboardMediaRequest request,
             @RequestParam String userId) {
         try {
-            SurfboardImageDTO image = surfboardService.addImage(userId, surfboardId, request);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(ApiResponse.success(image, "Image added successfully", HttpStatus.CREATED.value()));
+            String mediaId = UUID.randomUUID().toString();
+            String uploadUrl = surfboardService.getUploadUrl(userId, surfboardId, request.getMediaType(), mediaId);
+            return ResponseEntity.ok(ApiResponse.success(Map.of("uploadUrl", uploadUrl, "mediaId", mediaId)));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
@@ -119,13 +122,31 @@ public class SurfboardController {
         }
     }
 
-    @DeleteMapping("/images/{imageId}")
-    public ResponseEntity<ApiResponse<String>> deleteImage(
-            @PathVariable String imageId,
+    @PostMapping("/{surfboardId}/media")
+    public ResponseEntity<ApiResponse<SurfboardMediaDTO>> addMedia(
+            @PathVariable String surfboardId,
+            @RequestBody CreateSurfboardMediaRequest request,
             @RequestParam String userId) {
         try {
-            surfboardService.deleteImage(userId, imageId);
-            return ResponseEntity.ok(ApiResponse.success("Image deleted successfully"));
+            SurfboardMediaDTO media = surfboardService.addMedia(userId, surfboardId, request);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(ApiResponse.success(media, "Media added successfully", HttpStatus.CREATED.value()));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
+
+    @DeleteMapping("/media/{mediaId}")
+    public ResponseEntity<ApiResponse<String>> deleteMedia(
+            @PathVariable String mediaId,
+            @RequestParam String userId) {
+        try {
+            surfboardService.deleteMedia(userId, mediaId);
+            return ResponseEntity.ok(ApiResponse.success("Media deleted successfully"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));

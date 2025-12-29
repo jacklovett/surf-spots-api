@@ -1,0 +1,30 @@
+# Test profile - for running tests
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # Create and drop schema for tests
+  flyway:
+    enabled: false # Disable Flyway in tests
+  mail:
+    # Disable email sending in tests
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+# App-specific settings
+app:
+  mail:
+    enabled: false # Disable email in tests
+  storage:
+    s3:
+      endpoint: https://s3.fr-par.scw.cloud
+      region: fr-par
+      bucket: surf-spots-media
+      access-key: test-access-key
+      secret-key: test-secret-key
+

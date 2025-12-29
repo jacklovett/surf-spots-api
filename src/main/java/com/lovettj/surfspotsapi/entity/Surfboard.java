@@ -59,7 +59,7 @@ public class Surfboard {
     private String modelUrl;
 
     @OneToMany(mappedBy = "surfboard", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SurfboardImage> images;
+    private List<SurfboardMedia> media;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

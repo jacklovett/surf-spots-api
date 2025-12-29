@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/trips")
@@ -224,8 +225,9 @@ public class TripController {
             @RequestBody UploadMediaRequest request,
             @RequestParam String userId) {
         try {
-            String uploadUrl = tripService.getUploadUrl(userId, tripId, request);
-            String mediaId = uploadUrl.substring(uploadUrl.lastIndexOf("/") + 1);
+            // Generate media ID first
+            String mediaId = UUID.randomUUID().toString();
+            String uploadUrl = tripService.getUploadUrl(userId, tripId, request, mediaId);
             return ResponseEntity.ok(ApiResponse.success(Map.of("uploadUrl", uploadUrl, "mediaId", mediaId)));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())

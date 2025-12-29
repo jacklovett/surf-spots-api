@@ -7,6 +7,7 @@ import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SwellSeasonRepository;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
+import com.lovettj.surfspotsapi.repository.SurfSpotNoteRepository;
 import com.lovettj.surfspotsapi.repository.TripSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.service.SeedService;
@@ -56,6 +57,9 @@ class SeedServiceIntegrationTest {
     private SurfSpotRepository surfSpotRepository;
 
     @Autowired
+    private SurfSpotNoteRepository surfSpotNoteRepository;
+
+    @Autowired
     private TripSpotRepository tripSpotRepository;
 
     @Autowired
@@ -72,6 +76,7 @@ class SeedServiceIntegrationTest {
         tripSpotRepository.deleteAll();
         userSurfSpotRepository.deleteAll();
         watchListRepository.deleteAll();
+        surfSpotNoteRepository.deleteAll(); // Delete before surf_spot due to FK constraint
         surfSpotRepository.deleteAll();
         subRegionRepository.deleteAll();
         regionRepository.deleteAll();
@@ -87,6 +92,7 @@ class SeedServiceIntegrationTest {
         tripSpotRepository.deleteAll();
         userSurfSpotRepository.deleteAll();
         watchListRepository.deleteAll();
+        surfSpotNoteRepository.deleteAll(); // Delete before surf_spot due to FK constraint
         surfSpotRepository.deleteAll();
         subRegionRepository.deleteAll();
         regionRepository.deleteAll();

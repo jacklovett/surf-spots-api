@@ -2,10 +2,12 @@ package com.lovettj.surfspotsapi.service;
 
 import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.entity.Trip;
+import com.lovettj.surfspotsapi.entity.TripMember;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.repository.*;
 import com.lovettj.surfspotsapi.requests.CreateTripRequest;
 import com.lovettj.surfspotsapi.requests.UpdateTripRequest;
+import com.lovettj.surfspotsapi.requests.UploadMediaRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -54,6 +57,9 @@ class TripServiceTest {
 
     @Mock
     private EmailService emailService;
+
+    @Mock
+    private StorageService storageService;
 
     @InjectMocks
     private TripService tripService;
@@ -189,5 +195,129 @@ class TripServiceTest {
         assertThrows(ResponseStatusException.class, () -> {
             tripService.deleteTrip(otherUserId, tripId);
         });
+    }
+
+    @Test
+    void getUploadUrl_SuccessAsOwner() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image");
+        String expectedS3Key = "trips/media/image/" + mediaId;
+        String expectedUploadUrl = "https://example.com/upload-url";
+
+        when(tripRepository.findById(tripId)).thenReturn(Optional.of(testTrip));
+        when(storageService.generateMediaKey(mediaId, "image", "trips/media")).thenReturn(expectedS3Key);
+        when(storageService.generatePresignedUploadUrl(expectedS3Key, "image/jpeg")).thenReturn(expectedUploadUrl);
+
+        // When
+        String result = tripService.getUploadUrl(userId, tripId, request, mediaId);
+
+        // Then
+        assertEquals(expectedUploadUrl, result);
+        verify(tripRepository).findById(tripId);
+        verify(storageService).generateMediaKey(mediaId, "image", "trips/media");
+        verify(storageService).generatePresignedUploadUrl(expectedS3Key, "image/jpeg");
+    }
+
+    @Test
+    void getUploadUrl_SuccessAsMember() {
+        // Given
+        String memberUserId = UUID.randomUUID().toString();
+        User memberUser = User.builder().id(memberUserId).email("member@example.com").build();
+        TripMember member = TripMember.builder()
+                .id(UUID.randomUUID().toString())
+                .user(memberUser)
+                .trip(testTrip)
+                .build();
+        testTrip.setMembers(Arrays.asList(member));
+
+        String mediaId = UUID.randomUUID().toString();
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("video");
+        String expectedS3Key = "trips/media/video/" + mediaId;
+        String expectedUploadUrl = "https://example.com/upload-url";
+
+        when(tripRepository.findById(tripId)).thenReturn(Optional.of(testTrip));
+        when(storageService.generateMediaKey(mediaId, "video", "trips/media")).thenReturn(expectedS3Key);
+        when(storageService.generatePresignedUploadUrl(expectedS3Key, "video/mp4")).thenReturn(expectedUploadUrl);
+
+        // When
+        String result = tripService.getUploadUrl(memberUserId, tripId, request, mediaId);
+
+        // Then
+        assertEquals(expectedUploadUrl, result);
+        verify(tripRepository).findById(tripId);
+        verify(storageService).generateMediaKey(mediaId, "video", "trips/media");
+        verify(storageService).generatePresignedUploadUrl(expectedS3Key, "video/mp4");
+    }
+
+    @Test
+    void getUploadUrl_TripNotFound() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image");
+
+        when(tripRepository.findById(tripId)).thenReturn(Optional.empty());
+
+        // When/Then
+        assertThrows(ResponseStatusException.class, () -> {
+            tripService.getUploadUrl(userId, tripId, request, mediaId);
+        });
+        verify(storageService, never()).generateMediaKey(any(), any(), any());
+    }
+
+    @Test
+    void getUploadUrl_ForbiddenNotOwnerOrMember() {
+        // Given
+        String otherUserId = UUID.randomUUID().toString();
+        String mediaId = UUID.randomUUID().toString();
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image");
+
+        when(tripRepository.findById(tripId)).thenReturn(Optional.of(testTrip));
+
+        // When/Then
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            tripService.getUploadUrl(otherUserId, tripId, request, mediaId);
+        });
+        assertEquals(403, exception.getStatusCode().value());
+        verify(storageService, never()).generateMediaKey(any(), any(), any());
+    }
+
+    @Test
+    void getUploadUrl_InvalidMediaType() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("invalid");
+
+        when(tripRepository.findById(tripId)).thenReturn(Optional.of(testTrip));
+
+        // When/Then
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            tripService.getUploadUrl(userId, tripId, request, mediaId);
+        });
+        assertEquals(400, exception.getStatusCode().value());
+        assertTrue(exception.getReason().contains("Media type must be 'image' or 'video'"));
+        verify(storageService, never()).generateMediaKey(any(), any(), any());
+    }
+
+    @Test
+    void getUploadUrl_NullMediaType() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType(null);
+
+        when(tripRepository.findById(tripId)).thenReturn(Optional.of(testTrip));
+
+        // When/Then
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            tripService.getUploadUrl(userId, tripId, request, mediaId);
+        });
+        assertEquals(400, exception.getStatusCode().value());
+        verify(storageService, never()).generateMediaKey(any(), any(), any());
     }
 }

@@ -27,7 +27,7 @@ public class SurfboardDTO {
     private String finSetup;
     private String description;
     private String modelUrl;
-    private List<SurfboardImageDTO> images;
+    private List<SurfboardMediaDTO> media;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -46,9 +46,9 @@ public class SurfboardDTO {
         this.createdAt = surfboard.getCreatedAt();
         this.updatedAt = surfboard.getUpdatedAt();
 
-        if (surfboard.getImages() != null) {
-            this.images = surfboard.getImages().stream()
-                    .map(SurfboardImageDTO::new)
+        if (surfboard.getMedia() != null) {
+            this.media = surfboard.getMedia().stream()
+                    .map(SurfboardMediaDTO::new)
                     .collect(Collectors.toList());
         }
     }

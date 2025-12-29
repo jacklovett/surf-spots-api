@@ -27,7 +27,22 @@ spring:
           starttls:
             enable: true
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+server:
+  max-http-header-size: 16KB
+  max-http-post-size: 50MB
+
 # App-specific settings
 app:
   mail:
     enabled: ${MAIL_ENABLED:true} # Set to false to disable email sending
+  storage:
+    s3:
+      endpoint: ${S3_ENDPOINT:https://s3.fr-par.scw.cloud} # Scaleway Object Storage endpoint
+      region: ${S3_REGION:fr-par} # Scaleway region
+      bucket: ${S3_BUCKET:surf-spots-media} # Bucket name for media files
+      access-key: ${S3_ACCESS_KEY:}
+      secret-key: ${S3_SECRET_KEY:}

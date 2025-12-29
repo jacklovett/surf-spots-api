@@ -286,7 +286,7 @@ class TripControllerTests {
         UploadMediaRequest request = new UploadMediaRequest();
         request.setMediaType("image/jpeg");
 
-        when(tripService.getUploadUrl(anyString(), anyString(), any(UploadMediaRequest.class)))
+        when(tripService.getUploadUrl(anyString(), anyString(), any(UploadMediaRequest.class), anyString()))
                 .thenReturn("https://example.com/upload/123");
 
         mockMvc.perform(post("/api/trips/" + testTripId + "/media/upload-url")

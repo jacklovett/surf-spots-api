@@ -1,14 +1,14 @@
 package com.lovettj.surfspotsapi.service;
 
 import com.lovettj.surfspotsapi.dto.SurfboardDTO;
-import com.lovettj.surfspotsapi.dto.SurfboardImageDTO;
+import com.lovettj.surfspotsapi.dto.SurfboardMediaDTO;
 import com.lovettj.surfspotsapi.entity.Surfboard;
-import com.lovettj.surfspotsapi.entity.SurfboardImage;
+import com.lovettj.surfspotsapi.entity.SurfboardMedia;
 import com.lovettj.surfspotsapi.entity.User;
-import com.lovettj.surfspotsapi.repository.SurfboardImageRepository;
+import com.lovettj.surfspotsapi.repository.SurfboardMediaRepository;
 import com.lovettj.surfspotsapi.repository.SurfboardRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
-import com.lovettj.surfspotsapi.requests.CreateSurfboardImageRequest;
+import com.lovettj.surfspotsapi.requests.CreateSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UpdateSurfboardRequest;
 import org.springframework.http.HttpStatus;
@@ -23,16 +23,19 @@ import java.util.stream.Collectors;
 public class SurfboardService {
 
     private final SurfboardRepository surfboardRepository;
-    private final SurfboardImageRepository surfboardImageRepository;
+    private final SurfboardMediaRepository surfboardMediaRepository;
     private final UserRepository userRepository;
+    private final StorageService storageService;
 
     public SurfboardService(
             SurfboardRepository surfboardRepository,
-            SurfboardImageRepository surfboardImageRepository,
-            UserRepository userRepository) {
+            SurfboardMediaRepository surfboardMediaRepository,
+            UserRepository userRepository,
+            StorageService storageService) {
         this.surfboardRepository = surfboardRepository;
-        this.surfboardImageRepository = surfboardImageRepository;
+        this.surfboardMediaRepository = surfboardMediaRepository;
         this.userRepository = userRepository;
+        this.storageService = storageService;
     }
 
     @Transactional
@@ -99,9 +102,9 @@ public class SurfboardService {
         Surfboard surfboard = surfboardRepository.findByIdAndUserId(surfboardId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Surfboard not found"));
 
-        // Delete all images first
-        List<SurfboardImage> images = surfboardImageRepository.findBySurfboardId(surfboardId);
-        surfboardImageRepository.deleteAll(images);
+        // Delete all media first
+        List<SurfboardMedia> media = surfboardMediaRepository.findBySurfboardId(surfboardId);
+        surfboardMediaRepository.deleteAll(media);
 
         surfboardRepository.delete(surfboard);
     }
@@ -121,33 +124,50 @@ public class SurfboardService {
     }
 
     @Transactional
-    public SurfboardImageDTO addImage(String userId, String surfboardId, CreateSurfboardImageRequest request) {
+    public SurfboardMediaDTO addMedia(String userId, String surfboardId, CreateSurfboardMediaRequest request) {
         Surfboard surfboard = surfboardRepository.findByIdAndUserId(surfboardId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Surfboard not found"));
 
-        SurfboardImage image = SurfboardImage.builder()
+        SurfboardMedia media = SurfboardMedia.builder()
                 .surfboard(surfboard)
                 .originalUrl(request.getOriginalUrl())
                 .thumbUrl(request.getThumbUrl())
+                .mediaType(request.getMediaType() != null ? request.getMediaType() : "image")
                 .build();
 
-        image = surfboardImageRepository.save(image);
-        return new SurfboardImageDTO(image);
+        media = surfboardMediaRepository.save(media);
+        return new SurfboardMediaDTO(media);
+    }
+
+    public String getUploadUrl(String userId, String surfboardId, String mediaType, String mediaId) {
+        Surfboard surfboard = surfboardRepository.findByIdAndUserId(surfboardId, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Surfboard not found"));
+
+        // Validate media type - must be 'image' or 'video'
+        if (mediaType == null || (!mediaType.equals("image") && !mediaType.equals("video"))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Media type must be 'image' or 'video'");
+        }
+
+        // Determine content type based on media type
+        String contentType = "image".equals(mediaType) ? "image/jpeg" : "video/mp4";
+        
+        // Generate S3 key for the media file
+        String s3Key = storageService.generateMediaKey(mediaId, mediaType, "surfboards/media");
+        
+        // Generate presigned URL for uploading to S3
+        return storageService.generatePresignedUploadUrl(s3Key, contentType);
     }
 
     @Transactional
-    public void deleteImage(String userId, String imageId) {
-        SurfboardImage image = surfboardImageRepository.findById(imageId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found"));
+    public void deleteMedia(String userId, String mediaId) {
+        SurfboardMedia media = surfboardMediaRepository.findById(mediaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Media not found"));
 
-        // Verify the image belongs to a surfboard owned by the user
-        if (!image.getSurfboard().getUser().getId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have permission to delete this image");
+        // Verify the media belongs to a surfboard owned by the user
+        if (!media.getSurfboard().getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have permission to delete this media");
         }
 
-        surfboardImageRepository.delete(image);
+        surfboardMediaRepository.delete(media);
     }
 }
-
-
-

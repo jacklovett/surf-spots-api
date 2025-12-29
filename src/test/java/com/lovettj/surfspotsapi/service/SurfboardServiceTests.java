@@ -1,14 +1,14 @@
 package com.lovettj.surfspotsapi.service;
 
 import com.lovettj.surfspotsapi.dto.SurfboardDTO;
-import com.lovettj.surfspotsapi.dto.SurfboardImageDTO;
+import com.lovettj.surfspotsapi.dto.SurfboardMediaDTO;
 import com.lovettj.surfspotsapi.entity.Surfboard;
-import com.lovettj.surfspotsapi.entity.SurfboardImage;
+import com.lovettj.surfspotsapi.entity.SurfboardMedia;
 import com.lovettj.surfspotsapi.entity.User;
-import com.lovettj.surfspotsapi.repository.SurfboardImageRepository;
+import com.lovettj.surfspotsapi.repository.SurfboardMediaRepository;
 import com.lovettj.surfspotsapi.repository.SurfboardRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
-import com.lovettj.surfspotsapi.requests.CreateSurfboardImageRequest;
+import com.lovettj.surfspotsapi.requests.CreateSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UpdateSurfboardRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,10 +36,13 @@ class SurfboardServiceTests {
     private SurfboardRepository surfboardRepository;
 
     @Mock
-    private SurfboardImageRepository surfboardImageRepository;
+    private SurfboardMediaRepository surfboardMediaRepository;
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private StorageService storageService;
 
     @InjectMocks
     private SurfboardService surfboardService;
@@ -150,10 +153,10 @@ class SurfboardServiceTests {
     @Test
     void deleteSurfboardSuccess() {
         // Given
-        List<SurfboardImage> images = Arrays.asList();
+        List<SurfboardMedia> media = Arrays.asList();
         when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
                 .thenReturn(Optional.of(testSurfboard));
-        when(surfboardImageRepository.findBySurfboardId(surfboardId)).thenReturn(images);
+        when(surfboardMediaRepository.findBySurfboardId(surfboardId)).thenReturn(media);
         doNothing().when(surfboardRepository).delete(testSurfboard);
 
         // When
@@ -161,7 +164,7 @@ class SurfboardServiceTests {
 
         // Then
         verify(surfboardRepository).findByIdAndUserId(surfboardId, userId);
-        verify(surfboardImageRepository).findBySurfboardId(surfboardId);
+        verify(surfboardMediaRepository).findBySurfboardId(surfboardId);
         verify(surfboardRepository).delete(testSurfboard);
     }
 
@@ -220,15 +223,15 @@ class SurfboardServiceTests {
     }
 
     @Test
-    void addImageSuccess() {
+    void addMediaSuccess() {
         // Given
-        String imageId = UUID.randomUUID().toString();
-        CreateSurfboardImageRequest request = new CreateSurfboardImageRequest();
-        request.setOriginalUrl("https://example.com/image.jpg");
+        String mediaId = UUID.randomUUID().toString();
+        CreateSurfboardMediaRequest request = new CreateSurfboardMediaRequest();
+        request.setOriginalUrl("https://example.com/media.jpg");
         request.setThumbUrl("https://example.com/thumb.jpg");
 
-        SurfboardImage testImage = SurfboardImage.builder()
-                .id(imageId)
+        SurfboardMedia testMedia = SurfboardMedia.builder()
+                .id(mediaId)
                 .surfboard(testSurfboard)
                 .originalUrl(request.getOriginalUrl())
                 .thumbUrl(request.getThumbUrl())
@@ -236,67 +239,67 @@ class SurfboardServiceTests {
 
         when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
                 .thenReturn(Optional.of(testSurfboard));
-        when(surfboardImageRepository.save(any(SurfboardImage.class))).thenReturn(testImage);
+        when(surfboardMediaRepository.save(any(SurfboardMedia.class))).thenReturn(testMedia);
 
         // When
-        SurfboardImageDTO result = surfboardService.addImage(userId, surfboardId, request);
+        SurfboardMediaDTO result = surfboardService.addMedia(userId, surfboardId, request);
 
         // Then
         assertNotNull(result);
         verify(surfboardRepository).findByIdAndUserId(surfboardId, userId);
-        verify(surfboardImageRepository).save(any(SurfboardImage.class));
+        verify(surfboardMediaRepository).save(any(SurfboardMedia.class));
     }
 
     @Test
-    void addImageFailedSurfboardNotFound() {
+    void addMediaFailedSurfboardNotFound() {
         // Given
-        CreateSurfboardImageRequest request = new CreateSurfboardImageRequest();
+        CreateSurfboardMediaRequest request = new CreateSurfboardMediaRequest();
         when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
                 .thenReturn(Optional.empty());
 
         // When/Then
         assertThrows(ResponseStatusException.class, () -> {
-            surfboardService.addImage(userId, surfboardId, request);
+            surfboardService.addMedia(userId, surfboardId, request);
         });
     }
 
     @Test
-    void deleteImageSuccess() {
+    void deleteMediaSuccess() {
         // Given
-        String imageId = UUID.randomUUID().toString();
-        SurfboardImage testImage = SurfboardImage.builder()
-                .id(imageId)
+        String mediaId = UUID.randomUUID().toString();
+        SurfboardMedia testMedia = SurfboardMedia.builder()
+                .id(mediaId)
                 .surfboard(testSurfboard)
-                .originalUrl("https://example.com/image.jpg")
+                .originalUrl("https://example.com/media.jpg")
                 .build();
 
-        when(surfboardImageRepository.findById(imageId)).thenReturn(Optional.of(testImage));
-        doNothing().when(surfboardImageRepository).delete(testImage);
+        when(surfboardMediaRepository.findById(mediaId)).thenReturn(Optional.of(testMedia));
+        doNothing().when(surfboardMediaRepository).delete(testMedia);
 
         // When
-        surfboardService.deleteImage(userId, imageId);
+        surfboardService.deleteMedia(userId, mediaId);
 
         // Then
-        verify(surfboardImageRepository).findById(imageId);
-        verify(surfboardImageRepository).delete(testImage);
+        verify(surfboardMediaRepository).findById(mediaId);
+        verify(surfboardMediaRepository).delete(testMedia);
     }
 
     @Test
-    void deleteImageFailedImageNotFound() {
+    void deleteMediaFailedMediaNotFound() {
         // Given
-        String imageId = UUID.randomUUID().toString();
-        when(surfboardImageRepository.findById(imageId)).thenReturn(Optional.empty());
+        String mediaId = UUID.randomUUID().toString();
+        when(surfboardMediaRepository.findById(mediaId)).thenReturn(Optional.empty());
 
         // When/Then
         assertThrows(ResponseStatusException.class, () -> {
-            surfboardService.deleteImage(userId, imageId);
+            surfboardService.deleteMedia(userId, mediaId);
         });
     }
 
     @Test
-    void deleteImageFailedNotOwner() {
+    void deleteMediaFailedNotOwner() {
         // Given
-        String imageId = UUID.randomUUID().toString();
+        String mediaId = UUID.randomUUID().toString();
         String otherUserId = UUID.randomUUID().toString();
         User otherUser = User.builder().id(otherUserId).build();
         Surfboard otherSurfboard = Surfboard.builder()
@@ -304,18 +307,114 @@ class SurfboardServiceTests {
                 .user(otherUser)
                 .name("Other Board")
                 .build();
-        SurfboardImage testImage = SurfboardImage.builder()
-                .id(imageId)
+        SurfboardMedia testMedia = SurfboardMedia.builder()
+                .id(mediaId)
                 .surfboard(otherSurfboard)
-                .originalUrl("https://example.com/image.jpg")
+                .originalUrl("https://example.com/media.jpg")
                 .build();
 
-        when(surfboardImageRepository.findById(imageId)).thenReturn(Optional.of(testImage));
+        when(surfboardMediaRepository.findById(mediaId)).thenReturn(Optional.of(testMedia));
 
         // When/Then
         assertThrows(ResponseStatusException.class, () -> {
-            surfboardService.deleteImage(userId, imageId);
+            surfboardService.deleteMedia(userId, mediaId);
         });
+    }
+
+    @Test
+    void getUploadUrl_Success() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        String mediaType = "image";
+        String expectedS3Key = "surfboards/media/image/" + mediaId;
+        String expectedUploadUrl = "https://example.com/upload-url";
+
+        when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
+                .thenReturn(Optional.of(testSurfboard));
+        when(storageService.generateMediaKey(mediaId, mediaType, "surfboards/media")).thenReturn(expectedS3Key);
+        when(storageService.generatePresignedUploadUrl(expectedS3Key, "image/jpeg")).thenReturn(expectedUploadUrl);
+
+        // When
+        String result = surfboardService.getUploadUrl(userId, surfboardId, mediaType, mediaId);
+
+        // Then
+        assertEquals(expectedUploadUrl, result);
+        verify(surfboardRepository).findByIdAndUserId(surfboardId, userId);
+        verify(storageService).generateMediaKey(mediaId, mediaType, "surfboards/media");
+        verify(storageService).generatePresignedUploadUrl(expectedS3Key, "image/jpeg");
+    }
+
+    @Test
+    void getUploadUrl_SuccessVideo() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        String mediaType = "video";
+        String expectedS3Key = "surfboards/media/video/" + mediaId;
+        String expectedUploadUrl = "https://example.com/upload-url";
+
+        when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
+                .thenReturn(Optional.of(testSurfboard));
+        when(storageService.generateMediaKey(mediaId, mediaType, "surfboards/media")).thenReturn(expectedS3Key);
+        when(storageService.generatePresignedUploadUrl(expectedS3Key, "video/mp4")).thenReturn(expectedUploadUrl);
+
+        // When
+        String result = surfboardService.getUploadUrl(userId, surfboardId, mediaType, mediaId);
+
+        // Then
+        assertEquals(expectedUploadUrl, result);
+        verify(storageService).generateMediaKey(mediaId, mediaType, "surfboards/media");
+        verify(storageService).generatePresignedUploadUrl(expectedS3Key, "video/mp4");
+    }
+
+    @Test
+    void getUploadUrl_SurfboardNotFound() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        String mediaType = "image";
+
+        when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
+                .thenReturn(Optional.empty());
+
+        // When/Then
+        assertThrows(ResponseStatusException.class, () -> {
+            surfboardService.getUploadUrl(userId, surfboardId, mediaType, mediaId);
+        });
+        verify(storageService, never()).generateMediaKey(any(), any(), any());
+    }
+
+    @Test
+    void getUploadUrl_InvalidMediaType() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        String mediaType = "invalid";
+
+        when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
+                .thenReturn(Optional.of(testSurfboard));
+
+        // When/Then
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            surfboardService.getUploadUrl(userId, surfboardId, mediaType, mediaId);
+        });
+        assertEquals(400, exception.getStatusCode().value());
+        assertTrue(exception.getReason().contains("Media type must be 'image' or 'video'"));
+        verify(storageService, never()).generateMediaKey(any(), any(), any());
+    }
+
+    @Test
+    void getUploadUrl_NullMediaType() {
+        // Given
+        String mediaId = UUID.randomUUID().toString();
+        String mediaType = null;
+
+        when(surfboardRepository.findByIdAndUserId(surfboardId, userId))
+                .thenReturn(Optional.of(testSurfboard));
+
+        // When/Then
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            surfboardService.getUploadUrl(userId, surfboardId, mediaType, mediaId);
+        });
+        assertEquals(400, exception.getStatusCode().value());
+        verify(storageService, never()).generateMediaKey(any(), any(), any());
     }
 }
 

@@ -9,12 +9,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import lombok.*;
 
 @Entity
-@Table(name = "surfboard_images")
+@Table(name = "surfboard_media")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SurfboardImage {
+public class SurfboardMedia {
     @Id
     @Column(length = 36)
     private String id;
@@ -34,7 +34,11 @@ public class SurfboardImage {
     @Column(name = "thumb_url", columnDefinition = "TEXT")
     private String thumbUrl;
 
+    @Column(name = "media_type", nullable = false, length = 50)
+    private String mediaType;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 }
+
