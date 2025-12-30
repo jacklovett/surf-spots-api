@@ -20,15 +20,14 @@ spring:
     type: simple
     cache-names:
       - regionLookup
-server:
-  port: 8080
-  max-http-header-size: 16KB
-  max-http-post-size: 50MB
-spring:
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+server:
+  port: 8080
+  max-http-header-size: 16KB
+  max-http-post-size: 50MB
 
 # App-specific settings
 app:
