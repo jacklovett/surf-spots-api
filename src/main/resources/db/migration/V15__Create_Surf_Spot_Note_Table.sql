@@ -6,7 +6,7 @@ CREATE TABLE surf_spot_note (
     note_text VARCHAR(10000),
     preferred_tide VARCHAR(50),
     preferred_wind VARCHAR(100),
-    preferred_swell_direction VARCHAR(100)
+    preferred_swell_direction VARCHAR(100),
     preferred_swell_range VARCHAR(100),
     skill_requirement VARCHAR(50),
     created_at TIMESTAMP,
