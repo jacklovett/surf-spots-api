@@ -245,7 +245,7 @@ class TripControllerTests {
                 .content(objectMapper.writeValueAsString(request))
                 .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").value("Member added to trip"));
+                .andExpect(jsonPath("$.data").value("Invitation sent"));
     }
 
     @Test

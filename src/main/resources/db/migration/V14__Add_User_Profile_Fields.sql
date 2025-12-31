@@ -12,4 +12,3 @@ ALTER TABLE users ADD COLUMN weight INTEGER;
 ALTER TABLE users ADD CONSTRAINT check_age_range CHECK (age IS NULL OR (age >= 13 AND age <= 120));
 ALTER TABLE users ADD CONSTRAINT check_height_range CHECK (height IS NULL OR (height >= 50 AND height <= 305));
 ALTER TABLE users ADD CONSTRAINT check_weight_range CHECK (weight IS NULL OR (weight >= 9 AND weight <= 500));
-

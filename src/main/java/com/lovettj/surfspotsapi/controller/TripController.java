@@ -175,7 +175,7 @@ public class TripController {
             @RequestParam String userId) {
         try {
             tripService.addMember(userId, tripId, request);
-            return ResponseEntity.ok(ApiResponse.success("Member added to trip"));
+            return ResponseEntity.ok(ApiResponse.success("Invitation sent"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));

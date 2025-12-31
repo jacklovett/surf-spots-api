@@ -312,8 +312,9 @@ public class TripService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only trip owner can add members");
         }
 
-        String email = request.getEmail();
-        if (email == null || email.isEmpty()) {
+        String emailInput = request.getEmail();
+        final String email;
+        if (emailInput == null || emailInput.isEmpty()) {
             // Fallback to userId lookup for backward compatibility
             if (request.getUserId() != null && !request.getUserId().isEmpty()) {
                 User memberUser = userRepository.findById(request.getUserId())
@@ -322,85 +323,79 @@ public class TripService {
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either userId or email must be provided");
             }
+        } else {
+            email = emailInput;
         }
 
-        // Check if there's already a pending invitation
+        // Check if there's already an invitation for this email
         Optional<TripInvitation> existingInvite = tripInvitationRepository.findByTripIdAndEmail(tripId, email);
-        if (existingInvite.isPresent() && existingInvite.get().getStatus().equals("PENDING")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An invitation has already been sent to this email");
+        if (existingInvite.isPresent()) {
+            String status = existingInvite.get().getStatus();
+            if ("PENDING".equals(status)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "An invitation has already been sent to this email");
+            }
+            if ("ACCEPTED".equals(status)) {
+                // If there's an ACCEPTED invitation, there should be a corresponding TripMember
+                // This check happens later, but we can fail fast here
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is already a member of this trip");
+            }
         }
 
-        // Try to find existing user
+        // Validate user if they exist
         Optional<User> existingUser = userRepository.findByEmail(email);
-        
         if (existingUser.isPresent()) {
-            // User exists - add them directly and send notification
             User memberUser = existingUser.get();
             
-            // Can't add owner as member
             if (trip.getOwner().getId().equals(memberUser.getId())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Owner is already part of the trip");
             }
             
-            // Check if user is already a member
-            Optional<TripMember> existing = tripMemberRepository.findByTripIdAndUserId(tripId, memberUser.getId());
-            if (existing.isPresent()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is already a member");
+            Optional<TripMember> existingMember = tripMemberRepository.findByTripIdAndUserId(tripId, memberUser.getId());
+            if (existingMember.isPresent()) {
+                final String memberId = existingMember.get().getId();
+                boolean hasAcceptedInvitation = tripInvitationRepository.findByTripId(tripId).stream()
+                        .anyMatch(inv -> email.equals(inv.getEmail()) && 
+                                "ACCEPTED".equals(inv.getStatus()) &&
+                                memberId.equals(inv.getTripMember() != null ? inv.getTripMember().getId() : null));
+                
+                if (hasAcceptedInvitation) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is already a member");
+                } else {
+                    // Orphaned TripMember - clean it up
+                    tripMemberRepository.delete(existingMember.get());
+                }
             }
+        }
+        
+        // Create PENDING invitation
+        User inviter = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Inviter not found"));
+        
+        String token = UUID.randomUUID().toString();
+        TripInvitation invitation = TripInvitation.builder()
+                .id(UUID.randomUUID().toString())
+                .trip(trip)
+                .email(email)
+                .invitedBy(inviter)
+                .invitedAt(java.time.LocalDateTime.now())
+                .status("PENDING")
+                .token(token)
+                .build();
 
-            TripMember tripMember = TripMember.builder()
-                    .id(UUID.randomUUID().toString())
-                    .trip(trip)
-                    .user(memberUser)
-                    .build();
-
-            tripMemberRepository.save(tripMember);
-            
-            // Send notification email
-            try {
-                User inviter = userRepository.findById(userId).orElse(null);
-                String inviterName = inviter != null ? inviter.getName() : "Someone";
-                emailService.sendTripMemberAddedNotification(
-                    memberUser.getEmail(),
-                    memberUser.getName(),
-                    inviterName,
-                    trip.getTitle()
-                );
-            } catch (Exception e) {
-                // Log but don't fail the request
-                logger.warn("Failed to send notification email: {}", e.getMessage(), e);
-            }
-        } else {
-            // User doesn't exist - create invitation and send invite email
-            User inviter = userRepository.findById(userId)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Inviter not found"));
-            
-            String token = UUID.randomUUID().toString();
-            TripInvitation invitation = TripInvitation.builder()
-                    .id(UUID.randomUUID().toString())
-                    .trip(trip)
-                    .email(email)
-                    .invitedBy(inviter)
-                    .invitedAt(java.time.LocalDateTime.now())
-                    .status("PENDING")
-                    .token(token)
-                    .build();
-
-            tripInvitationRepository.save(invitation);
-            
-            // Send invitation email
-            try {
-                String inviterName = inviter.getName();
-                emailService.sendTripInvitation(
-                    email,
-                    inviterName,
-                    trip.getTitle(),
-                    token
-                );
-            } catch (Exception e) {
-                // Log but don't fail the request
-                logger.warn("Failed to send invitation email: {}", e.getMessage(), e);
-            }
+        tripInvitationRepository.save(invitation);
+        
+        // Send invitation email
+        try {
+            String inviterName = inviter.getName();
+            emailService.sendTripInvitation(
+                email,
+                inviterName,
+                trip.getTitle(),
+                token
+            );
+        } catch (Exception e) {
+            // Log but don't fail the request
+            logger.warn("Failed to send invitation email: {}", e.getMessage(), e);
         }
     }
 
@@ -419,7 +414,16 @@ public class TripService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member not found in trip");
         }
 
-        tripMemberRepository.delete(tripMember.get());
+        TripMember member = tripMember.get();
+        String memberEmail = member.getUser().getEmail();
+        
+        tripMemberRepository.delete(member);
+        
+        // Clean up related ACCEPTED invitations for this email and trip
+        List<TripInvitation> relatedInvitations = tripInvitationRepository.findByTripId(tripId).stream()
+                .filter(inv -> memberEmail.equals(inv.getEmail()) && "ACCEPTED".equals(inv.getStatus()))
+                .collect(Collectors.toList());
+        tripInvitationRepository.deleteAll(relatedInvitations);
     }
 
     @Transactional

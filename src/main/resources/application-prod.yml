@@ -28,8 +28,6 @@ server:
   port: 8080
   max-http-header-size: 16KB
   max-http-post-size: 50MB
-
-# App-specific settings
 app:
   storage:
     s3:
