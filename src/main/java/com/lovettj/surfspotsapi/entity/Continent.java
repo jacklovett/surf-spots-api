@@ -21,6 +21,7 @@ public class Continent extends SluggableEntity {
   private String name;
 
   @Size(max = 1000)
+  @Column(length = 1000)
   private String description;
 
   @OneToMany(mappedBy = "continent", cascade = CascadeType.ALL)

@@ -1,5 +1,7 @@
 package com.lovettj.surfspotsapi.integration;
 
+import com.lovettj.surfspotsapi.entity.Continent;
+import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.repository.ContinentRepository;
 import com.lovettj.surfspotsapi.repository.CountryRepository;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
@@ -11,7 +13,10 @@ import com.lovettj.surfspotsapi.repository.SurfSpotNoteRepository;
 import com.lovettj.surfspotsapi.repository.TripSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.service.SeedService;
-import org.junit.jupiter.api.BeforeAll;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -22,10 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Integration test to ensure seeding works from an empty database.
- * This test should catch issues like Jackson annotation mismatches before they reach production.
- * 
- * Run this test locally before deploying to catch production-like issues.
+ * Integration test to ensure seeding logic works correctly.
+ * Uses test seed data files from test/resources (not production data).
  */
 @SpringBootTest
 @ActiveProfiles("test")
@@ -65,18 +68,13 @@ class SeedServiceIntegrationTest {
     @Autowired
     private UserSurfSpotRepository userSurfSpotRepository;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
-        // Clean any existing data (from previous test runs or from @PostConstruct if it ran)
-        // This ensures we start with a clean slate
-        // Order matters: delete in reverse order of FK dependencies
-        // Only runs ONCE for all tests in this class
-        // Note: @PostConstruct may have run during Spring context initialization,
-        // so we clean up any data that was seeded automatically
+        // Clean all data before each test
         tripSpotRepository.deleteAll();
         userSurfSpotRepository.deleteAll();
         watchListRepository.deleteAll();
-        surfSpotNoteRepository.deleteAll(); // Delete before surf_spot due to FK constraint
+        surfSpotNoteRepository.deleteAll();
         surfSpotRepository.deleteAll();
         subRegionRepository.deleteAll();
         regionRepository.deleteAll();
@@ -87,24 +85,11 @@ class SeedServiceIntegrationTest {
 
     @Test
     void testSeedingFromEmptyDatabase() {
-        // Clean up any data that might have been seeded by @PostConstruct
-        // (even though it should be disabled in test profile, we ensure clean state)
-        tripSpotRepository.deleteAll();
-        userSurfSpotRepository.deleteAll();
-        watchListRepository.deleteAll();
-        surfSpotNoteRepository.deleteAll(); // Delete before surf_spot due to FK constraint
-        surfSpotRepository.deleteAll();
-        subRegionRepository.deleteAll();
-        regionRepository.deleteAll();
-        countryRepository.deleteAll();
-        continentRepository.deleteAll();
-        swellSeasonRepository.deleteAll();
-        
         // Verify database is empty before seeding
         assertEquals(0, continentRepository.count(), "Database should be empty before seeding");
         assertEquals(0, swellSeasonRepository.count(), "Database should be empty before seeding");
         
-        // This should not throw any exceptions (like Jackson deserialization errors)
+        // This should not throw any exceptions
         assertDoesNotThrow(() -> {
             seedService.seedData();
         }, "Seeding should complete without errors from empty database");
@@ -124,7 +109,7 @@ class SeedServiceIntegrationTest {
         long firstContinentCount = continentRepository.count();
         long firstCountryCount = countryRepository.count();
 
-        // Second seeding should not duplicate data
+        // Second seeding should not duplicate data (updates existing entities instead)
         seedService.seedData();
         long secondSwellSeasonCount = swellSeasonRepository.count();
         long secondContinentCount = continentRepository.count();
@@ -134,7 +119,83 @@ class SeedServiceIntegrationTest {
         assertEquals(firstContinentCount, secondContinentCount, "Second seeding should not create duplicate continents");
         assertEquals(firstCountryCount, secondCountryCount, "Second seeding should not create duplicate countries");
     }
+
+    @Test
+    void testSeedingUpdatesExistingEntities() {
+        // First seeding
+        seedService.seedData();
+
+        // Find an existing continent and store its original description
+        Optional<Continent> continentOpt = continentRepository.findAll().stream().findFirst();
+        assertTrue(continentOpt.isPresent(), "At least one continent should exist after seeding");
+        
+        Continent continent = continentOpt.get();
+        String originalDescription = continent.getDescription();
+        Long originalId = continent.getId();
+        assertNotNull(originalDescription, "Continent should have a description");
+        
+        // Manually modify the description (simulating a change in the database)
+        String modifiedDescription = "MODIFIED DESCRIPTION FOR TESTING";
+        continent.setDescription(modifiedDescription);
+        continentRepository.save(continent);
+        continentRepository.flush();
+        
+        // Verify the modification was saved
+        Continent modifiedContinent = continentRepository.findById(originalId).orElseThrow();
+        assertEquals(modifiedDescription, modifiedContinent.getDescription(), 
+                "Continent description should be modified before re-seeding");
+        
+        // Re-seed - this should update the description back to the original value from JSON
+        seedService.seedData();
+        
+        // Verify the description was updated back to the original value
+        Continent updatedContinent = continentRepository.findById(originalId).orElseThrow();
+        assertEquals(originalDescription, updatedContinent.getDescription(), 
+                "Re-seeding should update the continent description back to the value from JSON");
+        assertEquals(originalId, updatedContinent.getId(), 
+                "Entity ID should remain unchanged after update");
+    }
+
+    @Test
+    void testSeedingUpdatesCountryWithForeignKey() {
+        // First seeding
+        seedService.seedData();
+
+        // Find an existing country and store its original description and continent
+        Optional<Country> countryOpt = countryRepository.findAll().stream()
+                .filter(c -> c.getContinent() != null)
+                .findFirst();
+        assertTrue(countryOpt.isPresent(), "At least one country with a continent should exist after seeding");
+        
+        Country country = countryOpt.get();
+        String originalDescription = country.getDescription();
+        Continent originalContinent = country.getContinent();
+        Long originalId = country.getId();
+        Long originalContinentId = originalContinent.getId();
+        
+        // Manually modify the description
+        String modifiedDescription = "MODIFIED COUNTRY DESCRIPTION";
+        country.setDescription(modifiedDescription);
+        countryRepository.save(country);
+        countryRepository.flush();
+        
+        // Verify the modification was saved
+        Country modifiedCountry = countryRepository.findById(originalId).orElseThrow();
+        assertEquals(modifiedDescription, modifiedCountry.getDescription(), 
+                "Country description should be modified before re-seeding");
+        
+        // Re-seed - this should update the description back to the original value from JSON
+        seedService.seedData();
+        
+        // Verify the description was updated and continent relationship is preserved
+        Country updatedCountry = countryRepository.findById(originalId).orElseThrow();
+        assertEquals(originalDescription, updatedCountry.getDescription(), 
+                "Re-seeding should update the country description back to the value from JSON");
+        assertEquals(originalId, updatedCountry.getId(), 
+                "Entity ID should remain unchanged after update");
+        assertNotNull(updatedCountry.getContinent(), 
+                "Country should still have a continent after update");
+        assertEquals(originalContinentId, updatedCountry.getContinent().getId(), 
+                "Continent relationship should be preserved after update");
+    }
 }
-
-
-

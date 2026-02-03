@@ -26,8 +26,13 @@ public class UserSurfSpotController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<String>> addUserSurfSpot(@RequestBody UserSurfSpotRequest request) {
-        userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
-        return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's list."));
+        try {
+            userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
+            return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's list."));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500)
+                    .body(ApiResponse.error(e.getMessage(), 500));
+        }
     }
 
     @DeleteMapping("/{userId}/remove/{spotId}")

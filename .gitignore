@@ -49,3 +49,15 @@ tmp/
 !src/main/resources/static
 .vscode/
 .cursor/rules.md
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+
+# Python virtual environments
+venv/
+env/
+ENV/
+.venv/

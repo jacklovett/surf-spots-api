@@ -25,7 +25,11 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 @Service
 public class SeedService {
@@ -87,23 +91,25 @@ public class SeedService {
 
     @Transactional
     public void seedSwellSeasons() {
-        seedEntities("swell-seasons.json", SwellSeason[].class, swellSeasonRepository.findAll(), swellSeasonRepository::saveAll,
-                SwellSeason::getName);
-        swellSeasonRepository.flush();
+        seedEntities("swell-seasons.json", SwellSeason[].class, swellSeasonRepository,
+                SwellSeason::getName, (existing, jsonEntity) -> {
+                    existing.setStartMonth(jsonEntity.getStartMonth());
+                    existing.setEndMonth(jsonEntity.getEndMonth());
+                });
     }
 
     @Transactional
     public void seedContinents() {
-        seedEntities("continents.json", Continent[].class, continentRepository.findAll(), continentRepository::saveAll,
-                Continent::getName);
-        continentRepository.flush();
-        logFirstIds(continentRepository.findAll().stream().map(Continent::getId).toList(), "continents");
+        seedEntities("continents.json", Continent[].class, continentRepository,
+                Continent::getName, (existing, jsonEntity) -> {
+                    existing.setDescription(jsonEntity.getDescription());
+                });
     }
 
     @Transactional
     public void seedCountries() {
         try {
-            ClassPathResource resource = new ClassPathResource("static/seedData/countries.json");
+            ClassPathResource resource = getMainResource("static/seedData/countries.json");
             Country[] entities = mapper.readValue(resource.getInputStream(), Country[].class);
 
             if (entities == null || entities.length == 0) {
@@ -112,43 +118,48 @@ public class SeedService {
 
             logger.info("Read {} total entities from countries.json", entities.length);
 
-            List<String> existingEntityNames = countryRepository.findAll().stream()
-                    .map(Country::getName)
-                    .collect(Collectors.toList());
+            // Create map of existing entities by name
+            // Handle duplicates by keeping the first occurrence
+            Map<String, Country> existingMap = countryRepository.findAll().stream()
+                    .collect(Collectors.toMap(Country::getName, c -> c, (first, second) -> {
+                        logger.warn("Duplicate country name found in database: {}. Keeping first occurrence.", first.getName());
+                        return first;
+                    }));
 
-            List<Country> newEntities = Arrays.stream(entities)
-                    .filter(entity -> !existingEntityNames.contains(entity.getName()))
-                    .collect(Collectors.toList());
-
-            // Load all continents once to resolve references by position
-            List<Continent> allContinents = continentRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
+            List<Country> toSave = Arrays.stream(entities)
+                    .map(jsonEntity -> {
+                        Country existing = existingMap.get(jsonEntity.getName());
+                        if (existing != null) {
+                            existing.setDescription(jsonEntity.getDescription());
+                            existing.setContinent(jsonEntity.getContinent());
+                            logger.debug("Updating existing country: {}", existing.getName());
+                            return existing;
+                        } else {
+                            logger.debug("Creating new country: {}", jsonEntity.getName());
+                            return jsonEntity;
+                        }
+                    })
                     .collect(Collectors.toList());
 
             // Resolve continent references by position (JSON ID - 1 = 0-based index)
-            for (Country country : newEntities) {
+            List<Continent> allContinents = continentRepository.findAll().stream()
+                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
+                    .collect(Collectors.toList());
+            for (Country country : toSave) {
                 if (country.getContinent() != null && country.getContinent().getId() != null) {
                     Long jsonContinentId = country.getContinent().getId();
                     int index = jsonContinentId.intValue() - 1;
                     if (index >= 0 && index < allContinents.size()) {
                         country.setContinent(allContinents.get(index));
                     } else {
-                        logger.warn("Continent with JSON id {} (index {}) not found for country '{}', skipping continent reference. Total continents: {}", 
+                        logger.warn("Continent with JSON id {} (index {}) not found for country '{}', skipping continent reference. Total continents: {}",
                                 jsonContinentId, index, country.getName(), allContinents.size());
                         country.setContinent(null);
                     }
                 }
             }
 
-            if (!newEntities.isEmpty()) {
-                countryRepository.saveAll(newEntities);
-                logger.info("Successfully seeded {} entries from countries.json", newEntities.size());
-            } else {
-                logger.info("No new entries to seed from countries.json - all {} entities already exist", entities.length);
-            }
-
-            countryRepository.flush();
-            logFirstIds(countryRepository.findAll().stream().map(Country::getId).toList(), "countries");
+            saveAndLog(countryRepository, toSave, existingMap, Country::getName, "countries", "countries.json");
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from countries.json: {}", e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -159,7 +170,7 @@ public class SeedService {
     @Transactional
     public void seedRegions() {
         try {
-            ClassPathResource resource = new ClassPathResource("static/seedData/regions.json");
+            ClassPathResource resource = getMainResource("static/seedData/regions.json");
             Region[] entities = mapper.readValue(resource.getInputStream(), Region[].class);
 
             if (entities == null || entities.length == 0) {
@@ -168,43 +179,49 @@ public class SeedService {
 
             logger.info("Read {} total entities from regions.json", entities.length);
 
-            List<String> existingEntityNames = regionRepository.findAll().stream()
-                    .map(Region::getName)
-                    .collect(Collectors.toList());
+            // Create map of existing entities by name
+            // Handle duplicates by keeping the first occurrence
+            Map<String, Region> existingMap = regionRepository.findAll().stream()
+                    .collect(Collectors.toMap(Region::getName, r -> r, (first, second) -> {
+                        logger.warn("Duplicate region name found in database: {}. Keeping first occurrence.", first.getName());
+                        return first;
+                    }));
 
-            List<Region> newEntities = Arrays.stream(entities)
-                    .filter(entity -> !existingEntityNames.contains(entity.getName()))
-                    .collect(Collectors.toList());
-
-            // Load all countries once to resolve references by position
-            List<Country> allCountries = countryRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
+            List<Region> toSave = Arrays.stream(entities)
+                    .map(jsonEntity -> {
+                        Region existing = existingMap.get(jsonEntity.getName());
+                        if (existing != null) {
+                            existing.setDescription(jsonEntity.getDescription());
+                            existing.setBoundingBox(jsonEntity.getBoundingBox());
+                            existing.setCountry(jsonEntity.getCountry());
+                            logger.debug("Updating existing region: {}", existing.getName());
+                            return existing;
+                        } else {
+                            logger.debug("Creating new region: {}", jsonEntity.getName());
+                            return jsonEntity;
+                        }
+                    })
                     .collect(Collectors.toList());
 
             // Resolve country references by position (JSON ID - 1 = 0-based index)
-            for (Region region : newEntities) {
+            List<Country> allCountries = countryRepository.findAll().stream()
+                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
+                    .collect(Collectors.toList());
+            for (Region region : toSave) {
                 if (region.getCountry() != null && region.getCountry().getId() != null) {
                     Long jsonCountryId = region.getCountry().getId();
                     int index = jsonCountryId.intValue() - 1;
                     if (index >= 0 && index < allCountries.size()) {
                         region.setCountry(allCountries.get(index));
                     } else {
-                        logger.warn("Country with JSON id {} (index {}) not found for region '{}', skipping country reference. Total countries: {}", 
+                        logger.warn("Country with JSON id {} (index {}) not found for region '{}', skipping country reference. Total countries: {}",
                                 jsonCountryId, index, region.getName(), allCountries.size());
                         region.setCountry(null);
                     }
                 }
             }
 
-            if (!newEntities.isEmpty()) {
-                regionRepository.saveAll(newEntities);
-                logger.info("Successfully seeded {} entries from regions.json", newEntities.size());
-            } else {
-                logger.info("No new entries to seed from regions.json - all {} entities already exist", entities.length);
-            }
-
-            regionRepository.flush();
-            logFirstIds(regionRepository.findAll().stream().map(Region::getId).toList(), "regions");
+            saveAndLog(regionRepository, toSave, existingMap, Region::getName, "regions", "regions.json");
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from regions.json: {}", e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -215,52 +232,58 @@ public class SeedService {
     @Transactional
     public void seedSubRegions() {
         try {
-            ClassPathResource resource = new ClassPathResource("static/seedData/sub-regions.json");
+            ClassPathResource resource = getMainResource("static/seedData/sub-regions.json");
             SubRegion[] entities = mapper.readValue(resource.getInputStream(), SubRegion[].class);
 
             if (entities == null || entities.length == 0) {
-                throw new IllegalStateException("No seed data found in sub-regions.json");
+                logger.info("No seed data found in sub-regions.json - skipping sub-region seeding");
+                return;
             }
 
             logger.info("Read {} total entities from sub-regions.json", entities.length);
 
-            List<String> existingEntityNames = subRegionRepository.findAll().stream()
-                    .map(SubRegion::getName)
-                    .collect(Collectors.toList());
+            // Create map of existing entities by name
+            // Handle duplicates by keeping the first occurrence
+            Map<String, SubRegion> existingMap = subRegionRepository.findAll().stream()
+                    .collect(Collectors.toMap(SubRegion::getName, sr -> sr, (first, second) -> {
+                        logger.warn("Duplicate sub-region name found in database: {}. Keeping first occurrence.", first.getName());
+                        return first;
+                    }));
 
-            List<SubRegion> newEntities = Arrays.stream(entities)
-                    .filter(entity -> !existingEntityNames.contains(entity.getName()))
-                    .collect(Collectors.toList());
-
-            // Load all regions once to resolve references by position
-            List<Region> allRegions = regionRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
+            List<SubRegion> toSave = Arrays.stream(entities)
+                    .map(jsonEntity -> {
+                        SubRegion existing = existingMap.get(jsonEntity.getName());
+                        if (existing != null) {
+                            existing.setDescription(jsonEntity.getDescription());
+                            existing.setRegion(jsonEntity.getRegion());
+                            logger.debug("Updating existing sub-region: {}", existing.getName());
+                            return existing;
+                        } else {
+                            logger.debug("Creating new sub-region: {}", jsonEntity.getName());
+                            return jsonEntity;
+                        }
+                    })
                     .collect(Collectors.toList());
 
             // Resolve region references by position (JSON ID - 1 = 0-based index)
-            for (SubRegion subRegion : newEntities) {
+            List<Region> allRegions = regionRepository.findAll().stream()
+                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
+                    .collect(Collectors.toList());
+            for (SubRegion subRegion : toSave) {
                 if (subRegion.getRegion() != null && subRegion.getRegion().getId() != null) {
                     Long jsonRegionId = subRegion.getRegion().getId();
                     int index = jsonRegionId.intValue() - 1;
                     if (index >= 0 && index < allRegions.size()) {
                         subRegion.setRegion(allRegions.get(index));
                     } else {
-                        logger.warn("Region with JSON id {} (index {}) not found for sub-region '{}', skipping region reference. Total regions: {}", 
+                        logger.warn("Region with JSON id {} (index {}) not found for sub-region '{}', skipping region reference. Total regions: {}",
                                 jsonRegionId, index, subRegion.getName(), allRegions.size());
                         subRegion.setRegion(null);
                     }
                 }
             }
 
-            if (!newEntities.isEmpty()) {
-                subRegionRepository.saveAll(newEntities);
-                logger.info("Successfully seeded {} entries from sub-regions.json", newEntities.size());
-            } else {
-                logger.info("No new entries to seed from sub-regions.json - all {} entities already exist", entities.length);
-            }
-
-            subRegionRepository.flush();
-            logFirstIds(subRegionRepository.findAll().stream().map(SubRegion::getId).toList(), "sub-regions");
+            saveAndLog(subRegionRepository, toSave, existingMap, SubRegion::getName, "sub-regions", "sub-regions.json");
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from sub-regions.json: {}", e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -271,63 +294,97 @@ public class SeedService {
     @Transactional
     public void seedSurfSpots() {
         try {
-            ClassPathResource resource = new ClassPathResource("static/seedData/surf-spots.json");
+            ClassPathResource resource = getMainResource("static/seedData/surf-spots.json");
             SurfSpot[] entities = mapper.readValue(resource.getInputStream(), SurfSpot[].class);
 
             if (entities == null || entities.length == 0) {
-                throw new IllegalStateException("No seed data found in surf-spots.json");
+                logger.info("No seed data found in surf-spots.json - skipping surf spot seeding");
+                return;
             }
 
             logger.info("Read {} total entities from surf-spots.json", entities.length);
 
-            List<String> existingEntityNames = surfSpotRepository.findAll().stream()
-                    .map(SurfSpot::getName)
+            // Create map of existing entities by name
+            // Handle duplicates by keeping the first occurrence
+            Map<String, SurfSpot> existingMap = surfSpotRepository.findAll().stream()
+                    .collect(Collectors.toMap(SurfSpot::getName, ss -> ss, (first, second) -> {
+                        logger.warn("Duplicate surf spot name found in database: {}. Keeping first occurrence.", first.getName());
+                        return first;
+                    }));
+
+            List<SurfSpot> toSave = Arrays.stream(entities)
+                    .map(jsonEntity -> {
+                        SurfSpot existing = existingMap.get(jsonEntity.getName());
+                        if (existing != null) {
+                            // Update existing entity - preserve ID and timestamps
+                            existing.setDescription(jsonEntity.getDescription());
+                            existing.setLatitude(jsonEntity.getLatitude());
+                            existing.setLongitude(jsonEntity.getLongitude());
+                            existing.setType(jsonEntity.getType());
+                            existing.setBeachBottomType(jsonEntity.getBeachBottomType());
+                            existing.setSwellDirection(jsonEntity.getSwellDirection());
+                            existing.setWindDirection(jsonEntity.getWindDirection());
+                            existing.setSkillLevel(jsonEntity.getSkillLevel());
+                            existing.setTide(jsonEntity.getTide());
+                            existing.setWaveDirection(jsonEntity.getWaveDirection());
+                            existing.setMinSurfHeight(jsonEntity.getMinSurfHeight());
+                            existing.setMaxSurfHeight(jsonEntity.getMaxSurfHeight());
+                            existing.setRating(jsonEntity.getRating());
+                            existing.setFoodNearby(jsonEntity.getFoodNearby());
+                            existing.setFoodOptions(jsonEntity.getFoodOptions());
+                            existing.setAccommodationNearby(jsonEntity.getAccommodationNearby());
+                            existing.setAccommodationOptions(jsonEntity.getAccommodationOptions());
+                            existing.setFacilities(jsonEntity.getFacilities());
+                            existing.setHazards(jsonEntity.getHazards());
+                            existing.setParking(jsonEntity.getParking());
+                            existing.setBoatRequired(jsonEntity.getBoatRequired());
+                            existing.setIsWavepool(jsonEntity.getIsWavepool());
+                            existing.setWavepoolUrl(jsonEntity.getWavepoolUrl());
+                            existing.setForecasts(jsonEntity.getForecasts());
+                            existing.setCreatedBy(jsonEntity.getCreatedBy());
+                            existing.setStatus(jsonEntity.getStatus());
+                            existing.setRegion(jsonEntity.getRegion());
+                            existing.setSubRegion(jsonEntity.getSubRegion());
+                            logger.debug("Updating existing surf spot: {}", existing.getName());
+                            return existing;
+                        } else {
+                            logger.debug("Creating new surf spot: {}", jsonEntity.getName());
+                            return jsonEntity;
+                        }
+                    })
                     .collect(Collectors.toList());
 
-            List<SurfSpot> newEntities = Arrays.stream(entities)
-                    .filter(entity -> !existingEntityNames.contains(entity.getName()))
-                    .collect(Collectors.toList());
-
-            // Load all regions and sub-regions once to avoid N+1 query problem
-            // Regions are ordered by ID, and JSON region IDs represent position in seeded list
+            // Resolve region and sub-region references by position (JSON ID - 1 = 0-based index)
             List<Region> allRegions = regionRepository.findAll().stream()
                     .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
                     .collect(Collectors.toList());
             List<SubRegion> allSubRegions = subRegionRepository.findAll().stream()
                     .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
                     .collect(Collectors.toList());
-
-            // Resolve region and sub-region references by position in seeded list
-            // JSON IDs represent the order in which entities were seeded (1-based index)
-            for (SurfSpot surfSpot : newEntities) {
-                // Resolve region reference by position (JSON ID - 1 = 0-based index)
+            for (SurfSpot surfSpot : toSave) {
                 if (surfSpot.getRegion() != null && surfSpot.getRegion().getId() != null) {
                     Long jsonRegionId = surfSpot.getRegion().getId();
-                    int index = jsonRegionId.intValue() - 1; // Convert to 0-based index
+                    int index = jsonRegionId.intValue() - 1;
                     if (index >= 0 && index < allRegions.size()) {
                         surfSpot.setRegion(allRegions.get(index));
                     } else {
-                        logger.warn("Region with JSON id {} (index {}) not found for surf spot '{}', skipping region reference. Total regions: {}", 
+                        logger.warn("Region with JSON id {} (index {}) not found for surf spot '{}', skipping region reference. Total regions: {}",
                                 jsonRegionId, index, surfSpot.getName(), allRegions.size());
                         surfSpot.setRegion(null);
                     }
                 }
-                
-                // Resolve sub-region reference by position
                 if (surfSpot.getSubRegion() != null && surfSpot.getSubRegion().getId() != null) {
                     Long jsonSubRegionId = surfSpot.getSubRegion().getId();
-                    int index = jsonSubRegionId.intValue() - 1; // Convert to 0-based index
+                    int index = jsonSubRegionId.intValue() - 1;
                     if (index >= 0 && index < allSubRegions.size()) {
                         surfSpot.setSubRegion(allSubRegions.get(index));
                     } else {
-                        logger.warn("SubRegion with JSON id {} (index {}) not found for surf spot '{}', skipping sub-region reference. Total sub-regions: {}", 
+                        logger.warn("SubRegion with JSON id {} (index {}) not found for surf spot '{}', skipping sub-region reference. Total sub-regions: {}",
                                 jsonSubRegionId, index, surfSpot.getName(), allSubRegions.size());
                         surfSpot.setSubRegion(null);
                     }
                 }
-                
-                // Automatically determine swell season for each surf spot based on coordinates
-                // Skip for wavepools as they don't have natural swell seasons
+                // Automatically determine swell season based on coordinates (skip for wavepools)
                 if (surfSpot.getIsWavepool() == null || !surfSpot.getIsWavepool()) {
                     if (surfSpot.getLatitude() != null && surfSpot.getLongitude() != null) {
                         swellSeasonDeterminationService.determineSwellSeason(
@@ -338,15 +395,7 @@ public class SeedService {
                 }
             }
 
-            if (!newEntities.isEmpty()) {
-                surfSpotRepository.saveAll(newEntities);
-                logger.info("Successfully seeded {} entries from surf-spots.json", newEntities.size());
-            } else {
-                logger.info("No new entries to seed from surf-spots.json - all {} entities already exist", entities.length);
-            }
-            
-            surfSpotRepository.flush();
-            logFirstIds(surfSpotRepository.findAll().stream().map(SurfSpot::getId).toList(), "surf-spots");
+            saveAndLog(surfSpotRepository, toSave, existingMap, SurfSpot::getName, "surf spots", "surf-spots.json");
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from surf-spots.json: {}", e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -354,15 +403,35 @@ public class SeedService {
         }
     }
 
+    /**
+     * Loads a resource from the classpath, ensuring it comes from main resources, not test resources.
+     * This prevents test data from being loaded in production/dev environments.
+     */
+    private ClassPathResource getMainResource(String path) throws IOException {
+        ClassPathResource resource = new ClassPathResource(path);
+        if (!resource.exists()) {
+            throw new IOException("Resource not found: " + path);
+        }
+        // Check if the resource is from test-classes (test resources)
+        String resourceUrl = resource.getURL().toString();
+        if (resourceUrl.contains("test-classes")) {
+            throw new IllegalStateException(
+                "Attempted to load test resource: " + path + 
+                ". Test resources should not be used in production/dev. Ensure main resources exist at: " + path
+            );
+        }
+        logger.debug("Loading resource from: {}", resourceUrl);
+        return resource;
+    }
+
     private <T> void seedEntities(
             String fileName,
             Class<T[]> entityType,
-            List<T> existingEntities,
-            java.util.function.Consumer<List<T>> saveAll,
-            java.util.function.Function<T, String> getNameFunction
-    ) {
+            JpaRepository<T, ?> repository,
+            Function<T, String> getNameFunction,
+            BiConsumer<T, T> updateFunction) {
         try {
-            ClassPathResource resource = new ClassPathResource("static/seedData/" + fileName);
+            ClassPathResource resource = getMainResource("static/seedData/" + fileName);
             T[] entities = mapper.readValue(resource.getInputStream(), entityType);
 
             if (entities == null || entities.length == 0) {
@@ -371,22 +440,28 @@ public class SeedService {
 
             logger.info("Read {} total entities from {}", entities.length, fileName);
 
-            List<String> existingEntityNames = existingEntities.stream()
-                    .map(getNameFunction)
+            // Handle duplicates by keeping the first occurrence
+            Map<String, T> existingMap = repository.findAll().stream()
+                    .collect(Collectors.toMap(getNameFunction, e -> e, (first, second) -> {
+                        logger.warn("Duplicate entity name found in database: {}. Keeping first occurrence.", getNameFunction.apply(first));
+                        return first;
+                    }));
+
+            List<T> toSave = Arrays.stream(entities)
+                    .map(jsonEntity -> {
+                        T existing = existingMap.get(getNameFunction.apply(jsonEntity));
+                        if (existing != null) {
+                            updateFunction.accept(existing, jsonEntity);
+                            logger.debug("Updating existing entity: {}", getNameFunction.apply(existing));
+                            return existing;
+                        } else {
+                            logger.debug("Creating new entity: {}", getNameFunction.apply(jsonEntity));
+                            return jsonEntity;
+                        }
+                    })
                     .collect(Collectors.toList());
 
-            // Filter to only new entities BEFORE creating the list - this ensures we only keep
-            // entities we're actually going to save, preventing transient entities from staying in session
-            List<T> newEntities = Arrays.stream(entities)
-                    .filter(entity -> !existingEntityNames.contains(getNameFunction.apply(entity)))
-                    .collect(Collectors.toList());
-
-            if (!newEntities.isEmpty()) {
-                saveAll.accept(newEntities);
-                logger.info("Successfully seeded {} entries from {}", newEntities.size(), fileName);
-            } else {
-                logger.info("No new entries to seed from {} - all {} entities already exist", fileName, entities.length);
-            }
+            saveAndLog(repository, toSave, existingMap, getNameFunction, getEntityNameFromFileName(fileName), fileName);
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from {}: {}", fileName, e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -394,7 +469,26 @@ public class SeedService {
         }
     }
 
-    private void logFirstIds(List<Long> ids, String entityName) {
-        logger.info("First 5 {} IDs after flush: {}", entityName, ids.stream().limit(5).toList());
+    private String getEntityNameFromFileName(String fileName) {
+        return fileName.replace(".json", "").replace("-", " ");
+    }
+
+    private <T> void saveAndLog(
+            JpaRepository<T, ?> repository,
+            List<T> toSave,
+            Map<String, T> existingMap,
+            Function<T, String> getNameFunction,
+            String entityName,
+            String fileName) {
+        if (!toSave.isEmpty()) {
+            repository.saveAll(toSave);
+            repository.flush();
+            long updated = toSave.stream().filter(e -> existingMap.containsKey(getNameFunction.apply(e))).count();
+            long created = toSave.size() - updated;
+            logger.info("Successfully processed {} {} from {} ({} created, {} updated)",
+                    toSave.size(), entityName, fileName, created, updated);
+        } else {
+            logger.info("No entries to process from {}", fileName);
+        }
     }
 }

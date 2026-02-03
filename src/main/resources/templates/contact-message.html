@@ -3,85 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Contact Form Message</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 5px 5px 0 0;
-        }
-        .content {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border: 1px solid #dee2e6;
-            border-top: none;
-        }
-        .field {
-            margin-bottom: 15px;
-        }
-        .field-label {
-            font-weight: bold;
-            color: #495057;
-            margin-bottom: 5px;
-        }
-        .field-value {
-            background-color: white;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 3px;
-        }
-        .message-content {
-            white-space: pre-wrap;
-            min-height: 100px;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #6c757d;
-            font-size: 14px;
-        }
-    </style>
 </head>
-<body>
-    <div class="header">
-        <h1>New Contact Form Message</h1>
-        <p>Someone has sent you a message through the Surf Spots contact form</p>
+<body style="font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #0d1619; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+    <div style="background-color: #046380; color: white; padding: 20px; text-align: center; border-radius: 16px 16px 0 0;">
+        <h1 style="margin: 0; font-size: 2.25rem; line-height: 1.4; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;">New Contact Form Message</h1>
+        <p style="margin: 10px 0 0 0;">Someone has sent you a message through the Surf Spots contact form</p>
     </div>
     
-    <div class="content">
-        <div class="field">
-            <div class="field-label">From:</div>
-            <div class="field-value" th:text="${name}">Name</div>
+    <div style="background-color: #ffffff; padding: 20px; border: 1px solid #d9d9d9; border-top: none;">
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #333333; margin-bottom: 5px;">From:</div>
+            <div style="background-color: #ffffff; padding: 10px; border: 1px solid #d9d9d9; border-radius: 16px;" th:text="${name}">Name</div>
         </div>
         
-        <div class="field">
-            <div class="field-label">Email:</div>
-            <div class="field-value" th:text="${email}">Email</div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #333333; margin-bottom: 5px;">Email:</div>
+            <div style="background-color: #ffffff; padding: 10px; border: 1px solid #d9d9d9; border-radius: 16px;" th:text="${email}">Email</div>
         </div>
         
-        <div class="field">
-            <div class="field-label">Subject:</div>
-            <div class="field-value" th:text="${subject}">Subject</div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #333333; margin-bottom: 5px;">Subject:</div>
+            <div style="background-color: #ffffff; padding: 10px; border: 1px solid #d9d9d9; border-radius: 16px;" th:text="${subject}">Subject</div>
         </div>
         
-        <div class="field">
-            <div class="field-label">Message:</div>
-            <div class="field-value message-content" th:text="${message}">Message content</div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #333333; margin-bottom: 5px;">Message:</div>
+            <div style="background-color: #ffffff; padding: 10px; border: 1px solid #d9d9d9; border-radius: 16px; white-space: pre-wrap; min-height: 100px;" th:text="${message}">Message content</div>
         </div>
     </div>
     
-    <div class="footer">
-        <p>This message was sent via the Surf Spots contact form.</p>
-        <p>Reply directly to this email to respond to the sender.</p>
+    <div style="text-align: center; margin-top: 20px; color: #666666; font-size: 0.875rem;">
+        <p style="margin: 5px 0;">This message was sent via the Surf Spots contact form.</p>
+        <p style="margin: 5px 0;">Reply directly to this email to respond to the sender.</p>
     </div>
 </body>
 </html>

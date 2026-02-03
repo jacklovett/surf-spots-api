@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Malibu",
+    "region": {
+      "id": 26
+    },
+    "description": "Famous surf destination in Southern California, known for its long right-hand point breaks and surf culture."
+  },
+  {
+    "name": "Huntington Beach",
+    "region": {
+      "id": 26
+    },
+    "description": "Surf City USA, featuring consistent beach breaks and a vibrant surf community."
+  },
+  {
+    "name": "San Diego",
+    "region": {
+      "id": 26
+    },
+    "description": "Diverse surf spots from point breaks to beach breaks, with year-round surfable conditions."
+  },
+  {
+    "name": "Santa Cruz",
+    "region": {
+      "id": 26
+    },
+    "description": "Northern California surf mecca with powerful waves and cold water conditions."
+  },
+  {
+    "name": "Half Moon Bay",
+    "region": {
+      "id": 26
+    },
+    "description": "Home to Mavericks, one of the world's most challenging big wave spots."
+  },
+  {
+    "name": "Oahu North Shore",
+    "region": {
+      "id": 61
+    },
+    "description": "World-famous surf destination with legendary breaks like Pipeline, Sunset Beach, and Waimea Bay."
+  },
+  {
+    "name": "Oahu South Shore",
+    "region": {
+      "id": 61
+    },
+    "description": "Gentler waves perfect for beginners, with spots like Waikiki and Ala Moana."
+  },
+  {
+    "name": "Gold Coast",
+    "region": {
+      "id": 62
+    },
+    "description": "Queensland's premier surf destination with world-class point breaks like Snapper Rocks and Kirra."
+  },
+  {
+    "name": "Sunshine Coast",
+    "region": {
+      "id": 62
+    },
+    "description": "Less crowded alternative to the Gold Coast with quality waves and beautiful beaches."
+  },
+  {
+    "name": "Sydney Northern Beaches",
+    "region": {
+      "id": 63
+    },
+    "description": "Iconic surf spots like Manly, Freshwater, and Narrabeen with consistent waves."
+  },
+  {
+    "name": "Sydney Eastern Suburbs",
+    "region": {
+      "id": 63
+    },
+    "description": "Bondi Beach and surrounding areas, popular with locals and tourists alike."
+  },
+  {
+    "name": "Cronulla",
+    "region": {
+      "id": 63
+    },
+    "description": "Southern Sydney surf destination with quality beach breaks and point breaks."
+  }
+]
+
+
+
+

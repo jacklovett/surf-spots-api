@@ -14,6 +14,8 @@ import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
+import com.lovettj.surfspotsapi.repository.UserRepository;
+import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,11 +30,17 @@ public class UserSurfSpotService {
 
     private final UserSurfSpotRepository userSurfSpotRepository;
     private final WatchListRepository watchListRepository;
+    private final UserRepository userRepository;
+    private final SurfSpotRepository surfSpotRepository;
 
     public UserSurfSpotService(UserSurfSpotRepository userSurfSpotRepository,
-                               WatchListRepository watchListRepository) {
+                               WatchListRepository watchListRepository,
+                               UserRepository userRepository,
+                               SurfSpotRepository surfSpotRepository) {
         this.userSurfSpotRepository = userSurfSpotRepository;
         this.watchListRepository = watchListRepository;
+        this.userRepository = userRepository;
+        this.surfSpotRepository = surfSpotRepository;
     }
 
     public UserSurfSpotsDTO getUserSurfSpotsSummary(String userId) {
@@ -68,10 +76,16 @@ public class UserSurfSpotService {
         Optional<UserSurfSpot> existingEntry = userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, spotId);
 
         if (existingEntry.isEmpty()) {
-            // If not found, create a new entry
+            // Load the User and SurfSpot entities from the repository to avoid transient entity issues
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+            SurfSpot surfSpot = surfSpotRepository.findById(spotId)
+                    .orElseThrow(() -> new RuntimeException("Surf spot not found with ID: " + spotId));
+
+            // Create a new entry with managed entities
             UserSurfSpot newEntry = UserSurfSpot.builder()
-                    .user(User.builder().id(userId).build())
-                    .surfSpot(SurfSpot.builder().id(spotId).build())
+                    .user(user)
+                    .surfSpot(surfSpot)
                     .isFavourite(false)
                     .build();
             userSurfSpotRepository.save(newEntry);

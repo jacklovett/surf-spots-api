@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Test Country",
+    "description": "Test country description",
+    "continent": {
+      "id": 1
+    }
+  }
+]

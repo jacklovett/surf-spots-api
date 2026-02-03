@@ -2,31 +2,31 @@
   {
     "id": 1,
     "name": "Africa",
-    "description": "Africa offers world-class surf spots, particularly in South Africa and Morocco, with consistent waves and some of the best right-hand point breaks in the world."
+    "description": "Africa remains one of surfing’s last frontiers, with vast stretches of coastline still largely unexplored. Yet, it’s home to some of the best waves on the planet! Jeffreys Bay in South Africa offers world-class right-hand perfection, while Namibia’s Skeleton Bay delivers seemingly endless sandbar barrels. Further north, Morocco’s Anchor Point serves up long, peeling walls, a staple of the country’s thriving surf scene. While South Africa and Morocco have well-established surf cultures, much of the continent offers adventure and uncrowded waves for those willing to explore."
   },
   {
     "id": 2,
     "name": "Asia",
-    "description": "Asia is home to famous surf destinations like Bali in Indonesia and the tropical waves of the Philippines and Sri Lanka, attracting surfers year-round."
+    "description": "Asia is a diverse and vibrant surf destination, offering everything from powerful reef breaks to mellow, beginner-friendly waves. Indonesia stands out as the region’s crown jewel, with Bali’s Uluwatu and Padang Padang delivering world-class barrels, while the Mentawai Islands offer some of the most flawless waves anywhere. The Philippines boasts hollow reef setups like Cloud 9, while Sri Lanka’s Arugam Bay serves up long, friendly rides ideal for all skill levels. With warm waters, consistent swells, and a growing surf culture, Asia attracts wave riders year-round."
   },
-  {  
+  {
     "id": 3,
     "name": "Europe",
-    "description": "Europe has diverse surfing opportunities, from Portugal's giant waves in Nazaré to France's famous beach breaks and consistent swells along the Atlantic coast."
+    "description": "Europe’s surf scene offers something for everyone. Portugal’s Nazaré is famous for giant waves, attracting big-wave riders from around the globe, while Ireland is a cold-water paradise, known for its heavy, powerful barrels and challenging conditions. France is home to renowned spots like La Gravière in Hossegor and the consistent beach breaks of Biarritz. In the UK, Thurso is a cold-water destination known for its demanding swells. Whether you’re chasing warm-water barrels or braving the winter swells of the North, Europe’s coastline delivers thrilling surf and unforgettable experiences."
   },
   {
     "id": 4,
     "name": "North America",
-    "description": "North America offers a wide variety of surf spots, from California's consistent west coast breaks to Hawaii's legendary waves like Pipeline."
+    "description": "North America, the birthplace of modern surfing, is home to some of the world’s most iconic waves. Hawaii’s Pipeline is renowned for its perfect barrels, while California’s coast offers a range of breaks, from the classic point breaks of Malibu to the towering swells of the legendary Mavericks. Further south, Mexico’s Puerto Escondido and the warm, consistent waves of Costa Rica, Nicaragua, and El Salvador attract surfers from around the globe. Whether you're chasing world-class waves or soaking in the vibrant surf culture, North America has something for everyone."
   },
   {
     "id": 5,
     "name": "Oceania",
-    "description": "Home to world-class surf spots like Teahupo'o, Cloudbreak, and Bells Beach, this region offers diverse waves across its stunning islands and coastlines."
+    "description": "Oceania is a paradise for surfers, with the iconic Teahupo'o in Tahiti and Cloudbreak in Fiji offering some of the most sought-after waves in the world. Australia, a cornerstone of surf culture, is home to legendary breaks like the powerful waves of Margaret River and the long point breaks of Byron Bay. The region’s islands and coastlines also provide a variety of waves, from perfect reef breaks to mellow beach breaks, attracting surfers from all corners of the globe. Whether you're chasing epic waves or enjoying the laid-back surf vibe, Oceania is an essential destination for any surfer."
   },
   {
     "id": 6,
     "name": "South America",
-    "description": "South America provides epic surf destinations, particularly in Brazil, Chile, and Peru, with long left-hand waves and reliable swells year-round."
+    "description": "South America is home to world-class waves, with Brazil, Chile, and Peru leading the charge. Peru’s Chicama boasts one of the longest left-hand waves on Earth, while Punta de Lobos in Chile delivers powerful, consistent swells that challenge even the most experienced surfers. In Brazil, Saquarema—often called the country’s surf capital—hosts world-class competitions, while Florianópolis offers a mix of beach and reef breaks. With year-round swell and a mix of warm-water beach breaks and rugged, powerful reefs, South America has something for every surfer."
   }
 ]

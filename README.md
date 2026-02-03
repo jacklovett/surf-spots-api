@@ -97,6 +97,7 @@ docker-compose -f docker-compose.dev.yml logs -f api
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Database Setup](#database-setup)
+- [Seed Data Management](#seed-data-management)
 - [Configuration](#configuration)
 - [Running the Application](#running-the-application)
 - [Testing](#testing)
@@ -308,6 +309,91 @@ Test your database connection:
 
 ```bash
 psql -U postgres -d surf_spots_db -c "SELECT version();"
+```
+
+## Seed Data Management
+
+The application uses seed data to populate the database with initial data (continents, countries, regions, sub-regions, and surf spots). Seed data is managed through Google Sheets for easy editing, then exported to JSON files that the `SeedService` uses.
+
+### Workflow
+
+1. **Edit data in Google Sheets**
+2. **Export to JSON** - When data is ready, export from Google Sheets to JSON files using the python script (export_sheets_to_json.py)
+3. **Commit to Git** - Review and commit the generated JSON files
+4. **Automatic seeding** - `SeedService` automatically uses the JSON files on application startup, to seed or adjust existing records
+
+### Google Sheets Setup
+
+The seed data is maintained in a Google Sheet with the following tabs:
+- **Continents** - Continent data
+- **Countries** - Country data with continent references
+- **Regions** - Region data with country references
+- **SubRegions** - Sub-region data with region references
+- **SurfSpots** - Surf spot data with region/sub-region references
+
+**Spreadsheet ID:** `1m0L9qPYYjxYLMuFilUdrOdaq3kzmULoN5Zv29J0eyZ0`
+
+### Exporting from Google Sheets
+
+When you're ready to update the seed data:
+
+1. **Install Python dependencies** (if not already done):
+   
+   ```bash
+   cd surf-spots-api/scripts
+   pip install -r requirements.txt
+   ```
+   
+   **Note:** If you don't have `pip` installed, or prefer using a virtual environment:
+   - **Virtual environment (recommended):**
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate  # On Windows: venv\Scripts\activate
+     pip install -r requirements.txt
+     ```
+   - **System-wide installation:** Use `pip3` or `python3 -m pip` as appropriate for your system
+
+2. **Set up credentials**:
+   - Ensure `GOOGLE_APPLICATION_CREDENTIALS` environment variable points to your service account JSON file
+   - Or place `surfspots-439420-115e3f376e26.json` in the monorepo root (one level up from surf-spots-api)
+   - Make sure the service account has access to the Google Sheet
+
+3. **Export the sheets to JSON**:
+   ```bash
+   cd surf-spots-api/scripts
+   python3 export_sheets_to_json.py
+   ```
+
+   This will:
+   - Read all data from Google Sheets
+   - Convert name-based foreign keys to ID-based references
+   - Set `status: "Approved"` for all surf spots automatically
+   - Export JSON files to `src/main/resources/static/seedData/`
+
+5. **Review the generated files**:
+   - Check the JSON files in `src/main/resources/static/seedData/`
+   - Verify the data looks correct
+
+6. **Commit to Git**:
+
+### How SeedService Works
+
+The `SeedService` automatically runs on application startup (if `app.seed.enabled=true`):
+
+- Reads JSON files from `src/main/resources/static/seedData/`
+- Resolves foreign key references by position (JSON ID = position in seeded list)
+- **Creates new entities** or **updates existing ones** (matched by name)
+- Handles relationships automatically (continent → country → region → sub-region → surf spot)
+
+### Backup and Recovery
+
+Before exporting new data, backups are automatically created:
+- Backup location: `src/main/resources/static/seedData.backup/`
+- Files are saved as `.backup` before replacement
+
+To restore from backup:
+```bash
+cp src/main/resources/static/seedData.backup/*.json src/main/resources/static/seedData/
 ```
 
 ## Configuration

@@ -1,637 +1,982 @@
 [
-    {
-      "name": "Algeria",
-      "description": "Algeria offers emerging surf spots along its Mediterranean coast, with warm waters and scenic views.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Angola",
-      "description": "Angola offers undiscovered surf potential, especially in spots like Cabo Ledo, with warm waters and empty lineups.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Cape Verde",
-      "description": "Cape Verde is known for its powerful Atlantic swells, offering world-class waves for surfers in places like Santa Maria.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Congo Republic",
-      "description": "The Republic of Congo offers lesser-known surf spots with warm tropical waters and uncrowded waves.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Egypt",
-      "description": "Egypt's Mediterranean coastline offers surf spots like Agami, with warm waters and consistent waves.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Ghana",
-      "description": "Ghana is home to spots like Busua Beach, with warm water and a growing surf community on the West African coast.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Ivory Coast",
-      "description": "Ivory Coast offers warm tropical waters and consistent waves in surf spots like Assinie and Grand-Bassam.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Liberia",
-      "description": "Liberia is famous for uncrowded surf breaks like Robertsport, with long, consistent waves in tropical surroundings.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Madagascar",
-      "description": "Madagascar offers beautiful and secluded surf spots with warm waters and uncrowded breaks along its Indian Ocean coastline.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Mauritius",
-      "description": "Mauritius has perfect reef breaks, particularly in Tamarin Bay, attracting surfers to the tropical island.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Morocco",
-      "description": "Morocco is famous for its world-class right-hand point breaks, including Anchor Point and Boilers in Taghazout. With scenic waves near Essaouira, it's a prime destination for surfers year-round.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Mozambique",
-      "description": "Mozambique offers pristine surf spots like Tofo Beach with crystal clear waters and uncrowded waves.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Namibia",
-      "description": "Namibia is home to Skeleton Bay, famous for its incredibly long and fast left-hand barrels.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Nigeria",
-      "description": "Nigeria is an emerging surf destination with warm water and beach breaks, offering potential for future surf exploration.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Republic of Benin",
-      "description": "Benin offers emerging surf spots along its Atlantic coast, with warm water and consistent small waves for beginners.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Republic of Equatorial Guinea",
-      "description": "Equatorial Guinea features lesser-known surf spots along its Atlantic coast, with warm waters and scenic landscapes.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Réunion",
-      "description": "Réunion Island is known for its powerful waves and tropical surf breaks, attracting experienced surfers.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Senegal",
-      "description": "Senegal boasts consistent surf at spots like Ngor Right, with a warm climate and vibrant surf culture.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Seychelles",
-      "description": "Seychelles offers beautiful tropical surf spots with consistent waves and crystal-clear water, making it a unique surf destination.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Sierra Leone",
-      "description": "Sierra Leone features tropical surf breaks along its Atlantic coast, with warm waters and developing surf culture.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "South Africa",
-      "description": "South Africa is known for consistent surf spots like Jeffrey's Bay, attracting surfers from around the world.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "São Tomé and Príncipe",
-      "description": "São Tomé and Príncipe offers secluded surf spots with warm waters, attracting surfers looking for uncrowded waves.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Tanzania",
-      "description": "Tanzania features beautiful surf spots along its Indian Ocean coastline, with warm waters and consistent waves.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Togo",
-      "description": "Togo is an emerging surf destination with warm waters and consistent waves along its Atlantic coast.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Tunisia",
-      "description": "Tunisia offers Mediterranean surf spots with warm water and consistent swells during the winter months.",
-      "continent": { "id": 1 }
-    },
-    {
-      "name": "Western Sahara",
-      "description": "Western Sahara features uncrowded surf breaks along its Atlantic coast, with warm water and consistent waves.",
-      "continent": { "id": 1 }
-    },  
+  {
+    "name": "Algeria",
+    "description": "Algeria’s Mediterranean coastline has a small but growing surf scene, with most activity around Algiers. While swells are less frequent than in the Atlantic, beach breaks like Decaplage can provide fun waves when conditions align, making Algeria an emerging destination for those willing to explore.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Angola",
+    "description": "Angola’s coastline remains largely unexplored, with warm waters and minimal crowds. Cabo Ledo, its best-known break, delivers long, peeling lefts, especially from May to mid-October when southern swells bring the most consistent waves. With untapped potential, Angola offers a true adventure for those seeking uncrowded perfection",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Cameroon",
+    "description": "Cameroon’s surf scene is still emerging, with surf spots like Kribi and Seme Beach showing potential for adventurous surfers. The best surf conditions typically occur between November and March, when consistent waves come from the west and southwest, bringing good swell to the country’s coast. Surfers can enjoy relatively uncrowded beaches and a more unique surf experience compared to more established destinations.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Cape Verde",
+    "description": "Cape Verde is a hidden gem for surfers, with Ponta Preta on Sal Island being the standout spot. Known for its consistent, powerful waves, it attracts surfers from around the world, particularly during the peak season from October to March. While the archipelago is also a hotspot for windsurfing and kitesurfing, traditional surfers can enjoy warm waters and relatively uncrowded lineups. The laid-back atmosphere and scenic beauty of Cape Verde make it a must-visit for anyone looking to discover new surf destinations.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Egypt",
+    "description": "Egypt is renowned for its kite surfing and windsurfing, particularly around the Red Sea. While the country’s surf scene is still developing, there are occasional surfable waves near Alexandria, with the best conditions typically found in the winter months. Although Egypt’s surf spots are not as consistent or famous as other destinations, adventurous surfers are starting to explore its lesser-known spots.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Gabon",
+    "description": "Gabon’s coastline sees occasional surf, with Loango National Park offering a unique setting where waves break near untouched wilderness. While conditions can be inconsistent, the country holds promise for adventurous surfers willing to explore its remote beaches.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Ghana",
+    "description": "Ghana’s Atlantic coastline offers warm waters, a laid-back surf culture, and consistent waves year-round. Busua Beach is the country’s surf hub, with a welcoming local scene and gentle waves ideal for beginners. More advanced surfers seek out Cape Three Points, a remote and scenic break offering longer rides. With its tropical climate and growing surf community, Ghana is an emerging destination for those looking to explore West African waves.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Ivory Coast",
+    "description": "Ivory Coast offers some of West Africa’s most accessible and consistent waves, with warm water and a welcoming surf culture. Assinie, near Abidjan, is the heart of the scene, featuring fun beach breaks perfect for all levels. Further west, Monogaga delivers long left-hand point breaks in a tropical setting, offering a more off-the-beaten-path experience. The surf is best from April to November, with uncrowded waves and a laid-back coastal vibe.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Kenya",
+    "description": "Kenya's Indian Ocean coastline offers warm waters and reef breaks, with the best surf conditions from June to September. Diani Beach is the most well-known spot, offering waves for different skill levels. The surf scene is growing, and visitors can find affordable stays and lively beachfront bars. While generally safe, travelers should stay informed about local conditions. Beyond surfing, Kenya offers unique experiences like Swahili coastal culture, fresh seafood, and access to world-class safaris.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Liberia",
+    "description": "Liberia’s surf scene is still developing, with Robertsport being the standout destination. The town is known for its consistent left-hand point breaks like Cottons, which attract surfers looking for uncrowded waves. The best time to visit is from April to October, during the dry season. While the surf scene is emerging, Robertsport offers a unique mix of surf and local culture, where you can experience traditional Liberian hospitality, enjoy fresh seafood, and explore nearby natural attractions like beautiful beaches and rivers. It's a great place for those seeking a laid-back surf trip with a taste of authentic West African life.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Madagascar",
+    "description": "Madagascar’s southwestern coast offers some of the best waves in the region, especially around Anakao, with over 20 quality breaks, including Lavanono. The surf season runs from March to September, with powerful south-facing swells. Madagascar is not only a surf destination but also a place to experience unique Malagasy culture through its fishing villages, markets, and traditions. While the country offers incredible surf and wildlife, including lemurs and chameleons, visitors should be mindful of safety and potential instability in some areas.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Mauritania",
+    "description": "Mauritania’s northwest coast offers adventurous surfers uncrowded waves, especially near Nouakchott. The Old Wharf south of the capital is known for its fast right-hand break near a disused jetty. The best season runs from November to February, with consistent swells and offshore winds. While the surf potential is high, limited infrastructure and strong northerly winds mean it’s best suited for experienced surfers who are well-prepared for remote conditions.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Mauritius",
+    "description": "Mauritius offers warm Indian Ocean waters and consistent groundswells, especially from June to November. Notable surf spots include Tamarin Bay, renowned for its barreling left-hand waves, and Black Rocks, known for its powerful reef break. However, Tamarin Bay is infamous for strong localism, with the 'White Shorts' group enforcing territorial behavior, which can be challenging for visiting surfers. Beyond surfing, the island features rainforests, volcanic peaks, and pristine beaches, making it a memorable destination for adventure and relaxation.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Morocco",
+    "description": "Morocco is a surfer's paradise with consistent Atlantic swells and diverse breaks for all skill levels. Highlights include Anchor Point's powerful right-hand waves and Essaouira's beginner-friendly conditions. Beyond surfing, explore bustling souks and enjoy traditional mint tea, adding a rich cultural experience to your surf adventure.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Mozambique",
+    "description": "Mozambique offers a unique surfing adventure with warm Indian Ocean waters and uncrowded waves. The coastline is rich in marine life, including the friendly manta rays, making it a paradise for both surfers and divers. Highlights include Ponta do Ouro, famous for its long, world-class waves, and Tofinho, known for its powerful reef breaks. The surf season peaks from June to September, providing consistent swells and a unforgettable experience.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Namibia",
+    "description": "Namibia offers a unique and adventurous surfing experience with consistent swells and uncrowded waves along its rugged coastline. Highlights include Skeleton Bay, renowned for its long, barreling left-hand waves, and the remote breaks near Lüderitz. With a diverse ecosystem, including the Namib Desert, and abundant wildlife, Namibia combines thrilling surf with breathtaking natural beauty.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Nigeria",
+    "description": "Nigeria's western coast offers straight beach breaks from the Benin border to the Lagos Channel. The best waves break inside the Lagos Lagoon, near jetty constructions, with Tarkwa Bay's wedge wave being the surf scene's hub. Open beaches like Lighthouse and Shipwreck provide shaped waves along golden sands. The eastern coast is less surf-friendly due to river mouths and a wide continental shelf, making access difficult and waves poor.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Republic of Benin",
+    "description": "Benin's coastline features steep beaches backed by lagoons, with the best waves forming where sandbanks are created by natural or man-made structures. Spots like La Méduse and La Routes des Pêches offer consistent surf, especially during winter. These breaks produce powerful, hollow waves that work best with south swells and north winds. The coast remains uncrowded, attracting surfers seeking less-explored waves.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Republic of Congo",
+    "description": "The Republic of Congo offers surfing opportunities along its Atlantic coast, especially around Pointe-Noire. From May to August, the area benefits from reliable swells and warm waters, making it ideal for surfing. Notable spots include the exposed beach break Côte Sauvage and the point break Le Piege. The coast is relatively quiet, providing uncrowded surf spots for exploration. Beyond surfing, the region is known for its rich biodiversity, including the Congo River and expansive rainforests.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Republic of Equatorial Guinea",
+    "description": "Surfers exploring Equatorial Guinea will find a coastline rich with potential, featuring warm tropical waters and reliable swells. While established surf spots are limited, the unexplored coast offers opportunities for discovery. Bioko Island hosts known spots like Caracas and Nacho, which benefit from strong swells. The prime surfing season runs from April to October, with June to September being particularly consistent. Areas around Malabo and Bata provide quiet, uncrowded waves, perfect for adventurous surfers seeking new experiences.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Réunion",
+    "description": "Réunion Island offers powerful surf, with consistent swells and warm Indian Ocean waters. Saint-Leu is the standout spot, a world-class left-hander known for long, barreling waves. The island has a strong surf culture, producing top talents like Jérémy Florès and Johanne Defay. While past shark incidents raised concerns, safety measures like nets help mitigate risks. Beyond the waves, Réunion’s dramatic landscapes, from active volcanoes to lush forests, make it an unforgettable destination.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Senegal",
+    "description": "Made famous by the surf film \"Endless Summer,\" Senegal offers iconic waves like N'gor Right and a welcoming surf culture. The Almadies Peninsula is home to various breaks, including the legendary N'gor Island. With consistent swells from November to March and warm waters, Senegal is a great spot for surfers looking to explore new waves and enjoy local hospitality and mbalax dance music.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Seychelles",
+    "description": "Seychelles offers a tropical surfing paradise with warm waters and stunning beaches. Grand Anse Beach on Mahé is known for its clean waves, suitable for all skill levels. The scenic Mahé and La Digue islands provide a mix of beach and reef breaks, perfect for those seeking uncrowded waves and a relaxing island vibe. With a consistent surf season from April to October, Seychelles is an ideal destination for surfers of all levels.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Sierra Leone",
+    "description": "Sierra Leone offers uncrowded waves, warm waters, and a developing surf scene. Bureh Beach is the main spot, with fun, peeling waves for all levels. The best surf conditions arrive from May to October, when southwesterly swells hit the coastline. While infrastructure is limited, the natural beauty and welcoming local surf community make it a worthwhile destination.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "South Africa",
+    "description": "South Africa boasts world-class surf, with Jeffreys Bay as its crown jewel, offering long, fast right-hand barrels. The country’s diverse coastline features powerful reef and beach breaks, with Durban’s warm waters and the Western Cape’s heavy waves catering to different skill levels. The prime surf season runs from March to September. South Africa has produced top surfers like Jordy Smith, and beyond the waves, visitors can explore stunning landscapes, rich wildlife, and iconic safaris. While the surf is incredible, be mindful of strong currents, sharks, and localized crowds at popular breaks.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "São Tomé and Príncipe",
+    "description": "São Tomé and Príncipe offers a unique surfing experience with consistent Atlantic swells and warm waters year-round. Highlights include Radiation Point, known for its long right-handers, and the scenic east coast beaches. With a tropical climate and lush landscapes, this archipelago is perfect for those seeking uncrowded waves and a vibrant local culture.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Tanzania",
+    "description": "Tanzania's Indian Ocean coastline is a surfer's paradise, with warm waters and steady waves. Pangani is the go-to spot, famous for its long, peeling right-hander point break that's perfect for experienced surfers. Down in Zanzibar, you'll find powerful reef breaks with crystal-clear waters and stunning beaches. Beyond surfing, Tanzania offers incredible wildlife safaris in the Serengeti and the iconic Mount Kilimanjaro.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Togo",
+    "description": "In Togo, surfers can enjoy the warm tropical waters of the Gulf of Guinea, where consistent swells create ideal surfing conditions. Lomé Rivage, near the capital Lomé, is a popular beach break with reliable surf, especially from May to October. Beyond the waves, Togo is known for its vibrant markets and rich cultural heritage, including traditional voodoo practices.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Tunisia",
+    "description": "Surfers looking for a fresh experience will enjoy Tunisia's Mediterranean coast, where the waves provide a mix of gentle and challenging conditions. The prime spots are near Tunis, Mahdia, and Sousse, with the best surf from October to March. While the waves might not rival those of famous surf destinations, the adventure is enhanced by Tunisia's rich history, including the ancient ruins of Carthage. Plus, sci-fi fans will recognize the landscapes from the Star Wars films, where they stood in for the planet Tatooine.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Western Sahara",
+    "description": "Offering a rugged coastline along the edge of the world's largest desert, Western Sahara boasts consistent waves, especially during the winter months from October to February. The coast is dotted with uncrowded surf spots, particularly around the capital Laâyoune and the Dakhla Peninsula. The raw beauty of the Sahara Desert landscape, combined with the challenge of finding remote and untouched breaks, makes it an ideal destination for surfers seeking to venture off the beaten path.",
+    "continent": {
+      "id": 1
+    }
+  },
+  {
+    "name": "Bangladesh",
+    "description": "Cox's Bazar in Bangladesh features the world's longest unbroken sandy beach along the Bay of Bengal. The surf scene is small but enthusiastic, with gentle waves ideal for beginners during the dry winter season from October to March. Summer brings larger swells for experienced surfers. Led by local pioneers, the surf community is welcoming and passionate, offering lessons and day trips to nearby islands. While modest, the hospitality and enthusiasm of the locals make it a memorable experience.",
+    "continent": {
+      "id": 2
+    }
+  },
   {
     "name": "Brunei",
-    "description": "Brunei has pristine beaches with small to medium waves, perfect for beginners. Tanjung Aru offers lush rainforests and warm water year-round.",
-    "continent": { "id": 2 }
+    "description": "Tucked away on the north coast of Borneo, Brunei is a small country bordered by Malaysia and the South China Sea. While not famous for surfing, Tungku Beach offers a unique experience with occasional waves, especially during the cyclone season. The beach break provides a mix of groundswells and windswells, ideal for beginners but with challenges for experienced surfers on bigger days. The welcoming surf community and rarely crowded beach make it a peaceful spot to explore.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "China",
-    "description": "China features emerging surf spots in Hainan Island, with beach breaks and consistent waves in a vibrant cultural setting and tropical weather.",
-    "continent": { "id": 2 }
+    "description": "Known for manufacturing much of the world's surf gear, this vast nation is emerging as a surf destination, with Hainan Island leading the way. The tropical island offers long point breaks and powerful beach breaks suitable for all levels, notably at Riyue Bay with its consistent waves and clear waters. The Qiantang River's tidal bore, known as the \"Silver Dragon,\" is one of the world's largest, creating a powerful, fast-moving wave that surfers can ride up the river. This phenomenon typically occurs during the eighth lunar month, coinciding with the Mid-Autumn Festival. Additionally, China's rich cultural heritage includes iconic landmarks like the Great Wall and the Forbidden City, renowned martial arts traditions, and diverse cuisine from spicy Sichuan dishes to Cantonese dim sum.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Hong Kong",
-    "description": "Hong Kong blends urban surf culture with spots like Big Wave Bay and Shek O, offering warm summers for surfers of all levels.",
-    "continent": { "id": 2 }
+    "description": "Surfers might want to reconsider planning a trip here, as a ban on surfing at all public beaches managed by the LCSD has significantly limited opportunities. While spots like Tai Wan in Sai Kung, Cheung Sha, and Pui O Beach on Lantau Island might still offer some waves, the overall environment isn't exactly inviting for a surf-focused trip. However, Hong Kong shines with its vibrant blend of Eastern and Western cultures, featuring iconic landmarks like Victoria Peak and bustling markets that reflect its rich history and dynamic spirit. The diverse cuisine, from dim sum to international fare, adds to the city's unique charm.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "India",
-    "description": "India boasts diverse surf spots like Kovalam and Varkala, with warm waters and a mix of beach and reef breaks amidst vibrant local communities.",
-    "continent": { "id": 2 }
+    "description": "Expect crowded beaches and bustling streets, making quiet moments rare. The surf can be rewarding, with Goa offering reliable waves and warm waters, though it can be chaotic. In Kerala, spots like Varkala and Kovalam provide consistent surf and beautiful views, but navigating congested roads and humidity is part of the experience. Beyond surfing, enjoy stunning landscapes and iconic sights like the Taj Mahal. The diverse food reflects the region's rich history, but avoid the street food!",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Indonesia",
-    "description": "Indonesia is a surfer’s paradise with world-class spots like Uluwatu and the Mentawai Islands, attracting competitions and festivals.",
-    "continent": { "id": 2 }
+    "description": "A legendary surf destination with incredible waves and stunning landscapes. Iconic spots like Uluwatu in Bali and the Mentawai Islands offer consistent swells and breathtaking backdrops but can be overrun during peak seasons. Beyond famous breaks, hidden gems with uncrowded waves await. The region boasts rich traditions, colorful festivals, ancient temples, warm hospitality, and delicious local dishes like nasi goreng and satay. Prepare for a tropical climate with humidity and unpredictable weather.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Israel",
-    "description": "Israel features surf spots like Tel Aviv and Haifa, known for consistent waves and a Mediterranean climate that appeals year-round.",
-    "continent": { "id": 2 }
+    "description": "Tel Aviv's vibrant surf scene offers a blend of reliable Mediterranean waves and rich Jewish history. With manageable crowds and a welcoming local community, it's a must-visit for surfers. Beyond the waves, explore ancient sites like the Old City of Jerusalem and the historic port of Jaffa. The food scene is exceptional, with local delights like falafel and hummus. Be prepared for a Mediterranean climate with hot, dry summers and mild winters.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Japan",
-    "description": "Japan is known for its surf culture with spots like Chiba and Shonan, offering a mix of beautiful coastlines and seasonal typhoons.",
-    "continent": { "id": 2 }
+    "description": "A unique surf destination with varied coastlines and a rich blend of ancient traditions and modern culture. Iconic spots like Chiba offer consistent waves near Tokyo, while Okinawa provides a tropical surfing paradise, all with manageable crowds and a welcoming local surf community. Beyond the waves, explore bustling cities with neon lights, ancient temples, and tranquil gardens. Indulge in renowned cuisine like sushi and ramen, and be prepared for diverse weather conditions, from snowy winters to summer typhoons.",
+    "continent": {
+      "id": 2
+    }
+  },
+  {
+    "name": "Kazakstan",
+    "description": "Surfing in Kazakhstan is an adventure for the truly dedicated. The Caspian Sea offers a unique experience with spots like Aktau, where waves are inconsistent and conditions challenging. The best time to catch any surf is during November and December, but be prepared for environmental concerns and suspect water quality. Crowds are never an issue, but the unpredictable nature and pollution make it far from an ideal surf destination.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Lebanon",
-    "description": "Lebanon offers Mediterranean surf spots like Jiyyeh, rich history, delicious cuisine, and vibrant nightlife for surfers.",
-    "continent": { "id": 2 }
+    "description": "Discover Lebanon's surf scene, where consistent waves meet rich history and culture. Spots like Jiyeh and Batroun offer uncrowded breaks, especially during winter. Explore ancient ruins like the Roman hippodrome in Tyre and enjoy delicious Lebanese cuisine, featuring mezze platters with hummus and falafel. However, due to ongoing political instability, it's currently not safe to visit.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Malaysia",
-    "description": "Malaysia has emerging surf spots like Cherating, featuring mellow waves and a mix of Malay, Chinese, and Indian cultures.",
-    "continent": { "id": 2 }
+    "description": "Malaysia's surf scene is centered on the east coast, particularly in Cherating, with consistent waves from October to March. Cherating is known for its beginner-friendly conditions. Beyond surfing, Malaysia features lush rainforests, vibrant cities, and iconic landmarks like the Petronas Twin Towers and historic George Town.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Maldives",
-    "description": "The Maldives is known for luxurious surf resorts and perfect waves at Pasta Point and Honkys, offering adventure and relaxation.",
-    "continent": { "id": 2 }
+    "description": "Discover a tropical surfing paradise with crystal-clear waters and consistent waves. Scattered across various atolls, you'll find a mix of reef breaks and warm waters, perfect for all levels. Luxury resorts and pristine beaches provide an idyllic backdrop, making it a blend of surfing and indulgence. However, this luxury comes at a cost, as the Maldives is an expensive destination. While crowds can gather at popular spots, the numerous islands offer hidden gems to explore. Beyond the surf, enjoy vibrant marine life and fresh seafood. Be prepared for the monsoon season, which brings the best swells.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Myanmar",
-    "description": "Myanmar features lesser-known surf spots like Ngapali Beach, with warm waters and gentle waves for a tranquil surfing experience.",
-    "continent": { "id": 2 }
+    "description": "This Southeast Asian country has over 1,930 kilometers of coastline along the Bay of Bengal and the Andaman Sea. While not a major surf destination, it has a few good spots. The best waves arrive between mid-May and late September, with Ngapali Beach and Ngwe Saung being the most well-known. The landscape includes ancient Buddhist temples, lush forests, and a mix of over 100 ethnic groups. Political instability and safety concerns can affect travel plans, so it’s worth checking conditions before visiting.\n\n",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "North Korea",
-    "description": "North Korea offers scenic coastal views with limited surf spots, providing a unique experience for adventurous surfers.",
-    "continent": { "id": 2 }
+    "description": "Surfing here is nearly impossible—not due to a lack of waves, but because no one is allowed to try. With 2,495 kilometers of coastline along the Korean Bay and the Sea of Japan (East Sea), there are likely surfable spots, but strict government control makes access impossible. The beaches are heavily monitored, and independent travel is forbidden. Even if the waves were perfect, the risks far outweigh the reward.\n\n",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Oman",
-    "description": "Oman features surf spots like Salalah and Masirah Island, known for consistent swells and a rich cultural heritage.",
-    "continent": { "id": 2 }
-  },
-  {
-    "name": "Palestine",
-    "description": "Palestine offers surf opportunities along the Gaza Strip, with warm Mediterranean waves and a backdrop of rich history.",
-    "continent": { "id": 2 }
+    "description": "Oman has a long, exposed coastline along the Arabian Sea and the Gulf of Oman, offering some of the best surf in the Middle East. The country gets consistent swells from May to September, thanks to the Indian Ocean’s monsoon season. Popular surf spots include Asilah, Ras al Hadd, and Masirah Island, the last of which is known for powerful, uncrowded waves. The water is warm year-round, but summer temperatures on land can be extreme. Oman is politically stable and welcoming to tourists, with stunning deserts, rugged mountains, and ancient forts adding to its appeal.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Philippines",
-    "description": "The Philippines features famous surf spots like Siargao and Baler, attracting surfers with powerful waves and a laid-back culture.",
-    "continent": { "id": 2 }
+    "description": "The Philippines is a prime surf destination, with famous breaks like Cloud 9 offering world-class waves from August to March. Beyond surfing, the country features beautiful beaches, lush jungles, and vibrant cities like Manila. Its rich culture, shaped by Spanish and indigenous influences, shines through in festivals, architecture, and delicious dishes like adobo and sinigang. Whether you're catching waves or exploring the islands, there’s plenty to enjoy.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Russia",
-    "description": "Russia has emerging surf spots in Kamchatka, offering wild landscapes and rugged waves for adventurous surfers.",
-    "continent": { "id": 2 }
+    "description": "Russia’s Kamchatka region has remote surf spots with waves from May to October, highlighted in the documentary Corners of the Earth: Kamchatka. The freezing water and isolation make it a challenge even for the most dedicated surfers. However, with strict government controls, ongoing conflicts, and a hostile stance toward many foreign visitors, it’s a destination best avoided. While the country has landmarks like the Kremlin and Hermitage Museum, the risks of visiting far outweigh any potential reward.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "South Korea",
-    "description": "South Korea features surf spots like Jeju Island and Yangyang, blending vibrant surf culture with rich historical sites.",
-    "continent": { "id": 2 }
+    "description": "Consistent swells roll into the east coast, with Yangyang standing out as the country’s top surf destination. Busan and Jeju Island also offer quality waves, and a growing surf scene has brought board rentals, surf cafes, and a tight-knit community. Ancient temples, palaces, and traditional markets reflect the country’s deep history, while futuristic skyscrapers and high-tech districts showcase its modern edge. As night falls, Seoul and Busan glow with neon lights, where late-night BBQ joints, jjimjilbang (24-hour bathhouses), and underground K-pop clubs keep the energy going well into the night.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Sri Lanka",
-    "description": "Sri Lanka is renowned for surf spots like Arugam Bay, offering excellent waves and a laid-back vibe amidst rich biodiversity.",
-    "continent": { "id": 2 }
+    "description": "World-class right-hand points and fun beach breaks make this a top surf destination. The west coast’s Hikkaduwa fires from November to April, while the east coast’s Arugam Bay peaks May to October. Crowds are common, but quieter waves await those who explore. Beyond surfing, ancient temples, tea plantations, and wildlife safaris add to the adventure. The bold, spice-packed cuisine features curries, coconut dishes, and fresh seafood—just stick to clean, busy food stalls and opt for bottled or boiled water.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Taiwan",
-    "description": "Taiwan features surf spots like Jinzun Harbor, known for consistent waves and a vibrant culinary scene for surfers.",
-    "continent": { "id": 2 }
+    "description": "The country that brought us bubble tea also delivers surprisingly good surf. The east and south coasts offer everything from mellow summer beach breaks to powerful typhoon swells, with Jinzun Harbor hosting top-level contests. Ornate Taoist and Buddhist temples stand alongside buzzing night markets, where you can feast on oyster omelets, braised pork rice, and other local specialties. Taiwan’s mountainous interior hides natural hot springs, scenic hiking trails, and some of Asia’s best cycling routes.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Thailand",
-    "description": "Thailand has emerging surf spots like Phuket, known for warm waters and stunning scenery, attracting surfers year-round.",
-    "continent": { "id": 2 }
+    "description": "Neon lights, wild parties, and go-go bars—Thailand’s nightlife is infamous, and for good reason. But beyond the madness of Patpong and Pattaya, the country has a softer side, with golden temples, floating markets, and some of the best street food in the world. Surfing isn’t Thailand’s main draw, but during monsoon season, Kata Beach in Phuket and a handful of other spots offer fun, mellow waves. When you're not in the water, you can get lost in Bangkok’s chaotic charm, explore ancient ruins in Ayutthaya, or hop between idyllic islands. Just be ready for scorching curries, hectic traffic, and a few well-practiced tourist scams.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Turkey",
-    "description": "Turkey offers surf spots along its stunning coastline, including Antalya, blending rich history with beautiful landscapes.",
-    "continent": { "id": 2 }
+    "description": "With its long coastline along the Aegean and Mediterranean, Turkey offers a decent mix of surf spots, though it’s not a top-tier destination for consistent waves. Spots like Alanya and the Black Sea region see fun conditions during the summer, but don’t expect the reliability of places like Bali or Portugal. Surfing here is more of a side attraction for those already visiting for the culture, beaches, and cuisine. While waiting for waves, Turkey delivers in spades with bustling markets, ancient ruins, and incredible food. Savor fresh seafood, grilled kebabs, and the famous Turkish coffee, traditionally brewed in sand. And of course, Istanbul’s nightlife is as chaotic as it is unforgettable.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "United Arab Emirates",
-    "description": "The UAE includes surf spots like Jumeirah Beach, known for consistent waves amid luxury and modernity.",
-    "continent": { "id": 2 }
+    "description": "The UAE is about as natural a surf destination as its indoor ski resort—and yet, thanks to sport-washing and a WSL-backed wave pool, it's found its way onto the surf map. Outside this artificial setup, natural waves are barely a thing, with only occasional weak wind swells. What the country lacks in surf, it makes up for in luxury excess—man-made islands, towering skyscrapers, and a carefully curated image built on the backs of an exploited workforce. Free speech is as controlled as the country's pristine aesthetic, making it a haven for influencers who love the glitz but ignore the reality.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Vietnam",
-    "description": "Vietnam features popular surf spots like China Beach and Mui Ne, known for consistent waves and rich culture.",
-    "continent": { "id": 2 }
+    "description": "Surfing in Vietnam isn't exactly world-class, but spots like My Khe Beach near Da Nang and Mui Ne offer warm, if unpredictable, waves during the northeast monsoon. The surf scene is quiet—more of a laid-back, foreign visitor hangout than a local passion—but that's not why most people come here. The real star is the food. While echoes of French colonial elegance remain in the architecture and cafés, it's the explosive flavors of pho, banh mi, and that famously strong, sweet Vietnamese coffee that leave travelers raving. Combine bustling street food stalls, motorbikes buzzing through ancient alleyways, and a vibrant culinary scene that fuels every journey, and you have Vietnam's undeniable charm.",
+    "continent": {
+      "id": 2
+    }
   },
   {
     "name": "Belgium",
-    "description": "Belgium offers unique surf conditions with beach breaks along its coast, attracting adventurous surfers.",
-    "continent": { "id": 3 }
+    "description": "Surfing here is a gamble. The North Sea delivers when it feels like it, but the waves are usually small, choppy, and wind-beaten. Oostende and Bredene offer the best chances, but let’s be honest—this isn’t a go-to surf destination. What Belgium does get right is beer, brewed for centuries by monks who perfected their craft long before the rest of the world caught on. It’s also the true originator of French fries and a heavyweight in chocolate. Brussels runs the EU, the country juggles French, Flemish, and German speakers, and somehow, a tiny statue of a peeing boy remains one of its most famous landmarks.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Bulgaria",
-    "description": "Bulgaria features surf spots on the Black Sea, providing diverse waves and a growing surf community.",
-    "continent": { "id": 3 }
+    "description": "Golden beaches, ancient ruins, and snow-capped mountains—Bulgaria has plenty to offer, but reliable surf isn’t one of them. The Black Sea can produce waves, but they’re rare, wind-blown, and usually not worth the effort. If you’re determined, Shkorpilovtsi and Sozopol are your best bets, but expectations should stay low. What the country does deliver is rich history, with Thracian tombs, Roman amphitheaters, and medieval fortresses. The food is hearty, with grilled meats, fresh salads, and a national obsession with yogurt. Throw in underrated local wine and a party scene that rivals Europe’s best, and there’s plenty to keep busy.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Cyprus",
-    "description": "Cyprus offers warm waters and a mix of beach and reef breaks, making it a hidden gem for surfers.",
-    "continent": { "id": 3 }
+    "description": "Blazing sun, turquoise waters, and beaches straight off a postcard. Cyprus looks like a surfer’s dream, but the Mediterranean isn’t exactly generous with waves. Swell does roll in occasionally, with Curium and Ladies Mile offering the best chances, but it’s usually small and short-lived. History is everywhere, from ancient Greek ruins to Crusader castles. The food leans heavily on grilled meats, fresh seafood, and halloumi, which Cyprus rightfully claims as its own. Split between Greek and Turkish influences, the island has a complicated past, but if you’re here for the surf, you’re in the wrong place.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "Croatia",
+    "description": "Crystal-clear waters, rocky beaches, and a coastline straight out of a movie set—Croatia’s Adriatic has been featured in more than just Game of Thrones. Dubrovnik, famous for its role as King’s Landing, has become a hotspot for fans and film buffs alike. As for surf? Not so much. The occasional storm swell brings some rideable waves, with spots like Preluk and Medulin offering the best chances, but it’s nothing to rely on. What Croatia does have is rich history, ancient Roman ruins, and medieval walled cities. The seafood is top-notch, the wine scene is growing, and if the waves aren’t cooperating, there’s always an island to explore or a fortress to climb.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Denmark",
-    "description": "Denmark's coastline features consistent waves, particularly in areas like Klitmøller, attracting surfers year-round.",
-    "continent": { "id": 3 }
+    "description": "Lego, world-class restaurants, and a rich Viking history—Denmark might surprise you with its surf scene too. While not the most consistent, spots like Klitmøller and Hvide Sande can deliver fun, punchy waves when the North Sea cooperates. Copenhagen’s culinary and design scenes are world-renowned, though it comes with a hefty price tag. History lovers will find plenty to explore, with ancient Viking sites and museums offering a fascinating look at the country’s legendary past.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "England",
+    "description": "From pubs to fish and chips, England has more than just a surf scene. Cornwall and Devon, with spots like Croyde and Fistral Beach, offer some of the best surf, but the North East coast, with beaches like Tynemouth and Saltburn, provides a colder, more rugged experience. Big wave surfer Andrew Cotton and longboarder Ben \"Skindog\" Skinner have helped put the UK on the surf map. Cask ales, particularly bitters, brewed with traditional methods, are a proud part of the culture, and there's always their love for tea. Whether you're catching waves or enjoying a pint, England’s charm and heritage are always present.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Estonia",
-    "description": "Estonia offers surf spots along its Baltic coast, with a growing interest in surfing among locals.",
-    "continent": { "id": 3 }
+    "description": "Surfing in Estonia is for the adventurous, with the Baltic Sea offering only occasional waves. Pärnu is the best spot, but don't expect consistent surf. Beyond the water, Estonia's medieval cities, cobblestone streets, and castles are a must-see, while its forests and islands provide a peaceful retreat. If you do manage to catch some waves, the country's famous saunas are the perfect way to warm up afterward. While not a major surf destination, Estonia’s unique charm offers an unforgettable experience.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "Faroe Islands",
+    "description": "The Faroe Islands aren't for the faint-hearted, especially when it comes to surfing. With unpredictable, cold waters and powerful waves, the surf can be as wild as the landscape itself. The weather is often harsh and windy, but that only adds to the raw, untamed appeal of the islands. Beyond surfing, the dramatic cliffs, remote villages, and rugged coastlines make the Faroe Islands one of the most visually striking places in the world. The nation’s Viking history and unique culture add to its allure, making it a must-see for those in search of adventure. Not your typical surf spot, but definitely one for the bold.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Finland",
-    "description": "Finland's coastline features unique surf conditions with cold waters, attracting adventurous surfers.",
-    "continent": { "id": 3 }
+    "description": "Winding forests, endless lakes, and the winter magic of Lapland define Finland, but its surf scene is nearly non-existent. The best chances for waves are along the west coast near Pori or around the Åland Islands, though Baltic swells are unpredictable. After braving the cold, a traditional sauna is the perfect way to thaw out. If that’s not enough excitement, Finland’s love for the bizarre includes everything from air guitar championships to wife-carrying races—not to mention an obsession with coffee strong enough to power through the darkest winters. And if the long nights get to you, there’s always the raw, unrelenting sounds of Finnish black metal to embrace the darkness.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "France",
-    "description": "France is renowned for its world-class surf spots like Hossegor and Biarritz, offering consistent waves and a vibrant surf culture.",
-    "continent": { "id": 3 }
+    "description": "Effortless style, world-class waves, and that unmistakable je ne sais quoi—France brings its signature flair to surfing. The Atlantic coast offers everything from Hossegor’s thundering barrels to Biarritz, where surfing has been a way of life for decades. After a morning in the water, there’s no rush—grab a flaky croissant, linger over a bottle of Bordeaux, or take in the charm of the sun-soaked Riviera.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Georgia",
-    "description": "Georgia has emerging surf spots along the Black Sea, offering warm waters and diverse conditions.",
-    "continent": { "id": 3 }
+    "description": "Occasional surfing opportunities arise along Georgia's Black Sea coast, particularly during stormy weather. The surf scene is relatively undeveloped with inconsistent waves due to the limited fetch of the Black Sea. Batumi is the main spot for surfing, offering some infrastructure such as surf hostels and equipment rentals. The natural beauty of the Caucasus Mountains and Georgia's rich cultural heritage add to its appeal. Georgia is known for its unique blend of Eastern European and Middle Eastern influences, reflected in its architecture, traditional music, and dance. The country's cuisine is diverse and flavorful, featuring dishes like khachapuri and khinkali. Georgia is also renowned for its ancient wine-making tradition, offering distinctive wines that are gaining global recognition.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Germany",
-    "description": "Germany features surf spots like Sylt and the famous river wave at Munich's Eisbach, attracting surfers year-round.",
-    "continent": { "id": 3 }
+    "description": "In Munich, the Eisbach River wave offers surfers a unique experience, fostering a tight-knit community despite being so far from the coast. While Germany's North Sea coast has some surf spots, it’s the Eisbach that truly defines Germany’s surf culture. Surfers like Sebastian Steudtner, known for his big wave achievements at Nazaré, have brought international attention to the country’s surf scene. After a session, enjoy a bratwurst and cold stein at a Munich beer garden, or head to Berlin, where the legendary techno scene keeps the party going well into the morning.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "Guernsey",
+    "description": "The waves on this Channel Island are heavily influenced by its dramatic tidal range, with the sea retreating hundreds of meters in just a few hours. Guernsey’s west coast picks up plenty of swell, with Vazon Bay offering the most consistent waves, while nearby spots like Portinfer and Perelle fire up when conditions align. The island’s surf scene is small but dedicated, and with no big crowds, scoring good waves feels all the more rewarding. Though part of the Channel Islands, off the coast of the British Isles, Guernsey has a character all its own, from rugged cliffs and crystal-clear water to rich history and a food scene famous for its dairy and seafood.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Gibraltar",
-    "description": "Gibraltar features diverse surf spots with a mix of beach and reef breaks, attracting local surfers.",
-    "continent": { "id": 3 }
+    "description": "At the gateway between Europe and Africa, Gibraltar is a quirky slice of Britain perched in southern Spain. Surfing is rare, but when the Levante wind blows strong, Sandy Bay on the east side of the Rock can produce small, rideable waves. The surf scene is minimal, but Gibraltar’s uniqueness lies in its blend of cultures and history. The Rock is filled with ancient military tunnels and watched over by wild Barbary macaques, while the town’s streets offer a curious mix of British pubs and Spanish tapas bars.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Greece",
-    "description": "Greece offers beautiful surf spots with warm waters and consistent waves, particularly on islands like Crete.",
-    "continent": { "id": 3 }
+    "description": "Poseidon may have ruled these seas, but modern surfers will find Greece’s waves less fearsome than its legends. While not a major surf destination, winter swells bring rideable waves to Crete, the Peloponnese, and other spots, with plenty of space in the lineup. Greece gave birth to the Olympics and democracy, while its islands are famous for unforgettable parties, especially in Mykonos and Ios. When you're not surfing or partying, enjoy the fresh seafood, souvlaki, and plenty of ouzo. Santorini, with its iconic whitewashed buildings and stunning views, remains a must-see, but expect crowds.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Iceland",
-    "description": "Iceland features unique surf spots with cold waters and stunning landscapes, offering an adventurous surf experience.",
-    "continent": { "id": 3 }
+    "description": "The land of fire and ice, the land of Vikings, and a surf destination for the truly brave. Known for constant volcanic activity, black sand beaches, countless waterfalls, and the alluring Northern Lights, Iceland is as breathtaking as it is unforgiving. The weather is chaotic, the waters brutally cold, and spots are hard to reach. On the northern side of the island, you have the rare opportunity to surf within the Arctic Circle, but ever-changing conditions mean you need to be in the right place at the right time. Iceland’s premier wave, Þorlákshöfn (Thorli Point), is a world-class right-hand point break now under serious threat from harbor expansion. Catch it while you still can and show some support. While you're here, explore beyond Reykjavík and its famous lagoon spas, try something unusual like fermented shark, sip Brennivín, or just grab a hot dog. But please obey the rules—if it's roped off or marked as dangerous, there's a reason.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Ireland",
-    "description": "Ireland is known for its powerful waves and beautiful surf spots, like Bundoran and Lahinch, attracting surfers year-round.",
-    "continent": { "id": 3 }
+    "description": "The Emerald Isle, rich in myth and legend, is a surfer’s playground. With rugged coastlines and world-class waves, Ireland offers everything from Mullaghmore Head’s big-wave reef breaks to the consistent swells of Kerry and Cork. Bundoran, the surf capital, has a thriving scene and plenty of lively pubs to unwind after a session. The weather is unpredictable, and the waters are cold, but the waves make it all worthwhile. Once you’ve caught your fill, grab a pint of Guinness or a shot of whiskey, and let the sounds of traditional Irish folk music complete the experience as you soak in the local culture.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "Isle of Man",
+    "description": "While the Isle of Man is famous for its deadly TT motorcycle race, its surf scene is far more understated. The island has a handful of spots, with the best waves found on the west coast near Peel and Port Erin. Being part of the British Isles, the weather is of course unpredictable, and the waters cold, making every session a challenge. But for those who do paddle out, there’s a small yet dedicated surf community to share the lineup with. When the day’s done, swap the wetsuit for a pint at a local pub and soak in the laid-back atmosphere—far removed from the island’s high-speed reputation.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Italy",
-    "description": "Italy offers a variety of surf spots, with consistent waves along its coastline, particularly in regions like Sardinia.",
-    "continent": { "id": 3 }
+    "description": "More famous for Roman ruins and Renaissance art than waves, Italy still offers surf if you know where to look. With over 7,000 km of coastline, the best waves are found in Liguria, Tuscany, and Sardinia, where the Mediterranean can surprise with solid swells, especially in winter. The surf culture is laid-back, often mixed with beachside cafés, espressos, and the occasional curious nonna wondering why anyone would willingly jump into the sea in December. The waves may not rival those of the Atlantic, but the backdrop of historic towns, rolling vineyards, and some of the best food in the world more than makes up for it. And when the surf is flat, there’s always wine, pizza, and a long, lazy aperitivo to fall back on.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "Jersey",
+    "description": "When the Atlantic swell arrives, Jersey punches well above its weight. St. Ouen’s Bay is the heart of the island’s surf scene, its long sandy stretch catching reliable waves and hosting local contests that bring the community together. With some of the largest tidal swings in the world, timing your surf is everything. Away from the water, winding lanes lead to cosy pubs and seafood shacks where you can enjoy the island’s freshest catch. A perfect blend of surf, food, and island life makes Jersey a must-visit for any surf enthusiast.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Latvia",
-    "description": "Latvia has emerging surf spots along the Baltic coast, attracting adventurous surfers.",
-    "continent": { "id": 3 }
+    "description": "The Baltic Sea might not be the first place you'd think of for surfing, but Latvia’s coastline offers a unique experience. Spots near Liepāja and Pavilosta see occasional swells, though consistency is rare. When the waves aren’t cooperating, Latvia’s numerous lakes offer great wakeboarding alternatives. Surrounded by dense forests and untouched nature, the country feels wonderfully secluded. After a session, enjoy šašliks with a bottle of Latvia’s unique beer. Also, don't miss the midsummer Līgo celebrations, where Latvians weave flower crowns, jump over bonfires, and drink long into the night. Despite their tough exterior, Latvians are known for their warm hospitality and will make you feel at home.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Lithuania",
-    "description": "Lithuania features surf spots along its Baltic coastline, providing unique conditions for surfers.",
-    "continent": { "id": 3 }
+    "description": "Klaipėda is the surf capital of this small Baltic nation. While the conditions are often better suited for kitesurfing, surfers can still catch solid waves, especially in winter. When you're not in the water, try cepelinai, the hearty potato dumplings filled with meat, and šakotis, the unique tree-shaped cake that’s a local favorite. With historic towns, ancient castles, and the natural beauty of the UNESCO-listed Curonian Spit, Lithuania offers plenty to explore beyond the surf.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Malta",
-    "description": "Malta offers beautiful surf spots with warm waters and consistent waves, attracting surfers from all over.",
-    "continent": { "id": 3 }
+    "description": "Surfable waves can roll into Malta’s Għajn Tuffieħa and St. Thomas Bay during the winter swell season, drawing a small but dedicated surf scene. While the conditions are hit-or-miss, the island’s mix of golden beaches and dramatic cliffs adds plenty of visual reward. Below the surface, divers flock to the Blue Hole off Gozo — a stunning site of arches and tunnels rich with marine life. Inland, ancient landmarks like the fortified city of Mdina and the Ġgantija temples speak to a deep and complex history. End the day with a bottle of Cisk and local favourites like rabbit stew or flaky pastizzi.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Netherlands",
-    "description": "The Netherlands features diverse surf spots along its coastline, attracting surfers to beach breaks.",
-    "continent": { "id": 3 }
+    "description": "Rain or shine, the Dutch don’t wait around for perfect conditions — places like Scheveningen and Zandvoort get crowded fast when the North Sea kicks up something rideable. It’s a surf scene that’s scrappy, stubborn, and way more alive than it has any right to be. Hop on a bike and explore the iconic canals, or chill with a cold beer and some bitterballen. Don’t forget to grab a fresh stroopwafel, or duck into a coffeehouse for a legal joint and a brownie. And if curiosity gets the better of you, the red light district awaits — a surreal blend of neon-lit windows, sex museums, and peep shows tucked between cobbled alleys and centuries-old churches.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "Northern Ireland",
+    "description": "When North Atlantic swells roll in, Northern Ireland’s coastline comes alive. Castlerock offers easygoing beach breaks, while Portrush serves up a mix — from the mellow West Strand to the exposed reef at Black Rocks. Start your day with a hearty Ulster fry, then explore rugged coastlines, wander clifftop paths, or marvel at the Giant’s Causeway’s surreal stone columns. In Belfast, visit the Titanic Quarter where the world-famous ship was built, and explore the museum that brings its story to life. Come evening, settle into a pub with a pint of stout or a glass of Bushmills whiskey, live trad music, and the kind of warm welcome this region is known for. While it might not boast the swell variety of its Celtic neighbours, Northern Ireland still delivers an atmospheric and rewarding surf escape.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Norway",
-    "description": "Norway offers unique surf conditions with stunning scenery, attracting adventurous surfers to its rugged coastline.",
-    "continent": { "id": 3 }
+    "description": "Cold-water surf doesn’t get more dramatic than this — think glassy Arctic peaks breaking beneath snow-dusted mountains. The Lofoten Islands are the heart of it all, with Unstad Beach offering consistent waves, a tight-knit surf community, and surreal backdrops you won’t find anywhere else. Fjords cut through the landscape like ancient scars, and traces of Viking heritage linger in windswept villages and old farmsteads. After a session, warm up in a wood-fired sauna, tuck into fresh cod, and if the skies are clear, watch the northern lights dance above the lineup. It’s remote, raw, and unforgettable.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Poland",
-    "description": "Poland's coastline features emerging surf spots along the Baltic Sea, attracting local surfers.",
-    "continent": { "id": 3 }
+    "description": "On Poland’s north coast, the Hel Peninsula stretches out like a crooked finger into the Baltic Sea, with spots like Chałupy and Władysławowo offering cold, fast, wind-fed waves that demand your attention. Swells are fickle but rewarding, especially in late summer and autumn. Base yourself in the nearby city of Gdańsk to wander cobbled streets, browse amber markets, and dig into the city’s shipbuilding and wartime past. Swing by Malbork’s towering brick castle or head to Toruń for a hit of traditional pierniki. After a session, load up on pierogi or bigos and chase it down with a cold Tyskie.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Portugal",
-    "description": "Portugal is famous for its world-class surf spots like Nazaré and Ericeira, offering consistent waves and a vibrant surf culture.",
-    "continent": { "id": 3 }
+    "description": "The mountainous waves of Nazaré have cemented Portugal as a big wave mecca, with legends like Nic Von Rupp chasing record-breaking swells. Portugal also serves up friendlier waves, from the surfing reserve in the beautiful town of Ericeira to the WSL contest site of Supertubos in Peniche. It has it all. Between sessions, explore dramatic cliffside landscapes or the colourful palaces of Sintra. Not only is it a surf haven, Portugal is a culinary hot spot for seafood. Enjoy grilled sardines by the beach, chase it down with a pastéis de nata, and sip a cold beer while the sun sets. Superbock or Sagres?",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Romania",
-    "description": "Romania offers surf spots along the Black Sea, with a growing interest in surfing among locals.",
-    "continent": { "id": 3 }
+    "description": "On the edge of the Black Sea, the beaches near Vama Veche and Constanța occasionally deliver small wind-generated waves, best caught in late summer when conditions line up. It’s not a major surf destination, but for those who find themselves here, the uncrowded beaches and DIY vibe have their own charm. Between sessions, try sarmale, cabbage rolls filled with spiced meat and rice, often served with sour cream and polenta. Locals are famously welcoming, and if the surf’s flat, Romania rewards the curious. Venture inland to Transylvania to explore its fortified Saxon villages, medieval castles, or wander the misty forests that inspired Dracula’s legend.",
+    "continent": {
+      "id": 3
+    }
+  },
+  {
+    "name": "Scotland",
+    "description": "The home of Irn Bru and deep fried Mars bars, Scotland also provides some epic surf. Thurso East is a standout, delivering powerful right-hand barrels over reef, earning a reputation as one of Europe's best cold-water waves. Conditions can be harsh, but those willing to brave the elements are rewarded with smaller crowds and raw beauty. Between sessions, explore ancient castles scattered across the Highlands, hunt for Nessie at Loch Ness, and stroll the cobbled streets of Edinburgh before warming up with haggis and a proper whisky by the fire.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Spain",
-    "description": "Spain is known for its diverse surf spots, with consistent waves in areas like the Basque Country and the Canary Islands.",
-    "continent": { "id": 3 }
+    "description": "Mundaka’s world-class left-hander sets the tone for surfing in Spain, peeling perfectly along the Basque coast and pulling in pros when it’s firing. The north holds most of the magic, with green hills, dramatic cliffs, and a string of quality breaks from Galicia to the French border. Barcelona can surprise when the Mediterranean stirs, and down in Cádiz, the Atlantic brings windier conditions and a more mellow pace. In between sessions, explore buzzing tapas bars, Moorish architecture, flamenco rhythms, and the late-night spirit that runs deep through Spanish life.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Sweden",
-    "description": "Sweden offers unique surf conditions along its coastline, attracting adventurous surfers.",
-    "continent": { "id": 3 }
+    "description": "Surfing in Scandinavia might not be the first thing that comes to mind, but Sweden has a growing surf scene. Apelviken near Varberg offers reliable wind swells during the colder months, attractive for surfers seeking less crowded waves and who don’t mind the cold. Local pro Freddie Meadows has played a big role in putting Swedish surf on the map, exploring remote coastlines and showing that great waves can be found even in the Baltic. After your session, warm up with a fika — coffee and a slice of prinsesstårta. Sweden’s Viking roots, love for the sea, and eye for minimalist design all quietly shape the surf vibe here, along with meatballs and a certain flat pack furniture empire.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Switzerland",
-    "description": "Switzerland is landlocked but has a growing surf scene with river surfing opportunities.",
-    "continent": { "id": 3 }
+    "description": "Landlocked Switzerland may be better known for its towering Alpine peaks and world-class snowboarding, but it also offers something unique for surfers. The wave pool at Lido di Lugano provides a rare chance to ride waves in a country where the coastline is a distant thought. While surfing here may not be as natural as on the coast, this pool offers a controlled environment for practice. When you're not surfing, indulge in iconic Toblerone chocolate or a pot of rich fondue, stroll through Zurich’s charming Old Town, or relax by the crystal-clear waters of Lake Geneva. Switzerland might not have beaches, but it delivers on scenery, culture, and a taste of luxury.",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Ukraine",
-    "description": "Ukraine features surf spots along its coastline, particularly in areas like Odesa, attracting local surfers.",
-    "continent": { "id": 3 }
+    "description": "Surfing does exist in Ukraine, with Odesa standing out as the main hub along the Black Sea. Swells driven by wind create opportunities for local surfers who are passionate about growing their scene, even in difficult times. When next safe to do so, visitors can explore a country full of golden domed churches, colorful street art, hearty bowls of borscht, intricate pysanky crafts, and a spirit of resilience that runs through everyday life. Slava Ukraini.",
+    "continent": {
+      "id": 3
+    }
   },
   {
-    "name": "United Kingdom",
-    "description": "The United Kingdom offers diverse surf spots, with consistent waves in regions like Cornwall and Scotland, attracting surfers year-round.",
-    "continent": { "id": 3 }
+    "name": "Wales",
+    "description": "Known for its rugged coastline and medieval castles, Wales also offers great surfing opportunities, mostly along its southern shores. Rhossili Bay on the Gower Peninsula stands out with its long, consistent beach break and dramatic cliffside scenery, while further east, surf around Porthcawl offers a variety of breaks, catering to surfers of all levels. When you're not surfing, enjoy a traditional Welsh rarebit or cawl, and take in the breathtaking views of the Brecon Beacons or explore charming villages nestled within the rolling hills",
+    "continent": {
+      "id": 3
+    }
   },
   {
     "name": "Aruba",
-    "description": "Aruba is known for its beautiful beaches and consistent surf spots, attracting surfers from around the world.",
-    "continent": { "id": 4 }
+    "description": "Known for its year-round sunshine and turquoise waters, Aruba offers consistent surf along its northern and eastern coasts, with spots like Boca Grandi and Arashi Beach catering to surfers of all levels. The island's offshore winds and calm waters create perfect conditions for both beginners and experienced surfers. When you're not surfing, explore Aruba's unique desert landscapes, visit the iconic Natural Pool, or enjoy local dishes like keshi yena, a savory stuffed cheese. With plenty of activities and stunning beaches, Aruba is the ultimate tropical surf getaway.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Bahamas",
-    "description": "The Bahamas offers clear waters and enjoyable waves, perfect for surfers seeking a tropical experience.",
-    "continent": { "id": 4 }
+    "description": "The Bahamas may be better known for its tropical beaches and crystal-clear waters, but it also offers some great surf spots. The northern and eastern coasts, including Surfer's Beach on New Providence and the reefs around Eleuthera, provide a variety of waves for all levels, from mellow breaks to more challenging ones. With consistent swell, it's an ideal destination for those looking to catch some waves in paradise. When you're not surfing, take time to explore the Exuma Cays, where you can swim with the famous pigs, or relax with fresh seafood and island music to fully experience the vibrant Bahamian culture.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Barbados",
-    "description": "Barbados features famous surf spots like Soup Bowl, attracting surfers with its powerful waves.",
-    "continent": { "id": 4 }
+    "description": "With powerful reef breaks like the famous Soup Bowl at Bathsheba, Barbados has earned its reputation as a top surf destination. The east coast delivers heavy, world-class waves for experienced surfers, while the calmer west coast offers mellow conditions perfect for beginners. Beyond the surf, you can explore natural wonders like Harrison’s Cave, swim in the pools of Animal Flower Cave, or dive into local culture at the lively Oistins Fish Fry.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Bermuda",
-    "description": "Bermuda has diverse surf conditions, with beach breaks and reef spots attracting surfers year-round.",
-    "continent": { "id": 4 }
+    "description": "Warm Atlantic swells and reef breaks make this island a mellow but rewarding surf destination, with spots like Warwick Long Bay and Southlands offering clean, consistent waves. The island is compact and easy to explore, from its pink-sand beaches to secluded snorkeling coves. When you're done surfing for the day, try the island’s signature fish chowder spiked with black rum and sherry peppers, or unwind with a Dark ’n Stormy. For a glimpse into Bermuda’s colonial past, wander the UNESCO-listed town of St. George, with its cobbled streets and historic forts.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "British Virgin Islands",
-    "description": "The British Virgin Islands offer scenic beaches and reliable surf spots, perfect for an island getaway.",
-    "continent": { "id": 4 }
+    "description": "The British Virgin Islands offer warm waters and consistent surf, with standout breaks like Apple Bay on Tortola delivering right-hand reef waves over a sand and rock bottom, suitable for beginners. Nearby Cane Garden Bay can provide friendlier, more forgiving conditions when the waves line up. After a session, stop by a beach shack for conch fritters or grilled snapper, or sail over to Virgin Gorda to explore the Baths, a labyrinth of giant granite boulders and clear sea pools that feel like a natural playground.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Canada",
-    "description": "Canada's west coast, particularly Tofino, offers great surf spots with beautiful scenery.",
-    "continent": { "id": 4 }
+    "description": "From the cold waters of Tofino on Vancouver Island to the rugged shores of Nova Scotia, Canada offers some great surf spots. Tofino is known for its consistent waves and scenic beaches, while Lawrencetown Beach on the east coast delivers reliable conditions year-round. When you're not surfing, hit the slopes in Whistler, catch a hockey game, explore cities like Vancouver, and refuel with poutine, maple syrup, and maybe even a glimpse of a moose.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Costa Rica",
-    "description": "Costa Rica is famous for its consistent waves and surf culture, making it a top destination for surfers.",
-    "continent": { "id": 4 }
+    "description": "Lush rainforests, warm Pacific waters, and a laid-back vibe make Costa Rica a dream destination for surfers. The Nicoya Peninsula boasts legendary spots like Santa Teresa and Playa Guiones, known for long, rolling waves and golden beaches, while the Caribbean side offers punchier, reefier breaks like Salsa Brava for the more daring. Away from the breaks, you can spot sloths in treetops, sip fresh coconut water on jungle-lined beaches, or soak in volcanic hot springs under the stars.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Cuba",
-    "description": "Cuba features beautiful beaches and emerging surf spots, offering a unique experience for adventurous surfers.",
-    "continent": { "id": 4 }
+    "description": "The northern and eastern shores offer great surfing, with consistent swells from November to April. Boca de Yumuri, near Baracoa, is known for its rivermouth break, delivering both left and right-hand waves that can get powerful during larger swells. Playa Mar Verde, near Santiago de Cuba, provides a quieter surf experience with reliable waves ideal for intermediate surfers. Surfers can enjoy local music, from lively salsa to reggaeton, explore colorful streets filled with classic cars, and taste traditional Cuban dishes like ropa vieja, all while relaxing with a mojito or daiquiri.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Curaçao",
-    "description": "Curaçao offers stunning beaches and pleasant surf conditions, perfect for surfers of all levels.",
-    "continent": { "id": 4 }
+    "description": "With consistent swells from May to December, Curaçao offers great surfing, especially on the northern coast. Playa Kanoa, the island's most renowned spot, features reef breaks that handle a variety of swells, with crystal-clear waters and a flat reef bottom. Other spots like Boca Sint Joris and Peleké provide smaller, sheltered breaks ideal for beginners and intermediates. Beyond surfing, Curaçao is known for its pristine beaches and opportunities for snorkeling with sea turtles.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Dominica",
-    "description": "Dominica boasts a vibrant surf scene, with beautiful landscapes and diverse wave options.",
-    "continent": { "id": 4 }
+    "description": "With wild Atlantic coastline and consistent north and northeast swells from November to April, Dominica offers great surfing. Pagua Bay, with its beach break, and Calibishie, known for its right-hand reef break, attract surfers of all levels. Other spots like Hampstead and Woodford Hill provide varied conditions worth exploring. Away from the waves, the island is defined by volcanic peaks, rainforest hikes, and natural hot springs. Traditional Creole culture is woven into daily life—heard in the rhythms of jing ping bands and tasted in dishes like callaloo and mountain chicken, served fresh at roadside eateries and market stalls.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Dominican Republic",
-    "description": "The Dominican Republic offers popular surf spots like Cabarete, known for its consistent waves.",
-    "continent": { "id": 4 }
+    "description": "With consistent swell year-round, the Dominican Republic’s north coast delivers reliable surf, with Playa Encuentro near Cabarete standing out as the go-to spot. This stretch of reef offers multiple peaks, catering to all levels from beginner to advanced. Just inland, Cabarete buzzes with laid-back surf culture, beach bars, and a strong kiteboarding scene. Dominican identity pulses through the beat of merengue and bachata, and the influence of its colonial past lingers in the architecture of towns like Puerto Plata. Local flavors come through in dishes like sancocho and mangú, staples of Dominican cuisine.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "El Salvador",
-    "description": "El Salvador is famous for its left-hand point breaks, attracting surfers from around the globe.",
-    "continent": { "id": 4 }
+    "description": "Known for its consistent right-hand point breaks, the Surf City stretch near La Libertad draws global attention with Punta Roca—a fast, powerful wave and WSL Championship Tour stop. Nearby breaks like El Sunzal and El Zonte suit a range of surfers, while Las Flores and Punta Mango offer long, clean rights in quieter surroundings. The tropical climate ensures warm water and year-round surf, with the best conditions typically between March and October. Government investment has improved access and visibility, while the scene stays rooted in local life, from sizzling pupusas to streets pulsing with cumbia.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Grenada",
-    "description": "Grenada features stunning beaches and enjoyable surf conditions, making it an ideal spot for relaxation and adventure.",
-    "continent": { "id": 4 }
+    "description": "With surf spots like Prickly Bay and Cherry Hill, this Caribbean destination offers great conditions for surfers. Prickly Bay is the most consistent, providing both left and right-hand reef breaks, ideal during southeast or northeast swells and winds. Cherry Hill, a less frequent spot, offers a right-point break but requires more effort to access and often faces local pollution. The best conditions for surfing occur between November and April, during the Caribbean surf season. Beyond the waves, the island’s rich spice heritage is reflected in its nutmeg-infused dishes, lively calypso and soca music, and the Grenada Carnival, or Spicemas, a celebration of music, dance, and culture featuring vibrant costumes, parades, and traditional events like J'ouvert.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Guadeloupe",
-    "description": "Guadeloupe offers a variety of surf spots and beautiful landscapes, perfect for surfers and nature lovers.",
-    "continent": { "id": 4 }
+    "description": "Northeast swells from October to March shape Guadeloupe’s reef and point breaks. Le Moule offers reliable rights, while Saint-François suits a mix of levels depending on the day. After a session, you’ll find Creole street food like bokits and Colombo—rich with African, French, and Indian influences—and the sound of Gwo Ka drums filling the air during Carnival season. Rhum agricole distilleries give a glimpse into the island’s traditions, and the Jacques Cousteau Underwater Reserve on the west coast offers a change of pace between surf days.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Guatemala",
-    "description": "Guatemala features scenic beaches and good surf conditions, ideal for surfers seeking new adventures.",
-    "continent": { "id": 4 }
+    "description": "Consistent Pacific swells meet black sand beaches at El Paredón, Guatemala’s main surf hub, where gentle beach breaks create ideal conditions for beginners and intermediates. Sipacate, a little further west, offers quieter sessions with fewer crowds. The region’s identity is deeply rooted in Mayan culture—seen in vibrant textiles, local languages, and hearty dishes like pepián and tamales served in small comedores. It’s a low-key scene with a strong sense of place.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Haiti",
-    "description": "Haiti offers beautiful coastlines and potential surf spots, providing a unique experience for adventurous surfers.",
-    "continent": { "id": 4 }
+    "description": "Tucked into the Caribbean, Haiti offers uncrowded waves along both its northern and southern coasts. Ginsu delivers a fast, hollow right on the north shore, while Kabic near Jacmel is a mellower break with beautiful scenery and a laid-back feel. Though still under the radar for most surfers, it’s a country full of reasons to linger—bold Creole cuisine like griot and diri djondjon, vibrant street art, lively rara parades, and deep spiritual traditions.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Jamaica",
-    "description": "Jamaica features consistent waves and vibrant surf culture, attracting surfers from all over.",
-    "continent": { "id": 4 }
+    "description": "Bob Marley and the birth of reggae put Jamaica on the global stage, but there’s much more to the island than music. Bull Bay is the heart of the surf scene, offering consistent waves and a tight-knit local surf community. To the east, Boston Bay and Lighthouse offer quieter sessions when the swell hits. Away from the surf, Jamaica is famous for its spicy jerk chicken, refreshing Dragon Stout, and a culture full of rhythm and history.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Martinique",
-    "description": "Martinique offers stunning beaches and enjoyable surf conditions, making it a great destination for surfers.",
-    "continent": { "id": 4 }
+    "description": "Framed by rainforest cliffs and black sand beaches, Martinique packs some of the Caribbean’s heaviest waves. Basse Pointe is the main stage, serving up long right-handers that hold serious power when the swell kicks in. Further along the coast, breaks like Anse Couleuvre serve up steeper, shorter slabs for more advanced riders. Explore the bustling markets of Fort-de-France, visit rum distilleries, or take a hike to the top of Mount Pelée. Don’t miss the local Creole cuisine, where fresh seafood and rich spices blend French techniques with Caribbean flair.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Mexico",
-    "description": "Mexico is known for world-class surf spots like Puerto Escondido and Baja California, attracting surfers year-round.",
-    "continent": { "id": 4 }
+    "description": "From mellow beach breaks to world class barrels, few places match the range Mexico offers. Puerto Escondido leads the charge with its thundering shorebreak, often called the Mexican Pipeline. Baja California delivers long right points and striking desert scenery, while Sayulita and Punta Mita offer cruisy waves and a laid back rhythm. Culture runs deep here with street tacos, tamales, mariachi bands, Day of the Dead altars, and the smoky bite of mezcal shared under warm Pacific sunsets.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Nicaragua",
-    "description": "Nicaragua features fantastic surf spots like San Juan del Sur, known for its consistent waves and warm waters.",
-    "continent": { "id": 4 }
+    "description": "Consistent offshore winds from Lake Nicaragua give the Pacific coast some of the most reliable surf in Central America. Breaks like Popoyo and Playa Colorado deliver fast, punchy waves, with reef, point, and beach options for all levels. Quieter spots like Playa Maderas offer a more laid-back scene without losing quality. Inland, Nicaragua reveals its character in colonial towns like Granada, volcano hikes, and local staples like gallo pinto, fresh-caught fish, and smoky Flor de Caña rum.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Panama",
-    "description": "Panama offers diverse surf conditions, with beautiful beaches and great waves, ideal for surfers.",
-    "continent": { "id": 4 }
+    "description": "Straddling two coastlines, Panama dishes up a rare combo of Pacific power and Caribbean punch. Santa Catalina leads the charge with long, heavy rights, while Playa Venao offers a more playful setup for newer riders. Over on the Caribbean side, spots like Bocas del Toro fire with fast, hollow waves when conditions line up. Inland, it's all coffee farms, cloud forests and colonial charm, with just enough shady offshore accounts to keep the global elite coming back for more.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Puerto Rico",
-    "description": "Puerto Rico is famous for its surf culture and consistent waves, making it a top destination for surfers.",
-    "continent": { "id": 4 }
+    "description": "Consistent Atlantic swell and warm water make this a Caribbean favourite for surfers. The northwest corner around Rincón is the heart of the scene, offering long rights at Domes and heavier waves at Tres Palmas, with plenty of reef and beach breaks in between. Near San Juan, spots like Aviones and La Ocho stay busy year-round. You can wander the cobbled streets of Old San Juan, hike through the rainforest in El Yunque, or paddle glowing bioluminescent bays. Street food is a highlight, with dishes like mofongo, alcapurrias and fresh seafood served to the sounds of bomba and reggaetón.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Saint Barthélemy",
-    "description": "Saint Barthélemy features beautiful beaches and great surf spots, perfect for surfers and sun-seekers.",
-    "continent": { "id": 4 }
+    "description": "St. Barts blends high-end glamour with surprisingly good surf, especially in the winter when Atlantic swells roll in. Lorient is the island’s most consistent break, with multiple peaks that suit different levels. For something faster and heavier, head to Toiny on the southeast coast, while Anse des Cayes and Pointe Milou offer shallower reef setups that can fire with the right conditions. Between sessions, enjoy the French Caribbean culture, with pastries in Gustavia, beachside cafés, and luxury villas perched above turquoise bays. While it's not the easiest place to reach with a board, those who make the journey are rewarded with a rare mix of indulgence and surf.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Saint Martin",
-    "description": "Saint Martin offers stunning beaches and enjoyable surf conditions, attracting surfers from around the world.",
-    "continent": { "id": 4 }
+    "description": "Split between French Saint-Martin and Dutch Sint Maarten, this small island offers a unique blend of cultures and coastlines—no border checkpoints, just shifts in language, food, and atmosphere.  Surf-wise, the French side tends to get more consistent swells, with Orient Bay and Le Galion attracting the most attention.  On the Dutch side, breaks like Mullet Bay offer clean, occasional lines when conditions align.  Between sessions, explore open-air markets, beach bars, and Creole cuisine, or just soak up the contrast between two nations packed into one sun-drenched island.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "St Lucia",
-    "description": "St Lucia features beautiful coastlines and emerging surf spots, providing a unique experience for surfers.",
-    "continent": { "id": 4 }
+    "description": "Towering Piton peaks and thick rainforest set the scene in St. Lucia, where a handful of surfable beaches offer mellow waves in a setting more famous for its natural beauty than big swells. Anse de Sables is the main spot, a long sandy shoreline with fun conditions for beginners and longboarders. You can explore volcanic black sand beaches, soak in the island’s sulfur springs, or hike through lush jungle trails to panoramic views. The Creole culture runs deep, with spiced seafood, street markets, and traditional rhythms like soca and zouk adding color to the slower pace of island life.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "St Vincent and Grenadines",
-    "description": "St Vincent and the Grenadines offers beautiful beaches and pleasant surf conditions, perfect for a tropical getaway.",
-    "continent": { "id": 4 }
+    "description": "Volcanic cliffs, warm waters, and quiet reef breaks set the tone in St. Vincent and the Grenadines, where the surf scene is modest but rewarding for those who seek it out. On St. Vincent’s southern coast, spots like Ship In Bay and Blue Lagoon offer left-handers over coral, best during south swells and rising tides. The Grenadines cater more to kitesurfers, with Union Island popular for its steady trade winds. For those looking to explore, the islands offer jungle trails, waterfall swims, and vibrant festivals like Vincy Mas and the Mustique Blues Festival.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "Trinidad and Tobago",
-    "description": "Trinidad and Tobago features scenic beaches and enjoyable surf spots, making it a popular destination for surfers.",
-    "continent": { "id": 4 }
+    "description": "Tobago’s Mount Irvine delivers a right-hand reef point break with long, peeling walls that come alive in the dry season. Trinidad’s north coast offers more punch at spots like Balandra and Sans Souci, where shifting conditions and stronger waves keep things lively. After a session, refuel with doubles, roti, or fried bake packed with shark and pepper sauce. Carnival season lights up the islands with steelpan clashes, soca rhythms, and wild street celebrations.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "U.S. Virgin Islands",
-    "description": "The U.S. Virgin Islands offers beautiful beaches and emerging surf spots, perfect for surfers seeking adventure.",
-    "continent": { "id": 4 }
+    "description": "Peeling rights at Hull Bay and the occasional left at Coki Point make the U.S. Virgin Islands a mellow but worthwhile surf stop, especially when north swells push through from October to March. The scene’s small and mostly local, with quiet lineups and clear waters offering uncrowded rides. Between sessions, there’s time to hike to panoramic overlooks, snorkel vibrant reefs, or hunt down roadside dumb bread—dense, slightly sweet, and often served warm with cheese or saltfish. Evenings lean slow and sociable, with rum punches, steelpan rhythms, and a sky full of stars.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "United States",
-    "description": "The United States offers world-class waves from California to Hawaii, a dream destination for surfers.",
-    "continent": { "id": 4 }
+    "description": "The United States is home to some of the most iconic surf destinations in the world, with Hawaii—its 50th state—widely recognized as the birthplace of modern surfing. Oahu’s North Shore remains the sport’s ultimate proving ground, where waves like Pipeline, Sunset, and Waimea have shaped generations. On the mainland, California has defined surf culture with spots like Rincon, Trestles, and Mavericks, where raw Pacific energy meets serious consequence. The East Coast holds its own too, with hurricane season lighting up the Outer Banks and parts of New Jersey. No country offers such a broad and influential surf legacy.",
+    "continent": {
+      "id": 4
+    }
   },
   {
     "name": "American Samoa",
-    "description": "American Samoa offers uncrowded surf spots with tropical waters and consistent waves in the South Pacific.",
-    "continent": { "id": 5 }
+    "description": "Tucked deep in the South Pacific, this remote U.S. territory offers powerful, shallow reef breaks with barely another soul in the lineup. On Tutuila’s south coast, a standout spot called Breakwater dishes out fast, hollow rights over sharp coral, while mellower waves like Pala Lagoon offer a more forgiving paddle. Peak season runs March to October, driven by consistent southern swells and clean conditions. Inland, the islands are wild and green, with rainforest hikes, crashing waterfalls, and villages where Fa’a Samoa—the traditional way of life—still guides the rhythm of each day. Post-surf meals lean simple and fresh: grilled fish, taro, and coconut cracked open on the spot.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Australia",
-    "description": "Australia is renowned for its world-class surf spots like Bondi Beach and Bells Beach, offering consistent waves along its vast coastline.",
-    "continent": { "id": 5 }
+    "description": "Few places rival Australia when it comes to producing elite surfers and iconic breaks. Its coastline is a playground of variety, from the long, ruler-edge walls of Snapper Rocks to the Southern Ocean muscle of Margaret River. Bells Beach rings with heritage as one of the longest-running pro tour stops, while Shipstern Bluff in Tasmania delivers mutant slabs that separate the brave from the reckless. Whether you're chasing reeling points, hollow beachies, or just soaking up a surf culture woven deep into everyday life, Australia delivers in spades.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Cook Islands",
-    "description": "The Cook Islands feature uncrowded surf breaks with tropical waters and consistent waves, attracting adventurous surfers.",
-    "continent": { "id": 5 }
+    "description": "Powerful reef breaks, shallow takeoffs, and vivid blue water define the Cook Islands’ surf. On Rarotonga, Avana throws out thick, right-hand barrels over live coral, while Rutaki reels in quick, technical lefts that demand fast reflexes. These waves are not for the faint-hearted, but between sessions, the island’s lush interior and calm lagoons offer a gentler pace. Grilled fish and cold beer round out the day, often eaten to the sound of drums or the hush of trade winds.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Fiji",
-    "description": "Fiji is famous for its powerful reef breaks, like Cloudbreak, offering some of the best surfing in the South Pacific.",
-    "continent": { "id": 5 }
+    "description": "Barreling lefts, reef passes, and warm water—Fiji delivers the goods. Cloudbreak is the crown jewel, a world-class wave that’s tested the world’s best during its years as a WSL Championship Tour stop. Restaurants sits just across the channel, serving up fast, technical lines over razor-sharp reef, while Frigates offers a more forgiving take on Fiji’s power. Traditional village life brings big smiles, bowls of kava passed hand to hand, and a deep sense of community. Between sessions, it’s all about kokoda, slow-cooked lovo, and settling into the rhythm of island time.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "French Polynesia",
-    "description": "French Polynesia is home to world-class surf spots like Teahupo'o, known for its perfect barrels and challenging waves.",
-    "continent": { "id": 5 }
+    "description": "The famous Teahupo’o delivers some of the heaviest left-hand reef barrels in the world, attracting insane surfers from around the globe. The wave breaks over a shallow coral reef, creating thick, hollow tubes that demand respect. Beyond Tahiti’s south shore, spots like Papara and Moorea’s Haapiti offer more approachable reef breaks with clean walls and playful sections. The islands’ volcanic peaks and crystal-clear lagoons provide a stunning backdrop, while local culture celebrates Polynesian traditions with music, tattoo art, and warm hospitality. Fresh poisson cru and French-inspired flavors keep the table lively after a day in the water.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Guam",
-    "description": "Guam offers warm tropical waters and consistent surf conditions with uncrowded breaks in the Western Pacific.",
-    "continent": { "id": 5 }
+    "description": "Warm waters, consistent reef breaks, and uncrowded lineups make Guam a tempting escape for those chasing quality waves in a more off-grid setting. Rick’s Reef offers punchy, fast rights over sharp coral, while Talofofo Bay delivers a softer beach break perfect for relaxed sessions. When the swell hits, Umatac Bay brings heavier waves with a dramatic backdrop of volcanic hills and deep island history. The island blends Chamorro, Filipino, and American cultures, with must-try dishes like kelaguen, red rice, and roadside barbecue. Historic sites, dense jungle trails, and quiet coves offer plenty to explore between surf checks.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Micronesia",
-    "description": "Micronesia features hidden surf gems with warm waters and uncrowded waves across its vast island chains.",
-    "continent": { "id": 5 }
+    "description": "Barreling rights, warm turquoise water, and barely a soul in sight make Micronesia a place of remote perfection.\nPohnpei’s P Pass stands out as a world-class right-hander, reeling over sharp reef with long hollow sections that fire on solid northwest swells. Boats are essential and lineups are blissfully empty. Between sessions, explore the ruins of Nan Madol or hike jungle trails to secluded waterfalls. Expect island staples like tuna sashimi, taro, reef fish stews, and rich coconut bread.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "New Caledonia",
-    "description": "New Caledonia offers consistent waves and uncrowded surf spots, with stunning coral reefs and warm waters in the Pacific Ocean.",
-    "continent": { "id": 5 }
+    "description": "Fringed by one of the world’s largest barrier reefs, New Caledonia delivers long, powerful reef breaks that peel across vivid blue water. The main island, Grande Terre, offers consistent surf near reef passes like Dumbea and Ténia, with most spots best accessed by boat, keeping lineups quiet and uncrowded. The culture blends French and Kanak traditions: warm baguettes and fresh seafood, slow cooked earth oven meals, and an easygoing pace of life. In Nouméa, French influence meets Pacific charm in waterfront cafes, open air markets, and patisseries.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "New Zealand",
-    "description": "New Zealand's diverse surf spots, such as Raglan, offer world-class waves with a backdrop of stunning landscapes.",
-    "continent": { "id": 5 }
+    "description": "Surfing in New Zealand is like catching waves in the Shire, if the Hobbits traded pipeweed for surfboards and the rolling hills for epic left handers at Raglan. North Island serves up iconic breaks from Piha to Shipwreck Bay, while the South Island delivers cold, clean swell with hardly anyone around. Māori culture is proudly woven into daily life, from powerful haka performances to carved meeting houses. Rugby is practically a religion, seafood comes fresh off the boat and the landscapes still feel like a film set with scenery that is stunning, raw and unmistakably Kiwi.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Palau",
-    "description": "Palau's surf scene features tropical waters and uncrowded waves with growing interest in its hidden breaks.",
-    "continent": { "id": 5 }
+    "description": "Reef breaks in Palau provide fun and rewarding waves that suit a range of skill levels, though they don’t carry the same power as spots in Hawaii or Australia. Crystal clear waters and vibrant coral create a stunning backdrop. Beyond surfing, Jellyfish Lake and rich marine life highlight Palau’s natural charm. Ancient traditions and lively dances bring local culture to life, while fresh seafood and tropical flavors complete the experience.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Papua New Guinea",
-    "description": "Papua New Guinea offers uncrowded surf spots with tropical waters and consistent waves along its remote coastlines.",
-    "continent": { "id": 5 }
+    "description": "Uncrowded reef breaks, crystal-clear waters, and powerful tropical swell make Papua New Guinea a rare find for surfers looking to escape the pack. The waves around Kavieng and Vanimo are consistent and punchy, with a surf management system that keeps things balanced between visitors and local communities. Away from the coast, more than 800 languages and countless traditions shape daily life, from colourful sing sings to ancient rites still practiced today. It’s a place where culture runs deep and every session feels like part of something bigger.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Samoa",
-    "description": "Samoa features warm waters and consistent surf breaks, with powerful reef waves in the heart of the South Pacific.",
-    "continent": { "id": 5 }
+    "description": "Imagine scoring flawless reef breaks with not a soul in sight, then cooling off beneath a jungle waterfall before tucking into fresh oka. That’s Samoa. The surf is heavy, hollow, and seriously underrated, with breaks like Boulders and Salani rewarding confident riders with fast barrels and clean lines. Inland, ancient traditions still thrive — from fire knife dances to ceremonial 'ava rituals and slap dances that echo across village greens. With little crowds and a deep sense of tradition, it’s a place that stays with you long after the boards are packed.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Solomon Islands",
-    "description": "The Solomon Islands offer pristine surf spots with warm waters and uncrowded waves, making them a hidden gem for surfers.",
-    "continent": { "id": 5 }
+    "description": "Crystal-clear waves break over coral reefs just a short paddle from jungle-lined shores. The Solomon Islands serve up a surf scene that’s under the radar but rich in reward. While the waves don’t hit the towering heights of other Pacific hotspots, their consistency and solitude make them special — especially from November to April when north swells sweep down from Hawaii. Gizo, Santa Isabel, and Malaita offer glassy rights, fast lefts, and warm water sessions with barely a soul in sight. Inland, ancient traditions live on in village life, with shell money, carved totems, and the lingering stories of Skull Island adding layers to the journey.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Tonga",
-    "description": "Tonga features remote, uncrowded surf spots with powerful reef breaks, offering consistent waves year-round.",
-    "continent": { "id": 5 }
+    "description": "Crystal clear waves peel across offshore reefs, often with no one else in the lineup. Tonga’s surf is raw and rewarding, best suited for confident riders ready to navigate powerful swells and shallow breaks. Beyond the surf, time slows down. Traditional feasts called ʻumu, rhythmic lakalaka dances, and Sunday church choirs echo through villages, grounding life in deep cultural roots. It’s a place where the ocean sets the rhythm and you follow.",
+    "continent": {
+      "id": 5
+    }
   },
   {
     "name": "Argentina",
-    "description": "Argentina is known for its stunning coastlines and surf spots like Playa Grande, offering great waves.",
-    "continent": { "id": 6 }
+    "description": "Penguins call this place home — but unlike in Surf’s Up, they’re not catching waves. Argentina, however, does offer some seriously fun surf spots, with Mar del Plata leading the way. Playa Varese is great for beginners, while Playa Grande packs a bit more punch. Stick around and you’ll find late-night tango in hidden bars, steak grilled to perfection, and Malbec poured generously. Head south and Patagonia opens up with glacier-fed peaks, empty horizons, and some of the rawest landscapes on Earth.",
+    "continent": {
+      "id": 6
+    }
   },
   {
     "name": "Brazil",
-    "description": "Brazil features world-renowned surf spots like Fernando de Noronha and Praia do Norte, attracting surfers globally.",
-    "continent": { "id": 6 }
+    "description": "Saquarema is the beating heart of Brazil’s surf scene, with powerful beach breaks and crowds that roar for local heroes like Medina, Toledo, and Ferreira. These athletes didn’t just rise through the ranks; they reshaped competitive surfing. On the sand, altinha circles keep things lively, soundtracked by portable speakers blasting reggaeton. The air carries the scent of grilled cheese skewers and fresh coxinhas, while caipirinhas and açaí bowls keep the energy high. Beyond the beach, the Amazon rainforest stretches vast and wild across much of Brazil, showcasing raw natural power and unmatched biodiversity.",
+    "continent": {
+      "id": 6
+    }
   },
   {
     "name": "Chile",
-    "description": "Chile boasts diverse surf conditions, with famous spots like Punta de Lobos attracting surfers year-round.",
-    "continent": { "id": 6 }
+    "description": "Squeezed between the Andes and the Pacific, this jagged coastline delivers some of the longest lefts on the planet. Punta de Lobos is a World Surfing Reserve with long powerful waves wrapping around rocky headlands. Further north, El Gringo explodes over shallow reef, Chile’s answer to Pipeline. This is a land of extremes. Desert meets ocean. Glaciers feed rivers. Volcanic sand burns underfoot. Between sessions, it’s grilled seafood, cold pisco, and fine wines best enjoyed under night skies clearer than anywhere else on Earth.",
+    "continent": {
+      "id": 6
+    }
   },
   {
     "name": "Colombia",
-    "description": "Colombia offers beautiful beaches and emerging surf spots, perfect for adventurous surfers.",
-    "continent": { "id": 6 }
+    "description": "Once infamous for cartels and conflict, Colombia now turns heads for its uncrowded waves and wild natural beauty. On the Pacific coast, remote breaks like Nuquí and El Valle serve up powerful surf framed by rainforest cliffs and black sand beaches. The Caribbean side offers a softer charm, with warm water cruisers near Cartagena and island escapes like San Andrés. Between sessions, it’s fried plantains, world-class coffee, and aguardiente under the palms, with salsa rhythms floating through the air. Colombia’s past may cast a long shadow, but its surf future is sunlit and wide open.",
+    "continent": {
+      "id": 6
+    }
   },
   {
     "name": "Ecuador",
-    "description": "Ecuador features great surf conditions, with spots like Montañita known for consistent waves and vibrant culture.",
-    "continent": { "id": 6 }
+    "description": "The Galápagos Islands are world-famous for their unique wildlife and biodiversity that inspired Darwin’s theory of evolution. The islands offer powerful reef breaks that test even skilled surfers. On the mainland, Montañita and Mompiche deliver consistent beach and point breaks, attracting surfers year-round. Montañita is known for its lively nightlife with bars and music after dark. Ecuador is celebrated for its fine cacao, prized worldwide for top-quality chocolate. The culture blends indigenous roots and coastal life, with fresh seafood, bustling markets, and warm hospitality.",
+    "continent": {
+      "id": 6
+    }
   },
   {
     "name": "Peru",
-    "description": "Peru is famous for its left-hand point breaks, particularly in Mancora, making it a top surfing destination.",
-    "continent": { "id": 6 }
+    "description": "Ancient traditions and world class waves collide on Peru’s long Pacific coastline. Huanchaco, home to the earliest known surf craft, the caballito de totora, is now a protected World Surfing Reserve, its peeling lefts ridden by both modern surfers and local fishermen. Further south, Chicama offers one of the longest waves on Earth, a true leg burner that just keeps going. Lima’s beaches keep surf close to the capital, while Punta Rocas and nearby breaks have hosted international competition. Inland, the culture runs deep, from fresh ceviche and pisco to Inca influences still felt today.",
+    "continent": {
+      "id": 6
+    }
   },
   {
     "name": "Uruguay",
-    "description": "Uruguay offers beautiful beaches and great surf spots like Punta del Este, attracting surfers in summer.",
-    "continent": { "id": 6 }
+    "description": "Wedged between Brazil and Argentina, Uruguay’s Atlantic coast offers a quieter kind of surf culture. Points and beach breaks at Punta del Diablo and La Paloma deliver long, playful rides without the crowds. Inland, wood-fired asado fills the air, and Montevideo’s streets echo with the drums of candombe. Along the coast, gaucho heritage blends with relaxed beach life, where fishermen still haul in their catch by hand. From yerba mate shared among friends to rich dulce de leche desserts, Uruguay’s charm is subtle but unforgettable.",
+    "continent": {
+      "id": 6
+    }
   },
   {
     "name": "Venezuela",
-    "description": "Venezuela features stunning coastlines and emerging surf spots, providing a unique experience for surfers.",
-    "continent": { "id": 6 }
-  }  
+    "description": "Tucked along the Caribbean coast, Venezuela delivers warm water waves, lush backdrops, and a surf culture that runs deep despite decades of political turmoil. At Playa Pantaleta and Playa Los Caracas, glassy beach breaks reel in a dedicated local scene, while Choroní serves up palm fringed waves alongside colonial charm. Offshore, archipelagos like Los Roques offer clear water perfection for those willing to explore. But Venezuela’s appeal goes beyond the waves — it’s in the smoky cocuy sipped after sunset, arepas hot off the griddle, and the rhythms of street side drums echoing candombe roots. From Andean peaks to Orinoco plains, the country’s contrasts run wild, and when the tide lines up and Polar beers crack open under golden skies, everything feels exactly where it should be.",
+    "continent": {
+      "id": 6
+    }
+  }
 ]

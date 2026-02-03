@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip Invitation</title>
 </head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background-color: #f4f4f4; padding: 20px; border-radius: 5px;">
-        <h2 style="color: #0066cc;">You're invited to join a surf trip!</h2>
+<body style="font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #0d1619; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+    <div style="background-color: #ffffff; padding: 20px; border-radius: 16px;">
+        <h2 style="color: #333333; font-size: 2rem; line-height: 1.4; margin-bottom: 16px; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;">You're invited to join a surf trip!</h2>
         <p><strong th:text="${inviterName}">Inviter</strong> has invited you to join their surf trip on Surf Spots:</p>
-        <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 20px 0;">
-            <h3 style="margin-top: 0;" th:text="${tripTitle}">Trip Title</h3>
+        <div style="background-color: #ffffff; padding: 15px; border-radius: 16px; margin: 20px 0; border: 1px solid #d9d9d9;">
+            <h3 style="margin-top: 0; color: #333333; font-size: 1.75rem; line-height: 1.4; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;" th:text="${tripTitle}">Trip Title</h3>
         </div>
         <p>To join this trip and start planning your surf adventure, sign up for Surf Spots:</p>
         <p>
-            <a th:href="${inviteLink}" style="display: inline-block; background-color: #0066cc; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">Sign Up & Join Trip</a>
+            <a th:href="${inviteLink}" style="display: inline-block; background-color: #046380; color: white; padding: 12px 24px; text-decoration: none; border-radius: 25px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">Sign Up & Join Trip</a>
         </p>
-        <p style="color: #666; font-size: 14px;">Surf Spots helps you discover, track, and share your favorite surf locations around the world.</p>
+        <p style="color: #666666; font-size: 0.875rem;">Surf Spots helps you discover, track, and share your favorite surf locations around the world.</p>
     </div>
 </body>
 </html>

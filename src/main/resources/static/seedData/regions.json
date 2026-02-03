@@ -1,689 +1,5744 @@
 [
   {
     "name": "Boumerdes",
+    "description": "Coastal province east of Algiers with reliable winter Mediterranean swells influenced by seasonal winds, supporting a modest local surf scene.",
     "country": {
       "id": 1
     },
-    "description": "Popular surfing destination in Algeria, known for its consistent waves and scenic coast."
+    "boundingBox": [
+      36.65,
+      3.3,
+      36.88,
+      3.9
+    ]
   },
   {
     "name": "El Tarf",
+    "description": "Remote eastern coastline near Tunisia, featuring rugged rocky points and seasonal waves shaped by winter mistral winds.",
     "country": {
       "id": 1
     },
-    "description": "Offers great surf spots with beautiful landscapes and vibrant marine life."
+    "boundingBox": [
+      36.8,
+      7.2,
+      37.2,
+      8.45
+    ]
+  },
+  {
+    "name": "Oman",
+    "description": "Western Algeria’s coast with long sandy beaches and generally gentle surf conditions.",
+    "country": {
+      "id": 1
+    },
+    "boundingBox": [
+      35.6,
+      -0.8,
+      36.0,
+      -0.4
+    ]
   },
   {
     "name": "Chiundo",
+    "description": "Southern coastal region known for reef and beach breaks with consistent swells from the South Atlantic. Popular with local surfers, it features less crowded waves and a rugged, natural coastline.",
     "country": {
       "id": 2
     },
-    "description": "Features some hidden surf breaks, attracting adventurous surfers."
+    "boundingBox": [
+      12.1,
+      -16.2,
+      12.8,
+      -15.7
+    ]
   },
   {
     "name": "Kwanza Sul",
+    "description": "Mid-coast region near the Kwanza River mouth with a mix of sandy beach breaks and reef breaks. It offers reliable swells and is accessible from nearby towns, making it a growing spot for surf tourism.",
     "country": {
       "id": 2
     },
-    "description": "Known for its stunning coastline and surf-friendly conditions."
+    "boundingBox": [
+      13.9,
+      -11.8,
+      14.5,
+      -11.3
+    ]
   },
   {
     "name": "Luanda",
+    "description": "The capital city region featuring urban beach breaks along the coast. The waves are more influenced by local wind conditions and tides, offering both beginner and intermediate surfing opportunities.",
     "country": {
       "id": 2
     },
-    "description": "The capital offers urban surfing experiences with nearby beaches."
+    "boundingBox": [
+      13.0,
+      -9.1,
+      13.7,
+      -8.7
+    ]
   },
   {
     "name": "Zaire",
+    "description": "Northernmost surf region near the Congo border with reef breaks and rocky points. It's relatively remote, with less consistent swell but high-quality waves when conditions align.",
     "country": {
       "id": 2
     },
-    "description": "Home to less crowded surf spots, perfect for those seeking solitude."
+    "boundingBox": [
+      12.2,
+      -6.4,
+      12.8,
+      -5.9
+    ]
+  },
+  {
+    "name": "Southwest Region",
+    "description": "Volcanic coastline around Limbe with consistent beach and reef breaks; Cameroon's main surf hub.",
+    "country": {
+      "id": 3
+    },
+    "boundingBox": [
+      8.9,
+      3.9,
+      9.5,
+      4.3
+    ]
+  },
+  {
+    "name": "South Region",
+    "description": "Sandy beaches and river mouths near Kribi and Campo; less consistent but seasonally surfable.",
+    "country": {
+      "id": 3
+    },
+    "boundingBox": [
+      9.9,
+      2.4,
+      10.5,
+      3.1
+    ]
   },
   {
     "name": "Boa Vista",
+    "description": "Eastern island with long sandy beaches and consistent beach breaks; quieter than Sal.",
     "country": {
-      "id": 3
+      "id": 4
     },
-    "description": "Renowned for its pristine beaches and reliable surf conditions year-round."
+    "boundingBox": [
+      23.1,
+      15.9,
+      -22.5,
+      16.4
+    ]
   },
   {
     "name": "Chã de Alecrim",
+    "description": "Neighborhood in Mindelo, São Vicente; gateway to local breaks like Salamansa and São Pedro.",
     "country": {
-      "id": 3
+      "id": 4
     },
-    "description": "Offers great surf opportunities, particularly for intermediate surfers."
+    "boundingBox": [
+      -25.05,
+      16.87,
+      -24.95,
+      16.89
+    ]
   },
   {
     "name": "Praia",
+    "description": "Capital on Santiago Island with occasional beach breaks near Prainha and Gamboa.",
     "country": {
-      "id": 3
+      "id": 4
     },
-    "description": "The capital city has popular surf spots with vibrant surf culture."
+    "boundingBox": [
+      -23.56,
+      14.93,
+      -23.49,
+      14.98
+    ]
   },
   {
     "name": "Sal",
+    "description": "Cape Verde’s top tourist island, home to Santa Maria and world-class reef breaks like Ponta Preta.",
     "country": {
-      "id": 3
+      "id": 4
     },
-    "description": "Known for its world-class waves, attracting surfers from around the globe."
+    "boundingBox": [
+      -22.95,
+      16.0,
+      -22.7,
+      16.3
+    ]
   },
   {
     "name": "Sao Vicente",
+    "description": "Island with reef and beach breaks exposed to NE trades; includes Salamansa and São Pedro.",
     "country": {
-      "id": 3
+      "id": 4
     },
-    "description": "A vibrant surf scene with various beaches catering to all skill levels."
+    "boundingBox": [
+      -25.1,
+      16.8,
+      -24.9,
+      17.05
+    ]
   },
   {
     "name": "Tarrafal",
+    "description": "Northern surf town on Santiago Island with a mellow beach break and tourist-friendly vibe.",
     "country": {
-      "id": 3
+      "id": 4
     },
-    "description": "Great surf breaks with beautiful views, ideal for a relaxing surf trip."
+    "boundingBox": [
+      -23.78,
+      15.21,
+      -23.71,
+      15.28
+    ]
   },
   {
     "name": "Tarrafal de Sao Nicolau",
-    "country": {
-      "id": 3
-    },
-    "description": "Offers a tranquil surf experience with breathtaking natural surroundings."
-  },
-  {
-    "name": "Kouilou",
+    "description": "West coast town on São Nicolau Island, near reef break Sabi Sabi with clean right-handers.",
     "country": {
       "id": 4
     },
-    "description": "Known for its scenic beaches and excellent surfing conditions, attracting local and visiting surfers."
-  },
-  {
-    "name": "Pointe-Noire",
-    "country": {
-      "id": 4
-    },
-    "description": "Offers consistent waves with a mix of beach breaks, making it an appealing destination for surfers seeking new adventures."
+    "boundingBox": [
+      -24.42,
+      16.5,
+      -24.3,
+      16.62
+    ]
   },
   {
     "name": "Alexandria",
+    "description": "Historic city with Egypt’s most active surf scene. Small reefs and beachbreaks light up in winter, with year-round surf schools along the hotel-lined coast.",
     "country": {
       "id": 5
     },
-    "description": "Offers surf spots along the Mediterranean coast with reliable waves, ideal for beginners and experienced surfers."
+    "boundingBox": [
+      29.78,
+      31.1,
+      30.1,
+      31.35
+    ]
   },
   {
     "name": "Matruh",
+    "description": "Marsa Matruh offers cleaner, more powerful winter swell than Alexandria. Agiba provides some shelter, while westward points hold rare but promising lefts when conditions align.",
     "country": {
       "id": 5
     },
-    "description": "Famous for its clear waters and good surf conditions, making it a hidden gem for surfers."
+    "boundingBox": [
+      26.95,
+      31.27,
+      27.35,
+      31.43
+    ]
+  },
+  {
+    "name": "Estuaire ",
+    "description": "Covers the surfable coastal stretch around Libreville and Pointe-Denis, including spots like Guegue and Ngombe. Expect steady point and beach breaks, best in spring and summer with SW swells.",
+    "country": {
+      "id": 6
+    },
+    "boundingBox": [
+      8.0,
+      0.0,
+      9.5,
+      0.5
+    ]
+  },
+  {
+    "name": "Ogooue Maritime",
+    "description": "Encompasses Port-Gentil and nearby beaches (e.g., Cap Lopez, Palplanche). Known for hollow, powerful beach breaks over sand—reliable with SW swells.",
+    "country": {
+      "id": 6
+    },
+    "boundingBox": [
+      8.2,
+      -0.8,
+      9.2,
+      0.2
+    ]
+  },
+  {
+    "name": "Mayumba",
+    "description": "A remote stretch near the Congo border with long, fast lefts breaking over sand. It’s isolated and rarely crowded, catching solid southern swells during the dry season.",
+    "country": {
+      "id": 6
+    },
+    "boundingBox": [
+      10.8,
+      -3.9,
+      11.3,
+      -3.7
+    ]
   },
   {
     "name": "Central Region",
+    "description": "A quiet stretch around Winneba and Kormantse where beach breaks come alive when the swell rolls in. Waves aren’t as consistent as the west but the spots stay uncrowded.",
     "country": {
-      "id": 6
+      "id": 7
     },
-    "description": "Features some lesser-known surf spots with beautiful scenery, perfect for those looking to explore."
+    "boundingBox": [
+      -1.0,
+      5.17,
+      -0.55,
+      5.25
+    ]
   },
   {
     "name": "Greater Accra Region",
+    "description": "The coastline near Accra sees year-round surf with mellow beach breaks and occasional reefs. Waves tend to be small and clean, especially in the dry season, making this a beginner-friendly zone with easy access from the capital.",
     "country": {
-      "id": 6
+      "id": 7
     },
-    "description": "Known for its vibrant surf culture and a variety of beaches, catering to all surfing levels."
+    "boundingBox": [
+      -0.6,
+      5.0,
+      -0.9,
+      5.35
+    ]
   },
   {
     "name": "Western Region",
+    "description": "This coastline delivers consistent beach and point breaks. Busua features playful peaks, and Cape Three Points offers long, powerful lefts when southern swells arrive.",
     "country": {
-      "id": 6
+      "id": 7
     },
-    "description": "Offers stunning surf spots with picturesque views, ideal for both relaxation and surfing adventures."
+    "boundingBox": [
+      -2.2,
+      4.5,
+      -1.4,
+      5.05
+    ]
   },
   {
     "name": "Abidjan",
+    "description": "Includes beach breaks at Cité Police and Vridi Plage near the city. Waves break over sandy bottoms with consistent small to medium surf influenced by the lagoon outlet.",
     "country": {
-      "id": 7
+      "id": 8
     },
-    "description": "Urban surf spot with various beaches attracting a lively surf community."
+    "boundingBox": [
+      -4.15,
+      5.2,
+      -3.9,
+      5.4
+    ]
   },
   {
     "name": "Bas-Sassandra",
+    "description": "From Sassandra to Grand-Béréby, the coastline has rugged reef breaks and beach breaks exposed to strong southern swells. Sassandra’s reefs are well known for powerful lefts.",
     "country": {
-      "id": 7
+      "id": 8
     },
-    "description": "Known for its consistent waves and picturesque coastlines, perfect for surfers of all skill levels."
+    "boundingBox": [
+      -6.5,
+      4.3,
+      -4.5,
+      5.0
+    ]
   },
   {
-    "name": "Comoé",
+    "name": "Comoè",
+    "description": "Spans the coastline east of Assinie to the Ghana border. Features remote, mostly sandy beach breaks with occasional rocky outcrops, influenced by the Comoé river estuary.",
     "country": {
-      "id": 7
+      "id": 8
     },
-    "description": "Features surf-friendly conditions and stunning natural beauty, attracting surf enthusiasts."
+    "boundingBox": [
+      -3.4,
+      4.9,
+      -2.9,
+      5.3
+    ]
   },
   {
     "name": "Lagunes",
+    "description": "Covers Grand-Bassam and Assinie with exposed beach breaks like La Passe and sheltered sandbanks near Assinie-Mafia. The coastline is shaped by the interaction of ocean swell and river outflows.",
     "country": {
-      "id": 7
+      "id": 8
     },
-    "description": "Offers great waves and a vibrant surf culture, making it a popular surf destination."
+    "boundingBox": [
+      -3.9,
+      5.1,
+      -3.4,
+      5.45
+    ]
+  },
+  {
+    "name": "Coast Province",
+    "description": "Surf spots run from Malindi to Diani Beach with beach and reef breaks. The area receives consistent swells mainly during the spring and autumn months.",
+    "country": {
+      "id": 9
+    },
+    "boundingBox": [
+      39.5,
+      -4.7,
+      41.9,
+      -1.1
+    ]
   },
   {
     "name": "Grand Bassa County",
+    "description": "Covers the coast around Buchanan. More exposed to open ocean swell with scattered beach breaks and potential at river mouths.",
     "country": {
-      "id": 8
+      "id": 10
     },
-    "description": "Features beautiful beaches with consistent surf, appealing to both locals and tourists."
+    "boundingBox": [
+      -10.7,
+      5.75,
+      -9.95,
+      6.3
+    ]
   },
   {
     "name": "Grand Cape Mount County",
+    "description": "Home to Robertsport, Liberia’s premier surf spot, with long left-hand point breaks peeling along rocky headlands near Lake Piso.",
     "country": {
-      "id": 8
+      "id": 10
     },
-    "description": "Offers several surf spots with varying wave conditions, perfect for all skill levels."
+    "boundingBox": [
+      -11.55,
+      6.6,
+      -10.95,
+      7.15
+    ]
   },
   {
     "name": "Montserrado County",
+    "description": "Centered around Monrovia, this stretch offers small beach breaks like Fisherman’s Beach, with a growing local surf scene along the city’s coastal suburbs.",
     "country": {
-      "id": 8
+      "id": 10
     },
-    "description": "Home to urban beaches where surfers can enjoy both the surf and the local culture."
+    "boundingBox": [
+      -10.9,
+      6.15,
+      -10.6,
+      6.55
+    ]
   },
   {
     "name": "Androy Region",
+    "description": "Remote and rugged southern tip near Cap Sainte Marie. Limited access but potential for uncrowded, powerful beach breaks.",
     "country": {
-      "id": 9
+      "id": 11
     },
-    "description": "Features rugged coastline and good surf conditions, attracting adventurous surfers."
+    "boundingBox": [
+      -26.0,
+      45.5,
+      -25.2,
+      46.5
+    ]
   },
   {
     "name": "Anosy Region",
+    "description": "Southeastern coastline around Fort Dauphin. Consistent exposure to Indian Ocean swell with a mix of beach and reef breaks.",
     "country": {
-      "id": 9
+      "id": 11
     },
-    "description": "Known for its beautiful beaches and consistent waves, perfect for surfers looking to explore."
+    "boundingBox": [
+      -25.2,
+      46.5,
+      -24.5,
+      47.5
+    ]
   },
   {
     "name": "Antsepoka",
+    "description": "Quiet coastal stretch west of Tulear. Picks up southwest swell with mellow reef setups and minimal crowds.",
     "country": {
-      "id": 9
+      "id": 11
     },
-    "description": "Offers great surf spots with beautiful scenery, ideal for those seeking unique surf experiences."
+    "boundingBox": [
+      -24.5,
+      43.0,
+      -24.2,
+      43.3
+    ]
   },
   {
     "name": "Atsimo-Andrefana Region",
+    "description": "Southwest hub with world-class reef breaks like Flameballs and Anakao. Reliable swell and boat-accessible waves near Tulear.",
     "country": {
-      "id": 9
+      "id": 11
     },
-    "description": "Features stunning beaches and reliable surf, making it a must-visit for surfers."
-  },
-  {
-    "name": "Belitsaka",
-    "country": {
-      "id": 9
-    },
-    "description": "Known for its local surf culture and good waves, attracting surfers from around the region."
+    "boundingBox": [
+      -25.0,
+      43.5,
+      -23.5,
+      44.5
+    ]
   },
   {
     "name": "Fampotakely",
+    "description": "Remote northeastern stretch near Ambohitralanana, where exposed reef setups can catch solid Indian Ocean swell. Little documentation, but signs of promising surf potential.",
     "country": {
-      "id": 9
+      "id": 11
     },
-    "description": "Offers hidden surf breaks with beautiful surroundings, ideal for adventurous surfers."
+    "boundingBox": [
+      -15.3,
+      50.0,
+      -15.0,
+      50.3
+    ]
+  },
+  {
+    "name": "Nouakchott",
+    "description": "Centered on the city’s old port, where broken wharf pylons help form short, wedgy rights during NW winter swells. Currents and wind-blown sand are constant, but it's uncrowded and exposed.",
+    "country": {
+      "id": 12
+    },
+    "boundingBox": [
+      -17.1,
+      18.0,
+      -16.8,
+      18.1
+    ]
   },
   {
     "name": "Black River District",
+    "description": "Mauritius’s southwest corner is the island’s surf hub, with a mix of powerful reef breaks and sheltered corners. Dry, open terrain gives way to consistent swell exposure and some of the longest waves on the island.",
     "country": {
-      "id": 10
+      "id": 13
     },
-    "description": "Famous for its surf spots and vibrant beach culture, perfect for all surfers."
+    "boundingBox": [
+      57.0,
+      -20.55,
+      57.3,
+      -20.15
+    ]
   },
   {
     "name": "Pamplemousses District",
+    "description": "The northwestern coastline sees less swell but offers mellow reef setups when conditions align. Warmer waters and gentler surf make it a more relaxed alternative to the south and west.",
     "country": {
-      "id": 10
+      "id": 13
     },
-    "description": "Features scenic surf spots with great conditions, attracting surfers year-round."
+    "boundingBox": [
+      57.5,
+      -20.2,
+      57.7,
+      -19.8
+    ]
   },
   {
     "name": "Rodrigues",
+    "description": "Remote and far less developed, Rodrigues occasionally sees small surf on exposed reef passes. Conditions are fickle, but the quiet setting and tropical surroundings make it a unique outpost.",
     "country": {
-      "id": 10
+      "id": 13
     },
-    "description": "Known for its beautiful surf beaches and crystal-clear waters, ideal for surf trips."
+    "boundingBox": [
+      63.4,
+      -19.8,
+      63.7,
+      -19.5
+    ]
   },
   {
     "name": "Savanne District",
+    "description": "Mauritius’s south coast is rugged and dramatic, with cliffs and open beaches facing directly into southern ocean swell. The surf is raw and exposed, with powerful conditions during peak swell windows.",
     "country": {
-      "id": 10
+      "id": 13
     },
-    "description": "Offers a variety of surf spots with consistent waves, making it popular among surfers."
-  },
-  {
-    "name": "Marrakesh-Safi",
-    "country": {
-      "id": 11
-    },
-    "description": "Includes Essaouira, a popular surf destination known for its consistent waves and vibrant surf culture."
+    "boundingBox": [
+      57.2,
+      -20.6,
+      57.5,
+      -20.85
+    ]
   },
   {
     "name": "Casablanca-Settat",
-    "country": {
-      "id": 11
-    },
-    "description": "Known for its vibrant surf scene, Casablanca-Settat offers a mix of urban beaches and excellent wave conditions for surfers."
-  },
-  {
-    "name": "Guelmim-Oued Noun",
-    "country": {
-      "id": 11
-    },
-    "description": "Features beautiful landscapes and remote surf spots, ideal for surfers seeking solitude and a serene experience."
-  },
-  {
-    "name": "Oriental",
-    "country": {
-      "id": 11
-    },
-    "description": "Renowned for its stunning beaches and good surf conditions, Oriental is perfect for surfers of all levels."
-  },
-  {
-    "name": "Rabat-Salé-Kénitra",
-    "country": {
-      "id": 11
-    },
-    "description": "Offers a vibrant surf culture with great waves, attracting both local and international surfers."
-  },
-  {
-    "name": "Souss-Massa",
-    "country": {
-      "id": 11
-    },
-    "description": "Home to Taghazout and the famous Anchor Point, a world-renowned right-hand point break known for its epic waves and stunning coastal scenery, making it a must-visit for surfers."
-  },
-  {
-    "name": "Tanger-Tetouan-Al Hoceima",
-    "country": {
-      "id": 11
-    },
-    "description": "Features diverse surf spots with stunning coastlines, perfect for exploring new waves."
-  },
-  {
-    "name": "Gaza Province",
-    "country": {
-      "id": 12
-    },
-    "description": "Known for its beautiful coastline and surf-friendly conditions, offering a more tranquil surf experience."
-  },
-  {
-    "name": "Inhambane Province",
-    "country": {
-      "id": 12
-    },
-    "description": "A popular surfing destination with consistent waves and vibrant marine life, ideal for surfers of all levels."
-  },
-  {
-    "name": "Erongo",
-    "country": {
-      "id": 13
-    },
-    "description": "Home to Skeleton Bay, renowned for its long, powerful left-hand barrels. This stunning surf spot attracts experienced surfers from around the globe, making Erongo a must-visit destination for wave riders."
-  },
-  {
-    "name": "Karas",
-    "country": {
-      "id": 13
-    },
-    "description": "Features lesser-known surf spots with beautiful landscapes, perfect for those seeking a unique surf experience."
-  },
-  {
-    "name": "Kunene",
-    "country": {
-      "id": 13
-    },
-    "description": "Known for its rugged coastline and less crowded surf spots, attracting adventurous surfers looking for solitude."
-  },
-  {
-    "name": "Lagos",
+    "description": "Dense coastline of beach breaks and piers around Casablanca, with regular swell and an active local scene. Less consistent the farther south you go, but some exposed reefs offer more variety.",
     "country": {
       "id": 14
     },
-    "description": "A bustling city with great surf spots and a lively surf culture, attracting both local and visiting surfers."
+    "boundingBox": [
+      32.0,
+      -8.9,
+      33.8,
+      -6.7
+    ]
   },
   {
-    "name": "Atlantique",
+    "name": "Guelmim-Oued Noun",
+    "description": "A vast and underexplored region, home to Morocco’s southernmost established surf scene. Around Sidi Ifni and Mirleft, rugged cliffs and remote beaches hide punchy beach breaks and rocky points. Further south, the coastline grows emptier, with potential for discovery but little infrastructure.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      28.0,
+      -10.3,
+      30.5,
+      -8.2
+    ]
+  },
+  {
+    "name": "Marrakesh-Safi",
+    "description": "Marrakesh lures tourists with its souks and spice-scented alleys, but the coastline hides real treasure. Safi delivers Morocco’s heaviest right-hand barrel, while the surrounding shore offers uncrowded setups for those willing to search.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      30.0,
+      -9.8,
+      32.5,
+      -7.0
+    ]
+  },
+  {
+    "name": "Oriental",
+    "description": "Remote Mediterranean coastline with rare, wind-dependent waves near Saïdia and Ras Kebdana. Minimal infrastructure, few crowds, and highly inconsistent surf.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      32.0,
+      -3.0,
+      35.0,
+      -1.0
+    ]
+  },
+  {
+    "name": "Rabat-Salé-Kenitra",
+    "description": "Urban stretch with exposed beach breaks and jetties, particularly around the capital, Rabat. Picks up north-west swells and has a mix of easy-access city spots and heavier sandbar setups in rural pockets.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      34.0,
+      -6.0,
+      34.5,
+      -5.5
+    ]
+  },
+  {
+    "name": "Souss-Massa",
+    "description": "South of Agadir, this stretch of coast is quieter than Taghazout but still catches solid Atlantic swell. Expect a mix of sandy beaches and scattered reef breaks, with laid-back towns like Tiznit offering charm without the crowds.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      29.8,
+      -9.8,
+      30.6,
+      -8.5
+    ]
+  },
+  {
+    "name": "Tangier-Tetouan-Al Hoceima",
+    "description": "Covering Morocco’s Mediterranean coastline near the Strait of Gibraltar. Surf is inconsistent, with small wind swell and rare Atlantic pulses reaching select sheltered breaks.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      35.6,
+      -6.2,
+      36.2,
+      -4.5
+    ]
+  },
+  {
+    "name": "Tagazhout",
+    "description": "Once a quiet fishing village, now the poster child of Moroccan surf. Iconic right-hand points like Anchor Point and Killers fire through winter, drawing heavy crowds. The town's packed with surf camps, cafés, and foreign tourists, softening its Berber roots — but it’s still the place for a tagine and some epic, but crowded waves.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      30.5,
+      -9.7,
+      30.6,
+      -9.4
+    ]
+  },
+  {
+    "name": "Essaouira",
+    "description": "A laid-back region mixing mellow beach breaks with Imsouane’s famously long right-hand point. The old medina and fishing port give the area a strong cultural identity, while the growing surf scene adds a modern edge. Less hectic than Taghazout but still full of character.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      30.9,
+      -10.0,
+      31.7,
+      -9.3
+    ]
+  },
+  {
+    "name": "Gaza Province",
+    "description": "A quieter stretch north of Maputo with open coastline and uncrowded beach breaks near Chidenguele. Less surf infrastructure, but offers potential during southern swells.",
     "country": {
       "id": 15
     },
-    "description": "A coastal region offering steady waves and uncrowded beach breaks, great for surfers looking for quieter spots."
+    "boundingBox": [
+      -25.7,
+      32.7,
+      -23.8,
+      34.0
+    ]
+  },
+  {
+    "name": "Inhambane Province",
+    "description": "Mozambique’s surf hub with consistent beach and reef breaks around Tofo, Tofinho, and Barra. Curved coastline faces southeast, pulling in regular swell. Supported by a growing surf scene and traveler-friendly vibe.",
+    "country": {
+      "id": 15
+    },
+    "boundingBox": [
+      -23.8,
+      33.0,
+      -21.5,
+      35.0
+    ]
+  },
+  {
+    "name": "Maputo Province",
+    "description": "Mozambique’s southernmost coast, home to Ponta do Ouro — a long right-hand point break near the South African border. Often overlooked, this quiet region gets clean lines during southern Indian Ocean swells, drawing road-tripping South Africans.",
+    "country": {
+      "id": 15
+    },
+    "boundingBox": [
+      -26.9,
+      32.8,
+      -25.7,
+      33.2
+    ]
+  },
+  {
+    "name": "Erongo",
+    "description": "Namibia’s surf heartland. Home to Skeleton Bay, a legendary left-hand sand point near Walvis Bay that draws pros chasing endless barrels. Also includes Swakopmund and surrounding beaches that work in solid SW swells.",
+    "country": {
+      "id": 16
+    },
+    "boundingBox": [
+      -23.4,
+      13.9,
+      -21.5,
+      15.6
+    ]
+  },
+  {
+    "name": "Karas",
+    "description": "The southernmost stretch of Namibia’s coast, Karas receives strong southern swells and is known for its raw, exposed beaches near Lüderitz. Cold waters and wind-blasted terrain make it ideal for seasoned surfers chasing isolation and power.",
+    "country": {
+      "id": 16
+    },
+    "boundingBox": [
+      -28.6,
+      15.0,
+      -25.9,
+      17.5
+    ]
+  },
+  {
+    "name": "Kunene",
+    "description": "Up near the Angolan border, Kunene is remote and mostly uncharted. Swells still reach this part of the Skeleton Coast, and while access is limited, the untouched beaches hold promise for those willing to go off the map.",
+    "country": {
+      "id": 16
+    },
+    "boundingBox": [
+      -21.5,
+      12.8,
+      -17.4,
+      14.7
+    ]
+  },
+  {
+    "name": "Lagos",
+    "description": "Centered around Nigeria’s bustling coastal hub, Lagos offers a modest but growing surf scene. Breaks like Tarkwa Bay and Lighthouse Beach provide consistent, beginner-friendly waves, especially during the wet season from May to September.",
+    "country": {
+      "id": 17
+    },
+    "boundingBox": [
+      6.3,
+      3.2,
+      6.6,
+      3.6
+    ]
+  },
+  {
+    "name": "Atlantic",
+    "description": "Covering the stretch around Cotonou, Benin’s largest city, this region sees mellow beach breaks with potential during south swells. While still under the radar, it offers warm waters and uncrowded conditions.",
+    "country": {
+      "id": 18
+    },
+    "boundingBox": [
+      6.3,
+      2.3,
+      6.5,
+      2.6
+    ]
   },
   {
     "name": "Ouémé",
-    "country": {
-      "id": 15
-    },
-    "description": "Known for its scenic coastline, Ouémé provides gentle surf conditions, ideal for beginners and relaxed surfing."
-  },
-  {
-    "name": "Bioko Sur",
-    "country": {
-      "id": 16
-    },
-    "description": "Bioko Sur is a hidden gem for surfers in Equatorial Guinea, offering uncrowded waves and picturesque beaches."
-  },
-  {
-    "name": "San Antonio de Ureca",
-    "country": {
-      "id": 16
-    },
-    "description": "San Antonio de Ureca boasts stunning natural beauty and excellent conditions for surfing."
-  },
-  {
-    "name": "Armagnac",
-    "country": {
-      "id": 17
-    },
-    "description": "Armagnac is known for its challenging waves and beautiful surroundings, attracting experienced surfers."
-  },
-  {
-    "name": "Domaine d'Anjou",
-    "country": {
-      "id": 17
-    },
-    "description": "Domaine d'Anjou offers diverse wave conditions, ideal for surfers of all skill levels."
-  },
-  {
-    "name": "L'Établissement",
-    "country": {
-      "id": 17
-    },
-    "description": "L'Établissement features reliable waves that cater to different surfing styles."
-  },
-  {
-    "name": "La Balance",
-    "country": {
-      "id": 17
-    },
-    "description": "La Balance is known for its consistent surf conditions, perfect for local surfers."
-  },
-  {
-    "name": "La Ligne Paradis",
-    "country": {
-      "id": 17
-    },
-    "description": "La Ligne Paradis is renowned for its beautiful setting and enjoyable waves."
-  },
-  {
-    "name": "La Pointe au Sel",
-    "country": {
-      "id": 17
-    },
-    "description": "La Pointe au Sel offers diverse wave types, attracting both novice and seasoned surfers."
-  },
-  {
-    "name": "Lotissement Bellevue",
-    "country": {
-      "id": 17
-    },
-    "description": "Lotissement Bellevue features reliable surf conditions and a welcoming vibe for surfers."
-  },
-  {
-    "name": "Résidence Champagne",
-    "country": {
-      "id": 17
-    },
-    "description": "Résidence Champagne is a hidden surf spot known for unique wave patterns and scenic views."
-  },
-  {
-    "name": "Réunion",
-    "country": {
-      "id": 17
-    },
-    "description": "Réunion is a premier surf destination with diverse breaks and stunning landscapes."
-  },
-  {
-    "name": "Villa Bourbon",
-    "country": {
-      "id": 17
-    },
-    "description": "Villa Bourbon offers an excellent surfing experience with consistent waves and a beautiful backdrop."
-  },
-  {
-    "name": "Dakar",
+    "description": "Just east of Cotonou, Ouémé features quiet coastal villages and expansive beaches. Swell exposure drops slightly here, but it's still suited for small, clean longboard days when conditions align.",
     "country": {
       "id": 18
-    },
-    "description": "Dakar is a vibrant city known for its consistent waves, making it a favorite among surfers."
+    }
   },
   {
-    "name": "Région de Thiès",
-    "country": {
-      "id": 18
-    },
-    "description": "Région de Thiès offers a variety of surf spots with both challenging and beginner-friendly waves."
-  },
-  {
-    "name": "Saint-Louis",
-    "country": {
-      "id": 18
-    },
-    "description": "Saint-Louis is known for its picturesque landscapes and quality surf breaks, attracting surfers from around the world."
-  },
-  {
-    "name": "Baie Lazare",
+    "name": "Pointe Noire",
+    "description": "Sheltered between headlands and estuaries, Pointe-Noire is the Republic of Congo’s lone surfable stretch. The area sees mellow Atlantic swells, with beach breaks that occasionally offer shape near river mouths. Surf here is rare, but when conditions align, it’s clean and uncrowded.",
     "country": {
       "id": 19
-    },
-    "description": "Baie Lazare features stunning beaches and great conditions for surfing, perfect for all skill levels."
+    }
   },
   {
-    "name": "Glacis",
-    "country": {
-      "id": 19
-    },
-    "description": "Glacis is known for its scenic coast and reliable waves, making it a popular surf destination."
-  },
-  {
-    "name": "La Digue",
-    "country": {
-      "id": 19
-    },
-    "description": "La Digue offers beautiful surroundings and unique surf spots, ideal for adventurous surfers."
-  },
-  {
-    "name": "Western Area",
+    "name": "Bioko South",
+    "description": "The wild southern coastline of Bioko Island, surprisingly off Cameroon rather than mainland Equatorial Guinea. Volcanic headlands and jungle backed beaches face into south swells, with reef passes and open breaks offering little known but empty surf potential.",
     "country": {
       "id": 20
     },
-    "description": "Western Area in Sierra Leone is celebrated for its picturesque beaches and developing surf scene."
+    "boundingBox": [
+      3.2,
+      8.5,
+      3.6,
+      8.9
+    ]
+  },
+  {
+    "name": "Saint Anthony of Ureca",
+    "description": "Remote village on Bioko’s southern tip, one of Africa’s wettest places. Exposed to direct south swell, the rocky points and reef ledges here can deliver powerful, raw waves in complete isolation.",
+    "country": {
+      "id": 20
+    },
+    "boundingBox": [
+      3.15,
+      8.45,
+      3.3,
+      8.65
+    ]
+  },
+  {
+    "name": "Armagnac",
+    "description": "Southwest facing reef that catches strong Indian Ocean swell. Can deliver hollow, powerful waves but conditions are fickle and best suited to experienced surfers.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.35,
+      55.45,
+      -21.25,
+      55.55
+    ]
+  },
+  {
+    "name": "Domaine d'Anjou",
+    "description": "West coast reef zone offering smaller, more sheltered waves compared to Réunion’s heavier breaks. Works best on moderate swells, making it a friendlier option when the surf elsewhere is intense.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.15,
+      55.25,
+      -21.05,
+      55.35
+    ]
+  },
+  {
+    "name": "L'Établissement",
+    "description": "Eastern shoreline around Saint-André. Exposed directly to the trade winds, giving it constant swell but often messy conditions. Surf is usually powerful and challenging, with reef-dominated breaks. Best during lighter winds or rare offshore patterns.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -20.98,
+      55.65,
+      -20.93,
+      55.72
+    ]
+  },
+  {
+    "name": "La Balance",
+    "description": "Southern coastal stretch near Saint-Pierre. Open to south and southwest swell, producing strong, consistent waves over reef. Heavy currents and powerful surf are common, making it a high-energy zone.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.36,
+      55.47,
+      -21.32,
+      55.51
+    ]
+  },
+  {
+    "name": "La Ligne Paradis ",
+    "description": "West-facing section near Saint-Louis. Picks up southwest swell but has some shelter from trades, offering more manageable conditions compared to the east. Reefs dominate, with waves ranging from playful to heavy depending on swell size.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.31,
+      55.39,
+      -21.28,
+      55.43
+    ]
+  },
+  {
+    "name": "La Pointe au Sel",
+    "description": "Southwest-facing area near Saint-Leu. Direct exposure to southern swells makes it one of Réunion’s most consistent zones. Mostly reef, producing long, powerful walls. Currents and shallow sections demand experience.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.22,
+      55.26,
+      -21.18,
+      55.3
+    ]
+  },
+  {
+    "name": "Lotissement Bellevue",
+    "description": "Situated inland from Le Port on the northwest coast. Faces west-northwest, catching occasional swells that wrap around the island. Conditions are more sheltered here, with smaller, cleaner waves compared to the southern coast.",
+    "country": {
+      "id": 21
+    }
+  },
+  {
+    "name": "Résidence Champagne",
+    "description": "Northwest coastal sector near Saint-Paul. Oriented west, with reefs that light up on southwest swells. Offers a mix of playful and challenging waves, depending on tide and swell angle. Often cleaner than the exposed east.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.0,
+      55.26,
+      -20.96,
+      55.31
+    ]
+  },
+  {
+    "name": "Réunion",
+    "description": "The full island region. Réunion’s coastline combines wind-exposed east and northeast zones with heavy, consistent southern reef surf and somewhat more sheltered western areas. A true Indian Ocean island environment with powerful waves and limited beginner options.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.4,
+      55.2,
+      -20.85,
+      55.85
+    ]
+  },
+  {
+    "name": "Villa Bourbon",
+    "description": "Southwest-facing coastal pocket south of Saint-Leu. Exposed to the same swell trains as La Pointe au Sel but slightly more sheltered. Still reef-heavy, with hollow, powerful sections that attract experienced surfers.",
+    "country": {
+      "id": 21
+    },
+    "boundingBox": [
+      -21.25,
+      55.27,
+      -21.21,
+      55.31
+    ]
+  },
+  {
+    "name": "Dakar",
+    "description": "Peninsula region and the country’s surf hub, home to Ngor Right made famous in the film The Endless Summer. The Almadies peninsula picks up predominantly north to northwest groundswells in the main season and offers a compact mix of reef, point and beach breaks that work on a range of tides.",
+    "country": {
+      "id": 22
+    },
+    "boundingBox": [
+      14.6,
+      -17.55,
+      14.8,
+      -17.25
+    ]
+  },
+  {
+    "name": "Thiès Region",
+    "description": "Coastal corridor south of Dakar from Popenguine through Somone, Saly and Mbour. Lined by long sandy beaches with intermittent reef patches, it responds to north and northwest winter swells and sees occasional southwest wraps; waves are generally mellower than Dakar and offer more consistent beach break options for intermediate surfers.",
+    "country": {
+      "id": 22
+    },
+    "boundingBox": [
+      14.4,
+      -17.2,
+      14.72,
+      -16.85
+    ]
+  },
+  {
+    "name": "Saint Louis",
+    "description": "Northern sector around the Langue de Barbarie and Saint Louis. Long sandy beaches and river mouth breaks that respond to north and northwest swell pulses. Less surf infrastructure and more variable conditions, but important for north swell days and exploratory beach sessions.",
+    "country": {
+      "id": 22
+    },
+    "boundingBox": [
+      15.9,
+      -16.7,
+      16.12,
+      -16.35
+    ]
+  },
+  {
+    "name": "Lazare Bay",
+    "description": "",
+    "country": {
+      "id": 23
+    }
+  },
+  {
+    "name": "Glacis",
+    "description": "",
+    "country": {
+      "id": 23
+    }
+  },
+  {
+    "name": "La Digue",
+    "description": "",
+    "country": {
+      "id": 23
+    }
+  },
+  {
+    "name": "Western Area",
+    "description": "",
+    "country": {
+      "id": 24
+    }
   },
   {
     "name": "Eastern Cape",
+    "description": "",
     "country": {
-      "id": 21
-    },
-    "description": "The Eastern Cape is renowned for its stunning coastline and world-class surf spots, particularly Jeffreys Bay, celebrated for its perfect right-hand point break."
+      "id": 25
+    }
   },
   {
     "name": "KwaZulu-Natal",
+    "description": "",
     "country": {
-      "id": 21
-    },
-    "description": "KwaZulu-Natal offers a diverse range of surf conditions, with warm waters and famous breaks like Umhlanga and Durban, attracting surfers year-round."
+      "id": 25
+    }
   },
   {
     "name": "Western Cape",
+    "description": "",
     "country": {
-      "id": 21
-    },
-    "description": "The Western Cape boasts some of the best surf spots in the country, with scenic waves and vibrant surf culture in areas like Cape Town."
-  },        {
-    "name": "Príncipe",
-    "country": { "id": 22 },
-    "description": "Príncipe offers pristine beaches and consistent waves, making it a hidden gem for adventurous surfers seeking unspoiled surf conditions."
-},
-{
-    "name": "São Tomé Island",
-    "country": { "id": 22 },
-    "description": "São Tomé Island features diverse surf spots, with a mix of beach breaks and reef waves, ideal for surfers looking for both challenge and beauty."
-},
-{
-    "name": "Zanzibar",
-    "country": { "id": 23 },
-    "description": "Zanzibar is famous for its warm waters and consistent swells, attracting surfers to its idyllic beaches and vibrant local culture."
-},
-{
-    "name": "North",
-    "country": { "id": 23 },
-    "description": "The North region of Zanzibar offers fantastic surf conditions and stunning beaches, making it a popular destination for both relaxation and adventure."
-},
-{
+      "id": 25
+    }
+  },
+  {
+    "name": "Prince",
+    "description": "",
+    "country": {
+      "id": 26
+    }
+  },
+  {
+    "name": "Sao Tome Island",
+    "description": "",
+    "country": {
+      "id": 26
+    }
+  },
+  {
+    "name": "Zanzibar North",
+    "description": "",
+    "country": {
+      "id": 27
+    }
+  },
+  {
     "name": "Manyan",
-    "country": { "id": 23 },
-    "description": "Manyan is known for its scenic coastline and gentle surf, perfect for beginners and those looking for a laid-back surfing experience."
-},
-{
+    "description": "",
+    "country": {
+      "id": 28
+    }
+  },
+  {
     "name": "Bizerte",
-    "country": { "id": 24 },
-    "description": "Bizerte offers diverse surf spots with consistent waves, making it an attractive destination for local and visiting surfers."
-},
-{
+    "description": "",
+    "country": {
+      "id": 29
+    }
+  },
+  {
     "name": "Jendouba",
-    "country": { "id": 24 },
-    "description": "Jendouba features beautiful coastlines and a few hidden surf spots, ideal for surfers looking to explore off the beaten path."
-},
-{
+    "description": "",
+    "country": {
+      "id": 29
+    }
+  },
+  {
     "name": "Nabeul",
-    "country": { "id": 24 },
-    "description": "Nabeul is known for its vibrant surf culture and consistent waves, attracting surfers from around the region."
-},
-{
+    "description": "",
+    "country": {
+      "id": 29
+    }
+  },
+  {
     "name": "Tunis",
-    "country": { "id": 24 },
-    "description": "Tunis offers a blend of surf spots catering to various skill levels, with warm Mediterranean waters and a lively beach scene."
-},
-{
+    "description": "",
+    "country": {
+      "id": 29
+    }
+  },
+  {
     "name": "Bir Ganduz",
-    "country": { "id": 25 },
-    "description": "Bir Ganduz is characterized by its unique coastline and surf conditions, making it an intriguing spot for adventurous surfers."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
     "name": "Boujdour",
-    "country": { "id": 25 },
-    "description": "Boujdour features scenic beaches and consistent surf, providing opportunities for both relaxation and thrilling rides."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
     "name": "Dakhla",
-    "country": { "id": 25 },
-    "description": "Dakhla is renowned for its excellent surf conditions, attracting surfers from around the world to its stunning waves and breathtaking landscapes."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
     "name": "Echdera",
-    "country": { "id": 25 },
-    "description": "Echdera offers a unique surf experience with its picturesque beaches and reliable waves, appealing to both beginners and seasoned surfers."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
     "name": "El Aargub",
-    "country": { "id": 25 },
-    "description": "El Aargub features diverse surf spots, providing a variety of wave conditions for surfers of all skill levels."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
     "name": "Foum el Oued",
-    "country": { "id": 25 },
-    "description": "Foum el Oued is known for its scenic surf spots and consistent swells, making it a popular destination for local surfers."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
     "name": "Itmlily",
-    "country": { "id": 25 },
-    "description": "Itmlily offers a blend of beautiful scenery and surfable waves, attracting surfers looking for adventure in unique settings."
-},
-{
-    "name": "Laayoune Plage",
-    "country": { "id": 25 },
-    "description": "Laayoune Plage features stunning coastline and surf conditions, making it a favorite among surfers seeking both thrills and relaxation."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
+    "name": "Laayoune Beach",
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
     "name": "Uad Guenifa",
-    "country": { "id": 25 },
-    "description": "Uad Guenifa is a hidden gem for surfers, offering beautiful beaches and consistent waves in a tranquil setting."
-},
-{
-    "name": "California",
-    "country": { "id": 26 },
-    "description": "California offers world-class surf spots from Malibu to Mavericks, with consistent waves and vibrant surf culture."
-},
-{
-    "name": "Hawaii",
-    "country": { "id": 26 },
-    "description": "Hawaii is the birthplace of surfing, home to legendary breaks like Pipeline and Waimea Bay."
-},
-{
-    "name": "Queensland",
-    "country": { "id": 27 },
-    "description": "Queensland features the famous Gold Coast and Sunshine Coast with world-class point breaks and consistent waves."
-},
-{
-    "name": "New South Wales",
-    "country": { "id": 27 },
-    "description": "New South Wales is home to Sydney's famous beaches and the iconic Bondi Beach with consistent waves year-round."
-},
-{
-    "name": "Lisbon",
-    "country": { "id": 70 },
-    "description": "Lisbon region features Costa da Caparica's endless beach breaks and powerful Carcavelos, delivering quality waves within minutes of Portugal's vibrant capital."
-},
-{
-    "name": "Peniche",
-    "country": { "id": 70 },
-    "description": "Legendary surf hub home to Supertubos' perfect barrels and Nazaré's record-breaking monster waves at Praia do Norte. This wave-rich peninsula offers world-class breaks for all levels."
-},
-{
-    "name": "Ericeira",
-    "country": { "id": 70 },
-    "description": "Europe's first World Surfing Reserve boasts Ribeira d'Ilhas' dreamy point break and Coxos' heavy reef, delivering consistent world-class waves along this historic fishing village coastline."
-},
-{
-    "name": "Algarve",
-    "country": { "id": 70 },
-    "description": "Portugal's southern paradise combines year-round sunshine, warm waters, and dramatic cliff-backed beaches. From Tonel's consistent peaks to Arrifana's long walls, the Algarve delivers perfect conditions for progression."
-},
-{
-    "name": "Nouvelle-Aquitaine",
-    "country": { "id": 56 },
-    "description": "The legendary heart of European surfing. Hossegor's La Gravière produces some of the world's most perfect sand barrels, while Biarritz's elegant breaks launched surfing across Europe in the 1950s.",
-    "boundingBox": [-1.8,42.5,2.5,47]
-},
-{
-    "name": "Basque Country",
-    "country": { "id": 72 },
-    "description": "Where mountains meet powerful Atlantic swells. Mundaka's rivermouth delivers Europe's longest left-hand barrel, while San Sebastian's Zurriola brings world-class waves to a stunning urban setting."
-},
-{
-    "name": "Andalusia",
-    "country": { "id": 72 },
-    "description": "Where Europe meets Africa at the Strait of Gibraltar. Tarifa's wind-whipped beaches catch consistent swells, offering warm Mediterranean waters and a unique blend of Spanish and Moorish culture."
-},
-{
+    "description": "",
+    "country": {
+      "id": 30
+    }
+  },
+  {
+    "name": "Chittagong",
+    "description": "",
+    "country": {
+      "id": 31
+    }
+  },
+  {
+    "name": "Brunei-Muara District",
+    "description": "",
+    "country": {
+      "id": 32
+    }
+  },
+  {
+    "name": "Kampong Medaras",
+    "description": "",
+    "country": {
+      "id": 32
+    }
+  },
+  {
+    "name": "Fujian",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Guangdong",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Guangxi",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Hainan",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Hebei",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Liaoning",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Shandong",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Zhejiang",
+    "description": "",
+    "country": {
+      "id": 33
+    }
+  },
+  {
+    "name": "Islands District",
+    "description": "",
+    "country": {
+      "id": 34
+    }
+  },
+  {
+    "name": "Sai Kung District",
+    "description": "",
+    "country": {
+      "id": 34
+    }
+  },
+  {
+    "name": "Wan Chai",
+    "description": "",
+    "country": {
+      "id": 34
+    }
+  },
+  {
+    "name": "Andaman and Nicobar",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Andhra Pradesh",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Goa",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Karnataka",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Kerala",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Maharashtra",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Odisha",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Tamil Nadu",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Union Territory of Puducherry",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "West Bengal",
+    "description": "",
+    "country": {
+      "id": 35
+    }
+  },
+  {
+    "name": "Aceh",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Bali",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Bengkulu",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Central Java",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "East Nusa Tenggara",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Java",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Maluku",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "North Maluku",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "North Sumatra",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "South Sumatra",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Ujungdesa",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "West Java",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "West Nusa Tenggara",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "West Sumatra",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Yogyakarta",
+    "description": "",
+    "country": {
+      "id": 36
+    }
+  },
+  {
+    "name": "Central District",
+    "description": "",
+    "country": {
+      "id": 37
+    }
+  },
+  {
+    "name": "Haifa",
+    "description": "",
+    "country": {
+      "id": 37
+    }
+  },
+  {
+    "name": "Northern District",
+    "description": "",
+    "country": {
+      "id": 37
+    }
+  },
+  {
+    "name": "Southern District",
+    "description": "",
+    "country": {
+      "id": 37
+    }
+  },
+  {
+    "name": "Tel Aviv",
+    "description": "",
+    "country": {
+      "id": 37
+    }
+  },
+  {
+    "name": "Tel Baruch",
+    "description": "",
+    "country": {
+      "id": 37
+    }
+  },
+  {
+    "name": "Aichi",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Akita",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Aomori",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Chiba",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Fukui",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Fukuoka",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Fukushima",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Hokkaido",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Ibaraki",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Ishikawa",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Iwate",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Kagoshima",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Kanagawa",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Kochi",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Kumamoto",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Kyoto",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Mie",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Miyagi",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Miyazaki",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Nagasaki",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Niigata",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Okinawa",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Saga",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Shimane",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Shizuoka",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Tokushima",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Tokyo",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Tottori",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Toyama",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Wakayama",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Yamagata",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "Yamaguchi",
+    "description": "",
+    "country": {
+      "id": 38
+    }
+  },
+  {
+    "name": "El Madfoûn",
+    "description": "",
+    "country": {
+      "id": 40
+    }
+  },
+  {
+    "name": "Mohafazat Liban-Nord",
+    "description": "",
+    "country": {
+      "id": 40
+    }
+  },
+  {
+    "name": "Mohafazat Mont-Liban",
+    "description": "",
+    "country": {
+      "id": 40
+    }
+  },
+  {
+    "name": "South Governorate",
+    "description": "",
+    "country": {
+      "id": 40
+    }
+  },
+  {
+    "name": "Johor",
+    "description": "",
+    "country": {
+      "id": 41
+    }
+  },
+  {
+    "name": "Kelantan",
+    "description": "",
+    "country": {
+      "id": 41
+    }
+  },
+  {
+    "name": "Pahang",
+    "description": "",
+    "country": {
+      "id": 41
+    }
+  },
+  {
+    "name": "Sabah",
+    "description": "",
+    "country": {
+      "id": 41
+    }
+  },
+  {
+    "name": "Sarawak",
+    "description": "",
+    "country": {
+      "id": 41
+    }
+  },
+  {
+    "name": "Terengganu",
+    "description": "",
+    "country": {
+      "id": 41
+    }
+  },
+  {
+    "name": "Addu Atoll",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Dhaalu Atholhu",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Furanafushi",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Gaafu Alif Atoll",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Gaafu Dhaalu Atoll",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Isdhoo",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Kaafu Atoll",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Kudarikilu",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Laamu Atholhu",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Maabaidhoo",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Maamendhoo",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "World",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Noonu Atoll",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Scuba Dive Centre, Guraidhoo Male Atoll",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Thaa Atholhu",
+    "description": "",
+    "country": {
+      "id": 42
+    }
+  },
+  {
+    "name": "Rakhine State",
+    "description": "",
+    "country": {
+      "id": 43
+    }
+  },
+  {
+    "name": "Tanintharyi Region",
+    "description": "",
+    "country": {
+      "id": 43
+    }
+  },
+  {
+    "name": "Hamnam",
+    "description": "",
+    "country": {
+      "id": 44
+    }
+  },
+  {
+    "name": "Sokto-ri",
+    "description": "",
+    "country": {
+      "id": 44
+    }
+  },
+  {
+    "name": "Southeastern Governorate",
+    "description": "",
+    "country": {
+      "id": 45
+    }
+  },
+  {
+    "name": "Bicol",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Cagayan Valley",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Calabarzon",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Damn",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Central Luzon",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Davao",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Eastern Visayas",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Ilocos",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Mimaropa",
+    "description": "",
+    "country": {
+      "id": 46
+    }
+  },
+  {
+    "name": "Kaliningrad",
+    "description": "",
+    "country": {
+      "id": 47
+    }
+  },
+  {
+    "name": "Kamchatka",
+    "description": "",
+    "country": {
+      "id": 47
+    }
+  },
+  {
+    "name": "Krasnodar",
+    "description": "",
+    "country": {
+      "id": 47
+    }
+  },
+  {
+    "name": "Krasnodar Krai",
+    "description": "",
+    "country": {
+      "id": 47
+    }
+  },
+  {
+    "name": "Primorye",
+    "description": "",
+    "country": {
+      "id": 47
+    }
+  },
+  {
+    "name": "Sakhalin Oblast",
+    "description": "",
+    "country": {
+      "id": 47
+    }
+  },
+  {
+    "name": "Busan",
+    "description": "",
+    "country": {
+      "id": 48
+    }
+  },
+  {
+    "name": "Chungcheongnam-do",
+    "description": "",
+    "country": {
+      "id": 48
+    }
+  },
+  {
+    "name": "Gangwon-do",
+    "description": "",
+    "country": {
+      "id": 48
+    }
+  },
+  {
+    "name": "Gyeongsangbuk-do",
+    "description": "",
+    "country": {
+      "id": 48
+    }
+  },
+  {
+    "name": "Jeju-do",
+    "description": "",
+    "country": {
+      "id": 48
+    }
+  },
+  {
+    "name": "Jeollanam-do",
+    "description": "",
+    "country": {
+      "id": 48
+    }
+  },
+  {
+    "name": "Eastern Province",
+    "description": "",
+    "country": {
+      "id": 49
+    }
+  },
+  {
+    "name": "Province of Uva",
+    "description": "",
+    "country": {
+      "id": 49
+    }
+  },
+  {
+    "name": "Southern Province",
+    "description": "",
+    "country": {
+      "id": 49
+    }
+  },
+  {
+    "name": "Fukien",
+    "description": "",
+    "country": {
+      "id": 50
+    }
+  },
+  {
+    "name": "Kaohsiung",
+    "description": "",
+    "country": {
+      "id": 50
+    }
+  },
+  {
+    "name": "Taiwan",
+    "description": "",
+    "country": {
+      "id": 50
+    }
+  },
+  {
+    "name": "Changwat Krabi",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Changwat Phangnga",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Changwat Ranong",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Changwat Rayong",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Changwat Surat Thani",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Chanthaburi",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Chon Buri",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Nakhon Si Thammarat",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Phetchaburi",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Phuket",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Prachuap Khiri Khan",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Satan",
+    "description": "",
+    "country": {
+      "id": 51
+    }
+  },
+  {
+    "name": "Antalya",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Bartın",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Hatay",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Istanbul",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Kastamonu",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Kocaeli",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Kirklareli",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Mersin",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Ordu",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Synopsis",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Zonguldak",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Izmir",
+    "description": "",
+    "country": {
+      "id": 52
+    }
+  },
+  {
+    "name": "Dubai",
+    "description": "",
+    "country": {
+      "id": 53
+    }
+  },
+  {
+    "name": "Umm al Qaywayn",
+    "description": "",
+    "country": {
+      "id": 53
+    }
+  },
+  {
+    "name": "Da Nang",
+    "description": "",
+    "country": {
+      "id": 54
+    }
+  },
+  {
+    "name": "The Great Binh Thuận",
+    "description": "",
+    "country": {
+      "id": 54
+    }
+  },
+  {
+    "name": "The Great Khánh Hòa",
+    "description": "",
+    "country": {
+      "id": 54
+    }
+  },
+  {
+    "name": "Time Quang Nam",
+    "description": "",
+    "country": {
+      "id": 54
+    }
+  },
+  {
+    "name": "The Great Thiên-Huế",
+    "description": "",
+    "country": {
+      "id": 54
+    }
+  },
+  {
+    "name": "Flanders",
+    "description": "",
+    "country": {
+      "id": 55
+    }
+  },
+  {
+    "name": "Burgas",
+    "description": "",
+    "country": {
+      "id": 56
+    }
+  },
+  {
+    "name": "Dobrich Oblast",
+    "description": "",
+    "country": {
+      "id": 56
+    }
+  },
+  {
+    "name": "Varna",
+    "description": "",
+    "country": {
+      "id": 56
+    }
+  },
+  {
+    "name": "Chlorakas",
+    "description": "",
+    "country": {
+      "id": 57
+    }
+  },
+  {
+    "name": "Episcopies",
+    "description": "",
+    "country": {
+      "id": 57
+    }
+  },
+  {
+    "name": "Plakoton's Catalyst",
+    "description": "",
+    "country": {
+      "id": 57
+    }
+  },
+  {
+    "name": "Larnaca",
+    "description": "",
+    "country": {
+      "id": 57
+    }
+  },
+  {
+    "name": "Paphos",
+    "description": "",
+    "country": {
+      "id": 57
+    }
+  },
+  {
+    "name": "Potima",
+    "description": "",
+    "country": {
+      "id": 57
+    }
+  },
+  {
+    "name": "Capital Region",
+    "description": "",
+    "country": {
+      "id": 59
+    }
+  },
+  {
+    "name": "Central Jutland",
+    "description": "",
+    "country": {
+      "id": 59
+    }
+  },
+  {
+    "name": "North Denmark",
+    "description": "",
+    "country": {
+      "id": 59
+    }
+  },
+  {
+    "name": "South Denmark",
+    "description": "",
+    "country": {
+      "id": 59
+    }
+  },
+  {
+    "name": "Zealand",
+    "description": "",
+    "country": {
+      "id": 59
+    }
+  },
+  {
+    "name": "Bournemouth, Christchurch and Poole Council",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Brighton",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
     "name": "Cornwall",
-    "country": { "id": 76 },
-    "description": "The beating heart of UK surfing. Fistral Beach hosts international competitions while dozens of hidden coves and reef breaks pepper the rugged coastline, creating Britain's most surf-obsessed county."
-},
-{
-    "name": "Scotland",
-    "country": { "id": 76 },
-    "description": "Raw North Atlantic power meets dramatic Highland scenery. Thurso East rivals any European reef break, delivering world-class barrels to those brave enough to paddle out in Scotland's frigid waters."
-},{
-  "name": "Wales",
-  "country": { "id": 76 },
-  "description": "Wales offers diverse surf spots along its rugged coastline, from the powerful reef breaks of Porthcawl to the consistent beach breaks of the Gower Peninsula, attracting surfers year-round."
-},
-{
-    "name": "Donegal",
-    "country": { "id": 62 },
-    "description": "Ireland's wild northwest corner catches the full force of Atlantic storms. The Peak at Bundoran produces perfect waves for the European Championships, while countless slab reefs await the adventurous."
-},
-{
-    "name": "Clare",
-    "country": { "id": 62 },
-    "description": "Where the Atlantic crashes into Ireland's limestone coast. Lahinch's powerful beach break sits beneath the towering Cliffs of Moher, offering consistent waves and traditional Irish hospitality in equal measure."
-}
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Cumbria",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Devon",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Dorset",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Durham",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "East Sussex",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "East Yorkshire",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Essex",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Hampshire",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Isle of Wight",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Kent",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Lancashire",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Lincolnshire",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Norfolk",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "North Tyneside",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "North Yorkshire",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Northumberland",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Redcar and Cleveland",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Suffolk",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Sunderland",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Tyne and Wear",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "West Sussex",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Wirral",
+    "description": "",
+    "country": {
+      "id": 60
+    }
+  },
+  {
+    "name": "Harjumaa",
+    "description": "",
+    "country": {
+      "id": 61
+    }
+  },
+  {
+    "name": "Hiiumaa",
+    "description": "",
+    "country": {
+      "id": 61
+    }
+  },
+  {
+    "name": "Faroe Islands",
+    "description": "",
+    "country": {
+      "id": 62
+    }
+  },
+  {
+    "name": "Central Ostrobothnia Region",
+    "description": "",
+    "country": {
+      "id": 63
+    }
+  },
+  {
+    "name": "Ostrobothnia Region",
+    "description": "",
+    "country": {
+      "id": 63
+    }
+  },
+  {
+    "name": "satakunta",
+    "description": "",
+    "country": {
+      "id": 63
+    }
+  },
+  {
+    "name": "Southwest Finland",
+    "description": "",
+    "country": {
+      "id": 63
+    }
+  },
+  {
+    "name": "Wow",
+    "description": "",
+    "country": {
+      "id": 63
+    }
+  },
+  {
+    "name": "Brittany",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Corsica",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Corsica",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Hauts-de-France",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Normandy",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Nouvelle-Aquitaine",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Occitanie",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Pays de la Loire",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Provence-Alpes-Côte d'Azur",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Reunion",
+    "description": "",
+    "country": {
+      "id": 64
+    }
+  },
+  {
+    "name": "Ajaria",
+    "description": "",
+    "country": {
+      "id": 65
+    }
+  },
+  {
+    "name": "Gamogma-Kariata",
+    "description": "",
+    "country": {
+      "id": 65
+    }
+  },
+  {
+    "name": "kuchkisabano",
+    "description": "",
+    "country": {
+      "id": 65
+    }
+  },
+  {
+    "name": "New Grigoleti",
+    "description": "",
+    "country": {
+      "id": 65
+    }
+  },
+  {
+    "name": "Samegrelo-Zemo Svaneti",
+    "description": "",
+    "country": {
+      "id": 65
+    }
+  },
+  {
+    "name": "Lower Saxony",
+    "description": "",
+    "country": {
+      "id": 66
+    }
+  },
+  {
+    "name": "Mecklenburg-Western Pomerania",
+    "description": "",
+    "country": {
+      "id": 66
+    }
+  },
+  {
+    "name": "Schleswig-Holstein",
+    "description": "",
+    "country": {
+      "id": 66
+    }
+  },
+  {
+    "name": "Munich",
+    "description": "",
+    "country": {
+      "id": 66
+    }
+  },
+  {
+    "name": "Catalan Bay",
+    "description": "",
+    "country": {
+      "id": 68
+    }
+  },
+  {
+    "name": "Attica",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "Central Macedonia",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "Crete",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "Epirus",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "Ionian Islands",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "North Aegean",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "Peloponnese",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "South Aegean",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "Thessaly",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "West Greece",
+    "description": "",
+    "country": {
+      "id": 69
+    }
+  },
+  {
+    "name": "Castel",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "La Picaterre",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "L'Ancresse",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "Saint Anne",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "Saint Peter Port",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "St. Andrew's",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "St. Sampson",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "St. Saviour",
+    "description": "",
+    "country": {
+      "id": 67
+    }
+  },
+  {
+    "name": "Capital Region",
+    "description": "",
+    "country": {
+      "id": 70
+    }
+  },
+  {
+    "name": "East",
+    "description": "",
+    "country": {
+      "id": 70
+    }
+  },
+  {
+    "name": "Northeast",
+    "description": "",
+    "country": {
+      "id": 70
+    }
+  },
+  {
+    "name": "South",
+    "description": "",
+    "country": {
+      "id": 70
+    }
+  },
+  {
+    "name": "Southern Peninsula",
+    "description": "",
+    "country": {
+      "id": 70
+    }
+  },
+  {
+    "name": "West",
+    "description": "",
+    "country": {
+      "id": 70
+    }
+  },
+  {
+    "name": "Connaught",
+    "description": "",
+    "country": {
+      "id": 71
+    }
+  },
+  {
+    "name": "Leinster",
+    "description": "",
+    "country": {
+      "id": 71
+    }
+  },
+  {
+    "name": "Munster",
+    "description": "",
+    "country": {
+      "id": 71
+    }
+  },
+  {
+    "name": "Ulster",
+    "description": "",
+    "country": {
+      "id": 71
+    }
+  },
+  {
+    "name": "Isle of Man",
+    "description": "",
+    "country": {
+      "id": 72
+    }
+  },
+  {
+    "name": "Abruzzo",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Apulia",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Calabria",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Campania",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Emilia-Romagna",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Friuli Venezia Giulia",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Latium",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Liguria",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Sardinia",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Sicily",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "The Marches",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Tuscany",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Veneto",
+    "description": "",
+    "country": {
+      "id": 73
+    }
+  },
+  {
+    "name": "Gorey",
+    "description": "",
+    "country": {
+      "id": 74
+    }
+  },
+  {
+    "name": "Le Hocq",
+    "description": "",
+    "country": {
+      "id": 74
+    }
+  },
+  {
+    "name": "Les Laveurs",
+    "description": "",
+    "country": {
+      "id": 74
+    }
+  },
+  {
+    "name": "Saint Helier",
+    "description": "",
+    "country": {
+      "id": 74
+    }
+  },
+  {
+    "name": "Saint Saviour",
+    "description": "",
+    "country": {
+      "id": 74
+    }
+  },
+  {
+    "name": "Liepaja",
+    "description": "",
+    "country": {
+      "id": 75
+    }
+  },
+  {
+    "name": "Pavilostas Novads",
+    "description": "",
+    "country": {
+      "id": 75
+    }
+  },
+  {
+    "name": "Riga",
+    "description": "",
+    "country": {
+      "id": 75
+    }
+  },
+  {
+    "name": "Ventspils Municipality",
+    "description": "",
+    "country": {
+      "id": 75
+    }
+  },
+  {
+    "name": "Klaipeda County",
+    "description": "",
+    "country": {
+      "id": 76
+    }
+  },
+  {
+    "name": "Il-Mellieħa",
+    "description": "",
+    "country": {
+      "id": 77
+    }
+  },
+  {
+    "name": "Iż-Zebbuġ",
+    "description": "",
+    "country": {
+      "id": 77
+    }
+  },
+  {
+    "name": "Friesland",
+    "description": "",
+    "country": {
+      "id": 78
+    }
+  },
+  {
+    "name": "North Holland",
+    "description": "",
+    "country": {
+      "id": 78
+    }
+  },
+  {
+    "name": "Province of Zealand",
+    "description": "",
+    "country": {
+      "id": 78
+    }
+  },
+  {
+    "name": "South Holland",
+    "description": "",
+    "country": {
+      "id": 78
+    }
+  },
+  {
+    "name": "Ards and North Down",
+    "description": "",
+    "country": {
+      "id": 79
+    }
+  },
+  {
+    "name": "Causeway Coast and Glens",
+    "description": "",
+    "country": {
+      "id": 79
+    }
+  },
+  {
+    "name": "Co Down",
+    "description": "",
+    "country": {
+      "id": 79
+    }
+  },
+  {
+    "name": "Agder",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Finnmark",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Sea and Romsdal Fylke",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Northland Fylke",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Rogaland Fylke",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Dream and Fjordane Fylke",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Telemark",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Troms and Finnmark",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Vest-Agder Fylke",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Vestfold and Telemark",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Vestland",
+    "description": "",
+    "country": {
+      "id": 80
+    }
+  },
+  {
+    "name": "Pomeranian",
+    "description": "",
+    "country": {
+      "id": 81
+    }
+  },
+  {
+    "name": "West Pomerania",
+    "description": "",
+    "country": {
+      "id": 81
+    }
+  },
+  {
+    "name": "Algarve",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Aveiro",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Azores",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Beja",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Braga",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Coimbra",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Ericeira",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Harbour",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Lighthouse",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Leiria",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Lisbon",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Peniche",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Setubal",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Viana do Castelo",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Wood",
+    "description": "",
+    "country": {
+      "id": 82
+    }
+  },
+  {
+    "name": "Constanta",
+    "description": "",
+    "country": {
+      "id": 83
+    }
+  },
+  {
+    "name": "Aberdeen City",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Aberdeenshire",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Angus",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Argyll and Bute",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Dumfries and Galloway",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "East Lothian",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Edinburgh",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Fife",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Highland",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Moray",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Orkney Islands",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Scottish Borders",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Shetland Islands",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Thurso",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Western Isles",
+    "description": "",
+    "country": {
+      "id": 84
+    }
+  },
+  {
+    "name": "Andalusia",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Asturias",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Balearic Islands",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Basque Country",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Canary Islands",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Cantabria",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Catalonia",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Ceuta",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Galicia",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Murcia",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Valence",
+    "description": "",
+    "country": {
+      "id": 85
+    }
+  },
+  {
+    "name": "Gotland",
+    "description": "",
+    "country": {
+      "id": 86
+    }
+  },
+  {
+    "name": "Halland",
+    "description": "",
+    "country": {
+      "id": 86
+    }
+  },
+  {
+    "name": "Kalmar",
+    "description": "",
+    "country": {
+      "id": 86
+    }
+  },
+  {
+    "name": "Skåne",
+    "description": "",
+    "country": {
+      "id": 86
+    }
+  },
+  {
+    "name": "Stockholm",
+    "description": "",
+    "country": {
+      "id": 86
+    }
+  },
+  {
+    "name": "West Bank",
+    "description": "",
+    "country": {
+      "id": 86
+    }
+  },
+  {
+    "name": "West Norrland",
+    "description": "",
+    "country": {
+      "id": 86
+    }
+  },
+  {
+    "name": "Valais",
+    "description": "",
+    "country": {
+      "id": 87
+    }
+  },
+  {
+    "name": "Odessa",
+    "description": "",
+    "country": {
+      "id": 88
+    }
+  },
+  {
+    "name": "Anglesey",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Carmarthenshire",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Ceredigion",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Conwy",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "County Borough of Bridgend",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Gower",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Gwynedd",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Neath Port Talbot",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Newgale",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Pembrokeshire",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Swansea",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Vale of Glamorgan",
+    "description": "",
+    "country": {
+      "id": 89
+    }
+  },
+  {
+    "name": "Angochi",
+    "description": "",
+    "country": {
+      "id": 90
+    }
+  },
+  {
+    "name": "Arasji",
+    "description": "",
+    "country": {
+      "id": 90
+    }
+  },
+  {
+    "name": "Cadushi",
+    "description": "",
+    "country": {
+      "id": 90
+    }
+  },
+  {
+    "name": "Hubada",
+    "description": "",
+    "country": {
+      "id": 90
+    }
+  },
+  {
+    "name": "Malmok",
+    "description": "",
+    "country": {
+      "id": 90
+    }
+  },
+  {
+    "name": "Noord",
+    "description": "",
+    "country": {
+      "id": 90
+    }
+  },
+  {
+    "name": "Central Abaco District",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "Eleuthera",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "Gregory Town",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "Hope Town",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "Mayaguana District",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "New Providence District",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "North Eleuthera",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "Rainbow Bay",
+    "description": "",
+    "country": {
+      "id": 91
+    }
+  },
+  {
+    "name": "Christ Church",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Saint James",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Saint John",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Saint Joseph",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Saint Lucy",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Saint Michael",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Saint Peter",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Saint Philip",
+    "description": "",
+    "country": {
+      "id": 92
+    }
+  },
+  {
+    "name": "Paget",
+    "description": "",
+    "country": {
+      "id": 93
+    }
+  },
+  {
+    "name": "Road Town",
+    "description": "",
+    "country": {
+      "id": 94
+    }
+  },
+  {
+    "name": "The Settlement",
+    "description": "",
+    "country": {
+      "id": 94
+    }
+  },
+  {
+    "name": "British Columbia",
+    "description": "",
+    "country": {
+      "id": 95
+    }
+  },
+  {
+    "name": "New Brunswick",
+    "description": "",
+    "country": {
+      "id": 95
+    }
+  },
+  {
+    "name": "Newfoundland and Labrador",
+    "description": "",
+    "country": {
+      "id": 95
+    }
+  },
+  {
+    "name": "Nova Scotia",
+    "description": "",
+    "country": {
+      "id": 95
+    }
+  },
+  {
+    "name": "Ontario",
+    "description": "",
+    "country": {
+      "id": 95
+    }
+  },
+  {
+    "name": "Quebec",
+    "description": "",
+    "country": {
+      "id": 95
+    }
+  },
+  {
+    "name": "Yukon",
+    "description": "",
+    "country": {
+      "id": 95
+    }
+  },
+  {
+    "name": "Provincia de Guanacaste",
+    "description": "",
+    "country": {
+      "id": 96
+    }
+  },
+  {
+    "name": "Provincia de Limón",
+    "description": "",
+    "country": {
+      "id": 96
+    }
+  },
+  {
+    "name": "Provincia de Puntarenas",
+    "description": "",
+    "country": {
+      "id": 96
+    }
+  },
+  {
+    "name": "Provincia de San José",
+    "description": "",
+    "country": {
+      "id": 96
+    }
+  },
+  {
+    "name": "Ciego de Ávila Province",
+    "description": "",
+    "country": {
+      "id": 97
+    }
+  },
+  {
+    "name": "La Habana",
+    "description": "",
+    "country": {
+      "id": 97
+    }
+  },
+  {
+    "name": "Matanzas Province",
+    "description": "",
+    "country": {
+      "id": 97
+    }
+  },
+  {
+    "name": "Provincia de Guantánamo",
+    "description": "",
+    "country": {
+      "id": 97
+    }
+  },
+  {
+    "name": "Provincia de Holguín",
+    "description": "",
+    "country": {
+      "id": 97
+    }
+  },
+  {
+    "name": "Provincia de Pinar del Río",
+    "description": "",
+    "country": {
+      "id": 97
+    }
+  },
+  {
+    "name": "Curaçao",
+    "description": "",
+    "country": {
+      "id": 98
+    }
+  },
+  {
+    "name": "San Pedro",
+    "description": "",
+    "country": {
+      "id": 98
+    }
+  },
+  {
+    "name": "Santa Catharina",
+    "description": "",
+    "country": {
+      "id": 98
+    }
+  },
+  {
+    "name": "Saint Andrew",
+    "description": "",
+    "country": {
+      "id": 99
+    }
+  },
+  {
+    "name": "Provincia de Barahona",
+    "description": "",
+    "country": {
+      "id": 100
+    }
+  },
+  {
+    "name": "Provincia de La Altagracia",
+    "description": "",
+    "country": {
+      "id": 100
+    }
+  },
+  {
+    "name": "Provincia de Peravia",
+    "description": "",
+    "country": {
+      "id": 100
+    }
+  },
+  {
+    "name": "Provincia de San Cristóbal",
+    "description": "",
+    "country": {
+      "id": 100
+    }
+  },
+  {
+    "name": "Provincia de Santo Domingo",
+    "description": "",
+    "country": {
+      "id": 100
+    }
+  },
+  {
+    "name": "Puerto Plata",
+    "description": "",
+    "country": {
+      "id": 100
+    }
+  },
+  {
+    "name": "Samaná",
+    "description": "",
+    "country": {
+      "id": 100
+    }
+  },
+  {
+    "name": "Departamento de La Libertad",
+    "description": "",
+    "country": {
+      "id": 101
+    }
+  },
+  {
+    "name": "Departamento de La Paz",
+    "description": "",
+    "country": {
+      "id": 101
+    }
+  },
+  {
+    "name": "Departamento de La Unión",
+    "description": "",
+    "country": {
+      "id": 101
+    }
+  },
+  {
+    "name": "Departamento de San Miguel",
+    "description": "",
+    "country": {
+      "id": 101
+    }
+  },
+  {
+    "name": "Departamento de Sonsonate",
+    "description": "",
+    "country": {
+      "id": 101
+    }
+  },
+  {
+    "name": "Departamento de Usulután",
+    "description": "",
+    "country": {
+      "id": 101
+    }
+  },
+  {
+    "name": "Saint George",
+    "description": "",
+    "country": {
+      "id": 102
+    }
+  },
+  {
+    "name": "Guadeloupe",
+    "description": "",
+    "country": {
+      "id": 103
+    }
+  },
+  {
+    "name": "L'Autre Bord",
+    "description": "",
+    "country": {
+      "id": 103
+    }
+  },
+  {
+    "name": "Le Helleux",
+    "description": "",
+    "country": {
+      "id": 103
+    }
+  },
+  {
+    "name": "Les Galbas",
+    "description": "",
+    "country": {
+      "id": 103
+    }
+  },
+  {
+    "name": "Morel",
+    "description": "",
+    "country": {
+      "id": 103
+    }
+  },
+  {
+    "name": "Rodrigue",
+    "description": "",
+    "country": {
+      "id": 103
+    }
+  },
+  {
+    "name": "Zamy",
+    "description": "",
+    "country": {
+      "id": 103
+    }
+  },
+  {
+    "name": "Departamento de Escuintla",
+    "description": "",
+    "country": {
+      "id": 104
+    }
+  },
+  {
+    "name": "Departamento de Jutiapa",
+    "description": "",
+    "country": {
+      "id": 104
+    }
+  },
+  {
+    "name": "Departamento de Retalhuleu",
+    "description": "",
+    "country": {
+      "id": 104
+    }
+  },
+  {
+    "name": "Departamento de San Marcos",
+    "description": "",
+    "country": {
+      "id": 104
+    }
+  },
+  {
+    "name": "Departamento de Santa Rosa",
+    "description": "",
+    "country": {
+      "id": 104
+    }
+  },
+  {
+    "name": "Suchitepequez Department",
+    "description": "",
+    "country": {
+      "id": 104
+    }
+  },
+  {
+    "name": "Sud",
+    "description": "",
+    "country": {
+      "id": 105
+    }
+  },
+  {
+    "name": "Kingston",
+    "description": "",
+    "country": {
+      "id": 106
+    }
+  },
+  {
+    "name": "Portland",
+    "description": "",
+    "country": {
+      "id": 106
+    }
+  },
+  {
+    "name": "Saint Andrew",
+    "description": "",
+    "country": {
+      "id": 106
+    }
+  },
+  {
+    "name": "Saint Thomas",
+    "description": "",
+    "country": {
+      "id": 106
+    }
+  },
+  {
+    "name": "Bonneville",
+    "description": "",
+    "country": {
+      "id": 107
+    }
+  },
+  {
+    "name": "Hardy",
+    "description": "",
+    "country": {
+      "id": 107
+    }
+  },
+  {
+    "name": "Martinique",
+    "description": "",
+    "country": {
+      "id": 107
+    }
+  },
+  {
+    "name": "Baja California",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Baja California Sur",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Chiapas",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Colima",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Guerrero",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Jalisco",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Michoacán",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Nayarit",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Oaxaca",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Quintana Roo",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Sinaloa",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Tamaulipas",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Veracruz",
+    "description": "",
+    "country": {
+      "id": 108
+    }
+  },
+  {
+    "name": "Departamento de Carazo",
+    "description": "",
+    "country": {
+      "id": 109
+    }
+  },
+  {
+    "name": "Departamento de Chinandega",
+    "description": "",
+    "country": {
+      "id": 109
+    }
+  },
+  {
+    "name": "Departamento de León",
+    "description": "",
+    "country": {
+      "id": 109
+    }
+  },
+  {
+    "name": "Departamento de Managua",
+    "description": "",
+    "country": {
+      "id": 109
+    }
+  },
+  {
+    "name": "Departamento de Rivas",
+    "description": "",
+    "country": {
+      "id": 109
+    }
+  },
+  {
+    "name": "Chiriquí Province",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Panamá Oeste",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Panamá Province",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Provincia de Bocas del Toro",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Provincia de Coclé",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Provincia de Colón",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Provincia de Los Santos",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Provincia de Veraguas",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Provincia del Darién",
+    "description": "",
+    "country": {
+      "id": 110
+    }
+  },
+  {
+    "name": "Aguada",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Aguadilla",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Arecibo",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Canóvanas Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Carolina Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Culebra",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Dorado",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Fajardo Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Luquillo Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Manatí Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Municipio de Isabela",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Patillas Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Quebradillas Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Rincón Municipio",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "San Juan",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Vega Alta",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Vega Baja",
+    "description": "",
+    "country": {
+      "id": 111
+    }
+  },
+  {
+    "name": "Quartier de Lorient",
+    "description": "",
+    "country": {
+      "id": 112
+    }
+  },
+  {
+    "name": "Toiny",
+    "description": "",
+    "country": {
+      "id": 112
+    }
+  },
+  {
+    "name": "Cupecoy",
+    "description": "",
+    "country": {
+      "id": 113
+    }
+  },
+  {
+    "name": "Mullet Bay",
+    "description": "",
+    "country": {
+      "id": 113
+    }
+  },
+  {
+    "name": "Saint Lucia",
+    "description": "",
+    "country": {
+      "id": 114
+    }
+  },
+  {
+    "name": "Parish of Charlotte",
+    "description": "",
+    "country": {
+      "id": 115
+    }
+  },
+  {
+    "name": "Parish of Saint George",
+    "description": "",
+    "country": {
+      "id": 115
+    }
+  },
+  {
+    "name": "Villa",
+    "description": "",
+    "country": {
+      "id": 115
+    }
+  },
+  {
+    "name": "Crown Point",
+    "description": "",
+    "country": {
+      "id": 116
+    }
+  },
+  {
+    "name": "Sangre Grande",
+    "description": "",
+    "country": {
+      "id": 116
+    }
+  },
+  {
+    "name": "Tobago",
+    "description": "",
+    "country": {
+      "id": 116
+    }
+  },
+  {
+    "name": "Cruz Bay",
+    "description": "",
+    "country": {
+      "id": 117
+    }
+  },
+  {
+    "name": "Saint Croix Island",
+    "description": "",
+    "country": {
+      "id": 117
+    }
+  },
+  {
+    "name": "Saint John Island",
+    "description": "",
+    "country": {
+      "id": 117
+    }
+  },
+  {
+    "name": "Saint Thomas Island",
+    "description": "",
+    "country": {
+      "id": 117
+    }
+  },
+  {
+    "name": "Alabama",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Alaska",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "California",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Delaware",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Florida",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Georgia",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Hawaii",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Illinois",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Indiana",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Louisiana",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Maine",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Maryland",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Massachusetts",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Michigan",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Minnesota",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Mississippi",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "New Hampshire",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "New Jersey",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "New York",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "North Carolina",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Ohio",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Oregon",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Pennsylvania",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Rhode Island",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "South Carolina",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Texas",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Virginia",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Washington",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Wisconsin",
+    "description": "",
+    "country": {
+      "id": 118
+    }
+  },
+  {
+    "name": "Eastern District",
+    "description": "",
+    "country": {
+      "id": 119
+    }
+  },
+  {
+    "name": "Western District",
+    "description": "",
+    "country": {
+      "id": 119
+    }
+  },
+  {
+    "name": "New South Wales",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Norfolk Island",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Northern Territory",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Queensland",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "South Australia",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Tasmania",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Victoria",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Western Australia",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Wreck Bay Aboriginal Land",
+    "description": "",
+    "country": {
+      "id": 120
+    }
+  },
+  {
+    "name": "Ngatangiia",
+    "description": "",
+    "country": {
+      "id": 121
+    }
+  },
+  {
+    "name": "Nikao",
+    "description": "",
+    "country": {
+      "id": 121
+    }
+  },
+  {
+    "name": "Pue",
+    "description": "",
+    "country": {
+      "id": 121
+    }
+  },
+  {
+    "name": "Rarotonga",
+    "description": "",
+    "country": {
+      "id": 121
+    }
+  },
+  {
+    "name": "Central",
+    "description": "",
+    "country": {
+      "id": 122
+    }
+  },
+  {
+    "name": "Eastern",
+    "description": "",
+    "country": {
+      "id": 122
+    }
+  },
+  {
+    "name": "Northern",
+    "description": "",
+    "country": {
+      "id": 122
+    }
+  },
+  {
+    "name": "Western",
+    "description": "",
+    "country": {
+      "id": 122
+    }
+  },
+  {
+    "name": "Afaahiti",
+    "description": "",
+    "country": {
+      "id": 123
+    }
+  },
+  {
+    "name": "Leeward Islands",
+    "description": "",
+    "country": {
+      "id": 123
+    }
+  },
+  {
+    "name": "Maraa",
+    "description": "",
+    "country": {
+      "id": 123
+    }
+  },
+  {
+    "name": "Pahiti",
+    "description": "",
+    "country": {
+      "id": 123
+    }
+  },
+  {
+    "name": "Paraoro",
+    "description": "",
+    "country": {
+      "id": 123
+    }
+  },
+  {
+    "name": "Vairao",
+    "description": "",
+    "country": {
+      "id": 123
+    }
+  },
+  {
+    "name": "Îles du Vent",
+    "description": "",
+    "country": {
+      "id": 123
+    }
+  },
+  {
+    "name": "San Lazarus archipelago",
+    "description": "",
+    "country": {
+      "id": 124
+    }
+  },
+  {
+    "name": "State of Pohnpei",
+    "description": "",
+    "country": {
+      "id": 125
+    }
+  },
+  {
+    "name": "South Province",
+    "description": "",
+    "country": {
+      "id": 126
+    }
+  },
+  {
+    "name": "Auckland",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Marlborough",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Nelson",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "North Island",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Northland",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "South Island",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Southland",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Taranaki",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Tasman",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Waikato",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "Wellington",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "West Coast",
+    "description": "",
+    "country": {
+      "id": 127
+    }
+  },
+  {
+    "name": "State of Airai",
+    "description": "",
+    "country": {
+      "id": 128
+    }
+  },
+  {
+    "name": "State of Melekeok",
+    "description": "",
+    "country": {
+      "id": 128
+    }
+  },
+  {
+    "name": "State of Ngeremlengui",
+    "description": "",
+    "country": {
+      "id": 128
+    }
+  },
+  {
+    "name": "East Sepik Province",
+    "description": "",
+    "country": {
+      "id": 129
+    }
+  },
+  {
+    "name": "New Ireland",
+    "description": "",
+    "country": {
+      "id": 129
+    }
+  },
+  {
+    "name": "Atua",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Fusi",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Gagaifomauga",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Gaga‘emauga",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Lotofagā",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Luatuanu‘u",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Matavai",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Palauli",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Utumalama Point",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Vaisigano",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Va‘a-o-Fonoti",
+    "description": "",
+    "country": {
+      "id": 130
+    }
+  },
+  {
+    "name": "Isabel Province",
+    "description": "",
+    "country": null
+  },
+  {
+    "name": "Tongatapu",
+    "description": "",
+    "country": {
+      "id": 132
+    }
+  },
+  {
+    "name": "Buenos Aires",
+    "description": "",
+    "country": {
+      "id": 133
+    }
+  },
+  {
+    "name": "Rio Negro",
+    "description": "",
+    "country": {
+      "id": 133
+    }
+  },
+  {
+    "name": "Alagoas",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Bahia",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Ceará",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Espírito Santo",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Maranhão",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Paraná",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Paraíba",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Pará",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Pernambuco",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Rio Grande do Norte",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Rio Grande do Sul",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Rio de Janeiro",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Santa Catarina",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Sergipe",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "São Paulo",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
+    "name": "Antofagasta",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Atacama",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Los Lagos Region",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Los Ríos Region",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Maule",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Región de Arica y Parinacota",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Región de Coquimbo",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Región de Valparaíso",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Región del Biobío",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Región del Libertador General Bernardo O’Higgins",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Tarapacá",
+    "description": "",
+    "country": {
+      "id": 135
+    }
+  },
+  {
+    "name": "Atlántico",
+    "description": "",
+    "country": {
+      "id": 136
+    }
+  },
+  {
+    "name": "Departamento de Bolívar",
+    "description": "",
+    "country": {
+      "id": 136
+    }
+  },
+  {
+    "name": "Departamento de Córdoba",
+    "description": "",
+    "country": {
+      "id": 136
+    }
+  },
+  {
+    "name": "Departamento de La Guajira",
+    "description": "",
+    "country": {
+      "id": 136
+    }
+  },
+  {
+    "name": "Departamento del Chocó",
+    "description": "",
+    "country": {
+      "id": 136
+    }
+  },
+  {
+    "name": "Departamento del Magdalena",
+    "description": "",
+    "country": {
+      "id": 136
+    }
+  },
+  {
+    "name": "Provincia de Esmeraldas",
+    "description": "",
+    "country": {
+      "id": 137
+    }
+  },
+  {
+    "name": "Provincia de Galápagos",
+    "description": "",
+    "country": {
+      "id": 137
+    }
+  },
+  {
+    "name": "Provincia de Manabí",
+    "description": "",
+    "country": {
+      "id": 137
+    }
+  },
+  {
+    "name": "Provincia de Santa Elena",
+    "description": "",
+    "country": {
+      "id": 137
+    }
+  },
+  {
+    "name": "Provincia del Guayas",
+    "description": "",
+    "country": {
+      "id": 137
+    }
+  },
+  {
+    "name": "Ancash",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Arequipa",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Ica",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "La Libertad",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Lambayeque",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Lima region",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Piura",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Tacna",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Tumbes",
+    "description": "",
+    "country": {
+      "id": 138
+    }
+  },
+  {
+    "name": "Canelones",
+    "description": "",
+    "country": {
+      "id": 139
+    }
+  },
+  {
+    "name": "Departamento de Montevideo",
+    "description": "",
+    "country": {
+      "id": 139
+    }
+  },
+  {
+    "name": "Departamento de Rocha",
+    "description": "",
+    "country": {
+      "id": 139
+    }
+  },
+  {
+    "name": "Departamento de San José",
+    "description": "",
+    "country": {
+      "id": 139
+    }
+  },
+  {
+    "name": "Maldonado",
+    "description": "",
+    "country": {
+      "id": 139
+    }
+  },
+  {
+    "name": "Aragua",
+    "description": "",
+    "country": {
+      "id": 140
+    }
+  },
+  {
+    "name": "Carabobo",
+    "description": "",
+    "country": {
+      "id": 140
+    }
+  },
+  {
+    "name": "Falcón",
+    "description": "",
+    "country": {
+      "id": 140
+    }
+  },
+  {
+    "name": "Miranda",
+    "description": "",
+    "country": {
+      "id": 140
+    }
+  },
+  {
+    "name": "Nueva Esparta",
+    "description": "",
+    "country": {
+      "id": 140
+    }
+  },
+  {
+    "name": "Sucre",
+    "description": "",
+    "country": {
+      "id": 140
+    }
+  },
+  {
+    "name": "Vargas",
+    "description": "",
+    "country": {
+      "id": 140
+    }
+  }
 ]
