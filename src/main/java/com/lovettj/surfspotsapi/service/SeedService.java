@@ -18,12 +18,15 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -109,7 +112,7 @@ public class SeedService {
     @Transactional
     public void seedCountries() {
         try {
-            ClassPathResource resource = getMainResource("static/seedData/countries.json");
+            Resource resource = getMainResource("static/seedData/countries.json");
             Country[] entities = mapper.readValue(resource.getInputStream(), Country[].class);
 
             if (entities == null || entities.length == 0) {
@@ -170,7 +173,7 @@ public class SeedService {
     @Transactional
     public void seedRegions() {
         try {
-            ClassPathResource resource = getMainResource("static/seedData/regions.json");
+            Resource resource = getMainResource("static/seedData/regions.json");
             Region[] entities = mapper.readValue(resource.getInputStream(), Region[].class);
 
             if (entities == null || entities.length == 0) {
@@ -232,7 +235,7 @@ public class SeedService {
     @Transactional
     public void seedSubRegions() {
         try {
-            ClassPathResource resource = getMainResource("static/seedData/sub-regions.json");
+            Resource resource = getMainResource("static/seedData/sub-regions.json");
             SubRegion[] entities = mapper.readValue(resource.getInputStream(), SubRegion[].class);
 
             if (entities == null || entities.length == 0) {
@@ -294,7 +297,7 @@ public class SeedService {
     @Transactional
     public void seedSurfSpots() {
         try {
-            ClassPathResource resource = getMainResource("static/seedData/surf-spots.json");
+            Resource resource = getMainResource("static/seedData/surf-spots.json");
             SurfSpot[] entities = mapper.readValue(resource.getInputStream(), SurfSpot[].class);
 
             if (entities == null || entities.length == 0) {
@@ -404,24 +407,24 @@ public class SeedService {
     }
 
     /**
-     * Loads a resource from the classpath, ensuring it comes from main resources, not test resources.
-     * This prevents test data from being loaded in production/dev environments.
+     * Loads a resource from the classpath, preferring main resources over test resources.
+     * When both exist (e.g. in tests), uses the one from main so production/dev behaviour is unchanged.
      */
-    private ClassPathResource getMainResource(String path) throws IOException {
-        ClassPathResource resource = new ClassPathResource(path);
-        if (!resource.exists()) {
+    private Resource getMainResource(String path) throws IOException {
+        ClassLoader loader = SeedService.class.getClassLoader();
+        if (loader == null) {
+            loader = ClassLoader.getSystemClassLoader();
+        }
+        List<URL> urls = Collections.list(loader.getResources(path));
+        URL mainUrl = urls.stream()
+                .filter(url -> !url.toString().contains("test-classes"))
+                .findFirst()
+                .orElseGet(() -> urls.isEmpty() ? null : urls.get(0));
+        if (mainUrl == null) {
             throw new IOException("Resource not found: " + path);
         }
-        // Check if the resource is from test-classes (test resources)
-        String resourceUrl = resource.getURL().toString();
-        if (resourceUrl.contains("test-classes")) {
-            throw new IllegalStateException(
-                "Attempted to load test resource: " + path + 
-                ". Test resources should not be used in production/dev. Ensure main resources exist at: " + path
-            );
-        }
-        logger.debug("Loading resource from: {}", resourceUrl);
-        return resource;
+        logger.debug("Loading resource from: {}", mainUrl);
+        return new UrlResource(mainUrl);
     }
 
     private <T> void seedEntities(
@@ -431,7 +434,7 @@ public class SeedService {
             Function<T, String> getNameFunction,
             BiConsumer<T, T> updateFunction) {
         try {
-            ClassPathResource resource = getMainResource("static/seedData/" + fileName);
+            Resource resource = getMainResource("static/seedData/" + fileName);
             T[] entities = mapper.readValue(resource.getInputStream(), entityType);
 
             if (entities == null || entities.length == 0) {

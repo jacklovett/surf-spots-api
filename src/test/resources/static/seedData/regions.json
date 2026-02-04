@@ -1,9 +1,0 @@
-[
-  {
-    "name": "Test Region",
-    "description": "Test region description",
-    "country": {
-      "id": 1
-    }
-  }
-]
