@@ -14,6 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.requests.SettingsRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
+import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,49 +28,61 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping("/update/profile")
-    public ResponseEntity<String> updateUser(@Valid @RequestBody UserRequest user) {
+    public ResponseEntity<ApiResponse<String>> updateUser(@Valid @RequestBody UserRequest user) {
         try {
             userService.updateUserProfile(user);
-            return ResponseEntity.ok("Profile updated successfully!");
+            return ResponseEntity.ok(ApiResponse.success("Profile updated successfully!"));
         } catch (ResponseStatusException e) {
+            int code = e.getStatusCode().value();
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("update", "profile"), code));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Unable to update profile");
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("update", "profile"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
     @PutMapping("/update-password")
-    public ResponseEntity<String> updatePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+    public ResponseEntity<ApiResponse<String>> updatePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         try {
             userService.updatePassword(changePasswordRequest);
-            return ResponseEntity.ok("Password changed successfully!");
+            return ResponseEntity.ok(ApiResponse.success("Password changed successfully!"));
         } catch (ResponseStatusException e) {
+            int code = e.getStatusCode().value();
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("change", "password"), code));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Unable to change password");
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("change", "password"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
     @PutMapping("/settings")
-    public ResponseEntity<String> updateSettings(@RequestBody SettingsRequest settingsRequest) {
+    public ResponseEntity<ApiResponse<String>> updateSettings(@RequestBody SettingsRequest settingsRequest) {
         try {
             userService.updateSettings(settingsRequest);
-            return ResponseEntity.ok("Settings updated successfully!");
+            return ResponseEntity.ok(ApiResponse.success("Settings updated successfully!"));
         } catch (ResponseStatusException e) {
+            int code = e.getStatusCode().value();
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("update", "settings"), code));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Unable to update settings");
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("update", "settings"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteAccount(@PathVariable String userId) {
+    public ResponseEntity<ApiResponse<String>> deleteAccount(@PathVariable String userId) {
         try {
             userService.deleteAccount(userId);
-            return ResponseEntity.ok("Account deleted successfully");
+            return ResponseEntity.ok(ApiResponse.success("Account deleted successfully"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
-                    .body(e.getReason() != null ? e.getReason() : "Unable to delete account");
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("delete", "account"), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Unable to delete account: " + e.getMessage());
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "account"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 }

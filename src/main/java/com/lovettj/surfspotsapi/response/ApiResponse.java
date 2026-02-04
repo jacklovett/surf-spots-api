@@ -30,6 +30,7 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<T> error(String message, int status) {
-        return new ApiResponse<>(null, message, status, false);
+        String safeMessage = (message == null || message.isBlank()) ? "Request failed." : message;
+        return new ApiResponse<>(null, safeMessage, status, false);
     }
 } 

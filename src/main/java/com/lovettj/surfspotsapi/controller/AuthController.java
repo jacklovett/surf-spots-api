@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.service.PasswordResetService;
@@ -36,10 +37,10 @@ public class AuthController {
                 .body(ApiResponse.success(new UserProfile(user), "Account created successfully", HttpStatus.CREATED.value()));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : "Request failed.", e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("create", "account"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -50,10 +51,10 @@ public class AuthController {
             return ResponseEntity.ok(ApiResponse.success(new UserProfile(authenticatedUser), "Login successful"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : "Request failed.", e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("sign in", null), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -65,10 +66,10 @@ public class AuthController {
             return ResponseEntity.ok(ApiResponse.success("Password reset link sent if email exists."));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : "Request failed.", e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("Unable to send reset link", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("send", "reset link"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -78,8 +79,11 @@ public class AuthController {
             passwordResetService.resetPassword(request.getToken(), request.getNewPassword());
             return ResponseEntity.ok(ApiResponse.success("Password successfully reset."));
         } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("change", "password"), e.getStatusCode().value()));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("Unable to change password", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("change", "password"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 }

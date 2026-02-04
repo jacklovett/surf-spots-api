@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.requests.*;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.TripService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.containsString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -377,6 +379,61 @@ class TripControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
                 .cookie(createValidSessionCookie()))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("User not found"));
+    }
+
+    @Test
+    void testGetUploadUrlShouldReturnServiceUnavailableWhenStorageNotConfigured() throws Exception {
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image");
+
+        when(tripService.getUploadUrl(anyString(), anyString(), any(UploadMediaRequest.class), anyString()))
+                .thenThrow(new IllegalStateException("Media storage is not configured."));
+
+        mockMvc.perform(post("/api/trips/" + testTripId + "/media/upload-url")
+                .param("userId", testUserId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.message").value(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE));
+    }
+
+    @Test
+    void testGetUploadUrlShouldReturnServiceUnavailableWithSafeMessageWhenUnexpectedError() throws Exception {
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image");
+
+        when(tripService.getUploadUrl(anyString(), anyString(), any(UploadMediaRequest.class), anyString()))
+                .thenThrow(new RuntimeException("Internal connection failure"));
+
+        mockMvc.perform(post("/api/trips/" + testTripId + "/media/upload-url")
+                .param("userId", testUserId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.message").value(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE));
+    }
+
+    @Test
+    void testCreateTripShouldReturnInternalServerErrorWithSafeMessageWhenUnexpectedError() throws Exception {
+        CreateTripRequest request = new CreateTripRequest();
+        request.setTitle("New Trip");
+
+        when(tripService.createTrip(anyString(), any(CreateTripRequest.class)))
+                .thenThrow(new RuntimeException("Database connection failed"));
+
+        mockMvc.perform(post("/api/trips")
+                .param("userId", testUserId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.message").value(ApiErrors.formatErrorMessage("create", "trip")));
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.lovettj.surfspotsapi.requests.ContactRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.EmailService;
 
@@ -77,7 +78,7 @@ class ContactControllerTests {
         ApiResponse<String> body = response.getBody();
         assertNotNull(body);
         assertFalse(body.isSuccess());
-        assertEquals("Failed to send contact message", body.getMessage());
+        assertEquals(ApiErrors.formatErrorMessage("send", "contact message"), body.getMessage());
     }
 
     @Test

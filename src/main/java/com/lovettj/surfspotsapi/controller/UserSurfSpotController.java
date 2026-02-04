@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lovettj.surfspotsapi.requests.UserSurfSpotRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.UserSurfSpotService;
 
@@ -31,7 +32,7 @@ public class UserSurfSpotController {
             return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's list."));
         } catch (RuntimeException e) {
             return ResponseEntity.status(500)
-                    .body(ApiResponse.error(e.getMessage(), 500));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("add", "surf spot"), 500));
         }
     }
 

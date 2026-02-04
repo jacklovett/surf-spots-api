@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lovettj.surfspotsapi.requests.ContactRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.EmailService;
 
@@ -53,7 +54,7 @@ public class ContactController {
             logger.error("Failed to send contact form message from {}: {}", 
                 contactRequest.getEmail(), e.getMessage(), e);
             return ResponseEntity.status(500)
-                .body(ApiResponse.error("Failed to send contact message", 500));
+                .body(ApiResponse.error(ApiErrors.formatErrorMessage("send", "contact message"), 500));
         }
     }
 }

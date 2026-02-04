@@ -24,6 +24,7 @@ import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.UserService;
 
 @SpringBootTest
@@ -224,5 +225,23 @@ class AuthControllerTests {
                 .content(objectMapper.writeValueAsString(authRequest)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("{\"message\":\"A Provider Id is required for OAuth providers.\",\"status\":400}"));
+    }
+
+    @Test
+    void registerUserShouldReturnInternalServerErrorWithSafeMessageWhenUnexpectedError() throws Exception {
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setEmail("test@example.com");
+        authRequest.setPassword("password123");
+        authRequest.setProvider(AuthProvider.EMAIL);
+        authRequest.setName("Test User");
+
+        doThrow(new RuntimeException("Internal database error"))
+            .when(userService).registerUser(any(AuthRequest.class));
+
+        mockMvc.perform(post("/api/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(authRequest)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().json("{\"message\":\"" + ApiErrors.formatErrorMessage("create", "account") + "\",\"status\":500,\"success\":false}"));
     }
 } 

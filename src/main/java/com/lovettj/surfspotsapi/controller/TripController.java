@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.requests.*;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.TripService;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("create", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -53,7 +54,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("update", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -69,7 +70,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -85,7 +86,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("load", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -94,9 +95,12 @@ public class TripController {
         try {
             List<TripDTO> trips = tripService.getUserTrips(userId);
             return ResponseEntity.ok(ApiResponse.success(trips));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("load", "trips"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -113,7 +117,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("add spot to", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -130,7 +134,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("remove spot from", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -147,7 +151,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("add surfboard to", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -164,7 +168,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("remove surfboard from", "trip"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -181,7 +185,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("add", "member"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -198,7 +202,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("remove", "member"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -215,7 +219,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("cancel", "invitation"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -225,16 +229,21 @@ public class TripController {
             @RequestBody UploadMediaRequest request,
             @RequestParam String userId) {
         try {
-            // Generate media ID first
             String mediaId = UUID.randomUUID().toString();
             String uploadUrl = tripService.getUploadUrl(userId, tripId, request, mediaId);
             return ResponseEntity.ok(ApiResponse.success(Map.of("uploadUrl", uploadUrl, "mediaId", mediaId)));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         }
     }
 
@@ -251,7 +260,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("save", "trip media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -268,7 +277,7 @@ public class TripController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "trip media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 }

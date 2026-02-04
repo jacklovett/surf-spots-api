@@ -6,6 +6,7 @@ import com.lovettj.surfspotsapi.requests.CreateSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UpdateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UploadSurfboardMediaRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.SurfboardService;
 import org.springframework.http.HttpStatus;
@@ -32,9 +33,12 @@ public class SurfboardController {
         try {
             List<SurfboardDTO> surfboards = surfboardService.getUserSurfboards(userId);
             return ResponseEntity.ok(ApiResponse.success(surfboards));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("load", "surfboards"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -51,7 +55,7 @@ public class SurfboardController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("create", "surfboard"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -67,7 +71,7 @@ public class SurfboardController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("load", "surfboard"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -84,7 +88,7 @@ public class SurfboardController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("update", "surfboard"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -100,7 +104,7 @@ public class SurfboardController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "surfboard"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -116,9 +120,15 @@ public class SurfboardController {
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         }
     }
 
@@ -136,7 +146,7 @@ public class SurfboardController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("add", "surfboard media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
@@ -152,7 +162,7 @@ public class SurfboardController {
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR.value()));
+                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "surfboard media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 }
