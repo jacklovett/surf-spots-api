@@ -9,6 +9,7 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 import java.net.URI;
 
@@ -28,19 +29,35 @@ public class S3Config {
     private String secretKey;
 
     @Bean
+    public S3Configuration s3Configuration() {
+        return S3Configuration.builder()
+                .pathStyleAccessEnabled(true)
+                .build();
+    }
+
+    @Bean
     @ConditionalOnExpression("!'${app.storage.s3.access-key:}'.isEmpty() && !'${app.storage.s3.secret-key:}'.isEmpty()")
-    public S3Client s3Client() {
-        // Scaleway Object Storage is S3-compatible
-        // Only create bean if both access-key and secret-key are provided and not empty
+    public S3Client s3Client(S3Configuration s3Configuration) {
         return S3Client.builder()
                 .endpointOverride(URI.create(endpoint))
                 .region(Region.of(region))
                 .credentialsProvider(StaticCredentialsProvider.create(
                         AwsBasicCredentials.create(accessKey, secretKey)
                 ))
-                .serviceConfiguration(S3Configuration.builder()
-                        .pathStyleAccessEnabled(true) // Required for Scaleway
-                        .build())
+                .serviceConfiguration(s3Configuration)
+                .build();
+    }
+
+    @Bean
+    @ConditionalOnExpression("!'${app.storage.s3.access-key:}'.isEmpty() && !'${app.storage.s3.secret-key:}'.isEmpty()")
+    public S3Presigner s3Presigner(S3Configuration s3Configuration) {
+        return S3Presigner.builder()
+                .endpointOverride(URI.create(endpoint))
+                .region(Region.of(region))
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKey, secretKey)
+                ))
+                .serviceConfiguration(s3Configuration)
                 .build();
     }
 }

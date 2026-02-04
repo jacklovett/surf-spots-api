@@ -1,80 +1,78 @@
 package com.lovettj.surfspotsapi.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
-import java.net.URI;
 import java.time.Duration;
 
 @Service
 public class StorageService {
 
+    private static final Logger log = LoggerFactory.getLogger(StorageService.class);
+
     private final String bucketName;
-    private final String endpoint;
-    private final String region;
-    private final String accessKey;
-    private final String secretKey;
+    private final S3Presigner presigner;
 
     public StorageService(
             @Value("${app.storage.s3.bucket}") String bucketName,
-            @Value("${app.storage.s3.endpoint}") String endpoint,
-            @Value("${app.storage.s3.region}") String region,
-            @Value("${app.storage.s3.access-key}") String accessKey,
-            @Value("${app.storage.s3.secret-key}") String secretKey) {
+            @Autowired(required = false) S3Presigner presigner) {
         this.bucketName = bucketName;
-        this.endpoint = endpoint;
-        this.region = region;
-        this.accessKey = accessKey;
-        this.secretKey = secretKey;
+        this.presigner = presigner;
     }
 
     /**
-     * Generates a presigned URL for uploading a file to S3
-     * @param key The S3 object key (path) where the file will be stored
+     * Returns true if storage is configured (presigner bean available). When false, media upload will fail.
+     */
+    public boolean isStorageConfigured() {
+        return presigner != null;
+    }
+
+    /**
+     * Generates a presigned URL for uploading a file to object storage.
+     * @param key The object key (path) where the file will be stored
      * @param contentType The content type of the file
      * @return The presigned URL that can be used to upload the file
+     * @throws IllegalStateException if storage is not configured
+     * @throws RuntimeException if presigning fails
      */
     public String generatePresignedUploadUrl(String key, String contentType) {
+        if (!isStorageConfigured()) {
+            log.warn("Media upload requested but storage is not configured.");
+            throw new IllegalStateException("Media storage is not configured.");
+        }
+
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
                 .contentType(contentType)
                 .build();
 
-        // Create presigner with same configuration as S3Client
-        try (S3Presigner presigner = S3Presigner.builder()
-                .endpointOverride(URI.create(endpoint))
-                .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create(accessKey, secretKey)
-                ))
-                .serviceConfiguration(S3Configuration.builder()
-                        .pathStyleAccessEnabled(true) // Required for Scaleway
-                        .build())
-                .build()) {
-
+        try {
             PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
-                    .signatureDuration(Duration.ofMinutes(15)) // URL valid for 15 minutes
+                    .signatureDuration(Duration.ofMinutes(15))
                     .putObjectRequest(putObjectRequest)
                     .build();
 
             return presigner.presignPutObject(presignRequest).url().toString();
+        } catch (Exception e) {
+            log.error("Failed to generate presigned upload URL: {}", e.getMessage());
+            throw new RuntimeException("Media storage error", e);
         }
     }
 
+
     /**
-     * Generates the S3 object key for a media file
+     * Generates the storage object key for a media file.
      * @param mediaId The unique media ID
      * @param mediaType The type of media (image/video), can be null to skip type organization
-     * @param basePath The base path for the media (e.g., "trips/media" or "surfboards/media")
-     * @return The S3 object key
+     * @param basePath The base path for the media (e.g. "trips/media" or "surfboards/media")
+     * @return The object key
      */
     public String generateMediaKey(String mediaId, String mediaType, String basePath) {
         if (mediaType != null && !mediaType.isEmpty()) {
