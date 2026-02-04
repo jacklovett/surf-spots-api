@@ -56,10 +56,7 @@ docker-compose -f docker-compose.dev.yml up --build api
    docker ps  # Should not error
    ```
 
-2. **Set database password (optional, defaults to 'postgres'):**
-   ```bash
-   export DB_PASSWORD=postgres
-   ```
+2. **Set the database password** (optional; defaults to `postgres`): in your shell run `export DB_PASSWORD=postgres`, or see [Configuration](#configuration).
 
 3. **Start everything (PostgreSQL + API):**
    ```bash
@@ -114,10 +111,10 @@ You only need:
 - **Docker Desktop** - Install with: `winget install Docker.DockerDesktop` or [download here](https://www.docker.com/products/docker-desktop/)
 
 **What Docker provides:**
-- ✅ PostgreSQL 16 database (no installation needed)
-- ✅ Java 21 JDK (included in Maven image)
-- ✅ Maven 3.9 (included in build image)
-- ✅ Spring Boot application (runs in container)
+- PostgreSQL 16 database (no installation needed)
+- Java 21 JDK (included in Maven image)
+- Maven 3.9 (included in build image)
+- Spring Boot application (runs in container)
 
 **Installing Docker Desktop:**
 - **Windows (winget):** `winget install Docker.DockerDesktop`
@@ -145,11 +142,7 @@ If you prefer not to use Docker, you'll need:
    - Download from: https://www.docker.com/products/docker-desktop/
    - Start Docker Desktop
 
-2. **Set up environment variable:**
-   ```bash
-   # Create a .env file in the project root (or set in your shell)
-   export DB_PASSWORD=postgres  # or your preferred password
-   ```
+2. **Set the database password** (see [Configuration → Environment variables](#environment-variables)): in your shell run `export DB_PASSWORD=postgres` (or use a `.env` file if you use Docker Compose).
 
 3. **Start PostgreSQL with Docker:**
    ```bash
@@ -261,9 +254,9 @@ docker-compose -f docker-compose.dev.yml up
 ```
 
 The PostgreSQL container will:
-- ✅ Create the `surf_spots_db` database automatically
-- ✅ Set up the `postgres` user with your `DB_PASSWORD`
-- ✅ Be ready to accept connections
+- Create the `surf_spots_db` database automatically
+- Set up the `postgres` user with your `DB_PASSWORD`
+- Be ready to accept connections
 
 **No manual database setup needed!**
 
@@ -398,54 +391,47 @@ cp src/main/resources/static/seedData.backup/*.json src/main/resources/static/se
 
 ## Configuration
 
-### Environment Variables
+### Environment Variables (use a `.env` file)
 
-The application requires the following environment variables. Create a `.env` file in the project root or set them in your system environment:
+You can put all config in a **`.env` file** in the project root (same folder as `pom.xml`). The app loads it when you run locally (Maven or IDE), and Docker Compose reads the same file when you run with `docker-compose up`. **Do not commit `.env`** (it’s in `.gitignore`).
 
-**Required:**
-- `DB_PASSWORD` - PostgreSQL password for the `postgres` user
+**Setup:** Copy `.env.example` to `.env` and fill in values:
 
-**Optional (for email functionality):**
-- `MAIL_USERNAME` - SMTP username (defaults to empty string)
-- `MAIL_PASSWORD` - SMTP password (defaults to empty string)
-- `MAIL_ENABLED` - Enable/disable email sending (defaults to `true`)
-
-### Setting Environment Variables
-
-**Windows (PowerShell):**
-```powershell
-$env:DB_PASSWORD = "your_postgres_password"
-$env:MAIL_USERNAME = "your_email@example.com"
-$env:MAIL_PASSWORD = "your_email_password"
-$env:MAIL_ENABLED = "false"  # Set to false for local development
-```
-
-**Windows (Command Prompt):**
-```cmd
-set DB_PASSWORD=your_postgres_password
-set MAIL_USERNAME=your_email@example.com
-set MAIL_PASSWORD=your_email_password
-set MAIL_ENABLED=false
-```
-
-**macOS/Linux:**
 ```bash
-export DB_PASSWORD=your_postgres_password
-export MAIL_USERNAME=your_email@example.com
-export MAIL_PASSWORD=your_email_password
-export MAIL_ENABLED=false
+cp .env.example .env
 ```
 
-**For permanent setup (Windows):**
-1. Open System Properties → Environment Variables
-2. Add new User/System variables with the values above
+**Example `.env` in project root:**
 
-**For permanent setup (macOS/Linux):**
-Add to your `~/.bashrc` or `~/.zshrc`:
-```bash
-export DB_PASSWORD=your_postgres_password
-export MAIL_ENABLED=false
+```env
+# Database (required for local run)
+DB_PASSWORD=postgres
+
+# Email (optional)
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENABLED=false
+
+# Scaleway Object Storage (for media upload)
+S3_ACCESS_KEY=your_scaleway_access_key
+S3_SECRET_KEY=your_scaleway_secret_key
+S3_BUCKET=surf-spots-media
 ```
+
+**Variables used by the app:**
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DB_PASSWORD` | Yes (when not using Docker default) | PostgreSQL password for user `postgres`. |
+| `MAIL_USERNAME` | No | SMTP username (default: empty). |
+| `MAIL_PASSWORD` | No | SMTP password (default: empty). |
+| `MAIL_ENABLED` | No | Enable email (default: `true`). |
+| `S3_ACCESS_KEY` | For media upload | Scaleway Object Storage API key. |
+| `S3_SECRET_KEY` | For media upload | Scaleway Object Storage API key. |
+| `S3_BUCKET` | No | Bucket name (default: `surf-spots-media`). |
+| `S3_ENDPOINT`, `S3_REGION` | No | Override endpoint/region if not Paris. |
+
+**Other ways to set them:** You can still use your shell (`export DB_PASSWORD=postgres`) or your IDE run configuration; real environment variables override values from `.env`. For **deployment** (e.g. Scaleway), set variables in the platform’s environment settings (not a file).
 
 ### Application Profiles
 
@@ -468,10 +454,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 1. **Make sure Docker Desktop is running**
 
-2. **Set database password (optional):**
-   ```bash
-   export DB_PASSWORD=postgres  # or your preferred password
-   ```
+2. **Set the database password** (optional; see [Configuration](#configuration)).
 
 3. **Start everything:**
    ```bash

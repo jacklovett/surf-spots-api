@@ -31,9 +31,13 @@ services:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/surf_spots_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-postgres}
+      # App reads spring.datasource.password from ${DB_PASSWORD} in application.yml
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       MAIL_ENABLED: ${MAIL_ENABLED:-false}
+      # Scaleway Object Storage (media upload) - set in shell or .env
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:-}
+      S3_BUCKET: ${S3_BUCKET:-surf-spots-media}
       # Test configuration - tests will use these when running in Docker
       # When running tests, Spring will use the 'test' profile and these env vars
     ports:

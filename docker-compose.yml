@@ -28,13 +28,17 @@ services:
     container_name: surf-spots-api
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/surf_spots_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-      DB_PASSWORD: ${DB_PASSWORD}
+      # Prod profile (application-prod.yml) uses DATABASE_* names
+      DATABASE_URL: jdbc:postgresql://postgres:5432/surf_spots_db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: ${DB_PASSWORD}
       MAIL_USERNAME: ${MAIL_USERNAME:-}
       MAIL_PASSWORD: ${MAIL_PASSWORD:-}
       MAIL_ENABLED: ${MAIL_ENABLED:-true}
+      # Scaleway Object Storage (media upload) - set in shell or .env
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:-}
+      S3_BUCKET: ${S3_BUCKET:-surf-spots-media}
     ports:
       - "8080:8080"
     depends_on:
