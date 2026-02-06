@@ -343,6 +343,7 @@ public class SeedService {
                             existing.setBoatRequired(jsonEntity.getBoatRequired());
                             existing.setIsWavepool(jsonEntity.getIsWavepool());
                             existing.setWavepoolUrl(jsonEntity.getWavepoolUrl());
+                            existing.setIsRiverWave(jsonEntity.getIsRiverWave());
                             existing.setForecasts(jsonEntity.getForecasts());
                             existing.setCreatedBy(jsonEntity.getCreatedBy());
                             existing.setStatus(jsonEntity.getStatus());
@@ -387,14 +388,13 @@ public class SeedService {
                         surfSpot.setSubRegion(null);
                     }
                 }
-                // Automatically determine swell season based on coordinates (skip for wavepools)
-                if (surfSpot.getIsWavepool() == null || !surfSpot.getIsWavepool()) {
-                    if (surfSpot.getLatitude() != null && surfSpot.getLongitude() != null) {
-                        swellSeasonDeterminationService.determineSwellSeason(
-                                surfSpot.getLatitude(), 
-                                surfSpot.getLongitude()
-                        ).ifPresent(surfSpot::setSwellSeason);
-                    }
+                // Automatically determine swell season based on coordinates (skip for wavepools and river waves)
+                boolean skipSwell = Boolean.TRUE.equals(surfSpot.getIsWavepool()) || Boolean.TRUE.equals(surfSpot.getIsRiverWave());
+                if (!skipSwell && surfSpot.getLatitude() != null && surfSpot.getLongitude() != null) {
+                    swellSeasonDeterminationService.determineSwellSeason(
+                            surfSpot.getLatitude(), 
+                            surfSpot.getLongitude()
+                    ).ifPresent(surfSpot::setSwellSeason);
                 }
             }
 

@@ -77,10 +77,10 @@ docker-compose -f docker-compose.dev.yml up --build api
    ```
 
 **What's included:**
-- ✅ PostgreSQL 16 database (auto-configured)
-- ✅ Spring Boot API (Java 21 + Maven - all in Docker!)
-- ✅ Hot reload support (code changes require container restart: `docker-compose restart api`)
-- ✅ No local Java/Maven installation needed!
+- PostgreSQL 16 database (auto-configured)
+- Spring Boot API (Java 21 + Maven - all in Docker!)
+- Hot reload support (code changes require container restart: `docker-compose restart api`)
+- No local Java/Maven installation needed!
 
 **View logs:**
 ```bash

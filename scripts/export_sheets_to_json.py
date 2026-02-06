@@ -270,7 +270,7 @@ def export_surf_spots(sheets, regions, sub_regions):
         if not row or not row[0]:  # Skip empty rows
             continue
         
-        # Column indices (status column removed)
+        # Column indices (status column removed). Sheet order: ... 24=isWavepool, 25=wavepoolUrl, 26=isRiverWave, 27=swellSeasonName, 28=forecasts, 29=createdBy
         region_name = row[4] if len(row) > 4 else ''  # region_name column (index 4)
         sub_region_name = row[5] if len(row) > 5 else ''  # sub_region_name column (index 5)
         region_id = region_map.get(region_name)
@@ -304,9 +304,10 @@ def export_surf_spots(sheets, regions, sub_regions):
             'boatRequired': parse_boolean(row[23]) if len(row) > 23 else None,
             'isWavepool': parse_boolean(row[24]) if len(row) > 24 else None,
             'wavepoolUrl': row[25] if len(row) > 25 else None,
-            'swellSeasonName': row[26] if len(row) > 26 else None,
-            'forecasts': row[27] if len(row) > 27 else None,
-            'createdBy': row[28] if len(row) > 28 else None
+            'isRiverWave': parse_boolean(row[26]) if len(row) > 26 else None,
+            'swellSeasonName': row[27] if len(row) > 27 else None,
+            'forecasts': row[28] if len(row) > 28 else None,
+            'createdBy': row[29] if len(row) > 29 else None
         }
         
         # Remove null/undefined/empty string values to keep JSON clean

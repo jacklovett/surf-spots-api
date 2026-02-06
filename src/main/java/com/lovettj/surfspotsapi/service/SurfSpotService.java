@@ -143,6 +143,7 @@ public class SurfSpotService {
         surfSpot.setBoatRequired(surfSpotRequest.isBoatRequired());
         surfSpot.setIsWavepool(surfSpotRequest.isWavepool());
         surfSpot.setWavepoolUrl(surfSpotRequest.getWavepoolUrl());
+        surfSpot.setIsRiverWave(surfSpotRequest.isRiverWave());
         surfSpot.setAccommodationNearby(surfSpotRequest.isAccommodationNearby());
         surfSpot.setFoodNearby(surfSpotRequest.isFoodNearby());
 
@@ -163,10 +164,10 @@ public class SurfSpotService {
         surfSpot.setRegion(region);
 
         // Automatically determine swell season based on coordinates
-        // Skip for wavepools as they don't have natural swell seasons
+        // Skip for wavepools and river waves as they don't have natural swell seasons
         // This is done at surf spot level because regions can have multiple coastlines
         // (e.g., Andalusia has both Mediterranean and Atlantic coasts)
-        if (!surfSpot.getIsWavepool()) {
+        if (!Boolean.TRUE.equals(surfSpot.getIsWavepool()) && !Boolean.TRUE.equals(surfSpot.getIsRiverWave())) {
             swellSeasonDeterminationService.determineSwellSeason(
                     surfSpot.getLatitude(), 
                     surfSpot.getLongitude()
@@ -206,6 +207,7 @@ public class SurfSpotService {
         existingSurfSpot.setBoatRequired(surfSpotRequest.isBoatRequired());
         existingSurfSpot.setIsWavepool(surfSpotRequest.isWavepool());
         existingSurfSpot.setWavepoolUrl(surfSpotRequest.getWavepoolUrl());
+        existingSurfSpot.setIsRiverWave(surfSpotRequest.isRiverWave());
         existingSurfSpot.setAccommodationNearby(surfSpotRequest.isAccommodationNearby());
         existingSurfSpot.setFoodNearby(surfSpotRequest.isFoodNearby());
 
@@ -228,15 +230,15 @@ public class SurfSpotService {
         }
 
         // Automatically determine and update swell season based on coordinates
-        // Skip for wavepools as they don't have natural swell seasons
+        // Skip for wavepools and river waves as they don't have natural swell seasons
         // This is done at surf spot level because regions can have multiple coastlines
-        if (!existingSurfSpot.getIsWavepool()) {
+        if (!Boolean.TRUE.equals(existingSurfSpot.getIsWavepool()) && !Boolean.TRUE.equals(existingSurfSpot.getIsRiverWave())) {
             swellSeasonDeterminationService.determineSwellSeason(
                     existingSurfSpot.getLatitude(), 
                     existingSurfSpot.getLongitude()
             ).ifPresent(existingSurfSpot::setSwellSeason);
         } else {
-            // Clear swell season for wavepools
+            // Clear swell season for wavepools and river waves
             existingSurfSpot.setSwellSeason(null);
         }
 

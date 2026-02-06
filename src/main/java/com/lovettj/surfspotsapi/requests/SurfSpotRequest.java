@@ -40,6 +40,7 @@ public class SurfSpotRequest {
     private boolean boatRequired;
     private boolean isWavepool;
     private String wavepoolUrl;
+    private boolean isRiverWave;
     private boolean accommodationNearby;
     private boolean foodNearby;
     private List<Hazard> hazards;
