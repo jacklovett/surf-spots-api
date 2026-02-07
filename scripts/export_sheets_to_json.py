@@ -155,28 +155,42 @@ def export_continents(sheets):
     return continents
 
 
+def parse_emergency_numbers(cell_value):
+    """Parse 'Emergency numbers' column: 'Label: Number; Label: Number'. Returns list of {label, number}."""
+    if not cell_value or not str(cell_value).strip():
+        return []
+    parts = [p.strip() for p in str(cell_value).split(';') if p.strip()]
+    result = []
+    for part in parts:
+        if ':' in part:
+            label, _, number = part.partition(':')
+            label, number = label.strip(), number.strip()
+            if label and number:
+                result.append({'label': label, 'number': number})
+    return result
+
+
 def export_countries(sheets, continents):
-    """Export Countries"""
+    """Export Countries. Column D = Emergency numbers (format: Label: Number; Label: Number)."""
     print('Exporting Countries...')
     
     data = get_sheet_data(sheets, 'Countries')
-    
-    # Create continent name to ID mapping
     continent_map = {c['name']: c['id'] for c in continents}
     
     countries = []
     for row in data:
-        if not row or not row[0]:  # Skip empty rows
+        if not row or not row[0]:
             continue
-        
         continent_name = row[2] if len(row) > 2 else ''
         continent_id = continent_map.get(continent_name)
-        
-        countries.append({
+        country = {
             'name': row[0],
             'description': row[1] if len(row) > 1 else '',
             'continent': {'id': continent_id} if continent_id else None
-        })
+        }
+        if len(row) > 3 and row[3]:
+            country['emergencyNumbers'] = parse_emergency_numbers(row[3])
+        countries.append(country)
     
     save_json_file('countries.json', countries)
     print(f"  Exported {len(countries)} countries\n")

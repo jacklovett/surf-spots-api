@@ -319,7 +319,7 @@ The application uses seed data to populate the database with initial data (conti
 
 The seed data is maintained in a Google Sheet with the following tabs:
 - **Continents** - Continent data
-- **Countries** - Country data with continent references
+- **Countries** - Country data with continent references and emergency service details
 - **Regions** - Region data with country references
 - **SubRegions** - Sub-region data with region references
 - **SurfSpots** - Surf spot data with region/sub-region references

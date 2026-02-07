@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -37,4 +38,8 @@ public class Country extends SluggableEntity {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     @JsonManagedReference("country-regions")
     private List<Region> regions;
+
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonManagedReference("country-emergencyNumbers")
+    private List<CountryEmergencyNumber> emergencyNumbers = new ArrayList<>();
 }

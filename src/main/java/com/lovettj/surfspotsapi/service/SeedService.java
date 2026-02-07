@@ -135,6 +135,14 @@ public class SeedService {
                         if (existing != null) {
                             existing.setDescription(jsonEntity.getDescription());
                             existing.setContinent(jsonEntity.getContinent());
+                            if (jsonEntity.getEmergencyNumbers() != null && !jsonEntity.getEmergencyNumbers().isEmpty()) {
+                                if (existing.getEmergencyNumbers() == null) {
+                                    existing.setEmergencyNumbers(new java.util.ArrayList<>());
+                                }
+                                existing.getEmergencyNumbers().clear();
+                                existing.getEmergencyNumbers().addAll(jsonEntity.getEmergencyNumbers());
+                                existing.getEmergencyNumbers().forEach(en -> en.setCountry(existing));
+                            }
                             logger.debug("Updating existing country: {}", existing.getName());
                             return existing;
                         } else {
@@ -159,6 +167,9 @@ public class SeedService {
                                 jsonContinentId, index, country.getName(), allContinents.size());
                         country.setContinent(null);
                     }
+                }
+                if (country.getEmergencyNumbers() != null) {
+                    country.getEmergencyNumbers().forEach(en -> en.setCountry(country));
                 }
             }
 
