@@ -240,15 +240,18 @@ public class TripController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (IllegalStateException e) {
-            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("upload-url failed tripId={}: {}, returning 503", tripId, detail, e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (RuntimeException e) {
-            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, detail, e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (Exception e) {
-            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, detail, e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         }
@@ -266,7 +269,8 @@ public class TripController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
-            logger.warn("recordMedia failed tripId={}: {}, returning 500", tripId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("recordMedia failed tripId={}: {}, returning 500", tripId, detail, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(ApiErrors.formatErrorMessage("save", "trip media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }

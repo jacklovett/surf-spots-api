@@ -35,6 +35,11 @@ server:
   max-http-header-size: 16KB
   max-http-post-size: 50MB
 
+# Full exception stack traces for WARN/ERROR (so logs show what actually broke)
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] %logger{36} - %msg%n%rEx"
+
 # App-specific settings
 app:
   mail:

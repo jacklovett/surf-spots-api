@@ -125,15 +125,18 @@ public class SurfboardController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (IllegalStateException e) {
-            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("upload-url failed surfboardId={}: {}, returning 503", surfboardId, detail, e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (RuntimeException e) {
-            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, detail, e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (Exception e) {
-            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, detail, e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         }
@@ -152,7 +155,8 @@ public class SurfboardController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
-            logger.warn("add-media failed surfboardId={}: {}, returning 500", surfboardId, e.getMessage(), e);
+            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
+            logger.warn("add-media failed surfboardId={}: {}, returning 500", surfboardId, detail, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(ApiErrors.formatErrorMessage("add", "surfboard media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }

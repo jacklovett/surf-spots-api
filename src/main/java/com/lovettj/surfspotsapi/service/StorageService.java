@@ -61,7 +61,7 @@ public class StorageService {
 
             return presigner.presignPutObject(presignRequest).url().toString();
         } catch (Exception e) {
-            log.error("Failed to generate presigned upload URL: {}", e.getMessage());
+            log.error("Failed to generate presigned upload URL", e);
             throw new RuntimeException("Media storage error", e);
         }
     }
