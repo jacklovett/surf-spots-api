@@ -7,6 +7,8 @@ import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.TripService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,6 +19,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/trips")
 public class TripController {
+
+    private static final Logger logger = LoggerFactory.getLogger(TripController.class);
 
     private final TripService tripService;
 
@@ -236,12 +240,15 @@ public class TripController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (IllegalStateException e) {
+            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (RuntimeException e) {
+            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (Exception e) {
+            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         }
@@ -259,6 +266,7 @@ public class TripController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
+            logger.warn("recordMedia failed tripId={}: {}, returning 500", tripId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(ApiErrors.formatErrorMessage("save", "trip media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }

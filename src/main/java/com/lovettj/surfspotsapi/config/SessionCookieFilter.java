@@ -46,47 +46,26 @@ public class SessionCookieFilter implements Filter {
             pathToMatch = requestURI.substring(contextPath.length());
         }
 
-        logger.info("Entering SessionCookieFilter for request: {} {} (matching against: {})", 
-                    method, requestURI, pathToMatch);
-        
-        // Log all public endpoint patterns for debugging
-        logger.debug("Available public endpoint patterns: {}", java.util.Arrays.toString(PUBLIC_ENDPOINTS));
+        logger.debug("SessionCookieFilter: {} {}", method, pathToMatch);
 
-        // Check if the endpoint is public and skip session validation if so
         boolean isPublic = isPublicEndpoint(pathToMatch, method);
-        logger.info("Is public endpoint: {} for path: {}", isPublic, pathToMatch);
-        
-        // Always check for session cookie and set authentication if valid
-        // This helps authenticated requests work, but doesn't block unauthenticated ones
         Cookie sessionCookie = findSessionCookie(httpRequest.getCookies());
         if (sessionCookie != null) {
-            logger.info("Session cookie found: {}", sessionCookie.getValue());
-            
-            // Validate the session cookie structure
             if (validateSessionCookieFormat(sessionCookie)) {
-                logger.info("Session cookie format validated");
-
                 PreAuthenticatedAuthenticationToken authToken = new PreAuthenticatedAuthenticationToken(
                         "authenticatedUser", null, null
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } else {
-                logger.warn("Session cookie format invalid, but continuing to let Spring Security handle authorization");
+                logger.warn("Session cookie format invalid for {} {}", method, pathToMatch);
             }
-        } else {
-            logger.info("No session cookie found, letting Spring Security handle authorization");
         }
-        
-        // ALWAYS continue the filter chain - NEVER return 401 from this filter
-        // Let Spring Security decide if the request should be allowed based on permitAll() configuration
-        logger.info("Continuing filter chain for: {} {}", method, pathToMatch);
         chain.doFilter(request, response);
     }
 
     private Cookie findSessionCookie(Cookie[] cookies) {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                logger.info("Checking cookie: {}", cookie.getName());
                 if ("session".equals(cookie.getName())) {
                     return cookie;
                 }

@@ -12,6 +12,8 @@ import com.lovettj.surfspotsapi.service.SurfboardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/surfboards")
 public class SurfboardController {
+
+    private static final Logger logger = LoggerFactory.getLogger(SurfboardController.class);
 
     private final SurfboardService surfboardService;
 
@@ -121,12 +125,15 @@ public class SurfboardController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (IllegalStateException e) {
+            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (RuntimeException e) {
+            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         } catch (Exception e) {
+            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
         }
@@ -145,6 +152,7 @@ public class SurfboardController {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
         } catch (Exception e) {
+            logger.warn("add-media failed surfboardId={}: {}, returning 500", surfboardId, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(ApiErrors.formatErrorMessage("add", "surfboard media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
