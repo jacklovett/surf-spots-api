@@ -1,0 +1,2 @@
+# Normalize line endings to LF so Windows (CRLF) does not mark every file as modified.
+* text=auto eol=lf
