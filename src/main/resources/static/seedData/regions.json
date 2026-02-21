@@ -91,19 +91,6 @@
     ]
   },
   {
-    "name": "Southwest Region",
-    "description": "Volcanic coastline around Limbe with consistent beach and reef breaks; Cameroon's main surf hub.",
-    "country": {
-      "id": 3
-    },
-    "boundingBox": [
-      8.9,
-      3.9,
-      9.5,
-      4.3
-    ]
-  },
-  {
     "name": "South Region",
     "description": "Sandy beaches and river mouths near Kribi and Campo; less consistent but seasonally surfable.",
     "country": {
@@ -114,6 +101,19 @@
       2.4,
       10.5,
       3.1
+    ]
+  },
+  {
+    "name": "Southwest Region",
+    "description": "Volcanic coastline around Limbe with consistent beach and reef breaks; Cameroon's main surf hub.",
+    "country": {
+      "id": 3
+    },
+    "boundingBox": [
+      8.9,
+      3.9,
+      9.5,
+      4.3
     ]
   },
   {
@@ -234,7 +234,7 @@
     ]
   },
   {
-    "name": "Estuaire ",
+    "name": "Estuaire",
     "description": "Covers the surfable coastal stretch around Libreville and Pointe-Denis, including spots like Guegue and Ngombe. Expect steady point and beach breaks, best in spring and summer with SW swells.",
     "country": {
       "id": 6
@@ -244,19 +244,6 @@
       0.0,
       9.5,
       0.5
-    ]
-  },
-  {
-    "name": "Ogooue Maritime",
-    "description": "Encompasses Port-Gentil and nearby beaches (e.g., Cap Lopez, Palplanche). Known for hollow, powerful beach breaks over sand, reliable with SW swells.",
-    "country": {
-      "id": 6
-    },
-    "boundingBox": [
-      8.2,
-      -0.8,
-      9.2,
-      0.2
     ]
   },
   {
@@ -270,6 +257,19 @@
       -3.9,
       11.3,
       -3.7
+    ]
+  },
+  {
+    "name": "Ogooue Maritime",
+    "description": "Encompasses Port-Gentil and nearby beaches (e.g., Cap Lopez, Palplanche). Known for hollow, powerful beach breaks over sand, reliable with SW swells.",
+    "country": {
+      "id": 6
+    },
+    "boundingBox": [
+      8.2,
+      -0.8,
+      9.2,
+      0.2
     ]
   },
   {
@@ -559,6 +559,19 @@
     ]
   },
   {
+    "name": "Essaouira",
+    "description": "A laid-back region mixing mellow beach breaks with Imsouane’s famously long right-hand point. The old medina and fishing port give the area a strong cultural identity, while the growing surf scene adds a modern edge. Less hectic than Taghazout but still full of character.",
+    "country": {
+      "id": 14
+    },
+    "boundingBox": [
+      30.9,
+      -10.0,
+      31.7,
+      -9.3
+    ]
+  },
+  {
     "name": "Guelmim-Oued Noun",
     "description": "A vast and underexplored region, home to Morocco’s southernmost established surf scene. Around Sidi Ifni and Mirleft, rugged cliffs and remote beaches hide punchy beach breaks and rocky points. Further south, the coastline grows emptier, with potential for discovery but little infrastructure.",
     "country": {
@@ -624,19 +637,6 @@
     ]
   },
   {
-    "name": "Tangier-Tetouan-Al Hoceima",
-    "description": "Covering Morocco’s Mediterranean coastline near the Strait of Gibraltar. Surf is inconsistent, with small wind swell and rare Atlantic pulses reaching select sheltered breaks.",
-    "country": {
-      "id": 14
-    },
-    "boundingBox": [
-      35.6,
-      -6.2,
-      36.2,
-      -4.5
-    ]
-  },
-  {
     "name": "Tagazhout",
     "description": "Once a quiet fishing village, now the poster child of Moroccan surf. Iconic right-hand points like Anchor Point and Killers fire through winter, drawing heavy crowds. The town's packed with surf camps, cafés, and foreign tourists, softening its Berber roots — but it’s still the place for a tagine and some epic, but crowded waves.",
     "country": {
@@ -650,16 +650,16 @@
     ]
   },
   {
-    "name": "Essaouira",
-    "description": "A laid-back region mixing mellow beach breaks with Imsouane’s famously long right-hand point. The old medina and fishing port give the area a strong cultural identity, while the growing surf scene adds a modern edge. Less hectic than Taghazout but still full of character.",
+    "name": "Tangier-Tetouan-Al Hoceima",
+    "description": "Covering Morocco’s Mediterranean coastline near the Strait of Gibraltar. Surf is inconsistent, with small wind swell and rare Atlantic pulses reaching select sheltered breaks.",
     "country": {
       "id": 14
     },
     "boundingBox": [
-      30.9,
-      -10.0,
-      31.7,
-      -9.3
+      35.6,
+      -6.2,
+      36.2,
+      -4.5
     ]
   },
   {
@@ -859,7 +859,7 @@
     ]
   },
   {
-    "name": "La Ligne Paradis ",
+    "name": "La Ligne Paradis",
     "description": "West-facing section near Saint-Louis. Picks up southwest swell but has some shelter from trades, offering more manageable conditions compared to the east. Reefs dominate, with waves ranging from playful to heavy depending on swell size.",
     "country": {
       "id": 21
@@ -944,6 +944,19 @@
     ]
   },
   {
+    "name": "Saint Louis",
+    "description": "Northern sector around the Langue de Barbarie and Saint Louis. Long sandy beaches and river mouth breaks that respond to north and northwest swell pulses. Less surf infrastructure and more variable conditions, but important for north swell days and exploratory beach sessions.",
+    "country": {
+      "id": 22
+    },
+    "boundingBox": [
+      15.9,
+      -16.7,
+      16.12,
+      -16.35
+    ]
+  },
+  {
     "name": "Thiès Region",
     "description": "Coastal corridor south of Dakar from Popenguine through Somone, Saly and Mbour. Lined by long sandy beaches with intermittent reef patches, it responds to north and northwest winter swells and sees occasional southwest wraps; waves are generally mellower than Dakar and offer more consistent beach break options for intermediate surfers.",
     "country": {
@@ -957,16 +970,16 @@
     ]
   },
   {
-    "name": "Saint Louis",
-    "description": "Northern sector around the Langue de Barbarie and Saint Louis. Long sandy beaches and river mouth breaks that respond to north and northwest swell pulses. Less surf infrastructure and more variable conditions, but important for north swell days and exploratory beach sessions.",
+    "name": "La Digue",
+    "description": "A compact, laid-back island known for powerful reef breaks and a relaxed, car-free atmosphere. Grand Anse on the southeast coast is the primary surf area, firing during southeast swells when wind and tide align. Surf conditions are highly sensitive, while iconic beaches like Anse Source d’Argent are better known for scenery than waves.",
     "country": {
-      "id": 22
+      "id": 23
     },
     "boundingBox": [
-      15.9,
-      -16.7,
-      16.12,
-      -16.35
+      -4.4,
+      55.78,
+      -4.32,
+      55.9
     ]
   },
   {
@@ -993,19 +1006,6 @@
       55.7,
       -4.3,
       55.8
-    ]
-  },
-  {
-    "name": "La Digue",
-    "description": "A compact, laid-back island known for powerful reef breaks and a relaxed, car-free atmosphere. Grand Anse on the southeast coast is the primary surf area, firing during southeast swells when wind and tide align. Surf conditions are highly sensitive, while iconic beaches like Anse Source d’Argent are better known for scenery than waves.",
-    "country": {
-      "id": 23
-    },
-    "boundingBox": [
-      -4.4,
-      55.78,
-      -4.32,
-      55.9
     ]
   },
   {
@@ -1633,19 +1633,6 @@
     ]
   },
   {
-    "name": "East Nusa Tenggara",
-    "description": "Island archipelago including Flores, Sumba, and Timor with diverse surf potential across exposed coastlines. Reef breaks and point breaks vary by island and exposure, with Rote Island offering consistent reef breaks while other islands provide more remote and exploratory surf opportunities. Swells arrive from both the Indian Ocean and Pacific, with best conditions during dry season. The region combines world-class surf with dramatic volcanic landscapes, traditional cultures, and pristine marine environments.",
-    "country": {
-      "id": 36
-    },
-    "boundingBox": [
-      -10.5,
-      119.0,
-      -8.0,
-      125.0
-    ]
-  },
-  {
     "name": "Central Java",
     "description": "Southern coastline with beach breaks and occasional reef points offering surf suitable for intermediate and beginner levels. Spots like Kalipait, Kendalrejo, Sindanglaut, and Tiger Tracks provide varied conditions from mellow beach breaks to more challenging setups. The region receives consistent Indian Ocean swells during dry season, with surf generally less powerful than East Java's heavy reef breaks. The area combines accessible surf with rich Javanese culture, ancient temples, and easier access from major cities.",
     "country": {
@@ -1669,6 +1656,19 @@
       111.0,
       -7.0,
       114.5
+    ]
+  },
+  {
+    "name": "East Nusa Tenggara",
+    "description": "Island archipelago including Flores, Sumba, and Timor with diverse surf potential across exposed coastlines. Reef breaks and point breaks vary by island and exposure, with Rote Island offering consistent reef breaks while other islands provide more remote and exploratory surf opportunities. Swells arrive from both the Indian Ocean and Pacific, with best conditions during dry season. The region combines world-class surf with dramatic volcanic landscapes, traditional cultures, and pristine marine environments.",
+    "country": {
+      "id": 36
+    },
+    "boundingBox": [
+      -10.5,
+      119.0,
+      -8.0,
+      125.0
     ]
   },
   {
@@ -2543,19 +2543,6 @@
     ]
   },
   {
-    "name": "World",
-    "description": "One of the Maldives' most famous and consistent breaks, producing long, perfect left-hand waves that barrel over shallow reef. The break works virtually every day during southwest monsoon season, creating mechanical waves that peel for extended distances. Located in North Male Atoll, the spot is easily accessible by boat from Male, though its reputation for perfection means crowded lineups are common. The wave breaks close to the reef, requiring precise positioning and experience with shallow coral breaks.",
-    "country": {
-      "id": 42
-    },
-    "boundingBox": [
-      4.0,
-      73.3,
-      4.1,
-      73.4
-    ]
-  },
-  {
     "name": "Noonu Atoll",
     "description": "Positioned in the northern reaches of the archipelago, this atoll catches early swells and produces quality reef breaks with less documented spots. The region offers exploratory opportunities for experienced surfers, with breaks that work when swell direction and wind align. Less developed surf infrastructure means more adventure and fewer crowds, though accessing breaks requires boat charters.",
     "country": {
@@ -2592,6 +2579,19 @@
       73.0,
       2.5,
       73.5
+    ]
+  },
+  {
+    "name": "World",
+    "description": "One of the Maldives' most famous and consistent breaks, producing long, perfect left-hand waves that barrel over shallow reef. The break works virtually every day during southwest monsoon season, creating mechanical waves that peel for extended distances. Located in North Male Atoll, the spot is easily accessible by boat from Male, though its reputation for perfection means crowded lineups are common. The wave breaks close to the reef, requiring precise positioning and experience with shallow coral breaks.",
+    "country": {
+      "id": 42
+    },
+    "boundingBox": [
+      4.0,
+      73.3,
+      4.1,
+      73.4
     ]
   },
   {
@@ -2699,19 +2699,6 @@
     ]
   },
   {
-    "name": "Damn",
-    "description": "Coastal area with limited documented surf breaks along the Philippine coastline. The region offers potential for waves during typhoon season when swells arrive, though surf infrastructure remains minimal. The area provides exploratory opportunities for experienced surfers seeking uncrowded conditions.",
-    "country": {
-      "id": 46
-    },
-    "boundingBox": [
-      10.0,
-      123.0,
-      11.0,
-      124.0
-    ]
-  },
-  {
     "name": "Central Luzon",
     "description": "Central region of Luzon island with Pacific Ocean exposure on eastern coasts. The area receives swells during typhoon season from July to October, producing quality waves at various breaks. The region combines surf opportunities with easier access from Manila compared to more remote destinations, though surf infrastructure varies by location.",
     "country": {
@@ -2722,6 +2709,19 @@
       120.0,
       16.0,
       121.5
+    ]
+  },
+  {
+    "name": "Damn",
+    "description": "Coastal area with limited documented surf breaks along the Philippine coastline. The region offers potential for waves during typhoon season when swells arrive, though surf infrastructure remains minimal. The area provides exploratory opportunities for experienced surfers seeking uncrowded conditions.",
+    "country": {
+      "id": 46
+    },
+    "boundingBox": [
+      10.0,
+      123.0,
+      11.0,
+      124.0
     ]
   },
   {
@@ -3219,6 +3219,19 @@
     ]
   },
   {
+    "name": "Izmir",
+    "description": "Aegean coastal region featuring Alaçatı in Çeşme, Turkey's windsurfing capital and premier destination for wind-powered water sports. The protected bay features a sandy bottom with shallow waters 200 to 300 meters deep, offering reliable winds averaging 4 to 6 knots from April to October with 50 percent south winds. The area is suitable for beginners, intermediates, and experts, with numerous surf schools offering training and equipment rentals. Additional locations include Ilıca, Pırlanta, Akkum Teos in Seferihisar, Urla, Dikili, Foça, and Özbek, though the region is better known for windsurfing than traditional wave surfing.",
+    "country": {
+      "id": 52
+    },
+    "boundingBox": [
+      38.0,
+      26.5,
+      39.0,
+      27.5
+    ]
+  },
+  {
     "name": "Kastamonu",
     "description": "Northern Black Sea province with coastal access to Turkey's less developed surf region. The area features scenic coastal landscapes with sandy beaches and forested terrain, maintaining minimal surf infrastructure compared to more established Mediterranean destinations. The Black Sea coast receives wind-generated swells with heights ranging from 1 to 12 feet, though surfing remains less developed than the Mediterranean side. The region maintains a small local surfer community with numerous unexplored breaks along the coastal road.",
     "country": {
@@ -3232,19 +3245,6 @@
     ]
   },
   {
-    "name": "Kocaeli",
-    "description": "Province near Istanbul with access to both Marmara Sea and Black Sea coasts. The region benefits from proximity to Turkey's primary surf hub at Rumeli Feneri on the Black Sea side, though the area itself has limited documented surf breaks. The Marmara Sea side offers calmer conditions more suitable for other water activities, while the Black Sea access provides potential for wind-generated swells. The region serves as a gateway between Istanbul's established surf scene and the less explored northern Black Sea coast.",
-    "country": {
-      "id": 52
-    },
-    "boundingBox": [
-      40.5,
-      29.5,
-      41.0,
-      30.5
-    ]
-  },
-  {
     "name": "Kirklareli",
     "description": "Northeastern region bordering Bulgaria with access to the Black Sea coast. The area features Igne Ada, a sandbar near the Bulgarian border with waves up to 5 feet, easily accessible from the town of Igneada. The region benefits from Black Sea swells with active surfing conditions for approximately 280 days per year, though surf infrastructure remains minimal. The area maintains scenic coastal landscapes with sandy beaches and forested terrain, offering uncrowded conditions compared to more developed Mediterranean destinations.",
     "country": {
@@ -3255,6 +3255,19 @@
       27.0,
       42.0,
       28.0
+    ]
+  },
+  {
+    "name": "Kocaeli",
+    "description": "Province near Istanbul with access to both Marmara Sea and Black Sea coasts. The region benefits from proximity to Turkey's primary surf hub at Rumeli Feneri on the Black Sea side, though the area itself has limited documented surf breaks. The Marmara Sea side offers calmer conditions more suitable for other water activities, while the Black Sea access provides potential for wind-generated swells. The region serves as a gateway between Istanbul's established surf scene and the less explored northern Black Sea coast.",
+    "country": {
+      "id": 52
+    },
+    "boundingBox": [
+      40.5,
+      29.5,
+      41.0,
+      30.5
     ]
   },
   {
@@ -3307,19 +3320,6 @@
       31.0,
       41.5,
       32.0
-    ]
-  },
-  {
-    "name": "Izmir",
-    "description": "Aegean coastal region featuring Alaçatı in Çeşme, Turkey's windsurfing capital and premier destination for wind-powered water sports. The protected bay features a sandy bottom with shallow waters 200 to 300 meters deep, offering reliable winds averaging 4 to 6 knots from April to October with 50 percent south winds. The area is suitable for beginners, intermediates, and experts, with numerous surf schools offering training and equipment rentals. Additional locations include Ilıca, Pırlanta, Akkum Teos in Seferihisar, Urla, Dikili, Foça, and Özbek, though the region is better known for windsurfing than traditional wave surfing.",
-    "country": {
-      "id": 52
-    },
-    "boundingBox": [
-      38.0,
-      26.5,
-      39.0,
-      27.5
     ]
   },
   {
@@ -3388,19 +3388,6 @@
     ]
   },
   {
-    "name": "Time Quang Nam",
-    "description": "Central province sharing surf breaks with neighboring Da Nang, including spots like Lang Co and Cue Dai Beach. The region experiences the same short surf season with winds and swells typically active only about four months per year, with winter generally being the optimum time for consistent conditions. The area offers a mix of beach breaks and reef breaks with varying wave consistency, though surf infrastructure is less developed compared to the more established Da Nang scene to the immediate south.",
-    "country": {
-      "id": 54
-    },
-    "boundingBox": [
-      15.2,
-      107.8,
-      16.0,
-      108.5
-    ]
-  },
-  {
     "name": "The Great Thiên-Huế",
     "description": "Northern central province featuring Lang Co, which offers poor to fair conditions with 1 to 2 foot waves. The region is less developed for surfing compared to Vietnam's more established destinations further south, with limited surf infrastructure and inconsistent conditions. The area experiences the northeast monsoon season from November to March when most Vietnamese breaks fire, though wave quality and consistency remain lower than premier destinations like Mui Ne and Da Nang.",
     "country": {
@@ -3411,6 +3398,19 @@
       107.2,
       16.8,
       108.0
+    ]
+  },
+  {
+    "name": "Time Quang Nam",
+    "description": "Central province sharing surf breaks with neighboring Da Nang, including spots like Lang Co and Cue Dai Beach. The region experiences the same short surf season with winds and swells typically active only about four months per year, with winter generally being the optimum time for consistent conditions. The area offers a mix of beach breaks and reef breaks with varying wave consistency, though surf infrastructure is less developed compared to the more established Da Nang scene to the immediate south.",
+    "country": {
+      "id": 54
+    },
+    "boundingBox": [
+      15.2,
+      107.8,
+      16.0,
+      108.5
     ]
   },
   {
@@ -3469,7 +3469,7 @@
     "name": "Chlorakas",
     "description": "Coastal area near Paphos with access to Cyprus's western surf breaks. The region benefits from proximity to established spots like Governor's Beach and Paramali Beach, though the area itself has limited documented surf infrastructure. Winter provides peak season for consistent swells and favorable water conditions along Cyprus's Mediterranean coast, with mild temperatures around 20 degrees Celsius making it more comfortable than colder European destinations.",
     "country": {
-      "id": 57
+      "id": 58
     },
     "boundingBox": [
       34.7,
@@ -3482,20 +3482,7 @@
     "name": "Episcopies",
     "description": "Limassol area location with surf reporting services tracking wave conditions, tides, and wind patterns. The region is part of Cyprus's broader surfing scene, which offers excellent winter surfing conditions with consistent swells and mild temperatures around 20 degrees Celsius. The area benefits from the island's Mediterranean location, providing diverse wave types suitable for different skill levels, though surf infrastructure remains less developed compared to more established European destinations.",
     "country": {
-      "id": 57
-    },
-    "boundingBox": [
-      34.6,
-      32.4,
-      34.7,
-      32.5
-    ]
-  },
-  {
-    "name": "Plakoton's Catalyst",
-    "description": "Also known as Katalymata ton Plakoton, this surf reporting location near Limassol and the Pafos region is part of Cyprus's emerging surf scene. The area benefits from the island's winter swell patterns when consistent Mediterranean swells arrive, though the spot maintains limited documentation compared to more established breaks. The region offers access to Cyprus's diverse wave types while maintaining a quieter atmosphere away from the main tourist centers.",
-    "country": {
-      "id": 57
+      "id": 58
     },
     "boundingBox": [
       34.6,
@@ -3508,7 +3495,7 @@
     "name": "Larnaca",
     "description": "Eastern coastal city featuring Queen Victoria Beach, a beach break best surfed during winter with south-southeast swells and north-northwest offshore winds. The area offers several kitesurfing and watersports spots including McKenzie, Sailing Club, and Pervolia, though traditional wave surfing infrastructure is less developed than the western coast around Paphos. The region benefits from Cyprus's mild winter temperatures around 20 degrees Celsius, making it more comfortable than colder European surf destinations.",
     "country": {
-      "id": 57
+      "id": 58
     },
     "boundingBox": [
       34.8,
@@ -3521,7 +3508,7 @@
     "name": "Paphos",
     "description": "Western coastal city serving as Cyprus's primary surf hub with established breaks including Packyammos, Governor's Beach, and Paramali Beach. Packyammos, also known as The Rock, is an advanced-only spot east of Pomos featuring double-head waves with right-hand breaking points and barreling sections, best for experienced surfers due to rough conditions and surrounding rocks. Governor's Beach offers both left and right-hand breaks on reefs and deep water suitable for intermediate surfers, while Paramali Beach provides beginner-friendly conditions with calm, mellow waves on a long sandy beach. Winter is peak season for consistent swells along this Mediterranean coastline.",
     "country": {
-      "id": 57
+      "id": 58
     },
     "boundingBox": [
       34.6,
@@ -3531,10 +3518,23 @@
     ]
   },
   {
+    "name": "Plakoton's Catalyst",
+    "description": "Also known as Katalymata ton Plakoton, this surf reporting location near Limassol and the Pafos region is part of Cyprus's emerging surf scene. The area benefits from the island's winter swell patterns when consistent Mediterranean swells arrive, though the spot maintains limited documentation compared to more established breaks. The region offers access to Cyprus's diverse wave types while maintaining a quieter atmosphere away from the main tourist centers.",
+    "country": {
+      "id": 58
+    },
+    "boundingBox": [
+      34.6,
+      32.4,
+      34.7,
+      32.5
+    ]
+  },
+  {
     "name": "Potima",
     "description": "Established surf break with dedicated forecast pages and surf reports, listed among Cyprus's best surf spots. Potima Point offers access to the island's excellent winter surfing conditions with consistent swells and mild temperatures around 20 degrees Celsius. The area benefits from Cyprus's Mediterranean location, providing diverse wave types suitable for different skill levels, though the spot maintains less documentation than more established breaks on the western coast around Paphos.",
     "country": {
-      "id": 57
+      "id": 58
     },
     "boundingBox": [
       34.6,
@@ -4246,19 +4246,6 @@
     ]
   },
   {
-    "name": "Schleswig-Holstein",
-    "description": "Home to Sylt and St. Peter-Ording on the North Sea, plus Baltic exposure. Strong tidal range and SW to W windswells; best on mid to high tide when offshore banks get enough water.",
-    "country": {
-      "id": 66
-    },
-    "boundingBox": [
-      7.8,
-      53.3,
-      11.4,
-      55.1
-    ]
-  },
-  {
     "name": "Munich",
     "description": "Inland city famous for the Eisbach standing wave in the Englischer Garten, a river break surfable year-round. Experienced surfers only; the wave is powerful and the spot is tightly regulated. Be friendly and respectful and you my be able to give it a go.",
     "country": {
@@ -4272,10 +4259,23 @@
     ]
   },
   {
+    "name": "Schleswig-Holstein",
+    "description": "Home to Sylt and St. Peter-Ording on the North Sea, plus Baltic exposure. Strong tidal range and SW to W windswells; best on mid to high tide when offshore banks get enough water.",
+    "country": {
+      "id": 66
+    },
+    "boundingBox": [
+      7.8,
+      53.3,
+      11.4,
+      55.1
+    ]
+  },
+  {
     "name": "Catalan Bay",
     "description": "Eastern beach on the Rock with Mediterranean swell from the Strait; best from autumn to spring. Caleta and Sandy Bay offer barreling shore break and bodyboard-friendly peaks. Surf restricted 10am to 8pm in summer.",
     "country": {
-      "id": 68
+      "id": 67
     },
     "boundingBox": [
       -5.4,
@@ -4288,7 +4288,7 @@
     "name": "Attica",
     "description": "Athens and the surrounding coast with spots such as Vouliagmeni, Rafina, and Sounio. Conditions are often flat; winter westerlies occasionally bring rideable windswell to exposed beaches.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       23.3,
@@ -4301,7 +4301,7 @@
     "name": "Central Macedonia",
     "description": "Thessaloniki and the Thermaic Gulf; limited open coast. Surf is scarce and not a primary destination; most activity is windsurf or kitesurf on sheltered waters.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       22.0,
@@ -4314,7 +4314,7 @@
     "name": "Crete",
     "description": "Island far enough south to escape much of Greece’s swell shadow. Chania and Falasarna see the best winter westerlies; quality is inconsistent but among the best in the country.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       23.3,
@@ -4327,7 +4327,7 @@
     "name": "Epirus",
     "description": "Premier surf region in Greece with the highest density of breaks. Beachbreaks, reefs, and rivermouths from Kastro to Loutsa; southern Ionian and Adriatic swells, best in winter.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       19.5,
@@ -4340,7 +4340,7 @@
     "name": "Ionian Islands",
     "description": "Western island chain catching longer-period swells than most of Greece. Corfu’s Agios Giorgios and Glyfada lead the pack; Lefkada and others see windswell when westerlies blow.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       19.3,
@@ -4353,7 +4353,7 @@
     "name": "North Aegean",
     "description": "Islands such as Lesbos, Samos, and Ikaria where summer Meltemi builds small windswell. Tinos and Kolymbithra offer some of the better summer waves in Greece, though size stays modest.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       25.0,
@@ -4366,7 +4366,7 @@
     "name": "Peloponnese",
     "description": "Western coast around Messinia holds some of Greece’s prettiest waves in winter. Lagouvardos is a standout beach break; Costa Navarino and nearby spots can get busy when swell hits.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       21.2,
@@ -4379,7 +4379,7 @@
     "name": "South Aegean",
     "description": "Cyclades and Dodecanese with north-facing coasts that pick up Meltemi windswell in summer. Rhodes and Prasonisi get additional east and south swell; Naxos, Mykonos, and Kos see smaller, fickle waves.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       23.0,
@@ -4392,7 +4392,7 @@
     "name": "Thessaly",
     "description": "Central mainland with a short stretch of coast on the Pelion peninsula. Surf is limited and inconsistent; the region is better known for mountains and culture than for waves.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       21.5,
@@ -4405,7 +4405,7 @@
     "name": "West Greece",
     "description": "Ionian-facing coast from Patras to the Peloponnese border. Some exposure to westerly swells; conditions are less consistent than Epirus or the Ionian Islands but can produce waves in winter.",
     "country": {
-      "id": 69
+      "id": 68
     },
     "boundingBox": [
       20.0,
@@ -4418,7 +4418,7 @@
     "name": "Castel",
     "description": "Northwest parish taking in Vazon and Cobo, the island’s main surf coast. Vazon is the primary beginner beach with a surf school and novice area; Cobo and Port Soif add sandy options. Tides strongly affect when breaks work.",
     "country": {
-      "id": 67
+      "id": 69
     },
     "boundingBox": [
       -2.65,
@@ -4428,23 +4428,10 @@
     ]
   },
   {
-    "name": "La Picaterre",
-    "description": "Small coastal locality on Guernsey with typical Channel Island exposure. Surf is limited and conditions depend on swell direction and tide; the island’s main breaks lie in Castel and L’Ancresse.",
-    "country": {
-      "id": 67
-    },
-    "boundingBox": [
-      -2.6,
-      49.45,
-      -2.52,
-      49.47
-    ]
-  },
-  {
     "name": "L'Ancresse",
     "description": "Northern bay and one of Guernsey’s best beach breaks when conditions align. Works best on the drop from high tide; hollow peaks and better right-handers. Inconsistent, mostly winter; Pembroke Bay sits alongside.",
     "country": {
-      "id": 67
+      "id": 69
     },
     "boundingBox": [
       -2.6,
@@ -4454,10 +4441,23 @@
     ]
   },
   {
+    "name": "La Picaterre",
+    "description": "Small coastal locality on Guernsey with typical Channel Island exposure. Surf is limited and conditions depend on swell direction and tide; the island’s main breaks lie in Castel and L’Ancresse.",
+    "country": {
+      "id": 69
+    },
+    "boundingBox": [
+      -2.6,
+      49.45,
+      -2.52,
+      49.47
+    ]
+  },
+  {
     "name": "Saint Anne",
     "description": "Main settlement on Alderney, part of the Bailiwick. The island has several beaches and some exposure to Atlantic swells; surf is sporadic and less documented than on Guernsey.",
     "country": {
-      "id": 67
+      "id": 69
     },
     "boundingBox": [
       -2.22,
@@ -4470,7 +4470,7 @@
     "name": "Saint Peter Port",
     "description": "Capital and main port on the east coast. Havelet Bay and nearby spots can pick up swell; tides and wind matter. Reef breaks suit experienced surfers; beginners are directed to Vazon in Castel.",
     "country": {
-      "id": 67
+      "id": 69
     },
     "boundingBox": [
       -2.54,
@@ -4483,7 +4483,7 @@
     "name": "St. Andrew's",
     "description": "Central parish with no coastline; the only landlocked parish on Guernsey. No direct surf; access to the coast is via neighbouring parishes such as Castel and St. Saviour.",
     "country": {
-      "id": 67
+      "id": 69
     },
     "boundingBox": [
       -2.6,
@@ -4496,7 +4496,7 @@
     "name": "St. Sampson",
     "description": "Northern parish around the harbour and Braye du Valle. Some north-facing shore; surf is secondary to the port. Best waves remain in Castel and L’Ancresse.",
     "country": {
-      "id": 67
+      "id": 69
     },
     "boundingBox": [
       -2.54,
@@ -4509,7 +4509,7 @@
     "name": "St. Saviour",
     "description": "West-coast parish with inland and coastal fringes. Closer to the main surf exposure than St. Andrew’s; conditions still depend on swell and tide, with Vazon and L’Ancresse the main spots.",
     "country": {
-      "id": 67
+      "id": 69
     },
     "boundingBox": [
       -2.64,
@@ -5303,14 +5303,14 @@
     }
   },
   {
-    "name": "Lighthouse",
+    "name": "Leiria",
     "description": "",
     "country": {
       "id": 82
     }
   },
   {
-    "name": "Leiria",
+    "name": "Lighthouse",
     "description": "",
     "country": {
       "id": 82
@@ -7270,11 +7270,6 @@
     }
   },
   {
-    "name": "Isabel Province",
-    "description": "",
-    "country": null
-  },
-  {
     "name": "Tongatapu",
     "description": "",
     "country": {
@@ -7359,6 +7354,13 @@
     }
   },
   {
+    "name": "Rio de Janeiro",
+    "description": "",
+    "country": {
+      "id": 134
+    }
+  },
+  {
     "name": "Rio Grande do Norte",
     "description": "",
     "country": {
@@ -7367,13 +7369,6 @@
   },
   {
     "name": "Rio Grande do Sul",
-    "description": "",
-    "country": {
-      "id": 134
-    }
-  },
-  {
-    "name": "Rio de Janeiro",
     "description": "",
     "country": {
       "id": 134
@@ -7700,5 +7695,10 @@
     "country": {
       "id": 140
     }
+  },
+  {
+    "name": "Isabel Province",
+    "description": "",
+    "country": null
   }
 ]

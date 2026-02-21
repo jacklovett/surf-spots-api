@@ -152,10 +152,8 @@ public class SeedService {
                     })
                     .collect(Collectors.toList());
 
-            // Resolve continent references by position (JSON ID - 1 = 0-based index)
-            List<Continent> allContinents = continentRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
-                    .collect(Collectors.toList());
+            // Resolve continent references by position (JSON array index = export order = name order)
+            List<Continent> allContinents = continentRepository.findAllByOrderByNameAsc();
             for (Country country : toSave) {
                 if (country.getContinent() != null && country.getContinent().getId() != null) {
                     Long jsonContinentId = country.getContinent().getId();
@@ -217,10 +215,8 @@ public class SeedService {
                     })
                     .collect(Collectors.toList());
 
-            // Resolve country references by position (JSON ID - 1 = 0-based index)
-            List<Country> allCountries = countryRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
-                    .collect(Collectors.toList());
+            // Resolve country references by position (JSON array index = export order = continent then name)
+            List<Country> allCountries = countryRepository.findAllByOrderByContinentNameAscNameAsc();
             for (Region region : toSave) {
                 if (region.getCountry() != null && region.getCountry().getId() != null) {
                     Long jsonCountryId = region.getCountry().getId();
@@ -279,10 +275,8 @@ public class SeedService {
                     })
                     .collect(Collectors.toList());
 
-            // Resolve region references by position (JSON ID - 1 = 0-based index)
-            List<Region> allRegions = regionRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
-                    .collect(Collectors.toList());
+            // Resolve region references by position (JSON array index = export order = country then name)
+            List<Region> allRegions = regionRepository.findAllByOrderByCountryNameAscNameAsc();
             for (SubRegion subRegion : toSave) {
                 if (subRegion.getRegion() != null && subRegion.getRegion().getId() != null) {
                     Long jsonRegionId = subRegion.getRegion().getId();
@@ -369,13 +363,9 @@ public class SeedService {
                     })
                     .collect(Collectors.toList());
 
-            // Resolve region and sub-region references by position (JSON ID - 1 = 0-based index)
-            List<Region> allRegions = regionRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
-                    .collect(Collectors.toList());
-            List<SubRegion> allSubRegions = subRegionRepository.findAll().stream()
-                    .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
-                    .collect(Collectors.toList());
+            // Resolve region and sub-region references by position (JSON array index = export order)
+            List<Region> allRegions = regionRepository.findAllByOrderByCountryNameAscNameAsc();
+            List<SubRegion> allSubRegions = subRegionRepository.findAllByOrderByRegionNameAscNameAsc();
             for (SurfSpot surfSpot : toSave) {
                 if (surfSpot.getRegion() != null && surfSpot.getRegion().getId() != null) {
                     Long jsonRegionId = surfSpot.getRegion().getId();
@@ -454,7 +444,6 @@ public class SeedService {
 
             logger.info("Read {} total entities from {}", entities.length, fileName);
 
-            // Handle duplicates by keeping the first occurrence
             Map<String, T> existingMap = repository.findAll().stream()
                     .collect(Collectors.toMap(getNameFunction, e -> e, (first, second) -> {
                         logger.warn("Duplicate entity name found in database: {}. Keeping first occurrence.", getNameFunction.apply(first));

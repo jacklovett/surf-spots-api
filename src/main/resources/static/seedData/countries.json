@@ -819,7 +819,7 @@
   },
   {
     "name": "Myanmar",
-    "description": "This Southeast Asian country has over 1,930 kilometers of coastline along the Bay of Bengal and the Andaman Sea. While not a major surf destination, it has a few good spots. The best waves arrive between mid-May and late September, with Ngapali Beach and Ngwe Saung being the most well-known. The landscape includes ancient Buddhist temples, lush forests, and a mix of over 100 ethnic groups. Political instability and safety concerns can affect travel plans, so it’s worth checking conditions before visiting.\n\n",
+    "description": "This Southeast Asian country has over 1,930 kilometers of coastline along the Bay of Bengal and the Andaman Sea. While not a major surf destination, it has a few good spots. The best waves arrive between mid-May and late September, with Ngapali Beach and Ngwe Saung being the most well-known. The landscape includes ancient Buddhist temples, lush forests, and a mix of over 100 ethnic groups. Political instability and safety concerns can affect travel plans, so it’s worth checking conditions before visiting.",
     "continent": {
       "id": 2
     },
@@ -832,7 +832,7 @@
   },
   {
     "name": "North Korea",
-    "description": "Surfing here is nearly impossible—not due to a lack of waves, but because no one is allowed to try. With 2,495 kilometers of coastline along the Korean Bay and the Sea of Japan (East Sea), there are likely surfable spots, but strict government control makes access impossible. The beaches are heavily monitored, and independent travel is forbidden. Even if the waves were perfect, the risks far outweigh the reward.\n\n",
+    "description": "Surfing here is nearly impossible—not due to a lack of waves, but because no one is allowed to try. With 2,495 kilometers of coastline along the Korean Bay and the Sea of Japan (East Sea), there are likely surfable spots, but strict government control makes access impossible. The beaches are heavily monitored, and independent travel is forbidden. Even if the waves were perfect, the risks far outweigh the reward.",
     "continent": {
       "id": 2
     },
@@ -1080,27 +1080,6 @@
     ]
   },
   {
-    "name": "Cyprus",
-    "description": "Blazing sun, turquoise waters, and beaches straight off a postcard. Cyprus looks like a surfer’s dream, but the Mediterranean isn’t exactly generous with waves. Swell does roll in occasionally, with Curium and Ladies Mile offering the best chances, but it’s usually small and short-lived. History is everywhere, from ancient Greek ruins to Crusader castles. The food leans heavily on grilled meats, fresh seafood, and halloumi, which Cyprus rightfully claims as its own. Split between Greek and Turkish influences, the island has a complicated past, but if you’re here for the surf, you’re in the wrong place.",
-    "continent": {
-      "id": 3
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency services",
-        "number": "999"
-      },
-      {
-        "label": "Alternative",
-        "number": "112"
-      },
-      {
-        "label": "Coastguard",
-        "number": "999 (ask for Coastguard)"
-      }
-    ]
-  },
-  {
     "name": "Croatia",
     "description": "Crystal-clear waters, rocky beaches, and a coastline straight out of a movie set—Croatia’s Adriatic has been featured in more than just Game of Thrones. Dubrovnik, famous for its role as King’s Landing, has become a hotspot for fans and film buffs alike. As for surf? Not so much. The occasional storm swell brings some rideable waves, with spots like Preluk and Medulin offering the best chances, but it’s nothing to rely on. What Croatia does have is rich history, ancient Roman ruins, and medieval walled cities. The seafood is top-notch, the wine scene is growing, and if the waves aren’t cooperating, there’s always an island to explore or a fortress to climb.",
     "continent": {
@@ -1122,6 +1101,27 @@
       {
         "label": "Maritime (Kystradio)",
         "number": "120"
+      }
+    ]
+  },
+  {
+    "name": "Cyprus",
+    "description": "Blazing sun, turquoise waters, and beaches straight off a postcard. Cyprus looks like a surfer’s dream, but the Mediterranean isn’t exactly generous with waves. Swell does roll in occasionally, with Curium and Ladies Mile offering the best chances, but it’s usually small and short-lived. History is everywhere, from ancient Greek ruins to Crusader castles. The food leans heavily on grilled meats, fresh seafood, and halloumi, which Cyprus rightfully claims as its own. Split between Greek and Turkish influences, the island has a complicated past, but if you’re here for the surf, you’re in the wrong place.",
+    "continent": {
+      "id": 3
+    },
+    "emergencyNumbers": [
+      {
+        "label": "Emergency services",
+        "number": "999"
+      },
+      {
+        "label": "Alternative",
+        "number": "112"
+      },
+      {
+        "label": "Coastguard",
+        "number": "999 (ask for Coastguard)"
       }
     ]
   },
@@ -1258,27 +1258,6 @@
     ]
   },
   {
-    "name": "Guernsey",
-    "description": "The waves on this Channel Island are heavily influenced by its dramatic tidal range, with the sea retreating hundreds of meters in just a few hours. Guernsey’s west coast picks up plenty of swell, with Vazon Bay offering the most consistent waves, while nearby spots like Portinfer and Perelle fire up when conditions align. The island’s surf scene is small but dedicated, and with no big crowds, scoring good waves feels all the more rewarding. Though part of the Channel Islands, off the coast of the British Isles, Guernsey has a character all its own, from rugged cliffs and crystal-clear water to rich history and a food scene famous for its dairy and seafood.",
-    "continent": {
-      "id": 3
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency services",
-        "number": "999"
-      },
-      {
-        "label": "Alternative",
-        "number": "112"
-      },
-      {
-        "label": "Coastguard",
-        "number": "999 (ask for Coastguard)"
-      }
-    ]
-  },
-  {
     "name": "Gibraltar",
     "description": "At the gateway between Europe and Africa, Gibraltar is a quirky slice of Britain perched in southern Spain. Surfing is rare, but when the Levante wind blows strong, Sandy Bay on the east side of the Rock can produce small, rideable waves. The surf scene is minimal, but Gibraltar’s uniqueness lies in its blend of cultures and history. The Rock is filled with ancient military tunnels and watched over by wild Barbary macaques, while the town’s streets offer a curious mix of British pubs and Spanish tapas bars.",
     "continent": {
@@ -1301,6 +1280,27 @@
       {
         "label": "Emergency services",
         "number": "911"
+      }
+    ]
+  },
+  {
+    "name": "Guernsey",
+    "description": "The waves on this Channel Island are heavily influenced by its dramatic tidal range, with the sea retreating hundreds of meters in just a few hours. Guernsey’s west coast picks up plenty of swell, with Vazon Bay offering the most consistent waves, while nearby spots like Portinfer and Perelle fire up when conditions align. The island’s surf scene is small but dedicated, and with no big crowds, scoring good waves feels all the more rewarding. Though part of the Channel Islands, off the coast of the British Isles, Guernsey has a character all its own, from rugged cliffs and crystal-clear water to rich history and a food scene famous for its dairy and seafood.",
+    "continent": {
+      "id": 3
+    },
+    "emergencyNumbers": [
+      {
+        "label": "Emergency services",
+        "number": "999"
+      },
+      {
+        "label": "Alternative",
+        "number": "112"
+      },
+      {
+        "label": "Coastguard",
+        "number": "999 (ask for Coastguard)"
       }
     ]
   },

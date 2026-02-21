@@ -43,6 +43,60 @@ These utility scripts manage seed data for the Surf Spots application. They expo
 
 ## Usage
 
+### Fix data and order (export then restart API)
+
+**Step 1 – Export from Google Sheets**
+
+In a terminal (PowerShell or Command Prompt):
+
+```powershell
+cd c:\dev\surf-spots-api\scripts
+```
+
+If you use a venv, activate it (optional):
+
+```powershell
+.\venv\Scripts\activate
+```
+
+Install deps once if needed:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Run the export (credentials are auto-found if `surfspots-439420-115e3f376e26.json` is in `c:\dev\`):
+
+```powershell
+python export_sheets_to_json.py
+```
+
+Or set the key explicitly:
+
+```powershell
+$env:GOOGLE_APPLICATION_CREDENTIALS = "c:\dev\surfspots-439420-115e3f376e26.json"
+python export_sheets_to_json.py
+```
+
+**Step 2 – Restart the API so the seed runs**
+
+- **Docker:** From `c:\dev\surf-spots-api` run:
+  ```powershell
+  docker-compose -f docker-compose.dev.yml up --build api
+  ```
+  (or `restart api` if already built)
+- **Local (Maven):** From `c:\dev\surf-spots-api` run:
+  ```powershell
+  mvn spring-boot:run
+  ```
+  Stop and start again if it was already running.
+
+The seed runs on startup and updates the DB from the new JSON (links, emergency numbers, order).
+
+---
+
+**One-off run (no venv):**
+
 ```bash
 cd surf-spots-api/scripts
 # Activate virtual environment if using one:

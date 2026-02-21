@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """
-Export Google Sheets to JSON files for seeding
+Export Google Sheets to JSON files for seeding.
 
-This script reads data from Google Sheets using the Google Sheets API
-and exports it to JSON files that match the format expected by SeedService.
+Sheet structure (row 1 = header, data from row 2):
+  Continents:  A=name, B=description
+  Countries:   A=name, B=description, C=continent_name, D=Emergency numbers
+  Regions:     A=name, B=description, C=country_name, D=bounding_box
+  SubRegions:  A=name, B=description, C=region_name, D=bounding_box
+
+Output order: continents A-Z, then countries by continent A-Z, then regions by country A-Z, then sub-regions by region A-Z.
 
 Usage:
     python scripts/export_sheets_to_json.py
@@ -18,6 +23,12 @@ import json
 import os
 import sys
 from pathlib import Path
+
+# Column indices (match sheet columns above)
+CONTINENTS_NAME, CONTINENTS_DESC = 0, 1
+COUNTRIES_NAME, COUNTRIES_DESC, COUNTRIES_CONTINENT, COUNTRIES_EMERGENCY = 0, 1, 2, 3
+REGIONS_NAME, REGIONS_DESC, REGIONS_COUNTRY, REGIONS_BBOX = 0, 1, 2, 3
+SUBREGIONS_NAME, SUBREGIONS_DESC, SUBREGIONS_REGION, SUBREGIONS_BBOX = 0, 1, 2, 3
 
 # Google API imports (requires: pip install -r requirements.txt)
 from google.oauth2.service_account import Credentials  # type: ignore
@@ -135,21 +146,15 @@ def load_json_file(filename):
 
 
 def export_continents(sheets):
-    """Export Continents"""
+    """Export Continents. Sorted A-Z by name."""
     print('Exporting Continents...')
-    
     data = get_sheet_data(sheets, 'Continents')
-    
-    continents = [
-        {
-            'id': index + 1,
-            'name': row[0] if len(row) > 0 else '',
-            'description': row[1] if len(row) > 1 else ''
-        }
-        for index, row in enumerate(data)
-        if row and row[0]  # Only rows with a name
+    rows = [
+        {'name': row[CONTINENTS_NAME].strip(), 'description': (row[CONTINENTS_DESC] if len(row) > CONTINENTS_DESC else '').strip()}
+        for row in data if row and row[0]
     ]
-    
+    rows.sort(key=lambda r: r['name'].lower())
+    continents = [{'id': i + 1, 'name': r['name'], 'description': r['description']} for i, r in enumerate(rows)]
     save_json_file('continents.json', continents)
     print(f"  Exported {len(continents)} continents\n")
     return continents
@@ -171,99 +176,91 @@ def parse_emergency_numbers(cell_value):
 
 
 def export_countries(sheets, continents):
-    """Export Countries. Column D = Emergency numbers (format: Label: Number; Label: Number)."""
+    """Export Countries. Sorted by continent then A-Z by name. Column D = Emergency numbers."""
     print('Exporting Countries...')
-    
     data = get_sheet_data(sheets, 'Countries')
-    continent_map = {c['name']: c['id'] for c in continents}
-    
+    continent_map = {c['name'].strip(): c['id'] for c in continents}
+
     countries = []
     for row in data:
-        if not row or not row[0]:
+        if not row or not row[COUNTRIES_NAME]:
             continue
-        continent_name = row[2] if len(row) > 2 else ''
+        continent_name = (row[COUNTRIES_CONTINENT] if len(row) > COUNTRIES_CONTINENT else '').strip()
         continent_id = continent_map.get(continent_name)
+        if continent_name and not continent_id:
+            print(f"  Warning: unknown continent '{continent_name}' for country {row[COUNTRIES_NAME]}")
         country = {
-            'name': row[0],
-            'description': row[1] if len(row) > 1 else '',
-            'continent': {'id': continent_id} if continent_id else None
+            'name': row[COUNTRIES_NAME].strip(),
+            'description': (row[COUNTRIES_DESC] if len(row) > COUNTRIES_DESC else '').strip(),
+            'continent': {'id': continent_id} if continent_id else None,
         }
-        if len(row) > 3 and row[3]:
-            country['emergencyNumbers'] = parse_emergency_numbers(row[3])
+        if len(row) > COUNTRIES_EMERGENCY and row[COUNTRIES_EMERGENCY]:
+            country['emergencyNumbers'] = parse_emergency_numbers(row[COUNTRIES_EMERGENCY])
         countries.append(country)
-    
+
+    countries.sort(key=lambda c: (c['continent']['id'] if c.get('continent') else 9999, c['name'].lower()))
     save_json_file('countries.json', countries)
     print(f"  Exported {len(countries)} countries\n")
     return countries
 
 
 def export_regions(sheets, countries):
-    """Export Regions"""
+    """Export Regions. Sorted by country then A-Z by name."""
     print('Exporting Regions...')
-    
     data = get_sheet_data(sheets, 'Regions')
-    
-    # Create country name to ID mapping (based on order in JSON)
-    country_map = {c['name']: index + 1 for index, c in enumerate(countries)}
-    
+    country_map = {c['name'].strip(): i + 1 for i, c in enumerate(countries)}
+
     regions = []
     for row in data:
-        if not row or not row[0]:  # Skip empty rows
+        if not row or not row[REGIONS_NAME]:
             continue
-        
-        country_name = row[2] if len(row) > 2 else ''
+        country_name = (row[REGIONS_COUNTRY] if len(row) > REGIONS_COUNTRY else '').strip()
         country_id = country_map.get(country_name)
-        
+        if country_name and not country_id:
+            print(f"  Warning: unknown country '{country_name}' for region {row[REGIONS_NAME]}")
         region = {
-            'name': row[0],
-            'description': row[1] if len(row) > 1 else '',
-            'country': {'id': country_id} if country_id else None
+            'name': row[REGIONS_NAME].strip(),
+            'description': (row[REGIONS_DESC] if len(row) > REGIONS_DESC else '').strip(),
+            'country': {'id': country_id} if country_id else None,
         }
-        
-        # Add bounding_box if present
-        if len(row) > 3 and row[3]:
-            bbox = parse_bounding_box(row[3])
+        if len(row) > REGIONS_BBOX and row[REGIONS_BBOX]:
+            bbox = parse_bounding_box(row[REGIONS_BBOX])
             if bbox:
                 region['boundingBox'] = bbox
-        
         regions.append(region)
-    
+
+    regions.sort(key=lambda r: (r['country']['id'] if r.get('country') else 99999, r['name'].lower()))
     save_json_file('regions.json', regions)
     print(f"  Exported {len(regions)} regions\n")
     return regions
 
 
 def export_sub_regions(sheets, regions):
-    """Export SubRegions"""
+    """Export SubRegions. Sorted by region then A-Z by name."""
     print('Exporting SubRegions...')
-    
     data = get_sheet_data(sheets, 'SubRegions')
-    
-    # Create region name to ID mapping (based on order in JSON)
-    region_map = {r['name']: index + 1 for index, r in enumerate(regions)}
-    
+    region_map = {r['name'].strip(): i + 1 for i, r in enumerate(regions)}
+
     sub_regions = []
     for row in data:
-        if not row or not row[0]:  # Skip empty rows
+        if not row or not row[SUBREGIONS_NAME]:
             continue
-        
-        region_name = row[2] if len(row) > 2 else ''
+        region_name = (row[SUBREGIONS_REGION] if len(row) > SUBREGIONS_REGION else '').strip()
         region_id = region_map.get(region_name)
-        
+        if region_name and not region_id:
+            print(f"  Warning: unknown region '{region_name}' for sub-region {row[SUBREGIONS_NAME]}")
         sub_region = {
-            'name': row[0],
-            'description': row[1] if len(row) > 1 else '',
-            'region': {'id': region_id} if region_id else None
+            'name': row[SUBREGIONS_NAME].strip(),
+            'description': (row[SUBREGIONS_DESC] if len(row) > SUBREGIONS_DESC else '').strip(),
+            'region': {'id': region_id} if region_id else None,
         }
-        
-        # Add bounding_box if present
-        if len(row) > 3 and row[3]:
-            bbox = parse_bounding_box(row[3])
+        if len(row) > SUBREGIONS_BBOX and row[SUBREGIONS_BBOX]:
+            bbox = parse_bounding_box(row[SUBREGIONS_BBOX])
             if bbox:
                 sub_region['boundingBox'] = bbox
-        
         sub_regions.append(sub_region)
-    
+
+    sub_regions.sort(key=lambda s: (s['region']['id'] if s.get('region') else 99999, s['name'].lower()))
     save_json_file('sub-regions.json', sub_regions)
     print(f"  Exported {len(sub_regions)} sub-regions\n")
     return sub_regions

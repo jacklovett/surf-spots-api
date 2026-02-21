@@ -14,6 +14,9 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
   List<Region> findByCountryId(Long countryId);
 
+  @Query("SELECT r FROM Region r LEFT JOIN r.country c ORDER BY c.name, r.name")
+  List<Region> findAllByOrderByCountryNameAscNameAsc();
+
   /**
    * Find regions that contain the given point using bounding box array check.
    * If countryId is provided, filters by country.
