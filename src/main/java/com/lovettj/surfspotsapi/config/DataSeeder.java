@@ -14,15 +14,15 @@ public class DataSeeder {
     private static final Logger logger = LoggerFactory.getLogger(DataSeeder.class);
 
     /**
-     * Automatically seed the database on application startup when using the 'dev' profile.
-     * This ensures the database is populated with initial data for development.
-     * Explicitly excluded from 'test' profile to prevent seeding during test runs.
+     * Seed the database on startup from JSON in static/seedData/.
+     * Runs in dev and prod so deployed apps apply the latest seed data (order, emergency numbers, etc.).
+     * Excluded from 'test' profile so tests control their own data.
      */
     @Bean
-    @Profile({"dev", "!test"})
+    @Profile({"dev", "prod", "!test"})
     public CommandLineRunner seedData(SeedService seedService) {
         return args -> {
-            logger.info("Starting data seeding for development environment...");
+            logger.info("Starting data seeding...");
             try {
                 seedService.seedData();
                 logger.info("Data seeding completed successfully!");
