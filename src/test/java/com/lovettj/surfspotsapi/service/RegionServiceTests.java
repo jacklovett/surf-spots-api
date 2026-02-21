@@ -120,7 +120,7 @@ class RegionServiceTests {
         // Arrange
         Long countryId = 1L;
         List<Region> expectedRegions = Arrays.asList(testRegion1, testRegion2);
-        when(regionRepository.findByCountryId(countryId)).thenReturn(expectedRegions);
+        when(regionRepository.findByCountryIdOrderByNameAsc(countryId)).thenReturn(expectedRegions);
 
         // Act
         List<Region> result = regionService.getRegionsByCountry(countryId);
@@ -130,7 +130,7 @@ class RegionServiceTests {
         assertEquals(2, result.size());
         assertEquals(testRegion1, result.get(0));
         assertEquals(testRegion2, result.get(1));
-        verify(regionRepository).findByCountryId(countryId);
+        verify(regionRepository).findByCountryIdOrderByNameAsc(countryId);
     }
 
     @Test
@@ -139,7 +139,7 @@ class RegionServiceTests {
         String countrySlug = "morocco";
         List<Region> expectedRegions = Arrays.asList(testRegion1, testRegion2);
         when(countryRepository.findBySlug(countrySlug)).thenReturn(Optional.of(testCountry));
-        when(regionRepository.findByCountryId(testCountry.getId())).thenReturn(expectedRegions);
+        when(regionRepository.findByCountryIdOrderByNameAsc(testCountry.getId())).thenReturn(expectedRegions);
 
         // Act
         List<Region> result = regionService.findRegionsByCountrySlug(countrySlug);
@@ -150,7 +150,7 @@ class RegionServiceTests {
         assertEquals(testRegion1, result.get(0));
         assertEquals(testRegion2, result.get(1));
         verify(countryRepository).findBySlug(countrySlug);
-        verify(regionRepository).findByCountryId(testCountry.getId());
+        verify(regionRepository).findByCountryIdOrderByNameAsc(testCountry.getId());
     }
 
     @Test
@@ -164,7 +164,7 @@ class RegionServiceTests {
                 () -> regionService.findRegionsByCountrySlug(countrySlug));
         assertEquals("Country not found", exception.getMessage());
         verify(countryRepository).findBySlug(countrySlug);
-        verify(regionRepository, never()).findByCountryId(any());
+        verify(regionRepository, never()).findByCountryIdOrderByNameAsc(any());
     }
 
     @Test

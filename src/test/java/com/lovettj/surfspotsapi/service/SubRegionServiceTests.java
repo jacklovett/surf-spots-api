@@ -96,7 +96,7 @@ class SubRegionServiceTests {
         // Arrange
         Long regionId = 1L;
         List<SubRegion> expectedSubRegions = Arrays.asList(testSubRegion1, testSubRegion2);
-        when(subRegionRepository.findByRegionId(regionId)).thenReturn(expectedSubRegions);
+        when(subRegionRepository.findByRegionIdOrderByNameAsc(regionId)).thenReturn(expectedSubRegions);
 
         // Act
         List<SubRegion> result = subRegionService.getSubRegionsByRegion(regionId);
@@ -106,14 +106,14 @@ class SubRegionServiceTests {
         assertEquals(2, result.size());
         assertEquals(testSubRegion1, result.get(0));
         assertEquals(testSubRegion2, result.get(1));
-        verify(subRegionRepository).findByRegionId(regionId);
+        verify(subRegionRepository).findByRegionIdOrderByNameAsc(regionId);
     }
 
     @Test
     void testGetSubRegionsByRegionShouldReturnEmptyListWhenRegionIdDoesNotExist() {
         // Arrange
         Long regionId = 999L;
-        when(subRegionRepository.findByRegionId(regionId)).thenReturn(Arrays.asList());
+        when(subRegionRepository.findByRegionIdOrderByNameAsc(regionId)).thenReturn(Arrays.asList());
 
         // Act
         List<SubRegion> result = subRegionService.getSubRegionsByRegion(regionId);
@@ -121,7 +121,7 @@ class SubRegionServiceTests {
         // Assert
         assertNotNull(result);
         assertTrue(result.isEmpty());
-        verify(subRegionRepository).findByRegionId(regionId);
+        verify(subRegionRepository).findByRegionIdOrderByNameAsc(regionId);
     }
 
     @Test
@@ -130,7 +130,7 @@ class SubRegionServiceTests {
         String regionSlug = "test-region";
         List<SubRegion> expectedSubRegions = Arrays.asList(testSubRegion1, testSubRegion2);
         when(regionRepository.findBySlug(regionSlug)).thenReturn(Optional.of(testRegion));
-        when(subRegionRepository.findByRegion(testRegion)).thenReturn(expectedSubRegions);
+        when(subRegionRepository.findByRegionIdOrderByNameAsc(testRegion.getId())).thenReturn(expectedSubRegions);
 
         // Act
         List<SubRegion> result = subRegionService.findSubRegionsByRegionSlug(regionSlug);
@@ -141,7 +141,7 @@ class SubRegionServiceTests {
         assertEquals(testSubRegion1, result.get(0));
         assertEquals(testSubRegion2, result.get(1));
         verify(regionRepository).findBySlug(regionSlug);
-        verify(subRegionRepository).findByRegion(testRegion);
+        verify(subRegionRepository).findByRegionIdOrderByNameAsc(testRegion.getId());
     }
 
     @Test
@@ -155,7 +155,7 @@ class SubRegionServiceTests {
                 () -> subRegionService.findSubRegionsByRegionSlug(regionSlug));
         assertEquals("Region not found", exception.getMessage());
         verify(regionRepository).findBySlug(regionSlug);
-        verify(subRegionRepository, never()).findByRegion(any());
+        verify(subRegionRepository, never()).findByRegionIdOrderByNameAsc(any());
     }
 
     @Test
@@ -163,7 +163,7 @@ class SubRegionServiceTests {
         // Arrange
         String regionSlug = "test-region";
         when(regionRepository.findBySlug(regionSlug)).thenReturn(Optional.of(testRegion));
-        when(subRegionRepository.findByRegion(testRegion)).thenReturn(Arrays.asList());
+        when(subRegionRepository.findByRegionIdOrderByNameAsc(testRegion.getId())).thenReturn(Arrays.asList());
 
         // Act
         List<SubRegion> result = subRegionService.findSubRegionsByRegionSlug(regionSlug);
@@ -172,6 +172,6 @@ class SubRegionServiceTests {
         assertNotNull(result);
         assertTrue(result.isEmpty());
         verify(regionRepository).findBySlug(regionSlug);
-        verify(subRegionRepository).findByRegion(testRegion);
+        verify(subRegionRepository).findByRegionIdOrderByNameAsc(testRegion.getId());
     }
 }

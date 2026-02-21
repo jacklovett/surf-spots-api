@@ -72,7 +72,7 @@ class CountryServiceTests {
     @Test
     void testGetCountriesByContinentShouldReturnCountriesWhenContinentExists() {
         when(continentRepository.findBySlug("europe")).thenReturn(Optional.of(testContinent));
-        when(countryRepository.findByContinent(testContinent)).thenReturn(List.of(testCountry));
+        when(countryRepository.findByContinentOrderByNameAsc(testContinent)).thenReturn(List.of(testCountry));
 
         List<Country> result = countryService.getCountriesByContinent("europe");
 
@@ -80,7 +80,7 @@ class CountryServiceTests {
         assertEquals(1, result.size());
         assertEquals("France", result.get(0).getName());
         verify(continentRepository).findBySlug("europe");
-        verify(countryRepository).findByContinent(testContinent);
+        verify(countryRepository).findByContinentOrderByNameAsc(testContinent);
     }
 
     @Test
@@ -92,13 +92,13 @@ class CountryServiceTests {
 
         assertEquals("Continent not found", thrown.getMessage());
         verify(continentRepository).findBySlug("unknown");
-        verify(countryRepository, never()).findByContinent(any());
+        verify(countryRepository, never()).findByContinentOrderByNameAsc(any());
     }
 
     @Test
     void testGetCountriesByContinentShouldReturnEmptyListWhenContinentHasNoCountries() {
         when(continentRepository.findBySlug("antarctica")).thenReturn(Optional.of(testContinent));
-        when(countryRepository.findByContinent(testContinent)).thenReturn(List.of());
+        when(countryRepository.findByContinentOrderByNameAsc(testContinent)).thenReturn(List.of());
 
         List<Country> result = countryService.getCountriesByContinent("antarctica");
 
@@ -108,14 +108,14 @@ class CountryServiceTests {
 
     @Test
     void testGetAllCountriesShouldReturnAllFromRepository() {
-        when(countryRepository.findAll()).thenReturn(List.of(testCountry));
+        when(countryRepository.findAllByOrderByContinentNameAscNameAsc()).thenReturn(List.of(testCountry));
 
         List<Country> result = countryService.getAllCountries();
 
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("France", result.get(0).getName());
-        verify(countryRepository).findAll();
+        verify(countryRepository).findAllByOrderByContinentNameAscNameAsc();
     }
 
     @Test

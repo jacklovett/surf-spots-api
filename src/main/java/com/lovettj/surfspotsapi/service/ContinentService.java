@@ -18,7 +18,7 @@ public class ContinentService {
   }
 
   public List<Continent> getContinents() {
-    return continentRepository.findAll();
+    return continentRepository.findAllByOrderByNameAsc();
   }
 
   public Continent getContinentBySlug(String slug) {

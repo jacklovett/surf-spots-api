@@ -26,13 +26,13 @@ public class SubRegionService {
   }
 
   public List<SubRegion> getSubRegionsByRegion(Long regionId) {
-    return subRegionRepository.findByRegionId(regionId);
+    return subRegionRepository.findByRegionIdOrderByNameAsc(regionId);
   }
 
   public List<SubRegion> findSubRegionsByRegionSlug(String slug) {
     Region region = regionRepository.findBySlug(slug)
         .orElseThrow(() -> new EntityNotFoundException("Region not found"));
-    return subRegionRepository.findByRegion(region);
+    return subRegionRepository.findByRegionIdOrderByNameAsc(region.getId());
   }
 }
 

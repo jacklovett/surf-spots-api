@@ -33,13 +33,13 @@ public class RegionService {
   }
 
   public List<Region> getRegionsByCountry(Long countryId) {
-    return regionRepository.findByCountryId(countryId);
+    return regionRepository.findByCountryIdOrderByNameAsc(countryId);
   }
 
   public List<Region> findRegionsByCountrySlug(String slug) {
     Country country = countryRepository.findBySlug(slug)
         .orElseThrow(() -> new EntityNotFoundException("Country not found"));
-    return regionRepository.findByCountryId(country.getId());
+    return regionRepository.findByCountryIdOrderByNameAsc(country.getId());
   }
 
   /**

@@ -14,6 +14,8 @@ public interface CountryRepository extends JpaRepository<Country, Long> {
 
   List<Country> findByContinent(Continent continent);
 
+  List<Country> findByContinentOrderByNameAsc(Continent continent);
+
   @Query("SELECT c FROM Country c LEFT JOIN c.continent cont ORDER BY cont.name, c.name")
   List<Country> findAllByOrderByContinentNameAscNameAsc();
 

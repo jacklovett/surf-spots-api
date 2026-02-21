@@ -191,21 +191,28 @@ public class SeedService {
 
             logger.info("Read {} total entities from regions.json", entities.length);
 
-            // Create map of existing entities by name
-            // Handle duplicates by keeping the first occurrence
+            // Match by (country, name) so "Corsica" in France and "Corsica" elsewhere are different rows
+            List<Country> allCountries = countryRepository.findAllByOrderByContinentNameAscNameAsc();
             Map<String, Region> existingMap = regionRepository.findAll().stream()
-                    .collect(Collectors.toMap(Region::getName, r -> r, (first, second) -> {
-                        logger.warn("Duplicate region name found in database: {}. Keeping first occurrence.", first.getName());
-                        return first;
-                    }));
+                    .collect(Collectors.toMap(
+                            r -> regionKey(r.getCountry() != null ? r.getCountry().getId() : null, r.getName()),
+                            r -> r,
+                            (first, second) -> first));
 
             List<Region> toSave = Arrays.stream(entities)
                     .map(jsonEntity -> {
-                        Region existing = existingMap.get(jsonEntity.getName());
+                        Long countryId = null;
+                        if (jsonEntity.getCountry() != null && jsonEntity.getCountry().getId() != null) {
+                            int index = jsonEntity.getCountry().getId().intValue() - 1;
+                            if (index >= 0 && index < allCountries.size()) {
+                                countryId = allCountries.get(index).getId();
+                            }
+                        }
+                        String key = regionKey(countryId, jsonEntity.getName());
+                        Region existing = existingMap.get(key);
                         if (existing != null) {
                             existing.setDescription(jsonEntity.getDescription());
                             existing.setBoundingBox(jsonEntity.getBoundingBox());
-                            existing.setCountry(jsonEntity.getCountry());
                             logger.debug("Updating existing region: {}", existing.getName());
                             return existing;
                         } else {
@@ -215,8 +222,6 @@ public class SeedService {
                     })
                     .collect(Collectors.toList());
 
-            // Resolve country references by position (JSON array index = export order = continent then name)
-            List<Country> allCountries = countryRepository.findAllByOrderByContinentNameAscNameAsc();
             for (Region region : toSave) {
                 if (region.getCountry() != null && region.getCountry().getId() != null) {
                     Long jsonCountryId = region.getCountry().getId();
@@ -231,7 +236,7 @@ public class SeedService {
                 }
             }
 
-            saveAndLog(regionRepository, toSave, existingMap, Region::getName, "regions", "regions.json");
+            saveAndLog(regionRepository, toSave, existingMap, r -> regionKey(r.getCountry() != null ? r.getCountry().getId() : null, r.getName()), "regions", "regions.json");
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from regions.json: {}", e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -252,46 +257,45 @@ public class SeedService {
 
             logger.info("Read {} total entities from sub-regions.json", entities.length);
 
-            // Create map of existing entities by name
-            // Handle duplicates by keeping the first occurrence
+            // Match by (region, name) so duplicate names in different regions are different rows
+            List<Region> allRegions = regionRepository.findAllByOrderByCountryNameAscNameAsc();
             Map<String, SubRegion> existingMap = subRegionRepository.findAll().stream()
-                    .collect(Collectors.toMap(SubRegion::getName, sr -> sr, (first, second) -> {
-                        logger.warn("Duplicate sub-region name found in database: {}. Keeping first occurrence.", first.getName());
-                        return first;
-                    }));
+                    .collect(Collectors.toMap(
+                            sr -> subRegionKey(sr.getRegion() != null ? sr.getRegion().getId() : null, sr.getName()),
+                            sr -> sr,
+                            (first, second) -> first));
 
             List<SubRegion> toSave = Arrays.stream(entities)
                     .map(jsonEntity -> {
-                        SubRegion existing = existingMap.get(jsonEntity.getName());
+                        Long regionId = null;
+                        Region resolvedRegion = null;
+                        if (jsonEntity.getRegion() != null && jsonEntity.getRegion().getId() != null) {
+                            int index = jsonEntity.getRegion().getId().intValue() - 1;
+                            if (index >= 0 && index < allRegions.size()) {
+                                resolvedRegion = allRegions.get(index);
+                                regionId = resolvedRegion.getId();
+                            }
+                        }
+                        String key = subRegionKey(regionId, jsonEntity.getName());
+                        SubRegion existing = existingMap.get(key);
                         if (existing != null) {
                             existing.setDescription(jsonEntity.getDescription());
-                            existing.setRegion(jsonEntity.getRegion());
+                            if (resolvedRegion != null) {
+                                existing.setRegion(resolvedRegion);
+                            }
                             logger.debug("Updating existing sub-region: {}", existing.getName());
                             return existing;
                         } else {
+                            if (resolvedRegion != null) {
+                                jsonEntity.setRegion(resolvedRegion);
+                            }
                             logger.debug("Creating new sub-region: {}", jsonEntity.getName());
                             return jsonEntity;
                         }
                     })
                     .collect(Collectors.toList());
 
-            // Resolve region references by position (JSON array index = export order = country then name)
-            List<Region> allRegions = regionRepository.findAllByOrderByCountryNameAscNameAsc();
-            for (SubRegion subRegion : toSave) {
-                if (subRegion.getRegion() != null && subRegion.getRegion().getId() != null) {
-                    Long jsonRegionId = subRegion.getRegion().getId();
-                    int index = jsonRegionId.intValue() - 1;
-                    if (index >= 0 && index < allRegions.size()) {
-                        subRegion.setRegion(allRegions.get(index));
-                    } else {
-                        logger.warn("Region with JSON id {} (index {}) not found for sub-region '{}', skipping region reference. Total regions: {}",
-                                jsonRegionId, index, subRegion.getName(), allRegions.size());
-                        subRegion.setRegion(null);
-                    }
-                }
-            }
-
-            saveAndLog(subRegionRepository, toSave, existingMap, SubRegion::getName, "sub-regions", "sub-regions.json");
+            saveAndLog(subRegionRepository, toSave, existingMap, sr -> subRegionKey(sr.getRegion() != null ? sr.getRegion().getId() : null, sr.getName()), "sub-regions", "sub-regions.json");
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from sub-regions.json: {}", e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -476,17 +480,25 @@ public class SeedService {
         return fileName.replace(".json", "").replace("-", " ");
     }
 
+    private static String regionKey(Long countryId, String name) {
+        return (countryId != null ? countryId : 0L) + "|" + (name != null ? name : "");
+    }
+
+    private static String subRegionKey(Long regionId, String name) {
+        return (regionId != null ? regionId : 0L) + "|" + (name != null ? name : "");
+    }
+
     private <T> void saveAndLog(
             JpaRepository<T, ?> repository,
             List<T> toSave,
             Map<String, T> existingMap,
-            Function<T, String> getNameFunction,
+            Function<T, String> getKeyFunction,
             String entityName,
             String fileName) {
         if (!toSave.isEmpty()) {
             repository.saveAll(toSave);
             repository.flush();
-            long updated = toSave.stream().filter(e -> existingMap.containsKey(getNameFunction.apply(e))).count();
+            long updated = toSave.stream().filter(e -> existingMap.containsKey(getKeyFunction.apply(e))).count();
             long created = toSave.size() - updated;
             logger.info("Successfully processed {} {} from {} ({} created, {} updated)",
                     toSave.size(), entityName, fileName, created, updated);

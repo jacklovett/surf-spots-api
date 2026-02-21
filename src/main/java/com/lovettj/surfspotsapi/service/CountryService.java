@@ -29,11 +29,11 @@ public class CountryService {
   public List<Country> getCountriesByContinent(String continentSlug) {
     Continent continent = continentRepository.findBySlug(continentSlug)
         .orElseThrow(() -> new EntityNotFoundException("Continent not found"));
-    return countryRepository.findByContinent(continent);
+    return countryRepository.findByContinentOrderByNameAsc(continent);
   }
 
   public List<Country> getAllCountries() {
-    return countryRepository.findAll();
+    return countryRepository.findAllByOrderByContinentNameAscNameAsc();
   }
 
   /**

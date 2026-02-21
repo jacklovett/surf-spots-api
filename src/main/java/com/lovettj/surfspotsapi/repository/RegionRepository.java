@@ -14,6 +14,8 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
   List<Region> findByCountryId(Long countryId);
 
+  List<Region> findByCountryIdOrderByNameAsc(Long countryId);
+
   @Query("SELECT r FROM Region r LEFT JOIN r.country c ORDER BY c.name, r.name")
   List<Region> findAllByOrderByCountryNameAscNameAsc();
 
