@@ -57,14 +57,14 @@ class SurfSpotControllerTests {
     }
 
     @Test
-    void testGetSurfSpotsByRegionWithFiltersShouldReturnFilteredSpots() throws Exception {
+    void testGetSurfSpotsByRegionIdWithFiltersShouldReturnFilteredSpots() throws Exception {
         SurfSpotDTO surfSpotDTO = SurfSpotDTO.builder().id(1L).name("Pipeline").build();
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
-        filters.setType(Arrays.asList(SurfSpotType.REEF_BREAK)); // Add more filter fields as needed
+        filters.setType(Arrays.asList(SurfSpotType.REEF_BREAK));
         String jsonBody = new ObjectMapper().writeValueAsString(filters);
-        Mockito.when(surfSpotService.findSurfSpotsByRegionSlugWithFilters(Mockito.eq("oahu"), Mockito.any(SurfSpotFilterDTO.class)))
+        Mockito.when(surfSpotService.findSurfSpotsByRegionIdWithFilters(Mockito.eq(1L), Mockito.any(SurfSpotFilterDTO.class)))
                 .thenReturn(Collections.singletonList(surfSpotDTO));
-        mockMvc.perform(post("/api/surf-spots/region/oahu")
+        mockMvc.perform(post("/api/surf-spots/region-id/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
                 .andExpect(status().isOk())

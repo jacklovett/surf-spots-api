@@ -152,19 +152,25 @@ public class SeedService {
                     })
                     .collect(Collectors.toList());
 
-            // Resolve continent references by position (JSON array index = export order = name order)
+            // Resolve continent by name from JSON first so we don't rely on index (avoids wrong continent when DB order differs from export)
             List<Continent> allContinents = continentRepository.findAllByOrderByNameAsc();
             for (Country country : toSave) {
-                if (country.getContinent() != null && country.getContinent().getId() != null) {
-                    Long jsonContinentId = country.getContinent().getId();
-                    int index = jsonContinentId.intValue() - 1;
-                    if (index >= 0 && index < allContinents.size()) {
-                        country.setContinent(allContinents.get(index));
-                    } else {
-                        logger.warn("Continent with JSON id {} (index {}) not found for country '{}', skipping continent reference. Total continents: {}",
-                                jsonContinentId, index, country.getName(), allContinents.size());
-                        country.setContinent(null);
+                if (country.getContinent() != null) {
+                    Continent continent = null;
+                    if (country.getContinent().getName() != null && !country.getContinent().getName().isBlank()) {
+                        continent = continentRepository.findByNameIgnoreCase(country.getContinent().getName()).orElse(null);
                     }
+                    if (continent == null && country.getContinent().getId() != null) {
+                        int index = country.getContinent().getId().intValue() - 1;
+                        if (index >= 0 && index < allContinents.size()) {
+                            continent = allContinents.get(index);
+                        }
+                    }
+                    if (continent == null) {
+                        logger.warn("Continent not found for country '{}' (name={}, id={}), skipping continent reference",
+                                country.getName(), country.getContinent().getName(), country.getContinent().getId());
+                    }
+                    country.setContinent(continent);
                 }
                 if (country.getEmergencyNumbers() != null) {
                     country.getEmergencyNumbers().forEach(en -> en.setCountry(country));
@@ -182,6 +188,9 @@ public class SeedService {
     @Transactional
     public void seedRegions() {
         try {
+            // Clean up duplicate regions in DB (e.g. from a previous bad seed in prod). Keeps one per (country, name).
+            deleteDuplicateRegions();
+
             Resource resource = getMainResource("static/seedData/regions.json");
             Region[] entities = mapper.readValue(resource.getInputStream(), Region[].class);
 
@@ -199,13 +208,24 @@ public class SeedService {
                             r -> r,
                             (first, second) -> first));
 
+            // Resolve country by name from JSON first so we don't rely on index (avoids wrong country when DB order differs from export)
             List<Region> toSave = Arrays.stream(entities)
                     .map(jsonEntity -> {
                         Long countryId = null;
-                        if (jsonEntity.getCountry() != null && jsonEntity.getCountry().getId() != null) {
-                            int index = jsonEntity.getCountry().getId().intValue() - 1;
-                            if (index >= 0 && index < allCountries.size()) {
-                                countryId = allCountries.get(index).getId();
+                        if (jsonEntity.getCountry() != null) {
+                            if (jsonEntity.getCountry().getName() != null && !jsonEntity.getCountry().getName().isBlank()) {
+                                countryId = countryRepository.findByNameIgnoreCase(jsonEntity.getCountry().getName())
+                                        .map(Country::getId).orElse(null);
+                                if (countryId == null) {
+                                    logger.warn("Country name '{}' not found for region '{}', trying index fallback",
+                                            jsonEntity.getCountry().getName(), jsonEntity.getName());
+                                }
+                            }
+                            if (countryId == null && jsonEntity.getCountry().getId() != null) {
+                                int index = jsonEntity.getCountry().getId().intValue() - 1;
+                                if (index >= 0 && index < allCountries.size()) {
+                                    countryId = allCountries.get(index).getId();
+                                }
                             }
                         }
                         String key = regionKey(countryId, jsonEntity.getName());
@@ -223,20 +243,35 @@ public class SeedService {
                     .collect(Collectors.toList());
 
             for (Region region : toSave) {
-                if (region.getCountry() != null && region.getCountry().getId() != null) {
-                    Long jsonCountryId = region.getCountry().getId();
-                    int index = jsonCountryId.intValue() - 1;
-                    if (index >= 0 && index < allCountries.size()) {
-                        region.setCountry(allCountries.get(index));
-                    } else {
-                        logger.warn("Country with JSON id {} (index {}) not found for region '{}', skipping country reference. Total countries: {}",
-                                jsonCountryId, index, region.getName(), allCountries.size());
-                        region.setCountry(null);
+                if (region.getCountry() != null) {
+                    Country country = null;
+                    if (region.getCountry().getName() != null && !region.getCountry().getName().isBlank()) {
+                        country = countryRepository.findByNameIgnoreCase(region.getCountry().getName()).orElse(null);
                     }
+                    if (country == null && region.getCountry().getId() != null) {
+                        int index = region.getCountry().getId().intValue() - 1;
+                        if (index >= 0 && index < allCountries.size()) {
+                            country = allCountries.get(index);
+                        }
+                    }
+                    if (country == null) {
+                        logger.warn("Country not found for region '{}' (name={}, id={}), skipping country reference",
+                                region.getName(), region.getCountry().getName(), region.getCountry().getId());
+                    }
+                    region.setCountry(country);
                 }
             }
 
-            saveAndLog(regionRepository, toSave, existingMap, r -> regionKey(r.getCountry() != null ? r.getCountry().getId() : null, r.getName()), "regions", "regions.json");
+            // Deduplicate by (country, name) so we only save one region per (country, name)
+            List<Region> deduplicated = toSave.stream()
+                    .collect(Collectors.toMap(
+                            r -> regionKey(r.getCountry() != null ? r.getCountry().getId() : null, r.getName()),
+                            r -> r,
+                            (first, second) -> first))
+                    .values().stream()
+                    .collect(Collectors.toList());
+
+            saveAndLog(regionRepository, deduplicated, existingMap, r -> regionKey(r.getCountry() != null ? r.getCountry().getId() : null, r.getName()), "regions", "regions.json");
         } catch (IOException e) {
             logger.error("Failed to read or parse seed data from regions.json: {}", e.getMessage(), e);
         } catch (DataAccessException e) {
@@ -478,6 +513,49 @@ public class SeedService {
 
     private String getEntityNameFromFileName(String fileName) {
         return fileName.replace(".json", "").replace("-", " ");
+    }
+
+    /**
+     * Removes duplicate regions (same country_id, same name) from the DB, keeping one per (country, name).
+     * Reassigns any surf spots that pointed at a removed region to the kept region.
+     * Fixes prod DBs that were seeded with duplicate or bad data before we deduplicated in export/seed.
+     */
+    private void deleteDuplicateRegions() {
+        List<Region> all = regionRepository.findAll();
+        if (all.isEmpty()) return;
+
+        // Group by (country_id, name); keep region with smallest id per group
+        Map<String, Region> keepByKey = new java.util.LinkedHashMap<>();
+        List<Region> toDelete = new java.util.ArrayList<>();
+        for (Region r : all) {
+            Long cid = r.getCountry() != null ? r.getCountry().getId() : null;
+            String key = regionKey(cid, r.getName());
+            Region kept = keepByKey.get(key);
+            if (kept == null) {
+                keepByKey.put(key, r);
+            } else if (r.getId() != null && kept.getId() != null && r.getId() < kept.getId()) {
+                toDelete.add(kept);
+                keepByKey.put(key, r);
+            } else {
+                toDelete.add(r);
+            }
+        }
+
+        for (Region duplicate : toDelete) {
+            Region kept = keepByKey.get(regionKey(duplicate.getCountry() != null ? duplicate.getCountry().getId() : null, duplicate.getName()));
+            if (kept == null) continue;
+            List<SurfSpot> spots = surfSpotRepository.findByRegion_Id(duplicate.getId());
+            for (SurfSpot spot : spots) {
+                spot.setRegion(kept);
+            }
+            surfSpotRepository.saveAll(spots);
+            regionRepository.delete(duplicate);
+            logger.info("Removed duplicate region: id={}, name='{}', countryId={}", duplicate.getId(), duplicate.getName(), duplicate.getCountry() != null ? duplicate.getCountry().getId() : null);
+        }
+        if (!toDelete.isEmpty()) {
+            regionRepository.flush();
+            logger.info("Cleaned up {} duplicate region(s)", toDelete.size());
+        }
     }
 
     private static String regionKey(Long countryId, String name) {

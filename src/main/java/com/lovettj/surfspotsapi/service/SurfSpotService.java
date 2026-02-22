@@ -260,11 +260,14 @@ public class SurfSpotService {
                 .toList();
     }
 
-    public List<SurfSpotDTO> findSurfSpotsByRegionSlugWithFilters(String slug, SurfSpotFilterDTO filters) {
-        Region region = regionRepository.findBySlug(slug)
+    /**
+     * Get surf spots for a region by region id so the correct region is used
+     * when the same region slug exists in multiple countries (e.g. "south-west" in England and Italy).
+     */
+    public List<SurfSpotDTO> findSurfSpotsByRegionIdWithFilters(Long regionId, SurfSpotFilterDTO filters) {
+        Region region = regionRepository.findById(regionId)
                 .orElseThrow(() -> new EntityNotFoundException("Region not found"));
         List<SurfSpot> surfSpots = surfSpotRepository.findByRegionWithFilters(region, filters);
-        // Filter by season if needed
         surfSpots = filterBySeason(surfSpots, filters);
         return surfSpots.stream()
                 .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))

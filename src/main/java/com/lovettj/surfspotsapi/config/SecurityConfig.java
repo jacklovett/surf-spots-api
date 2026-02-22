@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/continents/**").permitAll()
                 .requestMatchers("/api/countries/**").permitAll()
                 .requestMatchers("/api/regions/**").permitAll() // Explicitly include this
-                .requestMatchers("/api/surf-spots/region/**").permitAll()
+                .requestMatchers("/api/surf-spots/region-id/**").permitAll()
                 .requestMatchers("/api/surf-spots/sub-region/**").permitAll()
                 .requestMatchers("/api/surf-spots/within-bounds").permitAll()
                 .requestMatchers("/api/surf-spots/*").permitAll() // GET by slug

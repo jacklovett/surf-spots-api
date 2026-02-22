@@ -2,6 +2,9 @@ package com.lovettj.surfspotsapi.integration;
 
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
+import com.lovettj.surfspotsapi.entity.Region;
+import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.repository.ContinentRepository;
 import com.lovettj.surfspotsapi.repository.CountryRepository;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
@@ -14,6 +17,7 @@ import com.lovettj.surfspotsapi.repository.TripSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.service.SeedService;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -108,16 +112,19 @@ class SeedServiceIntegrationTest {
         long firstSwellSeasonCount = swellSeasonRepository.count();
         long firstContinentCount = continentRepository.count();
         long firstCountryCount = countryRepository.count();
+        long firstRegionCount = regionRepository.count();
 
         // Second seeding should not duplicate data (updates existing entities instead)
         seedService.seedData();
         long secondSwellSeasonCount = swellSeasonRepository.count();
         long secondContinentCount = continentRepository.count();
         long secondCountryCount = countryRepository.count();
+        long secondRegionCount = regionRepository.count();
 
         assertEquals(firstSwellSeasonCount, secondSwellSeasonCount, "Second seeding should not create duplicate swell seasons");
         assertEquals(firstContinentCount, secondContinentCount, "Second seeding should not create duplicate continents");
         assertEquals(firstCountryCount, secondCountryCount, "Second seeding should not create duplicate countries");
+        assertEquals(firstRegionCount, secondRegionCount, "Second seeding should not create duplicate regions (dedup by country+name)");
     }
 
     @Test
@@ -197,5 +204,58 @@ class SeedServiceIntegrationTest {
                 "Country should still have a continent after update");
         assertEquals(originalContinentId, updatedCountry.getContinent().getId(), 
                 "Continent relationship should be preserved after update");
+    }
+
+    @Test
+    void testSeedRegionsShouldRemoveDuplicateRegionsAndReassignSurfSpots() {
+        // Given - initial seed so we have countries and regions
+        seedService.seedData();
+        Region existingRegion = regionRepository.findAll().stream()
+                .filter(r -> r.getCountry() != null)
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("At least one region with country should exist after seed"));
+        Long keptRegionId = existingRegion.getId();
+        Country country = existingRegion.getCountry();
+        String regionName = existingRegion.getName();
+
+        // When - we introduce a duplicate region (same country, same name) and a surf spot on it
+        Region duplicateRegion = Region.builder()
+                .name(regionName)
+                .country(country)
+                .build();
+        duplicateRegion.generateSlug();
+        duplicateRegion = regionRepository.save(duplicateRegion);
+        Long duplicateRegionId = duplicateRegion.getId();
+
+        SurfSpot spotOnDuplicate = SurfSpot.builder()
+                .name("Spot on duplicate region")
+                .latitude(0.0)
+                .longitude(0.0)
+                .region(duplicateRegion)
+                .status(SurfSpotStatus.APPROVED)
+                .rating(1)
+                .build();
+        spotOnDuplicate.generateSlug();
+        spotOnDuplicate = surfSpotRepository.save(spotOnDuplicate);
+
+        long regionCountBeforeSecondSeed = regionRepository.findAll().stream()
+                .filter(r -> r.getCountry() != null && regionName.equals(r.getName()) && country.getId().equals(r.getCountry().getId()))
+                .count();
+        assertEquals(2, regionCountBeforeSecondSeed, "There should be two regions (original + duplicate) before re-seed");
+
+        // When - re-seed runs deleteDuplicateRegions then normal region seed
+        seedService.seedData();
+
+        // Then - only one region per (country, name); surf spot points to the kept region
+        List<Region> regionsWithSameName = regionRepository.findAll().stream()
+                .filter(r -> r.getCountry() != null && regionName.equals(r.getName()) && country.getId().equals(r.getCountry().getId()))
+                .toList();
+        assertEquals(1, regionsWithSameName.size(), "After seed there should be exactly one region per (country, name)");
+        assertEquals(keptRegionId, regionsWithSameName.get(0).getId(), "The kept region should be the one with smallest id");
+
+        SurfSpot spotAfter = surfSpotRepository.findById(spotOnDuplicate.getId()).orElseThrow();
+        assertNotNull(spotAfter.getRegion());
+        assertEquals(keptRegionId, spotAfter.getRegion().getId(),
+                "Surf spot that was on the duplicate region should now point to the kept region");
     }
 }

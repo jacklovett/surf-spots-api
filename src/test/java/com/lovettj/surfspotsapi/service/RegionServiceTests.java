@@ -168,6 +168,56 @@ class RegionServiceTests {
     }
 
     @Test
+    void testGetRegionByCountrySlugAndRegionSlugShouldReturnRegionWhenBothExist() {
+        // Given - country and region slugs that exist
+        String countrySlug = "morocco";
+        String regionSlug = "taghazout";
+        when(countryRepository.findBySlug(countrySlug)).thenReturn(Optional.of(testCountry));
+        when(regionRepository.findByCountryIdAndSlug(testCountry.getId(), regionSlug)).thenReturn(Optional.of(testRegion1));
+
+        // When
+        Region result = regionService.getRegionByCountrySlugAndRegionSlug(countrySlug, regionSlug);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(testRegion1.getId(), result.getId());
+        assertEquals(testRegion1.getName(), result.getName());
+        verify(countryRepository).findBySlug(countrySlug);
+        verify(regionRepository).findByCountryIdAndSlug(testCountry.getId(), regionSlug);
+    }
+
+    @Test
+    void testGetRegionByCountrySlugAndRegionSlugShouldThrowWhenCountryNotFound() {
+        // Given - country slug does not exist
+        String countrySlug = "nonexistent";
+        String regionSlug = "taghazout";
+        when(countryRepository.findBySlug(countrySlug)).thenReturn(Optional.empty());
+
+        // When / Then
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class,
+                () -> regionService.getRegionByCountrySlugAndRegionSlug(countrySlug, regionSlug));
+        assertEquals("Country not found", ex.getMessage());
+        verify(countryRepository).findBySlug(countrySlug);
+        verify(regionRepository, never()).findByCountryIdAndSlug(any(), any());
+    }
+
+    @Test
+    void testGetRegionByCountrySlugAndRegionSlugShouldThrowWhenRegionNotFound() {
+        // Given - country exists but region slug does not
+        String countrySlug = "morocco";
+        String regionSlug = "nonexistent-region";
+        when(countryRepository.findBySlug(countrySlug)).thenReturn(Optional.of(testCountry));
+        when(regionRepository.findByCountryIdAndSlug(testCountry.getId(), regionSlug)).thenReturn(Optional.empty());
+
+        // When / Then
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class,
+                () -> regionService.getRegionByCountrySlugAndRegionSlug(countrySlug, regionSlug));
+        assertEquals("Region not found", ex.getMessage());
+        verify(countryRepository).findBySlug(countrySlug);
+        verify(regionRepository).findByCountryIdAndSlug(testCountry.getId(), regionSlug);
+    }
+
+    @Test
     void testFindRegionByCoordinatesShouldReturnRegionWithBoundingBoxWhenPointIsWithinBoundingBox() {
         // Arrange
         Double longitude = -9.7167;

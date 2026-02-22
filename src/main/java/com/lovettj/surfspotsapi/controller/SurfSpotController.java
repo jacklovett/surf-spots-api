@@ -25,15 +25,19 @@ public class SurfSpotController {
     this.surfSpotService = surfSpotService;
   }
 
-  @PostMapping("/region/{regionSlug}")
-  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegionWithFilters(
-          @PathVariable String regionSlug,
+  /**
+   * Get surf spots for a region by region id so the correct region is used
+   * when the same region slug exists in multiple countries (e.g. "south-west" in England and Italy).
+   */
+  @PostMapping("/region-id/{regionId}")
+  public ResponseEntity<List<SurfSpotDTO>> getSurfSpotsByRegionIdWithFilters(
+          @PathVariable Long regionId,
           @RequestBody SurfSpotFilterDTO filters) {
       try {
-          List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionSlugWithFilters(regionSlug, filters);
+          List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionIdWithFilters(regionId, filters);
           return ResponseEntity.ok(surfSpots);
       } catch (EntityNotFoundException e) {
-          return ResponseEntity.status(500).build();
+          return ResponseEntity.status(404).build();
       }
   }
 

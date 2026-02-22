@@ -12,6 +12,8 @@ import org.springframework.data.repository.query.Param;
 public interface RegionRepository extends JpaRepository<Region, Long> {
   Optional<Region> findBySlug(String slug);
 
+  Optional<Region> findByCountryIdAndSlug(Long countryId, String slug);
+
   List<Region> findByCountryId(Long countryId);
 
   List<Region> findByCountryIdOrderByNameAsc(Long countryId);

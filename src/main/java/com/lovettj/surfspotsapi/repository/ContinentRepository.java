@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ContinentRepository extends JpaRepository<Continent, Long> {
   Optional<Continent> findBySlug(String slug);
 
+  Optional<Continent> findByNameIgnoreCase(String name);
+
   List<Continent> findAllByOrderByNameAsc();
 }

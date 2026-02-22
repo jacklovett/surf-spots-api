@@ -192,7 +192,7 @@ def export_countries(sheets, continents):
         country = {
             'name': row[COUNTRIES_NAME].strip(),
             'description': (row[COUNTRIES_DESC] if len(row) > COUNTRIES_DESC else '').strip(),
-            'continent': {'id': continent_id} if continent_id else None,
+            'continent': {'id': continent_id, 'name': continent_name} if continent_id else None,
         }
         if len(row) > COUNTRIES_EMERGENCY and row[COUNTRIES_EMERGENCY]:
             country['emergencyNumbers'] = parse_emergency_numbers(row[COUNTRIES_EMERGENCY])
@@ -205,23 +205,31 @@ def export_countries(sheets, continents):
 
 
 def export_regions(sheets, countries):
-    """Export Regions. Sorted by country then A-Z by name."""
+    """Export Regions. Sorted by country then A-Z by name. Deduplicates by (country, region name)."""
     print('Exporting Regions...')
     data = get_sheet_data(sheets, 'Regions')
     country_map = {c['name'].strip(): i + 1 for i, c in enumerate(countries)}
 
+    seen = set()  # (country_name, region_name) for deduplication
     regions = []
     for row in data:
         if not row or not row[REGIONS_NAME]:
             continue
+        region_name = row[REGIONS_NAME].strip()
         country_name = (row[REGIONS_COUNTRY] if len(row) > REGIONS_COUNTRY else '').strip()
+        key = (country_name or '', region_name)
+        if key in seen:
+            print(f"  Warning: duplicate region skipped (country='{country_name}', region='{region_name}')")
+            continue
+        seen.add(key)
+
         country_id = country_map.get(country_name)
         if country_name and not country_id:
-            print(f"  Warning: unknown country '{country_name}' for region {row[REGIONS_NAME]}")
+            print(f"  Warning: unknown country '{country_name}' for region {region_name}")
         region = {
-            'name': row[REGIONS_NAME].strip(),
+            'name': region_name,
             'description': (row[REGIONS_DESC] if len(row) > REGIONS_DESC else '').strip(),
-            'country': {'id': country_id} if country_id else None,
+            'country': {'id': country_id, 'name': country_name} if country_id else None,
         }
         if len(row) > REGIONS_BBOX and row[REGIONS_BBOX]:
             bbox = parse_bounding_box(row[REGIONS_BBOX])

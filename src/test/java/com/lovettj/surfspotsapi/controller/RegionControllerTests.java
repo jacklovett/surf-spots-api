@@ -238,5 +238,27 @@ class RegionControllerTests {
         assertEquals(testCountry, body.getCountry());
         verify(regionService).findRegionAndCountryByCoordinates(longitude, latitude, countryName);
     }
+
+    @Test
+    void testGetRegionByCountrySlugAndRegionSlugShouldReturnRegionWhenBothExist() {
+        // Given - country slug and region slug that exist
+        String countrySlug = "morocco";
+        String regionSlug = "taghazout";
+        when(regionService.getRegionByCountrySlugAndRegionSlug(countrySlug, regionSlug))
+            .thenReturn(testRegion1);
+
+        // When
+        ResponseEntity<Region> response = regionController.getRegionByCountrySlugAndRegionSlug(countrySlug, regionSlug);
+
+        // Then
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Region body = response.getBody();
+        assertNotNull(body);
+        assertEquals(testRegion1.getId(), body.getId());
+        assertEquals(testRegion1.getName(), body.getName());
+        assertEquals(regionSlug, body.getSlug());
+        verify(regionService).getRegionByCountrySlugAndRegionSlug(countrySlug, regionSlug);
+    }
 }
 

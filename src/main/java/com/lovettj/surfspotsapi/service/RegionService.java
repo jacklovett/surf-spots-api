@@ -32,6 +32,17 @@ public class RegionService {
     return regionRepository.findBySlug(slug).orElseThrow(() -> new EntityNotFoundException("Region not found"));
   }
 
+  /**
+   * Get region by country slug and region slug so the correct region is returned
+   * when the same region slug exists in multiple countries (e.g. "south-west" in England and Italy).
+   */
+  public Region getRegionByCountrySlugAndRegionSlug(String countrySlug, String regionSlug) {
+    Country country = countryRepository.findBySlug(countrySlug)
+        .orElseThrow(() -> new EntityNotFoundException("Country not found"));
+    return regionRepository.findByCountryIdAndSlug(country.getId(), regionSlug)
+        .orElseThrow(() -> new EntityNotFoundException("Region not found"));
+  }
+
   public List<Region> getRegionsByCountry(Long countryId) {
     return regionRepository.findByCountryIdOrderByNameAsc(countryId);
   }

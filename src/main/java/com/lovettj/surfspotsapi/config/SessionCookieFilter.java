@@ -25,7 +25,7 @@ public class SessionCookieFilter implements Filter {
         "/api/continents/**",
         "/api/countries/**",
         "/api/regions/**",
-        "/api/surf-spots/region/**",
+        "/api/surf-spots/region-id/**",
         "/api/surf-spots/sub-region/**",
         "/api/surf-spots/within-bounds",
         "/api/surf-spots/*",
@@ -90,7 +90,7 @@ public class SessionCookieFilter implements Filter {
                 // For surf-spots POST endpoints, only filtering endpoints are public
                 if (uri.startsWith("/api/surf-spots") && "POST".equals(method)) {
                     // POST to region/sub-region/within-bounds are public (filtering)
-                    boolean isPublicPost = uri.startsWith("/api/surf-spots/region/") ||
+                    boolean isPublicPost = uri.startsWith("/api/surf-spots/region-id/") ||
                            uri.startsWith("/api/surf-spots/sub-region/") ||
                            uri.equals("/api/surf-spots/within-bounds");
                     logger.debug("Surf-spots POST endpoint check: {}", isPublicPost);

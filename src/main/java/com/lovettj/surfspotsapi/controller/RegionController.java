@@ -58,6 +58,18 @@ public class RegionController {
     return ResponseEntity.ok(regions);
   }
 
+  /**
+   * Get a single region by country slug and region slug so the correct region is returned
+   * when the same region slug exists in multiple countries (e.g. "south-west" in England and Italy).
+   */
+  @GetMapping("/country/{countrySlug}/{regionSlug}")
+  public ResponseEntity<Region> getRegionByCountrySlugAndRegionSlug(
+      @PathVariable String countrySlug,
+      @PathVariable String regionSlug) {
+    Region region = regionService.getRegionByCountrySlugAndRegionSlug(countrySlug, regionSlug);
+    return ResponseEntity.ok(region);
+  }
+
   @GetMapping("/{regionSlug}")
   public ResponseEntity<Region> getRegionBySlug(@PathVariable String regionSlug) {
     Region region = regionService.getRegionBySlug(regionSlug);
