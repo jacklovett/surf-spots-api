@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lovettj.surfspotsapi.dto.ContinentSummaryDTO;
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.service.ContinentService;
 
@@ -21,9 +22,10 @@ public class ContinentController {
     this.continentService = continentService;
   }
 
+  /** Returns continents with their countries only */
   @GetMapping
-  public ResponseEntity<List<Continent>> getContinents() {
-    List<Continent> continents = continentService.getContinents();
+  public ResponseEntity<List<ContinentSummaryDTO>> getContinents() {
+    List<ContinentSummaryDTO> continents = continentService.getContinentsWithCountries();
     return ResponseEntity.ok(continents);
   }
 
