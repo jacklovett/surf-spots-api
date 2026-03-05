@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum SurfSpotType {
     BEACH_BREAK("Beach Break"),
     REEF_BREAK("Reef Break"),
-    POINT_BREAK("Point Break");
+    POINT_BREAK("Point Break"),
+    STANDING_WAVE("Standing Wave");
 
     private final String displayName;
 

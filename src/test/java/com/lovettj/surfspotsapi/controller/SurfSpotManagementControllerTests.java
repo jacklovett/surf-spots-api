@@ -114,6 +114,36 @@ class SurfSpotManagementControllerTests {
     }
 
     @Test
+    void testCreateSurfSpotWithStandingWaveTypeShouldReturnCreatedSurfSpot() throws Exception {
+        SurfSpot surfSpot = SurfSpot.builder()
+                .id(1L)
+                .name("Eisbach")
+                .description("Famous standing river wave in Munich.")
+                .type(SurfSpotType.STANDING_WAVE)
+                .longitude(11.5884)
+                .latitude(48.1522)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .build();
+
+        Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpotRequest.class))).thenReturn(surfSpot);
+
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Eisbach",
+              "description": "Famous standing river wave in Munich.",
+              "type": "Standing Wave"
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/surf-spots/id/1"));
+    }
+
+    @Test
     void testDeleteSurfSpotShouldReturnNoContent() throws Exception {
         Mockito.doNothing().when(surfSpotService).deleteSurfSpot(1L);
 

@@ -138,6 +138,26 @@ class SurfSpotControllerTests {
     }
 
     @Test
+    void testGetSurfSpotsByRegionIdWithStandingWaveTypeFilterShouldReturnFilteredSpots() throws Exception {
+        SurfSpotDTO surfSpotDTO = SurfSpotDTO.builder()
+                .id(1L)
+                .name("Eisbach")
+                .type(SurfSpotType.STANDING_WAVE)
+                .build();
+        SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
+        filters.setType(Arrays.asList(SurfSpotType.STANDING_WAVE));
+        String jsonBody = new ObjectMapper().writeValueAsString(filters);
+        Mockito.when(surfSpotService.findSurfSpotsByRegionIdWithFilters(Mockito.eq(1L), Mockito.any(SurfSpotFilterDTO.class)))
+                .thenReturn(Collections.singletonList(surfSpotDTO));
+        mockMvc.perform(post("/api/surf-spots/region-id/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonBody))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name", is("Eisbach")))
+                .andExpect(jsonPath("$[0].type", is("Standing Wave")));
+    }
+
+    @Test
     void testGetSurfSpotsBySubRegionWithFiltersShouldReturnFilteredSpots() throws Exception {
         // Arrange
         String subRegionSlug = "test-sub-region";
