@@ -389,6 +389,7 @@ public class SeedService {
                             existing.setWavepoolUrl(jsonEntity.getWavepoolUrl());
                             existing.setIsRiverWave(jsonEntity.getIsRiverWave());
                             existing.setForecasts(jsonEntity.getForecasts());
+                            existing.setWebcams(jsonEntity.getWebcams());
                             existing.setCreatedBy(jsonEntity.getCreatedBy());
                             existing.setStatus(jsonEntity.getStatus());
                             existing.setRegion(jsonEntity.getRegion());

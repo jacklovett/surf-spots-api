@@ -143,6 +143,67 @@ class SurfSpotServiceTests {
     }
 
     @Test
+    void testCreateSurfSpotShouldSetForecastsAndWebcamsFromRequest() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Test Spot");
+        request.setDescription("Great surf spot!");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setForecasts(Arrays.asList("https://forecast.example.com/spot1"));
+        request.setWebcams(Arrays.asList("https://webcam.example.com/spot1"));
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.empty());
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertNotNull(result);
+        assertEquals(request.getForecasts(), result.getForecasts());
+        assertEquals(request.getWebcams(), result.getWebcams());
+        verify(surfSpotRepository).save(any(SurfSpot.class));
+    }
+
+    @Test
+    void testUpdateSurfSpotShouldSetForecastsAndWebcamsFromRequest() {
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("Original Name");
+        existingSpot.setLatitude(36.5270);
+        existingSpot.setLongitude(-6.2886);
+        existingSpot.setForecasts(Collections.emptyList());
+        existingSpot.setWebcams(Collections.emptyList());
+
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Updated Name");
+        request.setUserId("test-user-id");
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setForecasts(Arrays.asList("https://forecast.example.com/updated"));
+        request.setWebcams(Arrays.asList("https://webcam.example.com/updated"));
+
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.empty());
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
+
+        assertNotNull(result);
+        assertEquals(request.getForecasts(), result.getForecasts());
+        assertEquals(request.getWebcams(), result.getWebcams());
+        verify(surfSpotRepository).save(any(SurfSpot.class));
+    }
+
+    @Test
     public void testCreateSurfSpotShouldAutomaticallySetSwellSeasonForMediterranean() {
         SurfSpotRequest request = new SurfSpotRequest();
         request.setName("Mediterranean Spot");
@@ -303,6 +364,22 @@ class SurfSpotServiceTests {
         surfSpotService.deleteSurfSpot(surfSpotId);
 
         verify(surfSpotRepository).deleteById(surfSpotId);
+    }
+
+    @Test
+    void testSurfSpotDTOShouldIncludeForecastsAndWebcamsFromEntity() {
+        SurfSpot surfSpot = createMockSurfSpot();
+        surfSpot.setForecasts(Arrays.asList("https://forecast.example.com/1"));
+        surfSpot.setWebcams(Arrays.asList("https://webcam.example.com/1"));
+
+        SurfSpotDTO dto = new SurfSpotDTO(surfSpot);
+
+        assertNotNull(dto.getForecasts());
+        assertEquals(1, dto.getForecasts().size());
+        assertEquals("https://forecast.example.com/1", dto.getForecasts().get(0));
+        assertNotNull(dto.getWebcams());
+        assertEquals(1, dto.getWebcams().size());
+        assertEquals("https://webcam.example.com/1", dto.getWebcams().get(0));
     }
 
     @Test

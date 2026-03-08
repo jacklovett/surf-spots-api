@@ -48,6 +48,7 @@ public class SurfSpotRequest {
     private List<Facility> facilities;
     private List<AccommodationOption> accommodationOptions;
     private List<String> forecasts;
+    private List<String> webcams;
     private SurfSpotStatus status;
     private String userId;
 }

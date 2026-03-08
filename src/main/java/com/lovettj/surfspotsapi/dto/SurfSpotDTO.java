@@ -69,6 +69,7 @@ public class SurfSpotDTO {
     private List<Facility> facilities;
     private List<Hazard> hazards;
     private List<String> forecasts;
+    private List<String> webcams;
 
     public SurfSpotDTO(SurfSpot surfSpot) {
         this.setId(surfSpot.getId());
@@ -114,7 +115,8 @@ public class SurfSpotDTO {
         this.setFacilities(surfSpot.getFacilities());
         this.setHazards(surfSpot.getHazards());
         this.setForecasts(surfSpot.getForecasts());
-        
+        this.setWebcams(surfSpot.getWebcams());
+
         // Generate and set the path for the surf spot
         this.setPath(generateSurfSpotPath(surfSpot));
     }

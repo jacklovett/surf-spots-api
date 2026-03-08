@@ -128,7 +128,8 @@ public class SurfSpotService {
         surfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         surfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
         surfSpot.setRating(surfSpotRequest.getRating());
-        surfSpot.setForecasts(surfSpotRequest.getForecasts());
+        surfSpot.setForecasts(filterNonBlankStrings(surfSpotRequest.getForecasts()));
+        surfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
 
         // Enums
         surfSpot.setType(surfSpotRequest.getType());
@@ -192,7 +193,8 @@ public class SurfSpotService {
         existingSurfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         existingSurfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
         existingSurfSpot.setRating(surfSpotRequest.getRating());
-        existingSurfSpot.setForecasts(surfSpotRequest.getForecasts());
+        existingSurfSpot.setForecasts(filterNonBlankStrings(surfSpotRequest.getForecasts()));
+        existingSurfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
 
         // Update enums
         existingSurfSpot.setType(surfSpotRequest.getType());
@@ -299,5 +301,14 @@ public class SurfSpotService {
         }
 
         return surfSpotDTO;
+    }
+
+    private static List<String> filterNonBlankStrings(List<String> list) {
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return list.stream()
+                .filter(s -> s != null && !s.isBlank())
+                .collect(Collectors.toList());
     }
 }

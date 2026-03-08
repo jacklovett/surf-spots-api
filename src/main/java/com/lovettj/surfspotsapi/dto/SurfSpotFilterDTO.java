@@ -39,5 +39,6 @@ public class SurfSpotFilterDTO {
     private List<String> facilities;
     private List<String> hazards;
     private List<String> forecasts;
+    private List<String> webcams;
     private List<String> seasons; // List of month names to filter by
 }

@@ -106,6 +106,29 @@ class SurfSpotControllerTests {
     }
 
     @Test
+    void testGetSurfSpotByIdShouldReturnForecastsAndWebcamsWhenPresent() throws Exception {
+        SurfSpotDTO dtoWithLinks = SurfSpotDTO.builder()
+                .id(1L)
+                .name("Pipeline")
+                .description("A famous surf spot.")
+                .type(SurfSpotType.REEF_BREAK)
+                .forecasts(Arrays.asList("https://forecast.example.com/pipeline"))
+                .webcams(Arrays.asList("https://webcam.example.com/pipeline"))
+                .build();
+
+        Mockito.when(surfSpotService.findByIdAndUserId(1L, "test-user-id-123"))
+                .thenReturn(Optional.of(dtoWithLinks));
+
+        mockMvc.perform(get("/api/surf-spots/id/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Pipeline")))
+                .andExpect(jsonPath("$.forecasts[0]", is("https://forecast.example.com/pipeline")))
+                .andExpect(jsonPath("$.webcams[0]", is("https://webcam.example.com/pipeline")));
+    }
+
+    @Test
     void testGetSurfSpotByIdShouldReturnNotFoundWhenSurfSpotDoesNotExist() throws Exception {
         Mockito.when(surfSpotService.findByIdAndUserId(999L, "test-user-id-123"))
                 .thenReturn(Optional.empty());

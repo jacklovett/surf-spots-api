@@ -143,6 +143,10 @@ public class SurfSpot extends SluggableEntity {
     @Column(name = "forecasts")
     private List<String> forecasts;
 
+    @ElementCollection
+    @Column(name = "webcams")
+    private List<String> webcams;
+
     @Column(name = "created_by")
     private String createdBy;
 

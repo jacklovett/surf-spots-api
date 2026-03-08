@@ -17,6 +17,7 @@ import com.lovettj.surfspotsapi.repository.TripSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.service.SeedService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -257,5 +258,36 @@ class SeedServiceIntegrationTest {
         assertNotNull(spotAfter.getRegion());
         assertEquals(keptRegionId, spotAfter.getRegion().getId(),
                 "Surf spot that was on the duplicate region should now point to the kept region");
+    }
+
+    @Test
+    void testSurfSpotCanPersistAndLoadForecastsAndWebcams() {
+        seedService.seedData();
+        Region region = regionRepository.findAll().stream()
+                .filter(r -> r.getCountry() != null)
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("At least one region should exist after seed"));
+
+        SurfSpot spot = SurfSpot.builder()
+                .name("Spot with forecasts and webcams")
+                .latitude(0.0)
+                .longitude(0.0)
+                .region(region)
+                .status(SurfSpotStatus.APPROVED)
+                .rating(1)
+                .forecasts(Arrays.asList("https://forecast.example.com/1"))
+                .webcams(Arrays.asList("https://webcam.example.com/1"))
+                .build();
+        spot.generateSlug();
+        spot = surfSpotRepository.save(spot);
+        surfSpotRepository.flush();
+
+        SurfSpot loaded = surfSpotRepository.findById(spot.getId()).orElseThrow();
+        assertNotNull(loaded.getForecasts(), "Forecasts should be persisted");
+        assertEquals(1, loaded.getForecasts().size());
+        assertEquals("https://forecast.example.com/1", loaded.getForecasts().get(0));
+        assertNotNull(loaded.getWebcams(), "Webcams should be persisted");
+        assertEquals(1, loaded.getWebcams().size());
+        assertEquals("https://webcam.example.com/1", loaded.getWebcams().get(0));
     }
 }

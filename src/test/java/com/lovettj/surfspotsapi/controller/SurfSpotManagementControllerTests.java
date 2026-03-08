@@ -114,6 +114,43 @@ class SurfSpotManagementControllerTests {
     }
 
     @Test
+    void testCreateSurfSpotWithForecastsAndWebcamsShouldAcceptPayload() throws Exception {
+        SurfSpot surfSpot = SurfSpot.builder()
+                .id(1L)
+                .name("Spot With Links")
+                .description("Spot with forecast and webcam links.")
+                .longitude(0.1)
+                .latitude(0.2)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .build();
+
+        Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpotRequest.class))).thenReturn(surfSpot);
+
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Spot With Links",
+              "description": "Spot with forecast and webcam links.",
+              "regionId": 1,
+              "latitude": 0.2,
+              "longitude": 0.1,
+              "forecasts": ["https://forecast.example.com/1"],
+              "webcams": ["https://webcam.example.com/1"]
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/surf-spots/id/1"));
+
+        Mockito.verify(surfSpotService).createSurfSpot(Mockito.argThat(req ->
+                req.getForecasts() != null && req.getForecasts().size() == 1
+                        && req.getWebcams() != null && req.getWebcams().size() == 1));
+    }
+
+    @Test
     void testCreateSurfSpotWithStandingWaveTypeShouldReturnCreatedSurfSpot() throws Exception {
         SurfSpot surfSpot = SurfSpot.builder()
                 .id(1L)
