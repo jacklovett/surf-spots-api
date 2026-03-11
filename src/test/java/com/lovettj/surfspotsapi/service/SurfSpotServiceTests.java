@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -177,6 +178,7 @@ class SurfSpotServiceTests {
         SurfSpot existingSpot = new SurfSpot();
         existingSpot.setId(1L);
         existingSpot.setName("Original Name");
+        existingSpot.setCreatedBy("test-user-id");
         existingSpot.setLatitude(36.5270);
         existingSpot.setLongitude(-6.2886);
         existingSpot.setForecasts(Collections.emptyList());
@@ -280,6 +282,7 @@ class SurfSpotServiceTests {
         SurfSpot existingSpot = new SurfSpot();
         existingSpot.setId(1L);
         existingSpot.setName("Original Name");
+        existingSpot.setCreatedBy("test-user-id");
         existingSpot.setLatitude(36.5270);
         existingSpot.setLongitude(-6.2886);
 
@@ -314,6 +317,7 @@ class SurfSpotServiceTests {
         SurfSpot existingSpot = new SurfSpot();
         existingSpot.setId(1L);
         existingSpot.setName("Original Spot");
+        existingSpot.setCreatedBy("test-user-id");
         existingSpot.setLatitude(36.5270); // Atlantic coast
         existingSpot.setLongitude(-6.2886);
         
@@ -358,12 +362,88 @@ class SurfSpotServiceTests {
     @Test
     public void testDeleteSurfSpot() {
         Long surfSpotId = 1L;
-        
+        SurfSpot spot = createMockSurfSpot();
+        spot.setCreatedBy(testUserId);
+        when(surfSpotRepository.findById(surfSpotId)).thenReturn(Optional.of(spot));
         doNothing().when(surfSpotRepository).deleteById(surfSpotId);
 
-        surfSpotService.deleteSurfSpot(surfSpotId);
+        surfSpotService.deleteSurfSpot(surfSpotId, testUserId);
 
+        verify(surfSpotRepository).findById(surfSpotId);
         verify(surfSpotRepository).deleteById(surfSpotId);
+    }
+
+    @Test
+    public void testDeleteSurfSpotShouldThrowForbiddenWhenUserIdDoesNotMatchCreatedBy() {
+        Long surfSpotId = 1L;
+        SurfSpot spot = createMockSurfSpot();
+        spot.setCreatedBy("owner-user-id");
+        when(surfSpotRepository.findById(surfSpotId)).thenReturn(Optional.of(spot));
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSpotService.deleteSurfSpot(surfSpotId, "different-user-id"));
+        assertEquals(HttpStatus.FORBIDDEN, ex.getStatusCode());
+        verify(surfSpotRepository).findById(surfSpotId);
+        verify(surfSpotRepository, never()).deleteById(any());
+    }
+
+    @Test
+    public void testUpdateSurfSpotShouldThrowForbiddenWhenUserIdDoesNotMatchCreatedBy() {
+        SurfSpot existingSpot = createMockSurfSpot();
+        existingSpot.setCreatedBy("owner-user-id");
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Updated Name");
+        request.setUserId("different-user-id");
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSpotService.updateSurfSpot(1L, request));
+        assertEquals(HttpStatus.FORBIDDEN, ex.getStatusCode());
+        verify(surfSpotRepository).findById(1L);
+        verify(surfSpotRepository, never()).save(any());
+    }
+
+    @Test
+    public void testCreateSurfSpotShouldThrowBadRequestWhenForecastUrlIsInvalid() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Test Spot");
+        request.setDescription("Great surf spot!");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setForecasts(Arrays.asList("javascript:alert(1)"));
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSpotService.createSurfSpot(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSpotRepository, never()).save(any());
+    }
+
+    @Test
+    public void testCreateSurfSpotShouldThrowBadRequestWhenWebcamUrlIsInvalid() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Test Spot");
+        request.setDescription("Great surf spot!");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setWebcams(Arrays.asList("data:text/html,<script>alert(1)</script>"));
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSpotService.createSurfSpot(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSpotRepository, never()).save(any());
     }
 
     @Test

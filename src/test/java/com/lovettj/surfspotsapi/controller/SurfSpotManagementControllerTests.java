@@ -24,6 +24,8 @@ import jakarta.servlet.http.Cookie;
 
 import java.time.LocalDateTime;
 
+import org.springframework.web.server.ResponseStatusException;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
@@ -182,7 +184,7 @@ class SurfSpotManagementControllerTests {
 
     @Test
     void testDeleteSurfSpotShouldReturnNoContent() throws Exception {
-        Mockito.doNothing().when(surfSpotService).deleteSurfSpot(1L);
+        Mockito.doNothing().when(surfSpotService).deleteSurfSpot(1L, "test-user-id-123");
 
         mockMvc.perform(delete("/api/surf-spots/management/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -190,7 +192,26 @@ class SurfSpotManagementControllerTests {
                 .param("userId", "test-user-id-123"))
                 .andExpect(status().isNoContent());
 
-        Mockito.verify(surfSpotService, Mockito.times(1)).deleteSurfSpot(1L);
+        Mockito.verify(surfSpotService, Mockito.times(1)).deleteSurfSpot(1L, "test-user-id-123");
+    }
+
+    @Test
+    void testUpdateSurfSpotShouldReturnForbiddenWhenUserIsNotOwner() throws Exception {
+        Mockito.when(surfSpotService.updateSurfSpot(Mockito.eq(1L), Mockito.any(SurfSpotRequest.class)))
+                .thenThrow(new ResponseStatusException(org.springframework.http.HttpStatus.FORBIDDEN, "You can only update surf spots you created"));
+
+        mockMvc.perform(patch("/api/surf-spots/management/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Updated Pipeline",
+              "description": "An updated famous surf spot.",
+              "type": "Reef Break",
+              "userId": "other-user-id"
+            }
+            """))
+                .andExpect(status().isForbidden());
     }
 }
 

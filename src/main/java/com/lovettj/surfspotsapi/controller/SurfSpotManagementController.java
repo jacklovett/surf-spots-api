@@ -43,8 +43,10 @@ public class SurfSpotManagementController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteSurfSpot(@PathVariable Long id) {
-    surfSpotService.deleteSurfSpot(id);
+  public ResponseEntity<Void> deleteSurfSpot(
+      @PathVariable Long id,
+      @RequestParam String userId) {
+    surfSpotService.deleteSurfSpot(id, userId);
     return ResponseEntity.noContent().build();
   }
 }

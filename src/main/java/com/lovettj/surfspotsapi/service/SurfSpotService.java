@@ -20,6 +20,7 @@ import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.util.MonthUtils;
+import com.lovettj.surfspotsapi.util.UrlUtils;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -114,7 +115,9 @@ public class SurfSpotService {
         if (userId == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to identifiy user");
         }
-        
+
+        validateForecastAndWebcamUrls(surfSpotRequest.getForecasts(), surfSpotRequest.getWebcams());
+
         // Create a new SurfSpot entity
         SurfSpot surfSpot = new SurfSpot();
         surfSpot.setCreatedBy(userId);
@@ -182,7 +185,14 @@ public class SurfSpotService {
     public SurfSpot updateSurfSpot(Long id, SurfSpotRequest surfSpotRequest) {
         SurfSpot existingSurfSpot = surfSpotRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("SurfSpot not found"));
-        
+
+        String userId = surfSpotRequest.getUserId();
+        if (userId == null || !userId.equals(existingSurfSpot.getCreatedBy())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only update surf spots you created");
+        }
+
+        validateForecastAndWebcamUrls(surfSpotRequest.getForecasts(), surfSpotRequest.getWebcams());
+
         // Update basic fields
         existingSurfSpot.setName(surfSpotRequest.getName());
         existingSurfSpot.setDescription(surfSpotRequest.getDescription());
@@ -248,7 +258,12 @@ public class SurfSpotService {
         return surfSpotRepository.save(existingSurfSpot);
     }
 
-    public void deleteSurfSpot(Long id) {
+    public void deleteSurfSpot(Long id, String userId) {
+        SurfSpot surfSpot = surfSpotRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("SurfSpot not found"));
+        if (userId == null || !userId.equals(surfSpot.getCreatedBy())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only delete surf spots you created");
+        }
         surfSpotRepository.deleteById(id);
     }
 
@@ -310,5 +325,24 @@ public class SurfSpotService {
         return list.stream()
                 .filter(s -> s != null && !s.isBlank())
                 .collect(Collectors.toList());
+    }
+
+    private void validateForecastAndWebcamUrls(List<String> forecasts, List<String> webcams) {
+        if (forecasts != null) {
+            for (String url : forecasts) {
+                if (!UrlUtils.isValidHttpUrl(url)) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Each forecast link must be a valid http or https URL");
+                }
+            }
+        }
+        if (webcams != null) {
+            for (String url : webcams) {
+                if (!UrlUtils.isValidHttpUrl(url)) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Each webcam link must be a valid http or https URL");
+                }
+            }
+        }
     }
 }
