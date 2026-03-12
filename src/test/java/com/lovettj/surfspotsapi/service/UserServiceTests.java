@@ -106,11 +106,11 @@ class UserServiceTests {
         ChangePasswordRequest request = new ChangePasswordRequest();
         request.setUserId(testUserId);
         request.setCurrentPassword("currentPass");
-        request.setNewPassword("newPassword123");
+        request.setNewPassword("ValidPassword123!");
 
         doReturn(Optional.of(testUser)).when(userRepository).findById(testUserId);
         doReturn(true).when(passwordEncoder).matches("currentPass", "hashedPassword");
-        doReturn("newHashedPassword").when(passwordEncoder).encode("newPassword123");
+        doReturn("newHashedPassword").when(passwordEncoder).encode("ValidPassword123!");
 
         assertDoesNotThrow(() -> userService.updatePassword(request));
         verify(userRepository).save(any(User.class));
@@ -202,12 +202,12 @@ class UserServiceTests {
     void registerUserShouldCreateNewEmailUser() {
         AuthRequest request = new AuthRequest();
         request.setEmail("new@example.com");
-        request.setPassword("password123");
+        request.setPassword("ValidPassword123!");
         request.setProvider(AuthProvider.EMAIL);
         request.setName("New User");
 
         doReturn(Optional.empty()).when(userRepository).findByEmail("new@example.com");
-        doReturn("hashedPassword").when(passwordEncoder).encode("password123");
+        doReturn("hashedPassword").when(passwordEncoder).encode("ValidPassword123!");
         doAnswer(invocation -> {
             User user = invocation.getArgument(0);
             if (user.getId() == null) {
@@ -321,7 +321,40 @@ class UserServiceTests {
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
             () -> userService.registerUser(request));
 
-        assertEquals("Password must be at least 8 characters", exception.getReason());
+        assertEquals("Password must be at least 8 characters long", exception.getReason());
+    }
+
+    @Test
+    void registerUserShouldThrowWhenPasswordTooCommon() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("new@example.com");
+        request.setPassword("password123");
+        request.setProvider(AuthProvider.EMAIL);
+        request.setName("New User");
+
+        doReturn(Optional.empty()).when(userRepository).findByEmail("new@example.com");
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+            () -> userService.registerUser(request));
+
+        assertEquals("Password is too common. Please choose a more unique password", exception.getReason());
+    }
+
+    @Test
+    void registerUserShouldThrowWhenPasswordHasInsufficientVariety() {
+        AuthRequest request = new AuthRequest();
+        request.setEmail("new@example.com");
+        // Long enough but only lowercase letters
+        request.setPassword("aaaaaaaaaaaaaa");
+        request.setProvider(AuthProvider.EMAIL);
+        request.setName("New User");
+
+        doReturn(Optional.empty()).when(userRepository).findByEmail("new@example.com");
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+            () -> userService.registerUser(request));
+
+        assertEquals("Password must include at least three of the following: lowercase letters, uppercase letters, numbers, and symbols", exception.getReason());
     }
 
     @Test
@@ -336,7 +369,7 @@ class UserServiceTests {
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
             () -> userService.registerUser(request));
 
-        assertEquals("Password must be at least 8 characters", exception.getReason());
+        assertEquals("Password is required", exception.getReason());
     }
 
     @Test

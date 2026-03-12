@@ -205,13 +205,55 @@ public class UserService {
     }
 
     public void setUserPassword(User user, String password) {
-        if (password == null || password.length() < 8) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password must be at least 8 characters");
+        if (password == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is required");
         }
+
+        String trimmedPassword = password.trim();
+
+        // Enforce stronger password policy: length and character variety
+        if (trimmedPassword.length() < 8) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Password must be at least 8 characters long");
+        }
+
+        if (!hasSufficientCharacterVariety(trimmedPassword)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Password must include at least three of the following: lowercase letters, uppercase letters, numbers, and symbols");
+        }
+
         // hash new password
-        String hashedPassword = passwordEncoder.encode(password);
+        String hashedPassword = passwordEncoder.encode(trimmedPassword);
         user.setPassword(hashedPassword);
         userRepository.save(user);
+    }
+
+    private boolean hasSufficientCharacterVariety(String password) {
+        boolean hasLower = false;
+        boolean hasUpper = false;
+        boolean hasDigit = false;
+        boolean hasSymbol = false;
+
+        for (char c : password.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                hasLower = true;
+            } else if (Character.isUpperCase(c)) {
+                hasUpper = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else {
+                hasSymbol = true;
+            }
+        }
+
+        int categories = 0;
+        if (hasLower) categories++;
+        if (hasUpper) categories++;
+        if (hasDigit) categories++;
+        if (hasSymbol) categories++;
+
+        // Require at least 3 character categories
+        return categories >= 3;
     }
 
     public User findUserByEmail(String email) {
