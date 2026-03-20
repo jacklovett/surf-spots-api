@@ -10,7 +10,7 @@ spring:
     properties:
       hibernate:
         default_schema: public
-    show-sql: true
+    show-sql: false  # Set to true or use logging.level.org.hibernate.SQL: DEBUG in dev to inspect SQL
   cache:
     type: simple
     cache-names:
@@ -37,6 +37,10 @@ server:
 
 # Full exception stack traces for WARN/ERROR (so logs show what actually broke)
 logging:
+  level:
+    com.lovettj.surfspotsapi: INFO
+    org.springframework.web: WARN
+    org.hibernate.SQL: WARN
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] %logger{36} - %msg%n%rEx"
 

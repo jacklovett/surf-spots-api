@@ -16,6 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.entity.Region;
+import com.lovettj.surfspotsapi.entity.Country;
+import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.WatchListSurfSpot;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
@@ -59,6 +62,20 @@ class WatchListServiceTests {
         testSpot = new SurfSpot();
         testSpot.setId(1L);
         testSpot.setName("Test Spot");
+        testSpot.setSlug("test-spot");
+
+        Continent continent = new Continent();
+        continent.setSlug("europe");
+
+        Country country = new Country();
+        country.setSlug("portugal");
+        country.setContinent(continent);
+
+        Region region = new Region();
+        region.setSlug("lisbon");
+        region.setCountry(country);
+
+        testSpot.setRegion(region);
 
         testWatchListEntry = WatchListSurfSpot.builder()
             .user(testUser)

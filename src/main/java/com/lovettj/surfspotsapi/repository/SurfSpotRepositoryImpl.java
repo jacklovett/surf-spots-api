@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 
@@ -91,7 +92,14 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         addPrivateSpotsFilters(cb, root, predicates, userId);
 
         cq.where(predicates.toArray(new Predicate[0]));
-        return entityManager.createQuery(cq).getSingleResult();
+        List<SurfSpot> results = entityManager.createQuery(cq).getResultList();
+        if (results.isEmpty()) {
+            return null;
+        }
+        if (results.size() > 1) {
+            throw new NonUniqueResultException("Expected at most one surf spot for slug=" + slug);
+        }
+        return results.get(0);
     }
 
     private void addCommonPredicates(CriteriaBuilder cb, Root<SurfSpot> root, List<Predicate> predicates, SurfSpotFilterDTO filters) {

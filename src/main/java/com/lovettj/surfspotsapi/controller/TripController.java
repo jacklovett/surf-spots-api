@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.dto.TripDTO;
+import com.lovettj.surfspotsapi.http.CreatedResourceLocations;
 import com.lovettj.surfspotsapi.requests.*;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -34,7 +36,8 @@ public class TripController {
             @RequestParam String userId) {
         try {
             TripDTO trip = tripService.createTrip(userId, request);
-            return ResponseEntity.status(HttpStatus.CREATED)
+            URI location = CreatedResourceLocations.fromApiPath("/api/trips/{tripId}", userId, trip.getId());
+            return ResponseEntity.created(location)
                     .body(ApiResponse.success(trip, "Trip created successfully", HttpStatus.CREATED.value()));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())

@@ -87,6 +87,7 @@ class TripControllerTests {
                 .content(objectMapper.writeValueAsString(request))
                 .cookie(createValidSessionCookie()))
                 .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/trips/" + testTripId + "?userId=" + testUserId))
                 .andExpect(jsonPath("$.data.id").value(testTripId))
                 .andExpect(jsonPath("$.data.title").value("Test Trip"));
     }

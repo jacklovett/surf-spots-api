@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
+import com.lovettj.surfspotsapi.http.CreatedResourceLocations;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.entity.User;
@@ -20,6 +21,8 @@ import com.lovettj.surfspotsapi.requests.EmailRequest;
 import com.lovettj.surfspotsapi.requests.ResetPasswordRequest;
 
 import lombok.RequiredArgsConstructor;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -33,7 +36,8 @@ public class AuthController {
     public ResponseEntity<ApiResponse<UserProfile>> registerUser(@RequestBody AuthRequest authRequest) {
         try {
             User user = userService.registerUser(authRequest);
-            return ResponseEntity.status(HttpStatus.CREATED)
+            URI location = CreatedResourceLocations.fromApiPath("/api/user/{userId}", null, user.getId());
+            return ResponseEntity.created(location)
                 .body(ApiResponse.success(new UserProfile(user), "Account created successfully", HttpStatus.CREATED.value()));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())

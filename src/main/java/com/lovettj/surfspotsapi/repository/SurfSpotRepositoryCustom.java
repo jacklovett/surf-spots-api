@@ -9,6 +9,9 @@ import com.lovettj.surfspotsapi.entity.SubRegion;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 
 public interface SurfSpotRepositoryCustom {
+    /**
+     * @return the matching surf spot, or {@code null} if none (slug + visibility rules for userId).
+     */
     SurfSpot findBySlug(String slug, String userId);
     List<SurfSpot> findByRegionWithFilters(Region region, SurfSpotFilterDTO filters);
     List<SurfSpot> findBySubRegionWithFilters(SubRegion subRegion, SurfSpotFilterDTO filters);

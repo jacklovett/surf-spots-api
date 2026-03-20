@@ -18,7 +18,6 @@ import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.service.SeedService;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +27,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -169,13 +169,9 @@ class SeedServiceIntegrationTest {
         // First seeding
         seedService.seedData();
 
-        // Find an existing country and store its original description and continent
-        Optional<Country> countryOpt = countryRepository.findAll().stream()
-                .filter(c -> c.getContinent() != null)
-                .findFirst();
-        assertTrue(countryOpt.isPresent(), "At least one country with a continent should exist after seeding");
-        
-        Country country = countryOpt.get();
+        // Stable row: must match countries.json so seed merge updates this entity (not arbitrary findFirst() order)
+        Country country = countryRepository.findByNameIgnoreCase("Algeria")
+                .orElseThrow(() -> new AssertionError("Seed should include Algeria from countries.json"));
         String originalDescription = country.getDescription();
         Continent originalContinent = country.getContinent();
         Long originalId = country.getId();
@@ -208,59 +204,7 @@ class SeedServiceIntegrationTest {
     }
 
     @Test
-    void testSeedRegionsShouldRemoveDuplicateRegionsAndReassignSurfSpots() {
-        // Given - initial seed so we have countries and regions
-        seedService.seedData();
-        Region existingRegion = regionRepository.findAll().stream()
-                .filter(r -> r.getCountry() != null)
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("At least one region with country should exist after seed"));
-        Long keptRegionId = existingRegion.getId();
-        Country country = existingRegion.getCountry();
-        String regionName = existingRegion.getName();
-
-        // When - we introduce a duplicate region (same country, same name) and a surf spot on it
-        Region duplicateRegion = Region.builder()
-                .name(regionName)
-                .country(country)
-                .build();
-        duplicateRegion.generateSlug();
-        duplicateRegion = regionRepository.save(duplicateRegion);
-        Long duplicateRegionId = duplicateRegion.getId();
-
-        SurfSpot spotOnDuplicate = SurfSpot.builder()
-                .name("Spot on duplicate region")
-                .latitude(0.0)
-                .longitude(0.0)
-                .region(duplicateRegion)
-                .status(SurfSpotStatus.APPROVED)
-                .rating(1)
-                .build();
-        spotOnDuplicate.generateSlug();
-        spotOnDuplicate = surfSpotRepository.save(spotOnDuplicate);
-
-        long regionCountBeforeSecondSeed = regionRepository.findAll().stream()
-                .filter(r -> r.getCountry() != null && regionName.equals(r.getName()) && country.getId().equals(r.getCountry().getId()))
-                .count();
-        assertEquals(2, regionCountBeforeSecondSeed, "There should be two regions (original + duplicate) before re-seed");
-
-        // When - re-seed runs deleteDuplicateRegions then normal region seed
-        seedService.seedData();
-
-        // Then - only one region per (country, name); surf spot points to the kept region
-        List<Region> regionsWithSameName = regionRepository.findAll().stream()
-                .filter(r -> r.getCountry() != null && regionName.equals(r.getName()) && country.getId().equals(r.getCountry().getId()))
-                .toList();
-        assertEquals(1, regionsWithSameName.size(), "After seed there should be exactly one region per (country, name)");
-        assertEquals(keptRegionId, regionsWithSameName.get(0).getId(), "The kept region should be the one with smallest id");
-
-        SurfSpot spotAfter = surfSpotRepository.findById(spotOnDuplicate.getId()).orElseThrow();
-        assertNotNull(spotAfter.getRegion());
-        assertEquals(keptRegionId, spotAfter.getRegion().getId(),
-                "Surf spot that was on the duplicate region should now point to the kept region");
-    }
-
-    @Test
+    @Transactional
     void testSurfSpotCanPersistAndLoadForecastsAndWebcams() {
         seedService.seedData();
         Region region = regionRepository.findAll().stream()

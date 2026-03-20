@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -65,6 +66,7 @@ class AuthControllerTests {
         .contentType(MediaType.APPLICATION_JSON)
         .content(objectMapper.writeValueAsString(authRequest)))
         .andExpect(status().isCreated())
+        .andExpect(header().string("Location", "/api/user/test-user-id"))
         .andExpect(content().json(
             "{\"message\":\"Account created successfully\",\"status\":201,\"success\":true," +
             "\"data\":" + expectedJson + "}"
@@ -97,6 +99,7 @@ class AuthControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(authRequest)))
                 .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/user/test-user-id"))
                 .andExpect(content().json(
             "{\"message\":\"Account created successfully\",\"status\":201,\"success\":true," +
             "\"data\":" + expectedJson + "}"
@@ -129,6 +132,7 @@ class AuthControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(authRequest)))
                 .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/user/test-user-id"))
                 .andExpect(content().json(
             "{\"message\":\"Account created successfully\",\"status\":201,\"success\":true," +
             "\"data\":" + expectedJson + "}"

@@ -60,7 +60,15 @@ class SurfSpotManagementControllerTests {
                 .modifiedAt(LocalDateTime.now())
                 .build();
 
+        SurfSpotDTO createdDTO = SurfSpotDTO.builder()
+                .id(1L)
+                .name("Pipeline")
+                .slug("pipeline")
+                .path("/surf-spots/europe/spain/andalusia/pipeline")
+                .build();
         Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpotRequest.class))).thenReturn(surfSpot);
+        Mockito.when(surfSpotService.mapToSurfSpotDTO(Mockito.any(SurfSpot.class), Mockito.anyString()))
+                .thenReturn(createdDTO);
 
         mockMvc.perform(post("/api/surf-spots/management")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -69,12 +77,18 @@ class SurfSpotManagementControllerTests {
             {
               "name": "Pipeline",
               "description": "A famous surf spot.",
+              "regionId": 1,
               "type": "Reef Break"
+              ,
+              "userId": "test-user-id-123"
             }
             """)
                 .param("userId", "test-user-id-123"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/api/surf-spots/id/1"));
+                .andExpect(header().string("Location", "/api/surf-spots/id/1?userId=test-user-id-123"))
+                .andExpect(jsonPath("$.data.id", is(1)))
+                .andExpect(jsonPath("$.data.path", is("/surf-spots/europe/spain/andalusia/pipeline")))
+                .andExpect(jsonPath("$.success", is(true)));
     }
 
     @Test
@@ -112,7 +126,8 @@ class SurfSpotManagementControllerTests {
             }
             """))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is("Updated Pipeline")));
+                .andExpect(jsonPath("$.data.name", is("Updated Pipeline")))
+                .andExpect(jsonPath("$.success", is(true)));
     }
 
     @Test
@@ -127,7 +142,15 @@ class SurfSpotManagementControllerTests {
                 .modifiedAt(LocalDateTime.now())
                 .build();
 
+        SurfSpotDTO createdDTO = SurfSpotDTO.builder()
+                .id(1L)
+                .name("Spot With Links")
+                .slug("spot-with-links")
+                .path("/surf-spots/europe/spain/andalusia/spot-with-links")
+                .build();
         Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpotRequest.class))).thenReturn(surfSpot);
+        Mockito.when(surfSpotService.mapToSurfSpotDTO(Mockito.any(SurfSpot.class), Mockito.anyString()))
+                .thenReturn(createdDTO);
 
         mockMvc.perform(post("/api/surf-spots/management")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -137,6 +160,7 @@ class SurfSpotManagementControllerTests {
               "name": "Spot With Links",
               "description": "Spot with forecast and webcam links.",
               "regionId": 1,
+              "userId": "test-user-id-123",
               "latitude": 0.2,
               "longitude": 0.1,
               "forecasts": ["https://forecast.example.com/1"],
@@ -145,7 +169,10 @@ class SurfSpotManagementControllerTests {
             """)
                 .param("userId", "test-user-id-123"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/api/surf-spots/id/1"));
+                .andExpect(header().string("Location", "/api/surf-spots/id/1?userId=test-user-id-123"))
+                .andExpect(jsonPath("$.data.id", is(1)))
+                .andExpect(jsonPath("$.data.path", is("/surf-spots/europe/spain/andalusia/spot-with-links")))
+                .andExpect(jsonPath("$.success", is(true)));
 
         Mockito.verify(surfSpotService).createSurfSpot(Mockito.argThat(req ->
                 req.getForecasts() != null && req.getForecasts().size() == 1
@@ -165,7 +192,15 @@ class SurfSpotManagementControllerTests {
                 .modifiedAt(LocalDateTime.now())
                 .build();
 
+        SurfSpotDTO createdDTO = SurfSpotDTO.builder()
+                .id(1L)
+                .name("Eisbach")
+                .slug("eisbach")
+                .path("/surf-spots/europe/germany/bavaria/eisbach")
+                .build();
         Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpotRequest.class))).thenReturn(surfSpot);
+        Mockito.when(surfSpotService.mapToSurfSpotDTO(Mockito.any(SurfSpot.class), Mockito.anyString()))
+                .thenReturn(createdDTO);
 
         mockMvc.perform(post("/api/surf-spots/management")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -174,23 +209,30 @@ class SurfSpotManagementControllerTests {
             {
               "name": "Eisbach",
               "description": "Famous standing river wave in Munich.",
-              "type": "Standing Wave"
+              "regionId": 1,
+              "type": "Standing Wave",
+              "userId": "test-user-id-123"
             }
             """)
                 .param("userId", "test-user-id-123"))
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", "/api/surf-spots/id/1"));
+                .andExpect(header().string("Location", "/api/surf-spots/id/1?userId=test-user-id-123"))
+                .andExpect(jsonPath("$.data.id", is(1)))
+                .andExpect(jsonPath("$.data.path", is("/surf-spots/europe/germany/bavaria/eisbach")))
+                .andExpect(jsonPath("$.success", is(true)));
     }
 
     @Test
-    void testDeleteSurfSpotShouldReturnNoContent() throws Exception {
+    void testDeleteSurfSpotShouldReturnSuccess() throws Exception {
         Mockito.doNothing().when(surfSpotService).deleteSurfSpot(1L, "test-user-id-123");
 
         mockMvc.perform(delete("/api/surf-spots/management/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(createValidSessionCookie())
                 .param("userId", "test-user-id-123"))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.data", is("Surf spot deleted successfully")));
 
         Mockito.verify(surfSpotService, Mockito.times(1)).deleteSurfSpot(1L, "test-user-id-123");
     }

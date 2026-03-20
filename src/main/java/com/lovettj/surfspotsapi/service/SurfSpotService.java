@@ -105,8 +105,8 @@ public class SurfSpotService {
     }
 
     public Optional<SurfSpotDTO> findBySlugAndUserId(String slug, String userId) {
-        Optional<SurfSpot> surfSpot = Optional.ofNullable(surfSpotRepository.findBySlug(slug, userId));
-        return surfSpot.map(sp -> mapToSurfSpotDTO(sp, userId));
+        return Optional.ofNullable(surfSpotRepository.findBySlug(slug, userId))
+                .map(sp -> mapToSurfSpotDTO(sp, userId));
     }
 
     public SurfSpot createSurfSpot(SurfSpotRequest surfSpotRequest) {
@@ -160,11 +160,8 @@ public class SurfSpotService {
 
         // Fetch and set related entities (region, country, continent)
         Long regionId = surfSpotRequest.getRegionId();
-        if (regionId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region ID is required");
-        }
         Region region = regionRepository.findById(regionId)
-                .orElseThrow(() -> new EntityNotFoundException("Region not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region not found"));
         surfSpot.setRegion(region);
 
         // Automatically determine swell season based on coordinates
@@ -233,13 +230,10 @@ public class SurfSpotService {
         existingSurfSpot.setFacilities(Optional.ofNullable(surfSpotRequest.getFacilities())
                 .orElse(Collections.emptyList()));
 
-        // Update region if provided
-        Long regionId = surfSpotRequest.getRegionId();
-        if (regionId != null) {
-            Region region = regionRepository.findById(regionId)
-                    .orElseThrow(() -> new EntityNotFoundException("Region not found"));
-            existingSurfSpot.setRegion(region);
-        }
+        // Region is required on request; always update
+        Region region = regionRepository.findById(surfSpotRequest.getRegionId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region not found"));
+        existingSurfSpot.setRegion(region);
 
         // Automatically determine and update swell season based on coordinates
         // Skip for wavepools and river waves as they don't have natural swell seasons
@@ -304,7 +298,18 @@ public class SurfSpotService {
 
     public SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId) {
         // SurfSpotDTO constructor now sets the path automatically
-        SurfSpotDTO surfSpotDTO = new SurfSpotDTO(surfSpot);
+        SurfSpotDTO surfSpotDTO;
+        try {
+            surfSpotDTO = new SurfSpotDTO(surfSpot);
+        } catch (IllegalStateException e) {
+            // Path generation should never silently degrade to an empty string.
+            // If it fails, treat as server-side failure so the client shows error UI.
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Unable to generate surf spot path",
+                    e
+            );
+        }
 
         if (userId != null) {
             Long surfSpotId = surfSpot.getId();

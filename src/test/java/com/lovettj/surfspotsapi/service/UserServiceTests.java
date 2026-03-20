@@ -220,7 +220,7 @@ class UserServiceTests {
         userService.registerUser(request);
 
         verify(userRepository).findByEmail("new@example.com");
-        verify(passwordEncoder).encode("password123");
+        verify(passwordEncoder).encode("ValidPassword123!");
         verify(userRepository, times(2)).save(any(User.class)); // Now expecting 2 saves
         verify(tripService).processPendingInvitations(anyString(), anyString());
     }
@@ -337,7 +337,7 @@ class UserServiceTests {
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
             () -> userService.registerUser(request));
 
-        assertEquals("Password is too common. Please choose a more unique password", exception.getReason());
+        assertEquals("Password must include at least three of the following: lowercase letters, uppercase letters, numbers, and symbols", exception.getReason());
     }
 
     @Test

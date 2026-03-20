@@ -189,12 +189,15 @@ class SurfSpotServiceTests {
         request.setUserId("test-user-id");
         request.setLatitude(36.5270);
         request.setLongitude(-6.2886);
+        request.setRegionId(1L);
         request.setForecasts(Arrays.asList("https://forecast.example.com/updated"));
         request.setWebcams(Arrays.asList("https://webcam.example.com/updated"));
 
         when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
                 .thenReturn(Optional.empty());
         when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
         when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
@@ -292,6 +295,7 @@ class SurfSpotServiceTests {
         request.setUserId("test-user-id");
         request.setLatitude(36.5270);
         request.setLongitude(-6.2886);
+        request.setRegionId(1L);
 
         SwellSeason mockSwellSeason = new SwellSeason();
         mockSwellSeason.setId(1L);
@@ -300,6 +304,8 @@ class SurfSpotServiceTests {
                 .thenReturn(Optional.of(mockSwellSeason));
 
         when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
         when(surfSpotRepository.save(any(SurfSpot.class))).thenReturn(existingSpot);
 
         SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
@@ -330,6 +336,7 @@ class SurfSpotServiceTests {
         request.setUserId("test-user-id");
         request.setLatitude(36.7213); // Mediterranean coast - different swell season
         request.setLongitude(-4.4214);
+        request.setRegionId(1L);
 
         SwellSeason newSwellSeason = new SwellSeason();
         newSwellSeason.setId(2L);
@@ -338,6 +345,8 @@ class SurfSpotServiceTests {
                 .thenReturn(Optional.of(newSwellSeason));
 
         when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
         when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
@@ -417,9 +426,6 @@ class SurfSpotServiceTests {
         request.setLongitude(-6.2886);
         request.setForecasts(Arrays.asList("javascript:alert(1)"));
 
-        Region mockRegion = createMockRegion();
-        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
-
         ResponseStatusException ex = assertThrows(ResponseStatusException.class,
                 () -> surfSpotService.createSurfSpot(request));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
@@ -436,9 +442,6 @@ class SurfSpotServiceTests {
         request.setLatitude(36.5270);
         request.setLongitude(-6.2886);
         request.setWebcams(Arrays.asList("data:text/html,<script>alert(1)</script>"));
-
-        Region mockRegion = createMockRegion();
-        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class,
                 () -> surfSpotService.createSurfSpot(request));

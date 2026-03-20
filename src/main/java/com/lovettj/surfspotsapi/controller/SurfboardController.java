@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.controller;
 
 import com.lovettj.surfspotsapi.dto.SurfboardDTO;
 import com.lovettj.surfspotsapi.dto.SurfboardMediaDTO;
+import com.lovettj.surfspotsapi.http.CreatedResourceLocations;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UpdateSurfboardRequest;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -52,7 +54,8 @@ public class SurfboardController {
             @RequestParam String userId) {
         try {
             SurfboardDTO surfboard = surfboardService.createSurfboard(userId, request);
-            return ResponseEntity.status(HttpStatus.CREATED)
+            URI location = CreatedResourceLocations.fromApiPath("/api/surfboards/{surfboardId}", userId, surfboard.getId());
+            return ResponseEntity.created(location)
                     .body(ApiResponse.success(surfboard, "Surfboard created successfully", HttpStatus.CREATED.value()));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -149,7 +152,9 @@ public class SurfboardController {
             @RequestParam String userId) {
         try {
             SurfboardMediaDTO media = surfboardService.addMedia(userId, surfboardId, request);
-            return ResponseEntity.status(HttpStatus.CREATED)
+            URI location = CreatedResourceLocations.fromApiPath(
+                    "/api/surfboards/{surfboardId}/media/{mediaId}", userId, surfboardId, media.getId());
+            return ResponseEntity.created(location)
                     .body(ApiResponse.success(media, "Media added successfully", HttpStatus.CREATED.value()));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
