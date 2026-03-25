@@ -4,12 +4,15 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-public class DirectionValidator implements ConstraintValidator<ValidSeason, String> {
+public class DirectionValidator implements ConstraintValidator<ValidDirection, String> {
 
     private static final Pattern DIRECTION_PATTERN = Pattern.compile("^(N|NE|E|SE|S|SW|W|NW) - \\1$");
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value != null && DIRECTION_PATTERN.matcher(value).matches();
+        if (value == null || value.isBlank()) {
+            return true;
+        }
+        return DIRECTION_PATTERN.matcher(value).matches();
     }
 }

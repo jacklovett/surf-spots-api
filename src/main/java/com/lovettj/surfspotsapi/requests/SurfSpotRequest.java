@@ -15,6 +15,10 @@ import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveDirection;
 import com.lovettj.surfspotsapi.validators.ValidHttpUrl;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -53,13 +57,18 @@ public class SurfSpotRequest {
     private Double maxSurfHeight;
     private String seasonStart;
     private String seasonEnd;
-    private Integer rating;
     private boolean boatRequired;
+
+    @JsonProperty("isWavepool")
+    @JsonAlias({ "wavepool" })
     private boolean isWavepool;
 
     @ValidHttpUrl
     @Size(max = MAX_WAVEPOOL_URL_LENGTH, message = "Wavepool URL must be at most " + MAX_WAVEPOOL_URL_LENGTH + " characters")
     private String wavepoolUrl;
+
+    @JsonProperty("isRiverWave")
+    @JsonAlias({ "riverWave" })
     private boolean isRiverWave;
     private boolean accommodationNearby;
     private boolean foodNearby;
@@ -75,4 +84,42 @@ public class SurfSpotRequest {
     private List<String> webcams;
     private SurfSpotStatus status;
     private String userId;
+
+    /**
+     * {@link SurfSpotStatus#PRIVATE} listings may omit ocean/novelty detail fields.
+     * Any other status (including {@code null}, treated like a public listing) must either
+     * persist novelty flags ({@code isWavepool} / {@code isRiverWave}) with a wavepool URL when
+     * {@code isWavepool} is true, or supply the core break and condition fields expected for
+     * non-novelty public spots.
+     */
+    @AssertTrue(message = "Public surf spots need a description plus either novelty flags (with official website for "
+            + "wavepools), or break type, beach bottom, skill level, wave direction, swell direction, and wind direction")
+    public boolean isPublicListingComplete() {
+        if (status == SurfSpotStatus.PRIVATE) {
+            return true;
+        }
+        if (description == null || description.trim().isEmpty()) {
+            return false;
+        }
+        final boolean novelty = isWavepool || isRiverWave;
+        if (novelty) {
+            if (isWavepool && (wavepoolUrl == null || wavepoolUrl.isBlank())) {
+                return false;
+            }
+            return true;
+        }
+        if (type == null || beachBottomType == null || skillLevel == null || waveDirection == null) {
+            return false;
+        }
+        return hasText(swellDirection) && hasText(windDirection);
+    }
+
+    private static boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    @AssertTrue(message = "A surf spot cannot be both a river wave and a wave pool")
+    public boolean isRiverWaveAndWavepoolMutuallyExclusive() {
+        return !(isWavepool && isRiverWave);
+    }
 }

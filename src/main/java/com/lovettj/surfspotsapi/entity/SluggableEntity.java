@@ -17,10 +17,14 @@ public abstract class SluggableEntity {
     @PrePersist
     @PreUpdate
     public void generateSlug() {
-        this.slug = this.generateSlugFromName(getName());
+        this.slug = slugFromName(getName());
     }
 
-    private String generateSlugFromName(String name) {
+    /**
+     * Same rules as {@link #generateSlug()} for a given name. Used by seeding and lookups
+     * so JSON names match persisted rows by slug even when trimmed-name keys differ (e.g. Unicode whitespace).
+     */
+    public static String slugFromName(String name) {
         if (name == null) {
             return null;
         }

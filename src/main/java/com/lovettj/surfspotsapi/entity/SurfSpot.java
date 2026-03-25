@@ -70,10 +70,6 @@ public class SurfSpot extends SluggableEntity {
     @Column(nullable = true)
     private Double maxSurfHeight;
 
-    @Min(0)
-    @Max(5)
-    private Integer rating;
-
     private Double latitude;
 
     private Double longitude;

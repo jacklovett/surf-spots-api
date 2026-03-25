@@ -46,7 +46,6 @@ public class SurfSpotDTO {
     private Country country;
     private Region region;
 
-    private Integer rating;
     private String swellDirection;
     private String windDirection;
     private Tide tide;
@@ -98,7 +97,6 @@ public class SurfSpotDTO {
         this.setTide(surfSpot.getTide());
         this.setWaveDirection(surfSpot.getWaveDirection());
         this.setSwellSeason(surfSpot.getSwellSeason());
-        this.setRating(surfSpot.getRating());
         this.setMinSurfHeight(surfSpot.getMinSurfHeight());
         this.setMaxSurfHeight(surfSpot.getMaxSurfHeight());
         

@@ -130,7 +130,6 @@ public class SurfSpotService {
         surfSpot.setWindDirection(surfSpotRequest.getWindDirection());
         surfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         surfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
-        surfSpot.setRating(surfSpotRequest.getRating());
         surfSpot.setForecasts(filterNonBlankStrings(surfSpotRequest.getForecasts()));
         surfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
 
@@ -199,7 +198,6 @@ public class SurfSpotService {
         existingSurfSpot.setWindDirection(surfSpotRequest.getWindDirection());
         existingSurfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         existingSurfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
-        existingSurfSpot.setRating(surfSpotRequest.getRating());
         existingSurfSpot.setForecasts(filterNonBlankStrings(surfSpotRequest.getForecasts()));
         existingSurfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
 

@@ -218,7 +218,6 @@ class SeedServiceIntegrationTest {
                 .longitude(0.0)
                 .region(region)
                 .status(SurfSpotStatus.APPROVED)
-                .rating(1)
                 .forecasts(Arrays.asList("https://forecast.example.com/1"))
                 .webcams(Arrays.asList("https://webcam.example.com/1"))
                 .build();

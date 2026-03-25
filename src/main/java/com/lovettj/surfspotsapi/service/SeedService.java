@@ -376,7 +376,6 @@ public class SeedService {
                             existing.setWaveDirection(jsonEntity.getWaveDirection());
                             existing.setMinSurfHeight(jsonEntity.getMinSurfHeight());
                             existing.setMaxSurfHeight(jsonEntity.getMaxSurfHeight());
-                            existing.setRating(jsonEntity.getRating());
                             existing.setFoodNearby(jsonEntity.getFoodNearby());
                             existing.setFoodOptions(jsonEntity.getFoodOptions());
                             existing.setAccommodationNearby(jsonEntity.getAccommodationNearby());

@@ -140,14 +140,11 @@ public class TripService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have access to this trip");
         }
 
-        // Load spots with rating sorting
+        // Load spots and sort by recency
         List<TripSpot> spots = tripSpotRepository.findByTripId(tripId);
         List<TripSpotDTO> sortedSpots = spots.stream()
                 .map(TripSpotDTO::new)
-                .sorted(Comparator
-                        .comparing((TripSpotDTO ts) -> ts.getSurfSpotRating() != null ? ts.getSurfSpotRating() : 0)
-                        .reversed()
-                        .thenComparing(TripSpotDTO::getAddedAt))
+                .sorted(Comparator.comparing(TripSpotDTO::getAddedAt).reversed())
                 .collect(Collectors.toList());
 
         // Load surfboards

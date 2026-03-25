@@ -78,8 +78,15 @@ class SurfSpotManagementControllerTests {
               "name": "Pipeline",
               "description": "A famous surf spot.",
               "regionId": 1,
-              "type": "Reef Break"
-              ,
+              "latitude": 0.2,
+              "longitude": 0.1,
+              "status": "Pending",
+              "type": "Reef Break",
+              "beachBottomType": "Rock",
+              "skillLevel": "Intermediate",
+              "waveDirection": "Left",
+              "swellDirection": "N",
+              "windDirection": "SW",
               "userId": "test-user-id-123"
             }
             """)
@@ -121,7 +128,8 @@ class SurfSpotManagementControllerTests {
             {
               "name": "Updated Pipeline",
               "description": "An updated famous surf spot.",
-              "type": "Reef Break",
+              "regionId": 1,
+              "status": "Private",
               "userId": "test-user-id-123"
             }
             """))
@@ -163,6 +171,13 @@ class SurfSpotManagementControllerTests {
               "userId": "test-user-id-123",
               "latitude": 0.2,
               "longitude": 0.1,
+              "status": "Pending",
+              "type": "Beach Break",
+              "beachBottomType": "Sand",
+              "skillLevel": "Beginner",
+              "waveDirection": "Left",
+              "swellDirection": "NW",
+              "windDirection": "SE",
               "forecasts": ["https://forecast.example.com/1"],
               "webcams": ["https://webcam.example.com/1"]
             }
@@ -177,6 +192,24 @@ class SurfSpotManagementControllerTests {
         Mockito.verify(surfSpotService).createSurfSpot(Mockito.argThat(req ->
                 req.getForecasts() != null && req.getForecasts().size() == 1
                         && req.getWebcams() != null && req.getWebcams().size() == 1));
+    }
+
+    @Test
+    void testCreateSurfSpotWithEmptyTypeStringShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Invalid Type Payload",
+              "description": "Empty string is not a valid enum token.",
+              "regionId": 1,
+              "type": "",
+              "userId": "test-user-id-123"
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -210,7 +243,15 @@ class SurfSpotManagementControllerTests {
               "name": "Eisbach",
               "description": "Famous standing river wave in Munich.",
               "regionId": 1,
+              "latitude": 48.1522,
+              "longitude": 11.5884,
+              "status": "Pending",
               "type": "Standing Wave",
+              "beachBottomType": "Rock",
+              "skillLevel": "Advanced",
+              "waveDirection": "Right",
+              "swellDirection": "W",
+              "windDirection": "E",
               "userId": "test-user-id-123"
             }
             """)
@@ -220,6 +261,134 @@ class SurfSpotManagementControllerTests {
                 .andExpect(jsonPath("$.data.id", is(1)))
                 .andExpect(jsonPath("$.data.path", is("/surf-spots/europe/germany/bavaria/eisbach")))
                 .andExpect(jsonPath("$.success", is(true)));
+    }
+
+    @Test
+    void testCreateSurfSpotShouldReturnBadRequestWhenRiverWaveAndWavepoolBothTrue() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Wave Garden",
+              "description": "Test novelty wave spot.",
+              "regionId": 1,
+              "status": "Pending",
+              "isWavepool": true,
+              "isRiverWave": true,
+              "wavepoolUrl": "https://wavegarden.com/",
+              "userId": "test-user-id-123"
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateSurfSpotShouldMapIsRiverWaveJsonProperty() throws Exception {
+        SurfSpot surfSpot = SurfSpot.builder()
+                .id(3L)
+                .name("River Spot")
+                .description("Test river wave spot.")
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .build();
+
+        SurfSpotDTO createdDTO = SurfSpotDTO.builder()
+                .id(3L)
+                .name("River Spot")
+                .slug("river-spot")
+                .path("/surf-spots/europe/germany/bavaria/river-spot")
+                .isRiverWave(true)
+                .isWavepool(false)
+                .build();
+
+        Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpotRequest.class))).thenReturn(surfSpot);
+        Mockito.when(surfSpotService.mapToSurfSpotDTO(Mockito.any(SurfSpot.class), Mockito.anyString()))
+                .thenReturn(createdDTO);
+
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "River Spot",
+              "description": "Test river wave spot.",
+              "regionId": 1,
+              "status": "Pending",
+              "isWavepool": false,
+              "isRiverWave": true,
+              "userId": "test-user-id-123"
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success", is(true)));
+
+        Mockito.verify(surfSpotService).createSurfSpot(Mockito.argThat(req ->
+                req.isRiverWave() && !req.isWavepool()));
+    }
+
+    @Test
+    void testCreateSurfSpotPublicPendingWithoutNoveltyOrOceanCoreShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Incomplete Public",
+              "description": "Neither novelty flags nor ocean break/conditions",
+              "regionId": 1,
+              "latitude": 38.0,
+              "longitude": -9.0,
+              "status": "Pending",
+              "userId": "test-user-id-123",
+              "isWavepool": false,
+              "isRiverWave": false
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateSurfSpotPublicWavepoolWithoutUrlShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Pool No Url",
+              "description": "Wavepool flag but no website",
+              "regionId": 1,
+              "status": "Pending",
+              "userId": "test-user-id-123",
+              "isWavepool": true,
+              "isRiverWave": false
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateSurfSpotPublicPendingWithBlankDescriptionShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "No Description Public",
+              "description": "   ",
+              "regionId": 1,
+              "status": "Pending",
+              "userId": "test-user-id-123",
+              "isWavepool": false,
+              "isRiverWave": true
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -249,7 +418,8 @@ class SurfSpotManagementControllerTests {
             {
               "name": "Updated Pipeline",
               "description": "An updated famous surf spot.",
-              "type": "Reef Break",
+              "regionId": 1,
+              "status": "Private",
               "userId": "other-user-id"
             }
             """))

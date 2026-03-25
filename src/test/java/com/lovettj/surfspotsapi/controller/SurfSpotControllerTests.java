@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.controller;
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
+import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
@@ -80,6 +81,43 @@ class SurfSpotControllerTests {
                 .param("userId", "test-user-id-123"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Pipeline")));
+    }
+
+    @Test
+    void testGetSurfSpotBySlugShouldExposeIsRiverWaveAndIsWavepoolFields() throws Exception {
+        SurfSpotDTO noveltySpot = SurfSpotDTO.builder()
+                .id(3L)
+                .name("Novelty Spot")
+                .isRiverWave(true)
+                .isWavepool(false)
+                .build();
+        Mockito.when(surfSpotService.findBySlugAndUserId("novelty-spot", "test-user-id-123"))
+                .thenReturn(Optional.of(noveltySpot));
+
+        mockMvc.perform(get("/api/surf-spots/novelty-spot")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.isRiverWave", is(true)))
+                .andExpect(jsonPath("$.isWavepool", is(false)));
+    }
+
+    @Test
+    void testGetSurfSpotBySlugShouldReturnPendingSpotForCreator() throws Exception {
+        SurfSpotDTO pendingSpot = SurfSpotDTO.builder()
+                .id(2L)
+                .name("Pending Spot")
+                .status(SurfSpotStatus.PENDING)
+                .build();
+        Mockito.when(surfSpotService.findBySlugAndUserId("pending-spot", "test-user-id-123"))
+                .thenReturn(Optional.of(pendingSpot));
+
+        mockMvc.perform(get("/api/surf-spots/pending-spot")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is("Pending Spot")))
+                .andExpect(jsonPath("$.status", is("Pending")));
     }
 
     @Test

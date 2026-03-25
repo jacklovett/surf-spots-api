@@ -23,8 +23,6 @@ public class SurfSpotFilterDTO {
     private List<WaveDirection> waveDirection;
     private Double minSurfHeight;
     private Double maxSurfHeight;
-    private Integer minRating;
-    private Integer maxRating;
     private List<String> swellDirection;
     private List<String> windDirection;
     private String seasonStart;

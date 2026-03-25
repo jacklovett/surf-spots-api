@@ -18,6 +18,7 @@ import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SubRegion;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveDirection;
 
@@ -160,14 +161,6 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
             predicates.add(cb.equal(root.get("isRiverWave"), filters.getIsRiverWave()));
         }
 
-        if (filters.getMinRating() != null) {
-            predicates.add(cb.greaterThanOrEqualTo(root.get("rating"), filters.getMinRating()));
-        }
-
-        if (filters.getMaxRating() != null) {
-            predicates.add(cb.lessThanOrEqualTo(root.get("rating"), filters.getMaxRating()));
-        }
-
         // SwellDirection (string array) - smart filtering: if filtering by "E", also match "E-NE", "E-SE", etc.
         if (filters.getSwellDirection() != null && !filters.getSwellDirection().isEmpty()) {
             List<Predicate> swellPredicates = new ArrayList<>();
@@ -220,17 +213,22 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
     }
 
     void addPrivateSpotsFilters(CriteriaBuilder cb, Root<SurfSpot> root, List<Predicate> predicates, String userId) {
-        // Status filtering for approved/private
+        // Public can see approved spots.
+        // Authenticated users can also see their own private and pending spots.
         if (userId != null) {
             predicates.add(cb.or(
-                cb.equal(root.get("status"), "APPROVED"),
+                cb.equal(root.get("status"), SurfSpotStatus.APPROVED),
                 cb.and(
-                    cb.equal(root.get("status"), "PRIVATE"),
+                    cb.equal(root.get("status"), SurfSpotStatus.PRIVATE),
+                    cb.equal(root.get("createdBy"), userId)
+                ),
+                cb.and(
+                    cb.equal(root.get("status"), SurfSpotStatus.PENDING),
                     cb.equal(root.get("createdBy"), userId)
                 )
             ));
         } else {
-            predicates.add(cb.equal(root.get("status"), "APPROVED"));
+            predicates.add(cb.equal(root.get("status"), SurfSpotStatus.APPROVED));
         }
     }
 
