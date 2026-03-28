@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
@@ -105,7 +106,17 @@ public class SurfSpotService {
     }
 
     public Optional<SurfSpotDTO> findBySlugAndUserId(String slug, String userId) {
-        return Optional.ofNullable(surfSpotRepository.findBySlug(slug, userId))
+        return Optional.ofNullable(surfSpotRepository.findBySlug(slug, userId, null, null))
+                .map(sp -> mapToSurfSpotDTO(sp, userId));
+    }
+
+    public Optional<SurfSpotDTO> findBySlugAndLocationAndUserId(
+            String slug,
+            String userId,
+            String countrySlug,
+            String regionSlug
+    ) {
+        return Optional.ofNullable(surfSpotRepository.findBySlug(slug, userId, countrySlug, regionSlug))
                 .map(sp -> mapToSurfSpotDTO(sp, userId));
     }
 
@@ -161,6 +172,12 @@ public class SurfSpotService {
         Long regionId = surfSpotRequest.getRegionId();
         Region region = regionRepository.findById(regionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region not found"));
+        ensureSlugUniqueInLocation(
+                SluggableEntity.slugFromName(surfSpotRequest.getName()),
+                region.getId(),
+                null,
+                null
+        );
         surfSpot.setRegion(region);
 
         // Automatically determine swell season based on coordinates
@@ -231,6 +248,12 @@ public class SurfSpotService {
         // Region is required on request; always update
         Region region = regionRepository.findById(surfSpotRequest.getRegionId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region not found"));
+        ensureSlugUniqueInLocation(
+                SluggableEntity.slugFromName(surfSpotRequest.getName()),
+                region.getId(),
+                existingSurfSpot.getSubRegion() != null ? existingSurfSpot.getSubRegion().getId() : null,
+                existingSurfSpot.getId()
+        );
         existingSurfSpot.setRegion(region);
 
         // Automatically determine and update swell season based on coordinates
@@ -346,6 +369,21 @@ public class SurfSpotService {
                             "Each webcam link must be a valid http or https URL");
                 }
             }
+        }
+    }
+
+    private void ensureSlugUniqueInLocation(String slug, Long regionId, Long subRegionId, Long excludeId) {
+        if (slug == null || slug.isBlank() || regionId == null) {
+            return;
+        }
+        final boolean exists;
+        // Uniqueness is enforced per-region regardless of sub-region so a name like
+        // "Sunset" can exist in multiple regions but not within the same region.
+        exists = excludeId == null
+                ? surfSpotRepository.existsByRegionIdAndSlug(regionId, slug)
+                : surfSpotRepository.existsByRegionIdAndSlugAndIdNot(regionId, slug, excludeId);
+        if (exists) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, ApiErrors.SURF_SPOT_NAME_EXISTS_IN_REGION);
         }
     }
 }

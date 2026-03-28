@@ -371,12 +371,13 @@ When you're ready to update the seed data:
 
 ### How SeedService Works
 
-The `SeedService` automatically runs on application startup (if `app.seed.enabled=true`):
+On startup (if `app.seed.enabled=true`), `SeedService` runs **only when the database has no continents yet** (one-time fill for an empty DB). If reference data already exists, it skips.
 
-- Reads JSON files from `src/main/resources/static/seedData/`
-- Resolves foreign key references by position (JSON ID = position in seeded list)
-- **Creates new entities** or **updates existing ones** (matched by name)
-- Handles relationships automatically (continent → country → region → sub-region → surf spot)
+- Reads JSON from `src/main/resources/static/seedData/`
+- Resolves foreign keys using country/continent names where present, otherwise JSON position (ID = index in the ordered export list)
+- Order: swell seasons → continents → countries → regions → sub-regions → surf spots
+
+Ongoing reference-data changes in production should use **database migrations**, not re-seeding.
 
 ### Backup and Recovery
 

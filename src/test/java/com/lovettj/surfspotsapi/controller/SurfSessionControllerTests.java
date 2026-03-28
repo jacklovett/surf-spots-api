@@ -1,0 +1,145 @@
+package com.lovettj.surfspotsapi.controller;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDate;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import jakarta.servlet.http.Cookie;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
+import com.lovettj.surfspotsapi.enums.CrowdLevel;
+import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.WaveQuality;
+import com.lovettj.surfspotsapi.enums.WaveSize;
+import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
+import com.lovettj.surfspotsapi.service.SurfSessionService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+class SurfSessionControllerTests {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private SurfSessionService surfSessionService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private SurfSessionRequest validRequest;
+
+    private Cookie sessionCookie() {
+        return new Cookie("session", "testpayload.testsignature");
+    }
+
+    @BeforeEach
+    void setUp() {
+        validRequest = new SurfSessionRequest();
+        validRequest.setSurfSpotId(1L);
+        validRequest.setUserId("user-1");
+        validRequest.setSessionDate(LocalDate.of(2025, 3, 20));
+        validRequest.setWaveSize(WaveSize.CHEST_SHOULDER);
+        validRequest.setCrowdLevel(CrowdLevel.FEW);
+        validRequest.setWaveQuality(WaveQuality.FUN);
+        validRequest.setWouldSurfAgain(true);
+    }
+
+    @Test
+    void testCreateSessionShouldAcceptValidPayload() throws Exception {
+        doNothing().when(surfSessionService).createSession(any(SurfSessionRequest.class));
+
+        mockMvc.perform(post("/api/surf-sessions")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
+
+        verify(surfSessionService).createSession(any(SurfSessionRequest.class));
+    }
+
+    @Test
+    void testCreateSessionShouldAcceptGiantWaveSize() throws Exception {
+        validRequest.setWaveSize(WaveSize.GIANT);
+        doNothing().when(surfSessionService).createSession(any(SurfSessionRequest.class));
+
+        mockMvc.perform(post("/api/surf-sessions")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validRequest)))
+                .andExpect(status().isOk());
+
+        verify(surfSessionService).createSession(any(SurfSessionRequest.class));
+    }
+
+    @Test
+    void testGetSpotSessionsSummaryShouldReturn400WhenUserIdMissing() throws Exception {
+        mockMvc.perform(get("/api/surf-spots/5/sessions").cookie(sessionCookie()))
+                .andExpect(status().isBadRequest());
+
+        verify(surfSessionService, never()).getSpotSummaryForUser(any(), any());
+    }
+
+    @Test
+    void testCreateSessionShouldRejectMissingSessionDate() throws Exception {
+        validRequest.setSessionDate(null);
+
+        mockMvc.perform(post("/api/surf-sessions")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validRequest)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testGetSpotSessionsSummaryShouldReturnWaveQualityDistribution() throws Exception {
+        Map<String, Long> wq = new LinkedHashMap<>();
+        wq.put("FUN", 2L);
+        SurfSessionSummaryDTO dto = SurfSessionSummaryDTO.builder()
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .sampleSize(2)
+                .waveSizeDistribution(Map.of("CHEST_SHOULDER", 2L))
+                .crowdDistribution(Map.of("BUSY", 2L))
+                .waveQualityDistribution(wq)
+                .wouldSurfAgainTrueCount(2L)
+                .wouldSurfAgainFalseCount(0L)
+                .fallbackToAllSkills(false)
+                .segmentHeadline("Intermediate (2 sessions)")
+                .waveQualityTrendLine("Mostly fun waves")
+                .crowdTrendLine("Often busy")
+                .wouldSurfAgainLine("2/2 would surf again")
+                .build();
+
+        when(surfSessionService.getSpotSummaryForUser(eq(99L), eq("user-1"))).thenReturn(dto);
+
+        mockMvc.perform(get("/api/surf-spots/99/sessions")
+                        .cookie(sessionCookie())
+                        .param("userId", "user-1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.waveQualityDistribution.FUN").value(2))
+                .andExpect(jsonPath("$.segmentHeadline").value("Intermediate (2 sessions)"))
+                .andExpect(jsonPath("$.waveQualityTrendLine").value("Mostly fun waves"));
+    }
+}

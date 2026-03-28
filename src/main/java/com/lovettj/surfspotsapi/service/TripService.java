@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.service;
 
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.dto.TripMemberDTO;
 import com.lovettj.surfspotsapi.dto.TripSpotDTO;
@@ -65,7 +66,7 @@ public class TripService {
     @Transactional
     public TripDTO createTrip(String userId, CreateTripRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
         Trip trip = Trip.builder()
                 .id(UUID.randomUUID().toString())
@@ -315,7 +316,7 @@ public class TripService {
             // Fallback to userId lookup for backward compatibility
             if (request.getUserId() != null && !request.getUserId().isEmpty()) {
                 User memberUser = userRepository.findById(request.getUserId())
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
                 email = memberUser.getEmail();
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either userId or email must be provided");
@@ -493,7 +494,7 @@ public class TripService {
         }
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
         TripMedia tripMedia = TripMedia.builder()
                 .id(request.getMediaId())

@@ -1,7 +1,6 @@
 package com.lovettj.surfspotsapi.repository;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 
@@ -82,14 +81,26 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
     }
 
     @Override
-    public SurfSpot findBySlug(@Param("slug") String slug, @Param("userId") String userId) {
+    public SurfSpot findBySlug(
+            @Param("slug") String slug,
+            @Param("userId") String userId,
+            @Param("countrySlug") String countrySlug,
+            @Param("regionSlug") String regionSlug
+    ) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<SurfSpot> cq = cb.createQuery(SurfSpot.class);
         Root<SurfSpot> root = cq.from(SurfSpot.class);
+        Join<Object, Object> regionJoin = root.join("region", JoinType.LEFT);
+        Join<Object, Object> countryJoin = regionJoin.join("country", JoinType.LEFT);
 
         List<Predicate> predicates = new ArrayList<>();
-        // Add the slug filter - this was missing!
         predicates.add(cb.equal(root.get("slug"), slug));
+        if (countrySlug != null && !countrySlug.isBlank()) {
+            predicates.add(cb.equal(countryJoin.get("slug"), countrySlug));
+        }
+        if (regionSlug != null && !regionSlug.isBlank()) {
+            predicates.add(cb.equal(regionJoin.get("slug"), regionSlug));
+        }
         addPrivateSpotsFilters(cb, root, predicates, userId);
 
         cq.where(predicates.toArray(new Predicate[0]));

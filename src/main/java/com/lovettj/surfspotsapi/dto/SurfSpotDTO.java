@@ -19,6 +19,8 @@ import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveDirection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -56,8 +58,10 @@ public class SurfSpotDTO {
 
     private Parking parking;
     private Boolean boatRequired;
+    @JsonProperty("isWavepool")
     private Boolean isWavepool;
     private String wavepoolUrl;
+    @JsonProperty("isRiverWave")
     private Boolean isRiverWave;
     private SurfSpotStatus status;
 

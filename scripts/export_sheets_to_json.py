@@ -312,7 +312,6 @@ def export_surf_spots(sheets, regions, sub_regions):
             'waveDirection': row[12] if len(row) > 12 else None,
             'minSurfHeight': float(row[13]) if len(row) > 13 and row[13] else None,
             'maxSurfHeight': float(row[14]) if len(row) > 14 and row[14] else None,
-            'rating': int(row[15]) if len(row) > 15 and row[15] else None,
             'foodNearby': parse_boolean(row[16]) if len(row) > 16 else None,
             'foodOptions': parse_comma_separated(row[17]) if len(row) > 17 else None,
             'accommodationNearby': parse_boolean(row[18]) if len(row) > 18 else None,

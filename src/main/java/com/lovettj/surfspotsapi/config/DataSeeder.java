@@ -14,9 +14,8 @@ public class DataSeeder {
     private static final Logger logger = LoggerFactory.getLogger(DataSeeder.class);
 
     /**
-     * Seed the database on startup from JSON in static/seedData/.
-     * Runs in dev and prod so deployed apps apply the latest seed data (order, emergency numbers, etc.).
-     * Excluded from 'test' profile so tests control their own data.
+     * One-time load of reference data from JSON when the database is empty (no continents yet).
+     * Production data changes belong in migrations, not here. Excluded from the {@code test} profile.
      */
     @Bean
     @Profile({"dev", "prod", "!test"})

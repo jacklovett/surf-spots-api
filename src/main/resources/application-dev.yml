@@ -2,9 +2,11 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update # Hibernate automatically updates schema
+      ddl-auto: none # Rely on Flyway migrations for schema consistency (incl. check constraints)
   flyway:
-    enabled: false # Disable Flyway in development
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
   mail:
     # Disable email sending in development - emails will be logged instead
     host: localhost

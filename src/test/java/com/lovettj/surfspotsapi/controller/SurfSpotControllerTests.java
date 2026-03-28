@@ -74,7 +74,8 @@ class SurfSpotControllerTests {
 
     @Test
     void testGetSurfSpotBySlugShouldReturnSurfSpot() throws Exception {
-        Mockito.when(surfSpotService.findBySlugAndUserId("pipeline", "test-user-id-123")).thenReturn(Optional.of(surfSpotDTO));
+        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("pipeline", "test-user-id-123", null, null))
+                .thenReturn(Optional.of(surfSpotDTO));
 
         mockMvc.perform(get("/api/surf-spots/pipeline")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,7 +92,7 @@ class SurfSpotControllerTests {
                 .isRiverWave(true)
                 .isWavepool(false)
                 .build();
-        Mockito.when(surfSpotService.findBySlugAndUserId("novelty-spot", "test-user-id-123"))
+        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("novelty-spot", "test-user-id-123", null, null))
                 .thenReturn(Optional.of(noveltySpot));
 
         mockMvc.perform(get("/api/surf-spots/novelty-spot")
@@ -109,7 +110,7 @@ class SurfSpotControllerTests {
                 .name("Pending Spot")
                 .status(SurfSpotStatus.PENDING)
                 .build();
-        Mockito.when(surfSpotService.findBySlugAndUserId("pending-spot", "test-user-id-123"))
+        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("pending-spot", "test-user-id-123", null, null))
                 .thenReturn(Optional.of(pendingSpot));
 
         mockMvc.perform(get("/api/surf-spots/pending-spot")

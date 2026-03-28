@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.Settings;
@@ -41,7 +42,7 @@ public class UserService {
         String userId = changePasswordRequest.getUserId();
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
         // Check if the current password matches the stored password
         if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
@@ -55,7 +56,7 @@ public class UserService {
         String userId = settingsRequest.getUserId();
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
         Settings settings = user.getSettings();
         settings.setNewSurfSpotEmails(settingsRequest.isNewSurfSpotEmails());
@@ -258,7 +259,7 @@ public class UserService {
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
     }
 
     /**
@@ -274,7 +275,7 @@ public class UserService {
     public void deleteAccount(String userId) {
         try {
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
             
             tripService.deleteAllUserTrips(userId, user.getEmail());
             userRepository.delete(user);

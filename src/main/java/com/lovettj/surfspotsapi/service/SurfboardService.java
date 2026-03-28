@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.service;
 
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.dto.SurfboardDTO;
 import com.lovettj.surfspotsapi.dto.SurfboardMediaDTO;
 import com.lovettj.surfspotsapi.entity.Surfboard;
@@ -41,7 +42,7 @@ public class SurfboardService {
     @Transactional
     public SurfboardDTO createSurfboard(String userId, CreateSurfboardRequest request) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
         Surfboard surfboard = Surfboard.builder()
                 .user(user)

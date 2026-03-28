@@ -373,7 +373,7 @@ class TripControllerTests {
         request.setTitle("New Trip");
 
         when(tripService.createTrip(anyString(), any(CreateTripRequest.class)))
-                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
         mockMvc.perform(post("/api/trips")
                 .param("userId", testUserId)
@@ -381,7 +381,7 @@ class TripControllerTests {
                 .content(objectMapper.writeValueAsString(request))
                 .cookie(createValidSessionCookie()))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("User not found"));
+                .andExpect(jsonPath("$.message").value(ApiErrors.USER_NOT_FOUND));
     }
 
     @Test

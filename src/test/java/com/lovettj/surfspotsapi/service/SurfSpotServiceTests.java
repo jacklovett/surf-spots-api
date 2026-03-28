@@ -13,6 +13,7 @@ import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
+import com.lovettj.surfspotsapi.entity.SluggableEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,6 +67,7 @@ class SurfSpotServiceTests {
         country.setSlug("morocco");
         country.setContinent(continent);
         Region region = new Region();
+        region.setId(1L);
         region.setName("Taghazout");
         region.setSlug("taghazout");
         region.setCountry(country);
@@ -270,6 +272,61 @@ class SurfSpotServiceTests {
         assertNotNull(result);
         assertNull(result.getSwellSeason()); // No swell season when not determined
         verify(swellSeasonDeterminationService).determineSwellSeason(0.0, 0.0);
+    }
+
+    @Test
+    void testCreateSurfSpotShouldThrowConflictWhenSlugAlreadyExistsInRegion() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Test Spot");
+        request.setDescription("Great surf spot!");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        String expectedSlug = SluggableEntity.slugFromName(request.getName());
+        when(surfSpotRepository.existsByRegionIdAndSlug(1L, expectedSlug)).thenReturn(true);
+
+        ResponseStatusException ex = assertThrows(
+                ResponseStatusException.class,
+                () -> surfSpotService.createSurfSpot(request)
+        );
+        assertEquals(HttpStatus.CONFLICT, ex.getStatusCode());
+    }
+
+    @Test
+    void testUpdateSurfSpotShouldThrowConflictWhenSlugAlreadyExistsInRegionExcludingSelf() {
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("Original Name");
+        existingSpot.setCreatedBy(testUserId);
+        existingSpot.setLatitude(36.5270);
+        existingSpot.setLongitude(-6.2886);
+
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Test Spot");
+        request.setDescription("Updated Description");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+
+        Region mockRegion = createMockRegion();
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        String expectedSlug = SluggableEntity.slugFromName(request.getName());
+        when(surfSpotRepository.existsByRegionIdAndSlugAndIdNot(1L, expectedSlug, 1L))
+                .thenReturn(true);
+
+        ResponseStatusException ex = assertThrows(
+                ResponseStatusException.class,
+                () -> surfSpotService.updateSurfSpot(1L, request)
+        );
+        assertEquals(HttpStatus.CONFLICT, ex.getStatusCode());
     }
 
     @Test

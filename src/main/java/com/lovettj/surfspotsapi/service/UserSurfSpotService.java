@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lovettj.surfspotsapi.dto.SurfedSpotDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
+import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.UserSurfSpot;
@@ -18,8 +19,10 @@ import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -57,8 +60,8 @@ public class UserSurfSpotService {
         int continentCount = distinctContinents.size();
         SurfSpotType mostSurfedSpotType = getMostSurfedSpotType(userSurfSpots);
         BeachBottomType mostSurfedBeachType = getMostSurfedBeachType(userSurfSpots);
-    SkillLevel skillLevel = getSkillLevel(userSurfSpots);
-    List<SurfedSpotDTO> surfedSpots = mapToSurfSpotDTO(userSurfSpots);
+        SkillLevel skillLevel = getSkillLevel(userSurfSpots);
+        List<SurfedSpotDTO> surfedSpots = mapToSurfSpotDTO(userSurfSpots);
 
         return UserSurfSpotsDTO.builder()
                 .totalCount(totalCount)
@@ -114,24 +117,58 @@ public class UserSurfSpotService {
 
     private Set<String> getDistinctCountries(List<UserSurfSpot> userSurfSpots) {
         return userSurfSpots.stream()
-                .map(uss -> uss.getSurfSpot().getRegion().getCountry().getName())
+                .map(UserSurfSpotService::resolveCountryName)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 
     private Set<String> getDistinctContinents(List<UserSurfSpot> userSurfSpots) {
-        return getDistinctAttributes(userSurfSpots, uss -> uss.getSurfSpot().getRegion().getCountry().getContinent().getName());
+        return userSurfSpots.stream()
+                .map(UserSurfSpotService::resolveContinentName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+    }
+
+    private static String resolveCountryName(UserSurfSpot uss) {
+        SurfSpot spot = uss.getSurfSpot();
+        if (spot == null || spot.getRegion() == null) {
+            return null;
+        }
+        Country country = spot.getRegion().getCountry();
+        return country != null ? country.getName() : null;
+    }
+
+    private static String resolveContinentName(UserSurfSpot uss) {
+        SurfSpot spot = uss.getSurfSpot();
+        if (spot == null || spot.getRegion() == null) {
+            return null;
+        }
+        Country country = spot.getRegion().getCountry();
+        if (country == null || country.getContinent() == null) {
+            return null;
+        }
+        return country.getContinent().getName();
     }
 
     private SurfSpotType getMostSurfedSpotType(List<UserSurfSpot> userSurfSpots) {
-        return getMostCommonAttribute(userSurfSpots, uss -> uss.getSurfSpot().getType());
+        return getMostCommonAttribute(userSurfSpots, uss -> {
+            SurfSpot s = uss.getSurfSpot();
+            return s != null ? s.getType() : null;
+        });
     }
 
     private BeachBottomType getMostSurfedBeachType(List<UserSurfSpot> userSurfSpots) {
-        return getMostCommonAttribute(userSurfSpots, uss -> uss.getSurfSpot().getBeachBottomType());
+        return getMostCommonAttribute(userSurfSpots, uss -> {
+            SurfSpot s = uss.getSurfSpot();
+            return s != null ? s.getBeachBottomType() : null;
+        });
     }
 
     private SkillLevel getSkillLevel(List<UserSurfSpot> userSurfSpots) {
-        return getMostCommonAttribute(userSurfSpots, uss -> uss.getSurfSpot().getSkillLevel());
+        return getMostCommonAttribute(userSurfSpots, uss -> {
+            SurfSpot s = uss.getSurfSpot();
+            return s != null ? s.getSkillLevel() : null;
+        });
     }
 
     private List<SurfedSpotDTO> mapToSurfSpotDTO(List<UserSurfSpot> userSurfSpots) {
@@ -157,18 +194,19 @@ public class UserSurfSpotService {
                 .toList();
     }
 
-    private <T> Set<T> getDistinctAttributes(List<UserSurfSpot> userSurfSpots, java.util.function.Function<UserSurfSpot, T> mapper) {
-        return userSurfSpots.stream()
-                .map(mapper)
-                .collect(Collectors.toSet());
-    }
-
+    /**
+     * Most frequent non-null value from mapped attributes. Uses a plain map count so we never pass
+     * null keys into {@code Collectors.groupingBy} (novelty spots may have null type/beach/skill).
+     */
     private <T> T getMostCommonAttribute(List<UserSurfSpot> userSurfSpots, java.util.function.Function<UserSurfSpot, T> mapper) {
-        return userSurfSpots.stream()
-                .map(mapper)
-                .collect(Collectors.groupingBy(attr -> attr, Collectors.counting()))
-                .entrySet()
-                .stream()
+        Map<T, Long> counts = new HashMap<>();
+        for (UserSurfSpot uss : userSurfSpots) {
+            T attr = mapper.apply(uss);
+            if (attr != null) {
+                counts.merge(attr, 1L, Long::sum);
+            }
+        }
+        return counts.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse(null);

@@ -86,14 +86,16 @@ public class SurfSpotRequest {
     private String userId;
 
     /**
-     * {@link SurfSpotStatus#PRIVATE} listings may omit ocean/novelty detail fields.
-     * Any other status (including {@code null}, treated like a public listing) must either
-     * persist novelty flags ({@code isWavepool} / {@code isRiverWave}) with a wavepool URL when
-     * {@code isWavepool} is true, or supply the core break and condition fields expected for
-     * non-novelty public spots.
+     * {@link SurfSpotStatus#PRIVATE} listings may omit break/condition fields.
+     * Any other status (including {@code null}, treated like a public listing) must:
+     * - include a description
+     * - include wavepool URL when {@code isWavepool} is true
+     * - include break type, beach bottom, skill level, and wave direction
+     * - include swell direction and wind direction for non-novelty spots
      */
-    @AssertTrue(message = "Public surf spots need a description plus either novelty flags (with official website for "
-            + "wavepools), or break type, beach bottom, skill level, wave direction, swell direction, and wind direction")
+    @AssertTrue(message = "Public surf spots need a description, break type, beach bottom, skill level, wave direction, "
+            + "and for non-novelty spots also need swell direction and wind direction. "
+            + "Wavepools also require an official website")
     public boolean isPublicListingComplete() {
         if (status == SurfSpotStatus.PRIVATE) {
             return true;
@@ -101,15 +103,14 @@ public class SurfSpotRequest {
         if (description == null || description.trim().isEmpty()) {
             return false;
         }
-        final boolean novelty = isWavepool || isRiverWave;
-        if (novelty) {
-            if (isWavepool && (wavepoolUrl == null || wavepoolUrl.isBlank())) {
-                return false;
-            }
-            return true;
+        if (isWavepool && (wavepoolUrl == null || wavepoolUrl.isBlank())) {
+            return false;
         }
         if (type == null || beachBottomType == null || skillLevel == null || waveDirection == null) {
             return false;
+        }
+        if (isWavepool || isRiverWave) {
+            return true;
         }
         return hasText(swellDirection) && hasText(windDirection);
     }

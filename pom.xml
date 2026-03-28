@@ -63,10 +63,10 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- Jakarta Validation API -->
+        <!-- Hibernate Validator: required so @Valid, @AssertTrue, etc. are enforced (API-only is not enough) -->
         <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <!-- Flyway for database migrations -->
         <dependency>

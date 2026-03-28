@@ -318,6 +318,12 @@ class SurfSpotManagementControllerTests {
               "status": "Pending",
               "isWavepool": false,
               "isRiverWave": true,
+              "type": "Standing Wave",
+              "beachBottomType": "Rock",
+              "skillLevel": "Advanced",
+              "waveDirection": "Right",
+              "swellDirection": "W",
+              "windDirection": "E",
               "userId": "test-user-id-123"
             }
             """)
@@ -362,6 +368,12 @@ class SurfSpotManagementControllerTests {
               "description": "Wavepool flag but no website",
               "regionId": 1,
               "status": "Pending",
+              "type": "Standing Wave",
+              "beachBottomType": "Rock",
+              "skillLevel": "Advanced",
+              "waveDirection": "Right",
+              "swellDirection": "W",
+              "windDirection": "E",
               "userId": "test-user-id-123",
               "isWavepool": true,
               "isRiverWave": false
@@ -369,6 +381,74 @@ class SurfSpotManagementControllerTests {
             """)
                 .param("userId", "test-user-id-123"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateSurfSpotPublicWavepoolWithoutCoreFieldsShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Pool Missing Core Fields",
+              "description": "Wavepool with URL but no break/conditions",
+              "regionId": 1,
+              "status": "Pending",
+              "userId": "test-user-id-123",
+              "isWavepool": true,
+              "isRiverWave": false,
+              "wavepoolUrl": "https://wavegarden.com/"
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateSurfSpotPublicWavepoolWithoutSwellAndWindShouldReturnCreatedSurfSpot() throws Exception {
+        SurfSpot surfSpot = SurfSpot.builder()
+                .id(4L)
+                .name("Pool No Directions")
+                .description("Wavepool with required core fields and URL only.")
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .build();
+
+        SurfSpotDTO createdDTO = SurfSpotDTO.builder()
+                .id(4L)
+                .name("Pool No Directions")
+                .slug("pool-no-directions")
+                .path("/surf-spots/europe/spain/basque-country/pool-no-directions")
+                .isWavepool(true)
+                .isRiverWave(false)
+                .build();
+
+        Mockito.when(surfSpotService.createSurfSpot(Mockito.any(SurfSpotRequest.class))).thenReturn(surfSpot);
+        Mockito.when(surfSpotService.mapToSurfSpotDTO(Mockito.any(SurfSpot.class), Mockito.anyString()))
+                .thenReturn(createdDTO);
+
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Pool No Directions",
+              "description": "Wavepool with required core fields and URL only.",
+              "regionId": 1,
+              "status": "Pending",
+              "isWavepool": true,
+              "isRiverWave": false,
+              "wavepoolUrl": "https://wavegarden.com/",
+              "type": "Standing Wave",
+              "beachBottomType": "Rock",
+              "skillLevel": "Advanced",
+              "waveDirection": "Right",
+              "userId": "test-user-id-123"
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success", is(true)));
     }
 
     @Test

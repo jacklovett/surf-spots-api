@@ -55,8 +55,10 @@ public class SurfSpotController {
 
   @GetMapping("/{slug}")
   public ResponseEntity<SurfSpotDTO> getSurfSpotBySlug(@PathVariable String slug,
-          @RequestParam(required = false) String userId) {
-      return surfSpotService.findBySlugAndUserId(slug, userId)
+          @RequestParam(required = false) String userId,
+          @RequestParam(required = false) String countrySlug,
+          @RequestParam(required = false) String regionSlug) {
+      return surfSpotService.findBySlugAndLocationAndUserId(slug, userId, countrySlug, regionSlug)
               .map(ResponseEntity::ok)
               .orElse(ResponseEntity.notFound().build());
   }
