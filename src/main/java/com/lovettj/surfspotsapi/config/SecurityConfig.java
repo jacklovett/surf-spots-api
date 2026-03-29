@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,8 +38,13 @@ public class SecurityConfig {
                 .requestMatchers("/api/surf-spots/region-id/**").permitAll()
                 .requestMatchers("/api/surf-spots/sub-region/**").permitAll()
                 .requestMatchers("/api/surf-spots/within-bounds").permitAll()
-                .requestMatchers("/api/surf-spots/*").permitAll() // GET by slug
-                .requestMatchers("/api/surf-spots/id/*").permitAll() // GET by id
+                // Writes under /management must be authenticated (never use permitAll on /api/surf-spots/* for all methods).
+                .requestMatchers(HttpMethod.POST, "/api/surf-spots/management").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/api/surf-spots/management/*").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/surf-spots/management/*").authenticated()
+                // GET by slug or id only; single-segment * would include "/management" so restrict to GET.
+                .requestMatchers(HttpMethod.GET, "/api/surf-spots/*").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/surf-spots/id/*").permitAll()
                 .requestMatchers("/error").permitAll() // Allow error endpoint for public requests
                 .anyRequest().authenticated() // Protect other endpoints
                 )

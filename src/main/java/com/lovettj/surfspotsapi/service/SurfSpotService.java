@@ -123,8 +123,8 @@ public class SurfSpotService {
     public SurfSpot createSurfSpot(SurfSpotRequest surfSpotRequest) {
         String userId = surfSpotRequest.getUserId();
 
-        if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to identifiy user");
+        if (userId == null || userId.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User id is required");
         }
 
         validateForecastAndWebcamUrls(surfSpotRequest.getForecasts(), surfSpotRequest.getWebcams());
@@ -150,6 +150,7 @@ public class SurfSpotService {
         surfSpot.setSkillLevel(surfSpotRequest.getSkillLevel());
         surfSpot.setTide(surfSpotRequest.getTide());
         surfSpot.setWaveDirection(surfSpotRequest.getWaveDirection());
+        surfSpot.setCrowdLevel(surfSpotRequest.getCrowdLevel());
         surfSpot.setParking(surfSpotRequest.getParking());
         surfSpot.setStatus(surfSpotRequest.getStatus());
 
@@ -224,6 +225,7 @@ public class SurfSpotService {
         existingSurfSpot.setSkillLevel(surfSpotRequest.getSkillLevel());
         existingSurfSpot.setTide(surfSpotRequest.getTide());
         existingSurfSpot.setWaveDirection(surfSpotRequest.getWaveDirection());
+        existingSurfSpot.setCrowdLevel(surfSpotRequest.getCrowdLevel());
         existingSurfSpot.setParking(surfSpotRequest.getParking());
         existingSurfSpot.setStatus(surfSpotRequest.getStatus());
 

@@ -102,6 +102,18 @@ def parse_comma_separated(value):
     return [v for v in values if v]
 
 
+def parse_crowd_level(value):
+    """Typical lineup for seed surf spots. Must match Java CrowdLevel enum names."""
+    if not value or not str(value).strip():
+        return None
+    v = str(value).strip().upper()
+    allowed = frozenset({'EMPTY', 'FEW', 'BUSY', 'PACKED'})
+    if v not in allowed:
+        print(f"  Warning: invalid crowd_level '{value.strip()}', expected one of {sorted(allowed)}")
+        return None
+    return v
+
+
 def parse_bounding_box(value):
     """Parse bounding box from string"""
     if not value:
@@ -289,12 +301,15 @@ def export_surf_spots(sheets, regions, sub_regions):
         if not row or not row[0]:  # Skip empty rows
             continue
         
-        # Column indices (status column removed). Sheet order: ... 24=isWavepool, 25=wavepoolUrl, 26=isRiverWave, 27=swellSeasonName, 28=forecasts, 29=createdBy, 30=webcams
-        region_name = row[4] if len(row) > 4 else ''  # region_name column (index 4)
-        sub_region_name = row[5] if len(row) > 5 else ''  # sub_region_name column (index 5)
+        # Column indices match SurfSpots row 1 headers (see README / DESCRIPTIONS.md).
+        # 0-14: name .. max_surf_height; 15-29: food_nearby .. webcams; 30: crowd_level (AE).
+        region_name = row[4] if len(row) > 4 else ''
+        sub_region_name = row[5] if len(row) > 5 else ''
         region_id = region_map.get(region_name)
         sub_region_id = sub_region_map.get(sub_region_name)
-        
+
+        crowd_level_parsed = parse_crowd_level(row[30]) if len(row) > 30 else None
+
         spot = {
             'name': row[0],
             'status': 'Approved',  # All seeded data is approved
@@ -312,21 +327,22 @@ def export_surf_spots(sheets, regions, sub_regions):
             'waveDirection': row[12] if len(row) > 12 else None,
             'minSurfHeight': float(row[13]) if len(row) > 13 and row[13] else None,
             'maxSurfHeight': float(row[14]) if len(row) > 14 and row[14] else None,
-            'foodNearby': parse_boolean(row[16]) if len(row) > 16 else None,
-            'foodOptions': parse_comma_separated(row[17]) if len(row) > 17 else None,
-            'accommodationNearby': parse_boolean(row[18]) if len(row) > 18 else None,
-            'accommodationOptions': parse_comma_separated(row[19]) if len(row) > 19 else None,
-            'facilities': parse_comma_separated(row[20]) if len(row) > 20 else None,
-            'hazards': parse_comma_separated(row[21]) if len(row) > 21 else None,
-            'parking': row[22] if len(row) > 22 else None,
-            'boatRequired': parse_boolean(row[23]) if len(row) > 23 else None,
-            'isWavepool': parse_boolean(row[24]) if len(row) > 24 else None,
-            'wavepoolUrl': row[25] if len(row) > 25 else None,
-            'isRiverWave': parse_boolean(row[26]) if len(row) > 26 else None,
-            'swellSeasonName': row[27] if len(row) > 27 else None,
-            'forecasts': parse_comma_separated(row[28]) if len(row) > 28 else None,
-            'createdBy': row[29] if len(row) > 29 else None,
-            'webcams': parse_comma_separated(row[30]) if len(row) > 30 else None
+            'foodNearby': parse_boolean(row[15]) if len(row) > 15 else None,
+            'foodOptions': parse_comma_separated(row[16]) if len(row) > 16 else None,
+            'accommodationNearby': parse_boolean(row[17]) if len(row) > 17 else None,
+            'accommodationOptions': parse_comma_separated(row[18]) if len(row) > 18 else None,
+            'facilities': parse_comma_separated(row[19]) if len(row) > 19 else None,
+            'hazards': parse_comma_separated(row[20]) if len(row) > 20 else None,
+            'parking': row[21] if len(row) > 21 else None,
+            'boatRequired': parse_boolean(row[22]) if len(row) > 22 else None,
+            'isWavepool': parse_boolean(row[23]) if len(row) > 23 else None,
+            'wavepoolUrl': row[24] if len(row) > 24 else None,
+            'isRiverWave': parse_boolean(row[25]) if len(row) > 25 else None,
+            'swellSeasonName': row[26] if len(row) > 26 else None,
+            'forecasts': parse_comma_separated(row[27]) if len(row) > 27 else None,
+            'createdBy': row[28] if len(row) > 28 else None,
+            'webcams': parse_comma_separated(row[29]) if len(row) > 29 else None,
+            'crowdLevel': crowd_level_parsed,
         }
         
         # Remove null/undefined/empty string values to keep JSON clean

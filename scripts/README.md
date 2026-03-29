@@ -124,6 +124,7 @@ The script converts:
 - **Foreign keys**: Name-based (e.g., `continent_name: "Africa"`) → ID-based (e.g., `continent: { id: 1 }`)
 - **Boolean fields**: String values ("TRUE"/"FALSE") → Boolean values
 - **Arrays**: Comma-separated strings → JSON arrays
+- **Typical crowd** (`crowd_level`, last SurfSpots column): optional; one of `EMPTY`, `FEW`, `BUSY`, `PACKED` (matches `CrowdLevel` in the API)
 - **Numbers**: String numbers → Numeric values
 - **Bounding boxes**: JSON string arrays → Actual arrays
 

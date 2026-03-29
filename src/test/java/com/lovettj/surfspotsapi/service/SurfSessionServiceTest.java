@@ -148,8 +148,20 @@ class SurfSessionServiceTest {
                         .waveQuality(WaveQuality.FUN)
                         .wouldSurfAgain(true)
                         .build();
+        SurfSession s3 =
+                SurfSession.builder()
+                        .user(user)
+                        .surfSpot(surfSpot)
+                        .skillLevel(SkillLevel.INTERMEDIATE)
+                        .sessionDate(LocalDate.of(2025, 1, 3))
+                        .waveSize(WaveSize.SMALL)
+                        .crowdLevel(CrowdLevel.BUSY)
+                        .waveQuality(WaveQuality.FUN)
+                        .wouldSurfAgain(true)
+                        .build();
+        // Need >= MIN_SAMPLE_FOR_SKILL_SEGMENT (3) or the service falls back to findBySurfSpotId, which must be stubbed separately.
         when(surfSessionRepository.findBySurfSpotIdAndSkillLevel(1L, SkillLevel.INTERMEDIATE))
-                .thenReturn(List.of(s1, s2));
+                .thenReturn(List.of(s1, s2, s3));
 
         SurfSessionSummaryDTO dto = surfSessionService.getSpotSummary(1L, SkillLevel.INTERMEDIATE);
 

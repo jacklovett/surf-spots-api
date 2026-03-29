@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidDirection {
 
-    String message() default "Invalid direction format. Use 'NE - SE'";
+    String message() default "Invalid direction. Use N, NE, S, etc., or a range like NE - SE";
 
     Class<?>[] groups() default {};
 

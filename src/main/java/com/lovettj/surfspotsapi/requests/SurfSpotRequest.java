@@ -7,6 +7,7 @@ import com.lovettj.surfspotsapi.entity.Facility;
 import com.lovettj.surfspotsapi.entity.FoodOption;
 import com.lovettj.surfspotsapi.entity.Hazard;
 import com.lovettj.surfspotsapi.enums.BeachBottomType;
+import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.Parking;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
@@ -50,6 +51,8 @@ public class SurfSpotRequest {
     private SkillLevel skillLevel;
     private Tide tide;
     private WaveDirection waveDirection;
+    /** Typical lineup; optional. */
+    private CrowdLevel crowdLevel;
     private Parking parking;
     private String swellDirection;
     private String windDirection;

@@ -8,6 +8,8 @@ import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.http.CreatedResourceLocations;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 
 /**
@@ -23,6 +27,9 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/surf-spots/management")
 public class SurfSpotManagementController {
+
+  private static final Logger log = LoggerFactory.getLogger(SurfSpotManagementController.class);
+
   private final SurfSpotService surfSpotService;
 
   public SurfSpotManagementController(SurfSpotService surfSpotService) {
@@ -45,6 +52,13 @@ public class SurfSpotManagementController {
       return ResponseEntity.status(e.getStatusCode())
           .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
     } catch (Exception e) {
+      ConstraintViolationException cve = findConstraintViolation(e);
+      if (cve != null) {
+        log.warn("Create surf spot validation failed: {}", firstConstraintMessage(cve));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ApiResponse.error(firstConstraintMessage(cve), HttpStatus.BAD_REQUEST.value()));
+      }
+      log.error("Create surf spot failed", e);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(ApiResponse.error(ApiErrors.formatErrorMessage("create", "surf spot"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
@@ -60,6 +74,13 @@ public class SurfSpotManagementController {
       return ResponseEntity.status(e.getStatusCode())
           .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
     } catch (Exception e) {
+      ConstraintViolationException cve = findConstraintViolation(e);
+      if (cve != null) {
+        log.warn("Update surf spot validation failed, id={}: {}", id, firstConstraintMessage(cve));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ApiResponse.error(firstConstraintMessage(cve), HttpStatus.BAD_REQUEST.value()));
+      }
+      log.error("Update surf spot failed, id={}", id, e);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(ApiResponse.error(ApiErrors.formatErrorMessage("update", "surf spot"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
@@ -76,9 +97,33 @@ public class SurfSpotManagementController {
       return ResponseEntity.status(e.getStatusCode())
           .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
     } catch (Exception e) {
+      ConstraintViolationException cve = findConstraintViolation(e);
+      if (cve != null) {
+        log.warn("Delete surf spot validation failed, id={}: {}", id, firstConstraintMessage(cve));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ApiResponse.error(firstConstraintMessage(cve), HttpStatus.BAD_REQUEST.value()));
+      }
+      log.error("Delete surf spot failed, id={}", id, e);
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "surf spot"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
+  }
+
+  private static ConstraintViolationException findConstraintViolation(Throwable t) {
+    while (t != null) {
+      if (t instanceof ConstraintViolationException) {
+        return (ConstraintViolationException) t;
+      }
+      t = t.getCause();
+    }
+    return null;
+  }
+
+  private static String firstConstraintMessage(ConstraintViolationException e) {
+    return e.getConstraintViolations().stream()
+        .map(ConstraintViolation::getMessage)
+        .findFirst()
+        .orElse("Validation failed");
   }
 }
 

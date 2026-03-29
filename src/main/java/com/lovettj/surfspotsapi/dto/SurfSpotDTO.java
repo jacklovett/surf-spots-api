@@ -12,6 +12,7 @@ import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.SwellSeason;
 import com.lovettj.surfspotsapi.enums.BeachBottomType;
+import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.Parking;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
@@ -52,6 +53,7 @@ public class SurfSpotDTO {
     private String windDirection;
     private Tide tide;
     private WaveDirection waveDirection;
+    private CrowdLevel crowdLevel;
     private SwellSeason swellSeason;
     private Double minSurfHeight;
     private Double maxSurfHeight;
@@ -100,6 +102,7 @@ public class SurfSpotDTO {
         this.setWindDirection(surfSpot.getWindDirection());
         this.setTide(surfSpot.getTide());
         this.setWaveDirection(surfSpot.getWaveDirection());
+        this.setCrowdLevel(surfSpot.getCrowdLevel());
         this.setSwellSeason(surfSpot.getSwellSeason());
         this.setMinSurfHeight(surfSpot.getMinSurfHeight());
         this.setMaxSurfHeight(surfSpot.getMaxSurfHeight());

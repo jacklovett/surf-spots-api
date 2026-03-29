@@ -1,5 +1,10 @@
 # Development profile - for local development
 spring:
+  datasource:
+    hikari:
+      # Keep dev predictable when several tools hit the same Postgres (Docker + host).
+      maximum-pool-size: 10
+      minimum-idle: 2
   jpa:
     hibernate:
       ddl-auto: none # Rely on Flyway migrations for schema consistency (incl. check constraints)

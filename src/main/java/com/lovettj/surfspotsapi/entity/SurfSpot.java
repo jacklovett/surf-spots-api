@@ -62,6 +62,11 @@ public class SurfSpot extends SluggableEntity {
     @Column(nullable = true)
     private WaveDirection waveDirection;
 
+    /** Typical lineup; optional. Same scale as surf session feedback. */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "crowd_level", nullable = true)
+    private CrowdLevel crowdLevel;
+
     @Min(0)
     @Column(nullable = true)
     private Double minSurfHeight;

@@ -1,10 +1,11 @@
 package com.lovettj.surfspotsapi.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NonUniqueResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -82,29 +83,52 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
 
     @Override
     public SurfSpot findBySlug(
-            @Param("slug") String slug,
-            @Param("userId") String userId,
-            @Param("countrySlug") String countrySlug,
-            @Param("regionSlug") String regionSlug
+            String slug,
+            String userId,
+            String countrySlug,
+            String regionSlug
     ) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<SurfSpot> cq = cb.createQuery(SurfSpot.class);
-        Root<SurfSpot> root = cq.from(SurfSpot.class);
-        Join<Object, Object> regionJoin = root.join("region", JoinType.LEFT);
-        Join<Object, Object> countryJoin = regionJoin.join("country", JoinType.LEFT);
-
-        List<Predicate> predicates = new ArrayList<>();
-        predicates.add(cb.equal(root.get("slug"), slug));
+        // JPQL reads like SQL: one spot by slug, optional country/region disambiguation, visibility rules.
+        StringBuilder jpql = new StringBuilder(
+                """
+                SELECT s FROM SurfSpot s
+                LEFT JOIN s.region r
+                LEFT JOIN r.country c
+                WHERE s.slug = :slug
+                """);
         if (countrySlug != null && !countrySlug.isBlank()) {
-            predicates.add(cb.equal(countryJoin.get("slug"), countrySlug));
+            jpql.append("AND c.slug = :countrySlug ");
         }
         if (regionSlug != null && !regionSlug.isBlank()) {
-            predicates.add(cb.equal(regionJoin.get("slug"), regionSlug));
+            jpql.append("AND r.slug = :regionSlug ");
         }
-        addPrivateSpotsFilters(cb, root, predicates, userId);
+        if (userId != null) {
+            jpql.append(
+                    """
+                    AND (s.status = :statusApproved
+                         OR (s.status = :statusPrivate AND s.createdBy = :userId)
+                         OR (s.status = :statusPending AND s.createdBy = :userId))
+                    """);
+        } else {
+            jpql.append("AND s.status = :statusApproved ");
+        }
 
-        cq.where(predicates.toArray(new Predicate[0]));
-        List<SurfSpot> results = entityManager.createQuery(cq).getResultList();
+        TypedQuery<SurfSpot> query = entityManager.createQuery(jpql.toString(), SurfSpot.class);
+        query.setParameter("slug", slug);
+        if (countrySlug != null && !countrySlug.isBlank()) {
+            query.setParameter("countrySlug", countrySlug);
+        }
+        if (regionSlug != null && !regionSlug.isBlank()) {
+            query.setParameter("regionSlug", regionSlug);
+        }
+        query.setParameter("statusApproved", SurfSpotStatus.APPROVED);
+        if (userId != null) {
+            query.setParameter("userId", userId);
+            query.setParameter("statusPrivate", SurfSpotStatus.PRIVATE);
+            query.setParameter("statusPending", SurfSpotStatus.PENDING);
+        }
+
+        List<SurfSpot> results = query.getResultList();
         if (results.isEmpty()) {
             return null;
         }
@@ -149,6 +173,11 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         if (filters.getWaveDirection() != null && !filters.getWaveDirection().isEmpty()) {
             List<WaveDirection> expandedWaveDirections = expandEnumFilter(filters.getWaveDirection(), WaveDirection.values());
             predicates.add(root.get("waveDirection").in(expandedWaveDirections));
+        }
+
+        // Typical crowd (enum); spots with null crowdLevel do not match when filter is set
+        if (filters.getCrowdLevel() != null && !filters.getCrowdLevel().isEmpty()) {
+            predicates.add(root.get("crowdLevel").in(filters.getCrowdLevel()));
         }
 
         // Parking (enum)

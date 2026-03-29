@@ -665,6 +665,7 @@ surf-spots-api/
 - Check container logs: `docker-compose -f docker-compose.dev.yml logs postgres`
 - Restart the container: `docker-compose -f docker-compose.dev.yml restart postgres`
 - Verify `DB_PASSWORD` environment variable matches what's in docker-compose
+- **`FATAL: sorry, too many clients already`:** Dev Postgres allows more connections (`max_connections=200` in `docker-compose.dev.yml`). **Recreate** the Postgres container after pulling changes so that setting applies: `docker-compose -f docker-compose.dev.yml up -d --force-recreate postgres`, then restart the API. Also avoid running multiple Spring Boot processes (host + Docker, several test JVMs) against the same `localhost:5432` at once; the `test` profile uses a smaller Hikari pool per process.
 
 *If using manual PostgreSQL:*
 - Verify PostgreSQL is running: `psql -U postgres`

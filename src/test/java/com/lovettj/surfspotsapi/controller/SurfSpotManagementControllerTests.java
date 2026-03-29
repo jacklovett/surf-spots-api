@@ -505,5 +505,29 @@ class SurfSpotManagementControllerTests {
             """))
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    void testCreateSurfSpotShouldReturnForbiddenWhenNoSessionCookie() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+            {
+              "name": "Pipeline",
+              "description": "A famous surf spot.",
+              "regionId": 1,
+              "latitude": 0.2,
+              "longitude": 0.1,
+              "status": "Pending",
+              "type": "Reef Break",
+              "beachBottomType": "Rock",
+              "skillLevel": "Intermediate",
+              "waveDirection": "Left",
+              "swellDirection": "N",
+              "windDirection": "SW",
+              "userId": "test-user-id-123"
+            }
+            """))
+                .andExpect(status().isForbidden());
+    }
 }
 

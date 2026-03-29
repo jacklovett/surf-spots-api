@@ -1,7 +1,7 @@
 package com.lovettj.surfspotsapi.enums;
 
 /**
- * Surf session log only. Stored as enum name in DB.
+ * Typical crowd on a surf spot, and per surf session log. Stored as enum name in DB.
  */
 public enum CrowdLevel {
     EMPTY("Usually empty lineups"),

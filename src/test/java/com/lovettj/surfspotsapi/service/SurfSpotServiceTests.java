@@ -12,6 +12,7 @@ import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
+import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.entity.SluggableEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -333,8 +334,11 @@ class SurfSpotServiceTests {
     public void testCreateSurfSpotFailedUserNotFound() {
         SurfSpotRequest request = new SurfSpotRequest();
         request.setUserId(null); // Missing user ID
-        
-        assertThrows(ResponseStatusException.class, () -> surfSpotService.createSurfSpot(request));
+
+        ResponseStatusException ex = assertThrows(
+                ResponseStatusException.class,
+                () -> surfSpotService.createSurfSpot(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
     }
 
     @Test
@@ -520,6 +524,72 @@ class SurfSpotServiceTests {
         assertNotNull(dto.getWebcams());
         assertEquals(1, dto.getWebcams().size());
         assertEquals("https://webcam.example.com/1", dto.getWebcams().get(0));
+    }
+
+    @Test
+    void testSurfSpotDTOShouldMapCrowdLevelFromEntity() {
+        SurfSpot surfSpot = createMockSurfSpot();
+        surfSpot.setCrowdLevel(CrowdLevel.FEW);
+
+        SurfSpotDTO dto = new SurfSpotDTO(surfSpot);
+
+        assertEquals(CrowdLevel.FEW, dto.getCrowdLevel());
+    }
+
+    @Test
+    void testCreateSurfSpotShouldSetCrowdLevelFromRequest() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Test Spot");
+        request.setDescription("Great surf spot!");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setCrowdLevel(CrowdLevel.BUSY);
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.empty());
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertEquals(CrowdLevel.BUSY, result.getCrowdLevel());
+    }
+
+    @Test
+    void testUpdateSurfSpotShouldSetCrowdLevelFromRequest() {
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("Original Name");
+        existingSpot.setCreatedBy(testUserId);
+        existingSpot.setLatitude(36.5270);
+        existingSpot.setLongitude(-6.2886);
+        existingSpot.setCrowdLevel(CrowdLevel.EMPTY);
+
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Updated Name");
+        request.setDescription("Updated Description");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setCrowdLevel(CrowdLevel.PACKED);
+
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.empty());
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
+
+        assertEquals(CrowdLevel.PACKED, result.getCrowdLevel());
     }
 
     @Test

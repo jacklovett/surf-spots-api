@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.dto;
 
 import com.lovettj.surfspotsapi.enums.BeachBottomType;
+import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.enums.Tide;
@@ -21,6 +22,7 @@ public class SurfSpotFilterDTO {
     private List<SkillLevel> skillLevel;
     private List<Tide> tide;
     private List<WaveDirection> waveDirection;
+    private List<CrowdLevel> crowdLevel;
     private Double minSurfHeight;
     private Double maxSurfHeight;
     private List<String> swellDirection;
