@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,8 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.servlet.http.Cookie;
 
@@ -33,6 +36,7 @@ import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.SurfSessionService;
 
 @SpringBootTest
@@ -100,6 +104,19 @@ class SurfSessionControllerTests {
                 .andExpect(status().isBadRequest());
 
         verify(surfSessionService, never()).getSpotSummaryForUser(any(), any());
+    }
+
+    @Test
+    void testCreateSessionShouldReturn404WithReasonWhenServiceThrowsNotFound() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND))
+                .when(surfSessionService).createSession(any(SurfSessionRequest.class));
+
+        mockMvc.perform(post("/api/surf-sessions")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validRequest)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(ApiErrors.USER_NOT_FOUND));
     }
 
     @Test
