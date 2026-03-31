@@ -13,6 +13,7 @@ import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
+import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.entity.SluggableEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -144,6 +145,66 @@ class SurfSpotServiceTests {
         assertEquals("North Atlantic", result.getSwellSeason().getName());
         verify(surfSpotRepository).save(any(SurfSpot.class));
         verify(swellSeasonDeterminationService).determineSwellSeason(36.5270, -6.2886);
+    }
+
+    @Test
+    void createSurfSpotShouldDetermineSwellSeasonForRiverWave() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("River Spot");
+        request.setDescription("Standing river wave");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setRiverWave(true);
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+
+        SwellSeason mockSwellSeason = new SwellSeason();
+        mockSwellSeason.setId(1L);
+        mockSwellSeason.setName("North Atlantic");
+        mockSwellSeason.setStartMonth("September");
+        mockSwellSeason.setEndMonth("April");
+        when(swellSeasonDeterminationService.determineSwellSeason(36.5270, -6.2886))
+                .thenReturn(Optional.of(mockSwellSeason));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertNotNull(result.getSwellSeason());
+        assertEquals("North Atlantic", result.getSwellSeason().getName());
+        verify(swellSeasonDeterminationService).determineSwellSeason(36.5270, -6.2886);
+    }
+
+    @Test
+    void createSurfSpotShouldNotCallSwellSeasonDeterminationForWavepool() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Wave Pool");
+        request.setDescription("Indoor pool");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setWavepool(true);
+        request.setStatus(SurfSpotStatus.PRIVATE);
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertNull(result.getSwellSeason());
+        verify(swellSeasonDeterminationService, never()).determineSwellSeason(any(Double.class), any(Double.class));
     }
 
     @Test

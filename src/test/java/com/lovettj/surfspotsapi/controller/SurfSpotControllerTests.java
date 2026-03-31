@@ -271,7 +271,7 @@ class SurfSpotControllerTests {
     }
 
     @Test
-    void testGetSurfSpotsBySubRegionWithFiltersShouldThrowExceptionWhenSubRegionDoesNotExist() throws Exception {
+    void testGetSurfSpotsBySubRegionWithFiltersShouldReturnNotFoundWhenSubRegionDoesNotExist() throws Exception {
         // Arrange
         String subRegionSlug = "non-existent-sub-region";
         SurfSpotFilterDTO filters = new SurfSpotFilterDTO();
@@ -281,10 +281,10 @@ class SurfSpotControllerTests {
         Mockito.when(surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(Mockito.eq(subRegionSlug), Mockito.any(SurfSpotFilterDTO.class)))
                 .thenThrow(new EntityNotFoundException("SubRegion not found"));
 
-        // Act & Assert
+        // Act & Assert – controller maps EntityNotFoundException to 404
         mockMvc.perform(post("/api/surf-spots/sub-region/" + subRegionSlug)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonBody))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isNotFound());
     }
 }

@@ -49,7 +49,7 @@ public class SurfSpotController {
           List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(subRegionSlug, filters);
           return ResponseEntity.ok(surfSpots);
       } catch (EntityNotFoundException e) {
-          return ResponseEntity.status(500).build();
+          return ResponseEntity.status(404).build();
       }
   }
 

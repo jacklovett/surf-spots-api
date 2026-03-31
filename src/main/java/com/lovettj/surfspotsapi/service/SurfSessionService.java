@@ -53,8 +53,14 @@ public class SurfSessionService {
         SurfSpot surfSpot = surfSpotRepository.findById(request.getSurfSpotId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SPOT_NOT_FOUND));
 
-        if (user.getSkillLevel() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SKILL_LEVEL_REQUIRED_FOR_SESSION);
+        SkillLevel userSkillLevel = user.getSkillLevel();
+        if (userSkillLevel == null) {
+            userSkillLevel = request.getSkillLevel();
+            if (userSkillLevel == null) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SKILL_LEVEL_REQUIRED_FOR_SESSION);
+            }
+            user.setSkillLevel(userSkillLevel);
+            userRepository.save(user);
         }
 
         Surfboard surfboard = null;
@@ -68,7 +74,7 @@ public class SurfSessionService {
         SurfSession session = SurfSession.builder()
                 .user(user)
                 .surfSpot(surfSpot)
-                .skillLevel(user.getSkillLevel())
+                .skillLevel(userSkillLevel)
                 .sessionDate(request.getSessionDate())
                 .waveSize(request.getWaveSize())
                 .crowdLevel(request.getCrowdLevel())

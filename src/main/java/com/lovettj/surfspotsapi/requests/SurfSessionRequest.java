@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.requests;
 
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
+import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import jakarta.validation.constraints.NotNull;
@@ -30,6 +31,8 @@ public class SurfSessionRequest {
 
     @NotNull(message = "User id is required")
     private String userId;
+
+    private SkillLevel skillLevel;
 
     private String surfboardId;
 }

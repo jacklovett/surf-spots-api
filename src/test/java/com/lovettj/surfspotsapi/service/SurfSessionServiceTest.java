@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -94,6 +95,35 @@ class SurfSessionServiceTest {
 
         verify(surfboardRepository, never()).findByIdAndUserId(any(), any());
         verify(surfSessionRepository).save(any());
+    }
+
+    @Test
+    void createSessionShouldRequireSkillLevelWhenUserHasNoSkillLevel() {
+        request.setSurfboardId(null);
+        user.setSkillLevel(null);
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSessionRepository, never()).save(any());
+    }
+
+    @Test
+    void createSessionShouldUseRequestSkillAndPersistUserWhenProfileSkillMissing() {
+        request.setSurfboardId(null);
+        request.setSkillLevel(SkillLevel.BEGINNER);
+        user.setSkillLevel(null);
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        surfSessionService.createSession(request);
+
+        verify(surfSessionRepository).save(argThat(session ->
+                session.getSkillLevel() == SkillLevel.BEGINNER));
+        verify(userRepository).save(user);
+        assertEquals(SkillLevel.BEGINNER, user.getSkillLevel());
     }
 
     @Test

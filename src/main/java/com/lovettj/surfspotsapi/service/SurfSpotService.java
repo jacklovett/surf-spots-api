@@ -181,13 +181,14 @@ public class SurfSpotService {
         );
         surfSpot.setRegion(region);
 
-        // Automatically determine swell season based on coordinates
-        // Skip for wavepools and river waves as they don't have natural swell seasons
-        // This is done at surf spot level because regions can have multiple coastlines
-        // (e.g., Andalusia has both Mediterranean and Atlantic coasts)
-        if (!Boolean.TRUE.equals(surfSpot.getIsWavepool()) && !Boolean.TRUE.equals(surfSpot.getIsRiverWave())) {
+        // Automatically determine swell season from coordinates (ocean-region lookup).
+        // Wavepools: no geographic swell season; leave unset.
+        // River waves: still use the same coordinate-based region window for display.
+        if (Boolean.TRUE.equals(surfSpot.getIsWavepool())) {
+            surfSpot.setSwellSeason(null);
+        } else {
             swellSeasonDeterminationService.determineSwellSeason(
-                    surfSpot.getLatitude(), 
+                    surfSpot.getLatitude(),
                     surfSpot.getLongitude()
             ).ifPresent(surfSpot::setSwellSeason);
         }
@@ -258,17 +259,14 @@ public class SurfSpotService {
         );
         existingSurfSpot.setRegion(region);
 
-        // Automatically determine and update swell season based on coordinates
-        // Skip for wavepools and river waves as they don't have natural swell seasons
-        // This is done at surf spot level because regions can have multiple coastlines
-        if (!Boolean.TRUE.equals(existingSurfSpot.getIsWavepool()) && !Boolean.TRUE.equals(existingSurfSpot.getIsRiverWave())) {
+        // Same rules as create: wavepools clear; ocean and river waves derive from coordinates.
+        if (Boolean.TRUE.equals(existingSurfSpot.getIsWavepool())) {
+            existingSurfSpot.setSwellSeason(null);
+        } else {
             swellSeasonDeterminationService.determineSwellSeason(
-                    existingSurfSpot.getLatitude(), 
+                    existingSurfSpot.getLatitude(),
                     existingSurfSpot.getLongitude()
             ).ifPresent(existingSurfSpot::setSwellSeason);
-        } else {
-            // Clear swell season for wavepools and river waves
-            existingSurfSpot.setSwellSeason(null);
         }
 
         // Save and return the updated entity
