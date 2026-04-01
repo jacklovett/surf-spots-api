@@ -23,7 +23,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
+import com.lovettj.surfspotsapi.entity.Continent;
+import com.lovettj.surfspotsapi.entity.Country;
+import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SurfSession;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
@@ -48,6 +52,8 @@ class SurfSessionServiceTest {
     private UserRepository userRepository;
     @Mock
     private SurfboardRepository surfboardRepository;
+    @Mock
+    private UserSurfSpotService userSurfSpotService;
 
     @InjectMocks
     private SurfSessionService surfSessionService;
@@ -83,6 +89,7 @@ class SurfSessionServiceTest {
 
         assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
         verify(surfSessionRepository, never()).save(any());
+        verify(userSurfSpotService, never()).addUserSurfSpot(any(), any());
     }
 
     @Test
@@ -95,6 +102,7 @@ class SurfSessionServiceTest {
 
         verify(surfboardRepository, never()).findByIdAndUserId(any(), any());
         verify(surfSessionRepository).save(any());
+        verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
     }
 
     @Test
@@ -108,6 +116,7 @@ class SurfSessionServiceTest {
                 assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
         verify(surfSessionRepository, never()).save(any());
+        verify(userSurfSpotService, never()).addUserSurfSpot(any(), any());
     }
 
     @Test
@@ -124,6 +133,7 @@ class SurfSessionServiceTest {
                 session.getSkillLevel() == SkillLevel.BEGINNER));
         verify(userRepository).save(user);
         assertEquals(SkillLevel.BEGINNER, user.getSkillLevel());
+        verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
     }
 
     @Test
@@ -198,5 +208,62 @@ class SurfSessionServiceTest {
         assertNotNull(dto);
         assertEquals(WaveQuality.FUN.getSummaryTrendLine(), dto.getWaveQualityTrendLine());
         assertEquals(CrowdLevel.BUSY.getSummaryTrendLine(), dto.getCrowdTrendLine());
+    }
+
+    @Test
+    void listSessionsForUserShouldRejectBlankUserId() {
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSessionService.listSessionsForUser("  "));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSessionRepository, never()).findAllForUserList(any());
+    }
+
+    @Test
+    void listSessionsForUserShouldRejectUnknownUser() {
+        when(userRepository.existsById("missing")).thenReturn(false);
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSessionService.listSessionsForUser("missing"));
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+        verify(surfSessionRepository, never()).findAllForUserList(any());
+    }
+
+    @Test
+    void listSessionsForUserShouldMapSpotPathAndFields() {
+        Continent continent = new Continent();
+        continent.setSlug("europe");
+        Country country = new Country();
+        country.setSlug("es");
+        country.setContinent(continent);
+        Region region = new Region();
+        region.setSlug("andalusia");
+        region.setCountry(country);
+        SurfSpot spot = SurfSpot.builder().name("Test Break").build();
+        spot.setId(5L);
+        spot.setSlug("test-break");
+        spot.setRegion(region);
+
+        SurfSession session = SurfSession.builder()
+                .user(user)
+                .surfSpot(spot)
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .sessionDate(LocalDate.of(2025, 6, 1))
+                .waveSize(WaveSize.CHEST_SHOULDER)
+                .crowdLevel(CrowdLevel.FEW)
+                .waveQuality(WaveQuality.FUN)
+                .wouldSurfAgain(true)
+                .build();
+        session.setId(1L);
+
+        when(userRepository.existsById("u1")).thenReturn(true);
+        when(surfSessionRepository.findAllForUserList("u1")).thenReturn(List.of(session));
+
+        List<SurfSessionListItemDTO> list = surfSessionService.listSessionsForUser("u1");
+
+        assertEquals(1, list.size());
+        assertEquals("/surf-spots/europe/es/andalusia/test-break", list.get(0).getSpotPath());
+        assertEquals("Test Break", list.get(0).getSurfSpotName());
+        assertEquals(Long.valueOf(5L), list.get(0).getSurfSpotId());
+        assertEquals(WaveQuality.FUN, list.get(0).getWaveQuality());
     }
 }

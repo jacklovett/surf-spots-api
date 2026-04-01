@@ -94,10 +94,10 @@ public class SurfSpotRequest {
      * - include a description
      * - include wavepool URL when {@code isWavepool} is true
      * - include break type, beach bottom, skill level, and wave direction
-     * - include swell direction and wind direction for non-novelty spots
+     * - include swell direction, wind direction, and best tide for non-novelty spots
      */
     @AssertTrue(message = "Public surf spots need a description, break type, beach bottom, skill level, wave direction, "
-            + "and for non-novelty spots also need swell direction and wind direction. "
+            + "and for non-novelty spots also need swell direction, wind direction, and tide. "
             + "Wavepools also require an official website")
     public boolean isPublicListingComplete() {
         if (status == SurfSpotStatus.PRIVATE) {
@@ -115,7 +115,7 @@ public class SurfSpotRequest {
         if (isWavepool || isRiverWave) {
             return true;
         }
-        return hasText(swellDirection) && hasText(windDirection);
+        return hasText(swellDirection) && hasText(windDirection) && tide != null;
     }
 
     private static boolean hasText(String value) {

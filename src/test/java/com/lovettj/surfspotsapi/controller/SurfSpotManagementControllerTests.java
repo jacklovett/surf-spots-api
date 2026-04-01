@@ -87,6 +87,7 @@ class SurfSpotManagementControllerTests {
               "waveDirection": "Left",
               "swellDirection": "N",
               "windDirection": "SW",
+              "tide": "Mid",
               "userId": "test-user-id-123"
             }
             """)
@@ -178,6 +179,7 @@ class SurfSpotManagementControllerTests {
               "waveDirection": "Left",
               "swellDirection": "NW",
               "windDirection": "SE",
+              "tide": "High",
               "forecasts": ["https://forecast.example.com/1"],
               "webcams": ["https://webcam.example.com/1"]
             }
@@ -252,6 +254,7 @@ class SurfSpotManagementControllerTests {
               "waveDirection": "Right",
               "swellDirection": "W",
               "windDirection": "E",
+              "tide": "Any",
               "userId": "test-user-id-123"
             }
             """)
@@ -351,6 +354,34 @@ class SurfSpotManagementControllerTests {
               "userId": "test-user-id-123",
               "isWavepool": false,
               "isRiverWave": false
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testCreateSurfSpotPublicPendingOceanWithoutTideShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "No Tide",
+              "description": "Ocean spot with swell and wind but no tide",
+              "regionId": 1,
+              "latitude": 38.0,
+              "longitude": -9.0,
+              "status": "Pending",
+              "userId": "test-user-id-123",
+              "isWavepool": false,
+              "isRiverWave": false,
+              "type": "Beach Break",
+              "beachBottomType": "Sand",
+              "skillLevel": "Beginner",
+              "waveDirection": "Left",
+              "swellDirection": "NW",
+              "windDirection": "SE"
             }
             """)
                 .param("userId", "test-user-id-123"))
@@ -524,6 +555,7 @@ class SurfSpotManagementControllerTests {
               "waveDirection": "Left",
               "swellDirection": "N",
               "windDirection": "SW",
+              "tide": "Low",
               "userId": "test-user-id-123"
             }
             """))

@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.service;
 
+import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.entity.SurfSession;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
@@ -9,6 +10,7 @@ import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.repository.SurfSessionRepository;
+import com.lovettj.surfspotsapi.util.SurfSpotPathUtil;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.SurfboardRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
@@ -34,16 +36,19 @@ public class SurfSessionService {
     private final SurfSpotRepository surfSpotRepository;
     private final UserRepository userRepository;
     private final SurfboardRepository surfboardRepository;
+    private final UserSurfSpotService userSurfSpotService;
 
     public SurfSessionService(
             SurfSessionRepository surfSessionRepository,
             SurfSpotRepository surfSpotRepository,
             UserRepository userRepository,
-            SurfboardRepository surfboardRepository) {
+            SurfboardRepository surfboardRepository,
+            UserSurfSpotService userSurfSpotService) {
         this.surfSessionRepository = surfSessionRepository;
         this.surfSpotRepository = surfSpotRepository;
         this.userRepository = userRepository;
         this.surfboardRepository = surfboardRepository;
+        this.userSurfSpotService = userSurfSpotService;
     }
 
     public void createSession(SurfSessionRequest request) {
@@ -84,6 +89,44 @@ public class SurfSessionService {
                 .build();
 
         surfSessionRepository.save(session);
+        // Idempotent: ensures the spot appears in surfed spots without a separate "I surfed here" step.
+        userSurfSpotService.addUserSurfSpot(request.getUserId(), surfSpot.getId());
+    }
+
+    /**
+     * Logged sessions for the user, newest first (by session date, then creation time).
+     */
+    public List<SurfSessionListItemDTO> listSessionsForUser(String userId) {
+        if (userId == null || userId.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SESSION_SUMMARY_USER_ID_REQUIRED);
+        }
+        if (!userRepository.existsById(userId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND);
+        }
+        return surfSessionRepository.findAllForUserList(userId).stream()
+                .map(this::toListItem)
+                .toList();
+    }
+
+    private SurfSessionListItemDTO toListItem(SurfSession s) {
+        SurfSpot sp = s.getSurfSpot();
+        String spotPath = SurfSpotPathUtil.pathFor(sp);
+        Surfboard board = s.getSurfboard();
+        return SurfSessionListItemDTO.builder()
+                .id(s.getId())
+                .sessionDate(s.getSessionDate())
+                .createdAt(s.getCreatedAt())
+                .surfSpotId(sp.getId())
+                .surfSpotName(sp.getName())
+                .spotPath(spotPath)
+                .waveSize(s.getWaveSize())
+                .crowdLevel(s.getCrowdLevel())
+                .waveQuality(s.getWaveQuality())
+                .wouldSurfAgain(s.getWouldSurfAgain())
+                .skillLevel(s.getSkillLevel())
+                .surfboardId(board != null ? board.getId() : null)
+                .surfboardName(board != null ? board.getName() : null)
+                .build();
     }
 
     /**

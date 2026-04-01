@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.servlet.http.Cookie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
@@ -96,6 +98,42 @@ class SurfSessionControllerTests {
                 .andExpect(status().isOk());
 
         verify(surfSessionService).createSession(any(SurfSessionRequest.class));
+    }
+
+    @Test
+    void testListMySessionsShouldReturnSessionsWhenServiceReturnsData() throws Exception {
+        SurfSessionListItemDTO item = SurfSessionListItemDTO.builder()
+                .id(1L)
+                .sessionDate(LocalDate.of(2025, 6, 1))
+                .surfSpotId(9L)
+                .surfSpotName("Test Break")
+                .spotPath("/surf-spots/europe/es/andalusia/test-break")
+                .waveSize(WaveSize.CHEST_SHOULDER)
+                .crowdLevel(CrowdLevel.FEW)
+                .waveQuality(WaveQuality.FUN)
+                .wouldSurfAgain(true)
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .build();
+
+        when(surfSessionService.listSessionsForUser("user-1")).thenReturn(List.of(item));
+
+        mockMvc.perform(get("/api/surf-sessions/mine")
+                        .cookie(sessionCookie())
+                        .param("userId", "user-1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data[0].surfSpotName").value("Test Break"))
+                .andExpect(jsonPath("$.data[0].spotPath").value("/surf-spots/europe/es/andalusia/test-break"));
+
+        verify(surfSessionService).listSessionsForUser("user-1");
+    }
+
+    @Test
+    void testListMySessionsShouldReturn400WhenUserIdMissing() throws Exception {
+        mockMvc.perform(get("/api/surf-sessions/mine").cookie(sessionCookie()))
+                .andExpect(status().isBadRequest());
+
+        verify(surfSessionService, never()).listSessionsForUser(any());
     }
 
     @Test
