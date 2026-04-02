@@ -126,4 +126,19 @@ public class SurfSpotRequest {
     public boolean isRiverWaveAndWavepoolMutuallyExclusive() {
         return !(isWavepool && isRiverWave);
     }
+
+    /**
+     * Ocean swell forecasts do not apply to wavepools; clients must not send forecast URLs when
+     * {@code isWavepool} is true.
+     */
+    @AssertTrue(message = "Surf forecasts are not applicable to wavepools")
+    public boolean isForecastsEmptyWhenWavepool() {
+        if (!isWavepool) {
+            return true;
+        }
+        if (forecasts == null || forecasts.isEmpty()) {
+            return true;
+        }
+        return forecasts.stream().allMatch(s -> s == null || s.isBlank());
+    }
 }

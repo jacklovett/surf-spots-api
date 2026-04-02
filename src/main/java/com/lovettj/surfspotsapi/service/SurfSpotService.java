@@ -127,7 +127,9 @@ public class SurfSpotService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User id is required");
         }
 
-        validateForecastAndWebcamUrls(surfSpotRequest.getForecasts(), surfSpotRequest.getWebcams());
+        validateForecastAndWebcamUrls(
+                surfSpotRequest.isWavepool() ? null : surfSpotRequest.getForecasts(),
+                surfSpotRequest.getWebcams());
 
         // Create a new SurfSpot entity
         SurfSpot surfSpot = new SurfSpot();
@@ -141,7 +143,7 @@ public class SurfSpotService {
         surfSpot.setWindDirection(surfSpotRequest.getWindDirection());
         surfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         surfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
-        surfSpot.setForecasts(filterNonBlankStrings(surfSpotRequest.getForecasts()));
+        surfSpot.setForecasts(forecastUrlsForPersistence(surfSpotRequest));
         surfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
 
         // Enums
@@ -206,7 +208,9 @@ public class SurfSpotService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only update surf spots you created");
         }
 
-        validateForecastAndWebcamUrls(surfSpotRequest.getForecasts(), surfSpotRequest.getWebcams());
+        validateForecastAndWebcamUrls(
+                surfSpotRequest.isWavepool() ? null : surfSpotRequest.getForecasts(),
+                surfSpotRequest.getWebcams());
 
         // Update basic fields
         existingSurfSpot.setName(surfSpotRequest.getName());
@@ -217,7 +221,7 @@ public class SurfSpotService {
         existingSurfSpot.setWindDirection(surfSpotRequest.getWindDirection());
         existingSurfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         existingSurfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
-        existingSurfSpot.setForecasts(filterNonBlankStrings(surfSpotRequest.getForecasts()));
+        existingSurfSpot.setForecasts(forecastUrlsForPersistence(surfSpotRequest));
         existingSurfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
 
         // Update enums
@@ -342,6 +346,13 @@ public class SurfSpotService {
         }
 
         return surfSpotDTO;
+    }
+
+    private static List<String> forecastUrlsForPersistence(SurfSpotRequest surfSpotRequest) {
+        if (surfSpotRequest.isWavepool()) {
+            return Collections.emptyList();
+        }
+        return filterNonBlankStrings(surfSpotRequest.getForecasts());
     }
 
     private static List<String> filterNonBlankStrings(List<String> list) {

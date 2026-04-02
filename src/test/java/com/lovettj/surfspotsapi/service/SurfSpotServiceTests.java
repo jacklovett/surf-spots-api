@@ -208,6 +208,34 @@ class SurfSpotServiceTests {
     }
 
     @Test
+    void createSurfSpotShouldPersistNoForecastsWhenWavepool() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Wave Pool");
+        request.setDescription("Indoor pool");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setWavepool(true);
+        request.setWavepoolUrl("https://wavepool.example.com/");
+        request.setStatus(SurfSpotStatus.PRIVATE);
+        request.setForecasts(Arrays.asList("https://forecast.example.com/should-not-persist"));
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertNotNull(result.getForecasts());
+        assertTrue(result.getForecasts().isEmpty());
+    }
+
+    @Test
     void testCreateSurfSpotShouldSetForecastsAndWebcamsFromRequest() {
         SurfSpotRequest request = new SurfSpotRequest();
         request.setName("Test Spot");
@@ -270,6 +298,37 @@ class SurfSpotServiceTests {
         assertEquals(request.getForecasts(), result.getForecasts());
         assertEquals(request.getWebcams(), result.getWebcams());
         verify(surfSpotRepository).save(any(SurfSpot.class));
+    }
+
+    @Test
+    void updateSurfSpotShouldClearForecastsWhenWavepool() {
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("Ocean Spot");
+        existingSpot.setCreatedBy("test-user-id");
+        existingSpot.setLatitude(36.5270);
+        existingSpot.setLongitude(-6.2886);
+        existingSpot.setForecasts(Arrays.asList("https://forecast.example.com/old"));
+        existingSpot.setWebcams(Collections.emptyList());
+
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Now A Wavepool");
+        request.setUserId("test-user-id");
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setRegionId(1L);
+        request.setWavepool(true);
+        request.setWavepoolUrl("https://wavepool.example.com/");
+        request.setForecasts(Arrays.asList("https://forecast.example.com/ignored"));
+
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
+
+        assertTrue(result.getForecasts().isEmpty());
     }
 
     @Test
