@@ -236,6 +236,34 @@ class SurfSpotServiceTests {
     }
 
     @Test
+    void createSurfSpotShouldPersistNoWebcamsWhenWavepool() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Wave Pool");
+        request.setDescription("Indoor pool");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setWavepool(true);
+        request.setWavepoolUrl("https://wavepool.example.com/");
+        request.setStatus(SurfSpotStatus.PRIVATE);
+        request.setWebcams(Arrays.asList("https://webcam.example.com/should-not-persist"));
+
+        Region mockRegion = createMockRegion();
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(mockRegion));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> {
+            SurfSpot spot = invocation.getArgument(0);
+            spot.setId(1L);
+            return spot;
+        });
+
+        SurfSpot result = surfSpotService.createSurfSpot(request);
+
+        assertNotNull(result.getWebcams());
+        assertTrue(result.getWebcams().isEmpty());
+    }
+
+    @Test
     void testCreateSurfSpotShouldSetForecastsAndWebcamsFromRequest() {
         SurfSpotRequest request = new SurfSpotRequest();
         request.setName("Test Spot");
@@ -309,7 +337,7 @@ class SurfSpotServiceTests {
         existingSpot.setLatitude(36.5270);
         existingSpot.setLongitude(-6.2886);
         existingSpot.setForecasts(Arrays.asList("https://forecast.example.com/old"));
-        existingSpot.setWebcams(Collections.emptyList());
+        existingSpot.setWebcams(Arrays.asList("https://webcam.example.com/old"));
 
         SurfSpotRequest request = new SurfSpotRequest();
         request.setName("Now A Wavepool");
@@ -329,6 +357,7 @@ class SurfSpotServiceTests {
         SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
 
         assertTrue(result.getForecasts().isEmpty());
+        assertTrue(result.getWebcams().isEmpty());
     }
 
     @Test

@@ -133,12 +133,23 @@ public class SurfSpotRequest {
      */
     @AssertTrue(message = "Surf forecasts are not applicable to wavepools")
     public boolean isForecastsEmptyWhenWavepool() {
-        if (!isWavepool) {
+        return !isWavepool || isNullOrAllBlankStrings(forecasts);
+    }
+
+    /**
+     * Beach-style webcams do not apply to wavepools; clients must not send webcam URLs when
+     * {@code isWavepool} is true.
+     */
+    @AssertTrue(message = "Webcam links are not applicable to wavepools")
+    public boolean isWebcamsEmptyWhenWavepool() {
+        return !isWavepool || isNullOrAllBlankStrings(webcams);
+    }
+
+    /** True when the list is null, empty, or every element is null/blank. */
+    private static boolean isNullOrAllBlankStrings(List<String> urls) {
+        if (urls == null || urls.isEmpty()) {
             return true;
         }
-        if (forecasts == null || forecasts.isEmpty()) {
-            return true;
-        }
-        return forecasts.stream().allMatch(s -> s == null || s.isBlank());
+        return urls.stream().allMatch(s -> s == null || s.isBlank());
     }
 }

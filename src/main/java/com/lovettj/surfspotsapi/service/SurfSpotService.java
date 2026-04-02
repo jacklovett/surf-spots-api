@@ -129,7 +129,7 @@ public class SurfSpotService {
 
         validateForecastAndWebcamUrls(
                 surfSpotRequest.isWavepool() ? null : surfSpotRequest.getForecasts(),
-                surfSpotRequest.getWebcams());
+                surfSpotRequest.isWavepool() ? null : surfSpotRequest.getWebcams());
 
         // Create a new SurfSpot entity
         SurfSpot surfSpot = new SurfSpot();
@@ -144,7 +144,7 @@ public class SurfSpotService {
         surfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         surfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
         surfSpot.setForecasts(forecastUrlsForPersistence(surfSpotRequest));
-        surfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
+        surfSpot.setWebcams(webcamUrlsForPersistence(surfSpotRequest));
 
         // Enums
         surfSpot.setType(surfSpotRequest.getType());
@@ -210,7 +210,7 @@ public class SurfSpotService {
 
         validateForecastAndWebcamUrls(
                 surfSpotRequest.isWavepool() ? null : surfSpotRequest.getForecasts(),
-                surfSpotRequest.getWebcams());
+                surfSpotRequest.isWavepool() ? null : surfSpotRequest.getWebcams());
 
         // Update basic fields
         existingSurfSpot.setName(surfSpotRequest.getName());
@@ -222,7 +222,7 @@ public class SurfSpotService {
         existingSurfSpot.setMinSurfHeight(surfSpotRequest.getMinSurfHeight());
         existingSurfSpot.setMaxSurfHeight(surfSpotRequest.getMaxSurfHeight());
         existingSurfSpot.setForecasts(forecastUrlsForPersistence(surfSpotRequest));
-        existingSurfSpot.setWebcams(filterNonBlankStrings(surfSpotRequest.getWebcams()));
+        existingSurfSpot.setWebcams(webcamUrlsForPersistence(surfSpotRequest));
 
         // Update enums
         existingSurfSpot.setType(surfSpotRequest.getType());
@@ -353,6 +353,13 @@ public class SurfSpotService {
             return Collections.emptyList();
         }
         return filterNonBlankStrings(surfSpotRequest.getForecasts());
+    }
+
+    private static List<String> webcamUrlsForPersistence(SurfSpotRequest surfSpotRequest) {
+        if (surfSpotRequest.isWavepool()) {
+            return Collections.emptyList();
+        }
+        return filterNonBlankStrings(surfSpotRequest.getWebcams());
     }
 
     private static List<String> filterNonBlankStrings(List<String> list) {

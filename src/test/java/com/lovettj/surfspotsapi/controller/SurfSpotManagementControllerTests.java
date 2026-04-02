@@ -509,6 +509,32 @@ class SurfSpotManagementControllerTests {
     }
 
     @Test
+    void testCreateSurfSpotPublicWavepoolWithWebcamsShouldReturnBadRequest() throws Exception {
+        mockMvc.perform(post("/api/surf-spots/management")
+                .contentType(MediaType.APPLICATION_JSON)
+                .cookie(createValidSessionCookie())
+                .content("""
+            {
+              "name": "Pool With Webcams",
+              "description": "Webcam URLs are not allowed for wavepools.",
+              "regionId": 1,
+              "status": "Pending",
+              "isWavepool": true,
+              "isRiverWave": false,
+              "wavepoolUrl": "https://wavegarden.com/",
+              "type": "Standing Wave",
+              "beachBottomType": "Rock",
+              "skillLevel": "Advanced",
+              "waveDirection": "Right",
+              "userId": "test-user-id-123",
+              "webcams": ["https://webcam.example.com/1"]
+            }
+            """)
+                .param("userId", "test-user-id-123"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void testCreateSurfSpotPublicPendingWithBlankDescriptionShouldReturnBadRequest() throws Exception {
         mockMvc.perform(post("/api/surf-spots/management")
                 .contentType(MediaType.APPLICATION_JSON)
