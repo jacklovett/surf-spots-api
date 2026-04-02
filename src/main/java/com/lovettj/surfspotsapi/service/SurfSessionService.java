@@ -76,6 +76,11 @@ public class SurfSessionService {
                             () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURFBOARD_NOT_FOUND_FOR_USER));
         }
 
+        Boolean wouldAgain = request.getWouldSurfAgain();
+        if (wouldAgain == null) {
+            wouldAgain = Boolean.FALSE;
+        }
+
         SurfSession session = SurfSession.builder()
                 .user(user)
                 .surfSpot(surfSpot)
@@ -84,7 +89,11 @@ public class SurfSessionService {
                 .waveSize(request.getWaveSize())
                 .crowdLevel(request.getCrowdLevel())
                 .waveQuality(request.getWaveQuality())
-                .wouldSurfAgain(request.getWouldSurfAgain())
+                .swellDirection(blankToNull(request.getSwellDirection()))
+                .windDirection(blankToNull(request.getWindDirection()))
+                .tide(request.getTide())
+                .sessionNotes(blankToNull(request.getSessionNotes()))
+                .wouldSurfAgain(wouldAgain)
                 .surfboard(surfboard)
                 .build();
 
@@ -122,6 +131,10 @@ public class SurfSessionService {
                 .waveSize(s.getWaveSize())
                 .crowdLevel(s.getCrowdLevel())
                 .waveQuality(s.getWaveQuality())
+                .swellDirection(s.getSwellDirection())
+                .windDirection(s.getWindDirection())
+                .tide(s.getTide())
+                .sessionNotes(s.getSessionNotes())
                 .wouldSurfAgain(s.getWouldSurfAgain())
                 .skillLevel(s.getSkillLevel())
                 .surfboardId(board != null ? board.getId() : null)
@@ -222,6 +235,14 @@ public class SurfSessionService {
             return null;
         }
         return CrowdLevel.valueOf(topKey).getSummaryTrendLine();
+    }
+
+    private static String blankToNull(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 
     private Map<String, Long> countBy(List<SurfSession> sessions, Function<SurfSession, String> extractor) {

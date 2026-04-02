@@ -1,0 +1,5 @@
+ALTER TABLE surf_session
+    ADD COLUMN IF NOT EXISTS swell_direction VARCHAR(255),
+    ADD COLUMN IF NOT EXISTS wind_direction VARCHAR(255),
+    ADD COLUMN IF NOT EXISTS tide VARCHAR(50),
+    ADD COLUMN IF NOT EXISTS session_notes TEXT;

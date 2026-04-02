@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -35,6 +36,7 @@ import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
@@ -70,6 +72,9 @@ class SurfSessionControllerTests {
         validRequest.setCrowdLevel(CrowdLevel.FEW);
         validRequest.setWaveQuality(WaveQuality.FUN);
         validRequest.setWouldSurfAgain(true);
+        validRequest.setTide(Tide.MID);
+        validRequest.setSwellDirection("N,NE");
+        validRequest.setWindDirection("SW");
     }
 
     @Test
@@ -84,6 +89,29 @@ class SurfSessionControllerTests {
                 .andExpect(jsonPath("$.success").value(true));
 
         verify(surfSessionService).createSession(any(SurfSessionRequest.class));
+    }
+
+    @Test
+    void testCreateSessionShouldAcceptMinimalPayloadWithSpotUserAndDate() throws Exception {
+        SurfSessionRequest minimal = new SurfSessionRequest();
+        minimal.setSurfSpotId(1L);
+        minimal.setUserId("user-1");
+        minimal.setSessionDate(LocalDate.of(2025, 4, 1));
+        doNothing().when(surfSessionService).createSession(any(SurfSessionRequest.class));
+
+        mockMvc.perform(post("/api/surf-sessions")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(minimal)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
+
+        verify(surfSessionService)
+                .createSession(
+                        argThat(
+                                r -> r.getWaveSize() == null
+                                        && r.getTide() == null
+                                        && r.getWouldSurfAgain() == null));
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.entity;
 
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import jakarta.persistence.*;
@@ -39,18 +40,27 @@ public class SurfSession {
     private LocalDate sessionDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private WaveSize waveSize;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private CrowdLevel crowdLevel;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "wave_quality", nullable = false)
+    @Column(name = "wave_quality")
     private WaveQuality waveQuality;
 
-    @Column(nullable = false)
+    @Column(name = "swell_direction")
+    private String swellDirection;
+
+    @Column(name = "wind_direction")
+    private String windDirection;
+
+    @Enumerated(EnumType.STRING)
+    private Tide tide;
+
+    @Column(name = "session_notes", columnDefinition = "TEXT")
+    private String sessionNotes;
+
     private Boolean wouldSurfAgain;
 
     @ManyToOne(fetch = FetchType.LAZY)

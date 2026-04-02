@@ -2,9 +2,11 @@ package com.lovettj.surfspotsapi.requests;
 
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -17,16 +19,21 @@ public class SurfSessionRequest {
     @NotNull(message = "Session date is required")
     private LocalDate sessionDate;
 
-    @NotNull(message = "Wave size is required")
     private WaveSize waveSize;
 
-    @NotNull(message = "Crowd level is required")
     private CrowdLevel crowdLevel;
 
-    @NotNull(message = "Wave quality is required")
     private WaveQuality waveQuality;
 
-    @NotNull(message = "Would surf again is required")
+    private Tide tide;
+
+    private String swellDirection;
+
+    private String windDirection;
+
+    @Size(max = 2000, message = "Session notes must be at most 2000 characters")
+    private String sessionNotes;
+
     private Boolean wouldSurfAgain;
 
     @NotNull(message = "User id is required")

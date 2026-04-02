@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 
@@ -28,6 +29,10 @@ public class SurfSessionListItemDTO {
     private WaveSize waveSize;
     private CrowdLevel crowdLevel;
     private WaveQuality waveQuality;
+    private String swellDirection;
+    private String windDirection;
+    private Tide tide;
+    private String sessionNotes;
     private Boolean wouldSurfAgain;
     private SkillLevel skillLevel;
     private String surfboardId;

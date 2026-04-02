@@ -33,6 +33,7 @@ import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
+import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.repository.SurfSessionRepository;
@@ -73,6 +74,9 @@ class SurfSessionServiceTest {
         request.setCrowdLevel(CrowdLevel.EMPTY);
         request.setWaveQuality(WaveQuality.OKAY);
         request.setWouldSurfAgain(false);
+        request.setTide(Tide.MID);
+        request.setSwellDirection("N");
+        request.setWindDirection("SW");
 
         user = User.builder()
                 .id("u1")
@@ -102,6 +106,32 @@ class SurfSessionServiceTest {
 
         verify(surfboardRepository, never()).findByIdAndUserId(any(), any());
         verify(surfSessionRepository).save(any());
+        verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
+    }
+
+    @Test
+    void createSessionShouldDefaultWouldSurfAgainWhenNullAndPersistNullDetailEnums() {
+        request.setSurfboardId(null);
+        request.setWaveSize(null);
+        request.setCrowdLevel(null);
+        request.setWaveQuality(null);
+        request.setTide(null);
+        request.setWouldSurfAgain(null);
+        request.setSwellDirection(null);
+        request.setWindDirection(null);
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        surfSessionService.createSession(request);
+
+        verify(surfSessionRepository)
+                .save(
+                        argThat(
+                                s -> s.getWaveSize() == null
+                                        && s.getCrowdLevel() == null
+                                        && s.getWaveQuality() == null
+                                        && s.getTide() == null
+                                        && Boolean.FALSE.equals(s.getWouldSurfAgain())));
         verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
     }
 
