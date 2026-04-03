@@ -60,6 +60,15 @@ public class User {
   @Enumerated(EnumType.STRING)
   private SkillLevel skillLevel;
 
+  @Column(name = "emergency_contact_name")
+  private String emergencyContactName;
+
+  @Column(name = "emergency_contact_phone")
+  private String emergencyContactPhone;
+
+  @Column(name = "emergency_contact_relationship")
+  private String emergencyContactRelationship;
+
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<UserSurfSpot> userSurfSpots;
 

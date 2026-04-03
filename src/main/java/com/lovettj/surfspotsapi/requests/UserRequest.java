@@ -27,4 +27,10 @@ public class UserRequest {
   private Integer weight; // stored in kg
   
   private SkillLevel skillLevel;
+
+  private String emergencyContactName;
+
+  private String emergencyContactPhone;
+
+  private String emergencyContactRelationship;
 }

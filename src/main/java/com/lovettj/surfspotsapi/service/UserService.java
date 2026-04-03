@@ -78,6 +78,9 @@ public class UserService {
         user.setHeight(updateUserRequest.getHeight());
         user.setWeight(updateUserRequest.getWeight());
         user.setSkillLevel(updateUserRequest.getSkillLevel());
+        user.setEmergencyContactName(trimToNull(updateUserRequest.getEmergencyContactName()));
+        user.setEmergencyContactPhone(trimToNull(updateUserRequest.getEmergencyContactPhone()));
+        user.setEmergencyContactRelationship(trimToNull(updateUserRequest.getEmergencyContactRelationship()));
         userRepository.save(user);
         return new UserProfile(user);
     }
@@ -260,6 +263,14 @@ public class UserService {
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
+    }
+
+    private static String trimToNull(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
     }
 
     /**

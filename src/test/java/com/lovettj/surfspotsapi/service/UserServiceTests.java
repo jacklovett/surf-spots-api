@@ -126,6 +126,9 @@ class UserServiceTests {
         updateRequest.setHeight(180); // height in cm
         updateRequest.setWeight(75); // weight in kg
         updateRequest.setSkillLevel(com.lovettj.surfspotsapi.enums.SkillLevel.INTERMEDIATE);
+        updateRequest.setEmergencyContactName("Jane Doe");
+        updateRequest.setEmergencyContactPhone("+1 555 0100");
+        updateRequest.setEmergencyContactRelationship("Partner");
 
         doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
 
@@ -137,7 +140,27 @@ class UserServiceTests {
         assertEquals(180, result.getHeight());
         assertEquals(75, result.getWeight());
         assertEquals(com.lovettj.surfspotsapi.enums.SkillLevel.INTERMEDIATE, result.getSkillLevel());
+        assertEquals("Jane Doe", result.getEmergencyContactName());
+        assertEquals("+1 555 0100", result.getEmergencyContactPhone());
+        assertEquals("Partner", result.getEmergencyContactRelationship());
         verify(userRepository).save(testUser);
+    }
+
+    @Test
+    void updateUserProfileShouldTrimEmergencyContactFieldsToNullWhenBlank() {
+        UserRequest updateRequest = new UserRequest();
+        updateRequest.setEmail("test@example.com");
+        updateRequest.setEmergencyContactName("   ");
+        updateRequest.setEmergencyContactPhone("");
+        updateRequest.setEmergencyContactRelationship(null);
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+
+        userService.updateUserProfile(updateRequest);
+
+        verify(userRepository).save(argThat(u -> u.getEmergencyContactName() == null
+                && u.getEmergencyContactPhone() == null
+                && u.getEmergencyContactRelationship() == null));
     }
 
     @Test
@@ -185,6 +208,9 @@ class UserServiceTests {
         updateRequest.setWeight(null);
         updateRequest.setGender(null);
         updateRequest.setSkillLevel(null);
+        updateRequest.setEmergencyContactName(null);
+        updateRequest.setEmergencyContactPhone(null);
+        updateRequest.setEmergencyContactRelationship(null);
 
         doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
 
@@ -195,6 +221,9 @@ class UserServiceTests {
         assertNull(result.getWeight());
         assertNull(result.getGender());
         assertNull(result.getSkillLevel());
+        assertNull(result.getEmergencyContactName());
+        assertNull(result.getEmergencyContactPhone());
+        assertNull(result.getEmergencyContactRelationship());
         verify(userRepository).save(testUser);
     }
 

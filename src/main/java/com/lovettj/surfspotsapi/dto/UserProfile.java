@@ -17,6 +17,9 @@ public class UserProfile {
   private Integer height;
   private Integer weight;
   private SkillLevel skillLevel;
+  private String emergencyContactName;
+  private String emergencyContactPhone;
+  private String emergencyContactRelationship;
   private SettingsDTO settings;
 
   public UserProfile(User user) {
@@ -30,6 +33,9 @@ public class UserProfile {
     height = user.getHeight();
     weight = user.getWeight();
     skillLevel = user.getSkillLevel();
+    emergencyContactName = user.getEmergencyContactName();
+    emergencyContactPhone = user.getEmergencyContactPhone();
+    emergencyContactRelationship = user.getEmergencyContactRelationship();
     settings = new SettingsDTO(user.getSettings());
   }
 }
