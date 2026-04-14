@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.lovettj.surfspotsapi.enums.EmergencyContactRelationship;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 
 import lombok.*;
@@ -66,8 +67,9 @@ public class User {
   @Column(name = "emergency_contact_phone")
   private String emergencyContactPhone;
 
+  @Enumerated(EnumType.STRING)
   @Column(name = "emergency_contact_relationship")
-  private String emergencyContactRelationship;
+  private EmergencyContactRelationship emergencyContactRelationship;
 
   @OneToMany(mappedBy = "user", orphanRemoval = true)
   private List<UserSurfSpot> userSurfSpots;

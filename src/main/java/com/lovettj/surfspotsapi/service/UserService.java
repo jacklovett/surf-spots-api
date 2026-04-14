@@ -20,6 +20,7 @@ import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.requests.SettingsRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
+import com.lovettj.surfspotsapi.util.EmergencyContactPhoneSupport;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,8 +80,12 @@ public class UserService {
         user.setWeight(updateUserRequest.getWeight());
         user.setSkillLevel(updateUserRequest.getSkillLevel());
         user.setEmergencyContactName(trimToNull(updateUserRequest.getEmergencyContactName()));
-        user.setEmergencyContactPhone(trimToNull(updateUserRequest.getEmergencyContactPhone()));
-        user.setEmergencyContactRelationship(trimToNull(updateUserRequest.getEmergencyContactRelationship()));
+        String emergencyPhone = trimToNull(updateUserRequest.getEmergencyContactPhone());
+        if (emergencyPhone != null) {
+            emergencyPhone = EmergencyContactPhoneSupport.normalizeToE164OrThrow(emergencyPhone);
+        }
+        user.setEmergencyContactPhone(emergencyPhone);
+        user.setEmergencyContactRelationship(updateUserRequest.getEmergencyContactRelationship());
         userRepository.save(user);
         return new UserProfile(user);
     }

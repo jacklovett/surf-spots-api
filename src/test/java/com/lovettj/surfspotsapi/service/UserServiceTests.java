@@ -35,6 +35,7 @@ import com.lovettj.surfspotsapi.entity.UserAuthProvider;
 import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.repository.UserAuthProviderRepository;
+import com.lovettj.surfspotsapi.enums.EmergencyContactRelationship;
 import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
@@ -127,8 +128,8 @@ class UserServiceTests {
         updateRequest.setWeight(75); // weight in kg
         updateRequest.setSkillLevel(com.lovettj.surfspotsapi.enums.SkillLevel.INTERMEDIATE);
         updateRequest.setEmergencyContactName("Jane Doe");
-        updateRequest.setEmergencyContactPhone("+1 555 0100");
-        updateRequest.setEmergencyContactRelationship("Partner");
+        updateRequest.setEmergencyContactPhone("+16502530000");
+        updateRequest.setEmergencyContactRelationship(EmergencyContactRelationship.PARTNER);
 
         doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
 
@@ -141,9 +142,23 @@ class UserServiceTests {
         assertEquals(75, result.getWeight());
         assertEquals(com.lovettj.surfspotsapi.enums.SkillLevel.INTERMEDIATE, result.getSkillLevel());
         assertEquals("Jane Doe", result.getEmergencyContactName());
-        assertEquals("+1 555 0100", result.getEmergencyContactPhone());
-        assertEquals("Partner", result.getEmergencyContactRelationship());
+        assertEquals("+16502530000", result.getEmergencyContactPhone());
+        assertEquals(EmergencyContactRelationship.PARTNER, result.getEmergencyContactRelationship());
         verify(userRepository).save(testUser);
+    }
+
+    @Test
+    void updateUserProfileShouldRejectInvalidEmergencyContactPhone() {
+        UserRequest updateRequest = new UserRequest();
+        updateRequest.setEmail("test@example.com");
+        updateRequest.setEmergencyContactPhone("not-a-phone");
+
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> userService.updateUserProfile(updateRequest));
+        assertEquals(org.springframework.http.HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(userRepository, never()).save(any(User.class));
     }
 
     @Test

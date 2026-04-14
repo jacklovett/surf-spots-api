@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.dto;
 
 import com.lovettj.surfspotsapi.entity.User;
+import com.lovettj.surfspotsapi.enums.EmergencyContactRelationship;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 
 import lombok.Data;
@@ -19,7 +20,7 @@ public class UserProfile {
   private SkillLevel skillLevel;
   private String emergencyContactName;
   private String emergencyContactPhone;
-  private String emergencyContactRelationship;
+  private EmergencyContactRelationship emergencyContactRelationship;
   private SettingsDTO settings;
 
   public UserProfile(User user) {

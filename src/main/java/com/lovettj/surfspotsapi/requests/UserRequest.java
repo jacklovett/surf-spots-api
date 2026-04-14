@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.requests;
 
+import com.lovettj.surfspotsapi.enums.EmergencyContactRelationship;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -32,5 +33,5 @@ public class UserRequest {
 
   private String emergencyContactPhone;
 
-  private String emergencyContactRelationship;
+  private EmergencyContactRelationship emergencyContactRelationship;
 }
