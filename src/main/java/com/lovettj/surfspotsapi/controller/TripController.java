@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/trips")
@@ -235,29 +234,12 @@ public class TripController {
             @PathVariable String tripId,
             @RequestBody UploadMediaRequest request,
             @RequestParam String userId) {
-        try {
-            String mediaId = UUID.randomUUID().toString();
-            String uploadUrl = tripService.getUploadUrl(userId, tripId, request, mediaId);
-            return ResponseEntity.ok(ApiResponse.success(Map.of("uploadUrl", uploadUrl, "mediaId", mediaId)));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
-        } catch (IllegalStateException e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("upload-url failed tripId={}: {}, returning 503", tripId, detail, e);
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
-        } catch (RuntimeException e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, detail, e);
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
-        } catch (Exception e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("upload-url failed tripId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", tripId, detail, e);
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
-        }
+        return MediaUploadUrlResponseHandler.buildUploadUrlResponse(
+                logger,
+                "tripId",
+                tripId,
+                generatedMediaId -> tripService.getUploadUrl(userId, tripId, request, generatedMediaId)
+        );
     }
 
     @PostMapping("/{tripId}/media")
@@ -265,18 +247,12 @@ public class TripController {
             @PathVariable String tripId,
             @RequestBody RecordMediaRequest request,
             @RequestParam String userId) {
-        try {
-            tripService.recordMedia(userId, tripId, request);
-            return ResponseEntity.ok(ApiResponse.success("Media recorded successfully"));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
-        } catch (Exception e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("recordMedia failed tripId={}: {}, returning 500", tripId, detail, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("save", "trip media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        return MediaMutationResponseHandler.recordMediaOk(
+                logger,
+                tripId,
+                "trip media",
+                () -> tripService.recordMedia(userId, tripId, request)
+        );
     }
 
     @DeleteMapping("/{tripId}/media/{mediaId}")
@@ -284,16 +260,10 @@ public class TripController {
             @PathVariable String tripId,
             @PathVariable String mediaId,
             @RequestParam String userId) {
-        try {
-            tripService.deleteMedia(userId, tripId, mediaId);
-            return ResponseEntity.ok(ApiResponse.success("Media deleted successfully"));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "trip media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        return MediaMutationResponseHandler.deleteMedia(
+                "trip media",
+                () -> tripService.deleteMedia(userId, tripId, mediaId)
+        );
     }
 }
 

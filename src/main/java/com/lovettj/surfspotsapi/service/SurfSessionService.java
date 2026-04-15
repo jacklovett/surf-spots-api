@@ -1,23 +1,28 @@
 package com.lovettj.surfspotsapi.service;
 
 import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
+import com.lovettj.surfspotsapi.dto.SurfSessionMediaDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.entity.SurfSession;
+import com.lovettj.surfspotsapi.entity.SurfSessionMedia;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.Surfboard;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
+import com.lovettj.surfspotsapi.repository.SurfSessionMediaRepository;
 import com.lovettj.surfspotsapi.repository.SurfSessionRepository;
 import com.lovettj.surfspotsapi.util.SurfSpotPathUtil;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.SurfboardRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
+import com.lovettj.surfspotsapi.requests.CreateSurfSessionMediaRequest;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
@@ -33,22 +38,28 @@ public class SurfSessionService {
     private static final int MIN_SAMPLE_FOR_SKILL_SEGMENT = 3;
 
     private final SurfSessionRepository surfSessionRepository;
+    private final SurfSessionMediaRepository surfSessionMediaRepository;
     private final SurfSpotRepository surfSpotRepository;
     private final UserRepository userRepository;
     private final SurfboardRepository surfboardRepository;
     private final UserSurfSpotService userSurfSpotService;
+    private final StorageService storageService;
 
     public SurfSessionService(
             SurfSessionRepository surfSessionRepository,
+            SurfSessionMediaRepository surfSessionMediaRepository,
             SurfSpotRepository surfSpotRepository,
             UserRepository userRepository,
             SurfboardRepository surfboardRepository,
-            UserSurfSpotService userSurfSpotService) {
+            UserSurfSpotService userSurfSpotService,
+            StorageService storageService) {
         this.surfSessionRepository = surfSessionRepository;
+        this.surfSessionMediaRepository = surfSessionMediaRepository;
         this.surfSpotRepository = surfSpotRepository;
         this.userRepository = userRepository;
         this.surfboardRepository = surfboardRepository;
         this.userSurfSpotService = userSurfSpotService;
+        this.storageService = storageService;
     }
 
     public void createSession(SurfSessionRequest request) {
@@ -99,7 +110,7 @@ public class SurfSessionService {
 
         surfSessionRepository.save(session);
         // Idempotent: ensures the spot appears in surfed spots without a separate "I surfed here" step.
-        userSurfSpotService.addUserSurfSpot(request.getUserId(), surfSpot.getId());
+        userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
     }
 
     /**
@@ -121,6 +132,10 @@ public class SurfSessionService {
         SurfSpot sp = s.getSurfSpot();
         String spotPath = SurfSpotPathUtil.pathFor(sp);
         Surfboard board = s.getSurfboard();
+        List<SurfSessionMediaDTO> mediaDtos =
+                s.getMedia() == null || s.getMedia().isEmpty()
+                        ? List.of()
+                        : s.getMedia().stream().map(SurfSessionMediaDTO::new).toList();
         return SurfSessionListItemDTO.builder()
                 .id(s.getId())
                 .sessionDate(s.getSessionDate())
@@ -139,7 +154,52 @@ public class SurfSessionService {
                 .skillLevel(s.getSkillLevel())
                 .surfboardId(board != null ? board.getId() : null)
                 .surfboardName(board != null ? board.getName() : null)
+                .media(mediaDtos)
                 .build();
+    }
+
+    public String getUploadUrl(String userId, Long sessionId, String mediaType, String mediaId) {
+        SurfSession session = surfSessionRepository
+                .findById(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+        if (!session.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_MEDIA_ADD_FORBIDDEN);
+        }
+        if (mediaType == null || (!mediaType.equals("image") && !mediaType.equals("video"))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.MEDIA_TYPE_MUST_BE_IMAGE_OR_VIDEO);
+        }
+        String contentType = "image".equals(mediaType) ? "image/jpeg" : "video/mp4";
+        String s3Key = storageService.generateMediaKey(mediaId, mediaType, "surf-sessions/media");
+        return storageService.generatePresignedUploadUrl(s3Key, contentType);
+    }
+
+    @Transactional
+    public SurfSessionMediaDTO addMedia(String userId, Long sessionId, CreateSurfSessionMediaRequest request) {
+        SurfSession session = surfSessionRepository
+                .findById(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+        if (!session.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_MEDIA_ADD_FORBIDDEN);
+        }
+        SurfSessionMedia media = SurfSessionMedia.builder()
+                .surfSession(session)
+                .originalUrl(request.getOriginalUrl())
+                .thumbUrl(request.getThumbUrl())
+                .mediaType(request.getMediaType() != null ? request.getMediaType() : "image")
+                .build();
+        media = surfSessionMediaRepository.save(media);
+        return new SurfSessionMediaDTO(media);
+    }
+
+    @Transactional
+    public void deleteMedia(String userId, String mediaId) {
+        SurfSessionMedia media = surfSessionMediaRepository
+                .findById(mediaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.MEDIA_NOT_FOUND));
+        if (!media.getSurfSession().getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.MEDIA_DELETE_FORBIDDEN);
+        }
+        surfSessionMediaRepository.delete(media);
     }
 
     /**

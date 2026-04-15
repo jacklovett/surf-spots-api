@@ -54,7 +54,16 @@ class SurfSpotPathUtilTests {
     }
 
     @Test
-    void pathForShouldThrowWhenRegionMissing() {
+    void pathForShouldUseIdFallbackWhenHierarchyIncompleteButIdPresent() {
+        SurfSpot spot = SurfSpot.builder().name("X").build();
+        spot.setId(99L);
+        spot.setSlug("x");
+
+        assertEquals("/surf-spots/id/99", SurfSpotPathUtil.pathFor(spot));
+    }
+
+    @Test
+    void pathForShouldThrowWhenHierarchyIncompleteAndIdNull() {
         SurfSpot spot = SurfSpot.builder().name("X").build();
         spot.setSlug("x");
 

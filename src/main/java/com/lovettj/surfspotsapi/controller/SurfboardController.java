@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/surfboards")
@@ -120,29 +119,17 @@ public class SurfboardController {
             @PathVariable String surfboardId,
             @RequestBody UploadSurfboardMediaRequest request,
             @RequestParam String userId) {
-        try {
-            String mediaId = UUID.randomUUID().toString();
-            String uploadUrl = surfboardService.getUploadUrl(userId, surfboardId, request.getMediaType(), mediaId);
-            return ResponseEntity.ok(ApiResponse.success(Map.of("uploadUrl", uploadUrl, "mediaId", mediaId)));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
-        } catch (IllegalStateException e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("upload-url failed surfboardId={}: {}, returning 503", surfboardId, detail, e);
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
-        } catch (RuntimeException e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, detail, e);
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
-        } catch (Exception e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("upload-url failed surfboardId={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE", surfboardId, detail, e);
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
-        }
+        return MediaUploadUrlResponseHandler.buildUploadUrlResponse(
+                logger,
+                "surfboardId",
+                surfboardId,
+                generatedMediaId -> surfboardService.getUploadUrl(
+                        userId,
+                        surfboardId,
+                        request.getMediaType(),
+                        generatedMediaId
+                )
+        );
     }
 
     @PostMapping("/{surfboardId}/media")
@@ -150,37 +137,25 @@ public class SurfboardController {
             @PathVariable String surfboardId,
             @RequestBody CreateSurfboardMediaRequest request,
             @RequestParam String userId) {
-        try {
-            SurfboardMediaDTO media = surfboardService.addMedia(userId, surfboardId, request);
-            URI location = CreatedResourceLocations.fromApiPath(
-                    "/api/surfboards/{surfboardId}/media/{mediaId}", userId, surfboardId, media.getId());
-            return ResponseEntity.created(location)
-                    .body(ApiResponse.success(media, "Media added successfully", HttpStatus.CREATED.value()));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
-        } catch (Exception e) {
-            String detail = e.getCause() != null ? e.getMessage() + "; cause: " + e.getCause().getMessage() : e.getMessage();
-            logger.warn("add-media failed surfboardId={}: {}, returning 500", surfboardId, detail, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("add", "surfboard media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        return MediaMutationResponseHandler.addMediaCreated(
+                logger,
+                "surfboardId",
+                surfboardId,
+                "surfboard media",
+                () -> surfboardService.addMedia(userId, surfboardId, request),
+                media -> CreatedResourceLocations.fromApiPath(
+                        "/api/surfboards/{surfboardId}/media/{mediaId}", userId, surfboardId, media.getId())
+        );
     }
 
     @DeleteMapping("/media/{mediaId}")
     public ResponseEntity<ApiResponse<String>> deleteMedia(
             @PathVariable String mediaId,
             @RequestParam String userId) {
-        try {
-            surfboardService.deleteMedia(userId, mediaId);
-            return ResponseEntity.ok(ApiResponse.success("Media deleted successfully"));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "surfboard media"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        return MediaMutationResponseHandler.deleteMedia(
+                "surfboard media",
+                () -> surfboardService.deleteMedia(userId, mediaId)
+        );
     }
 }
 

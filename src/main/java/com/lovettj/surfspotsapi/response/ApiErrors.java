@@ -41,6 +41,24 @@ public final class ApiErrors {
     public static final String SESSION_SUMMARY_USER_ID_REQUIRED =
             "The userId query parameter is required.";
 
+    /** Surf session id does not exist. */
+    public static final String SURF_SESSION_NOT_FOUND = "Surf session not found";
+
+    /** Media id does not exist. */
+    public static final String MEDIA_NOT_FOUND = "Media not found";
+
+    /** Presigned upload / add-media: mediaType must be image or video. */
+    public static final String MEDIA_TYPE_MUST_BE_IMAGE_OR_VIDEO =
+            "Media type must be 'image' or 'video'";
+
+    /** Signed-in user does not own this surf session; cannot add or upload media. */
+    public static final String SURF_SESSION_MEDIA_ADD_FORBIDDEN =
+            "You don't have permission to add media to this session";
+
+    /** Signed-in user does not own this media; cannot delete. */
+    public static final String MEDIA_DELETE_FORBIDDEN =
+            "You don't have permission to delete this media";
+
     /**
      * Formats a safe user-facing error message from action and target, e.g. "Unable to create trip. Please try again later."
      * Use only fixed action/target strings (e.g. "create", "trip")—never user input. If target is null or empty,

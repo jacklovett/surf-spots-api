@@ -166,7 +166,7 @@ public class SurfboardService {
 
         // Verify the media belongs to a surfboard owned by the user
         if (!media.getSurfboard().getUser().getId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have permission to delete this media");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.MEDIA_DELETE_FORBIDDEN);
         }
 
         surfboardMediaRepository.delete(media);

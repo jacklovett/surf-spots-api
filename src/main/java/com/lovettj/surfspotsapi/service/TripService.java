@@ -517,7 +517,7 @@ public class TripService {
         boolean isMediaOwner = tripMedia.getOwner().getId().equals(userId);
 
         if (!isTripOwner && !isMediaOwner) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You don't have permission to delete this media");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.MEDIA_DELETE_FORBIDDEN);
         }
 
         tripMediaRepository.delete(tripMedia);

@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
@@ -37,4 +38,5 @@ public class SurfSessionListItemDTO {
     private SkillLevel skillLevel;
     private String surfboardId;
     private String surfboardName;
+    private List<SurfSessionMediaDTO> media;
 }

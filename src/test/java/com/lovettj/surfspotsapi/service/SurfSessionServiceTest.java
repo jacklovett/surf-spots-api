@@ -36,6 +36,7 @@ import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
+import com.lovettj.surfspotsapi.repository.SurfSessionMediaRepository;
 import com.lovettj.surfspotsapi.repository.SurfSessionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.SurfboardRepository;
@@ -48,6 +49,8 @@ class SurfSessionServiceTest {
     @Mock
     private SurfSessionRepository surfSessionRepository;
     @Mock
+    private SurfSessionMediaRepository surfSessionMediaRepository;
+    @Mock
     private SurfSpotRepository surfSpotRepository;
     @Mock
     private UserRepository userRepository;
@@ -55,6 +58,8 @@ class SurfSessionServiceTest {
     private SurfboardRepository surfboardRepository;
     @Mock
     private UserSurfSpotService userSurfSpotService;
+    @Mock
+    private StorageService storageService;
 
     @InjectMocks
     private SurfSessionService surfSessionService;

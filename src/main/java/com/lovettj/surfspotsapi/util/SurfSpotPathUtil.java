@@ -7,12 +7,26 @@ import com.lovettj.surfspotsapi.entity.SurfSpot;
 
 /**
  * Builds the same URL path segment the app uses for surf spot detail routes.
+ * When hierarchy or slugs are incomplete (legacy or inconsistent data), falls back to
+ * {@code /surf-spots/id/{id}} so list endpoints do not fail the whole response.
  */
 public final class SurfSpotPathUtil {
 
     private SurfSpotPathUtil() {}
 
     public static String pathFor(SurfSpot surfSpot) {
+        try {
+            return buildSlugBasedPath(surfSpot);
+        } catch (IllegalStateException ex) {
+            Long id = surfSpot.getId();
+            if (id != null) {
+                return String.format("/surf-spots/id/%d", id);
+            }
+            throw ex;
+        }
+    }
+
+    private static String buildSlugBasedPath(SurfSpot surfSpot) {
         Region region = surfSpot.getRegion();
         Country country = region != null ? region.getCountry() : null;
         Continent continent = country != null ? country.getContinent() : null;

@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "surf_session")
@@ -66,6 +67,9 @@ public class SurfSession {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surfboard_id")
     private Surfboard surfboard;
+
+    @OneToMany(mappedBy = "surfSession", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SurfSessionMedia> media;
 
     @CreationTimestamp
     @Column(updatable = false)
