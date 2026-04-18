@@ -23,8 +23,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
+import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.Region;
@@ -246,25 +246,25 @@ class SurfSessionServiceTest {
     }
 
     @Test
-    void listSessionsForUserShouldRejectBlankUserId() {
+    void getSurfSessionsForUserShouldRejectBlankUserId() {
         ResponseStatusException ex = assertThrows(ResponseStatusException.class,
-                () -> surfSessionService.listSessionsForUser("  "));
+                () -> surfSessionService.getSurfSessionsForUser("  "));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
         verify(surfSessionRepository, never()).findAllForUserList(any());
     }
 
     @Test
-    void listSessionsForUserShouldRejectUnknownUser() {
+    void getSurfSessionsForUserShouldRejectUnknownUser() {
         when(userRepository.existsById("missing")).thenReturn(false);
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class,
-                () -> surfSessionService.listSessionsForUser("missing"));
+                () -> surfSessionService.getSurfSessionsForUser("missing"));
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
         verify(surfSessionRepository, never()).findAllForUserList(any());
     }
 
     @Test
-    void listSessionsForUserShouldMapSpotPathAndFields() {
+    void getSurfSessionsForUserShouldMapSpotPathAndFields() {
         Continent continent = new Continent();
         continent.setSlug("europe");
         Country country = new Country();
@@ -292,13 +292,51 @@ class SurfSessionServiceTest {
 
         when(userRepository.existsById("u1")).thenReturn(true);
         when(surfSessionRepository.findAllForUserList("u1")).thenReturn(List.of(session));
+        when(surfSessionRepository.countAllByUserId("u1")).thenReturn(1L);
+        when(surfSessionRepository.countDistinctSurfSpotsByUserId("u1")).thenReturn(1L);
+        when(surfSessionRepository.countDistinctBoardsByUserId("u1")).thenReturn(0L);
 
-        List<SurfSessionListItemDTO> list = surfSessionService.listSessionsForUser("u1");
+        UserSurfSessionsDTO mine = surfSessionService.getSurfSessionsForUser("u1");
 
-        assertEquals(1, list.size());
-        assertEquals("/surf-spots/europe/es/andalusia/test-break", list.get(0).getSpotPath());
-        assertEquals("Test Break", list.get(0).getSurfSpotName());
-        assertEquals(Long.valueOf(5L), list.get(0).getSurfSpotId());
-        assertEquals(WaveQuality.FUN, list.get(0).getWaveQuality());
+        assertEquals(1, mine.getSessions().size());
+        assertEquals("/surf-spots/europe/es/andalusia/test-break", mine.getSessions().get(0).getSpotPath());
+        assertEquals("Test Break", mine.getSessions().get(0).getSurfSpotName());
+        assertEquals(Long.valueOf(5L), mine.getSessions().get(0).getSurfSpotId());
+        assertEquals(WaveQuality.FUN, mine.getSessions().get(0).getWaveQuality());
+        assertEquals(1L, mine.getTotalSessions());
+        assertEquals(1L, mine.getSpotsSurfedCount());
+        assertEquals(0L, mine.getBoardsUsedCount());
+    }
+
+    @Test
+    void getSurfSessionsForUserShouldReturnAggregatedCountsWithSessionsList() {
+        when(userRepository.existsById("u1")).thenReturn(true);
+        when(surfSessionRepository.findAllForUserList("u1")).thenReturn(Collections.emptyList());
+        when(surfSessionRepository.countAllByUserId("u1")).thenReturn(7L);
+        when(surfSessionRepository.countDistinctSurfSpotsByUserId("u1")).thenReturn(3L);
+        when(surfSessionRepository.countDistinctBoardsByUserId("u1")).thenReturn(2L);
+
+        UserSurfSessionsDTO mine = surfSessionService.getSurfSessionsForUser("u1");
+
+        assertNotNull(mine.getSessions());
+        assertEquals(7L, mine.getTotalSessions());
+        assertEquals(3L, mine.getSpotsSurfedCount());
+        assertEquals(2L, mine.getBoardsUsedCount());
+    }
+
+    @Test
+    void getSurfSessionsForUserShouldReturnZerosWhenNoSessionsExist() {
+        when(userRepository.existsById("u1")).thenReturn(true);
+        when(surfSessionRepository.findAllForUserList("u1")).thenReturn(Collections.emptyList());
+        when(surfSessionRepository.countAllByUserId("u1")).thenReturn(0L);
+        when(surfSessionRepository.countDistinctSurfSpotsByUserId("u1")).thenReturn(0L);
+        when(surfSessionRepository.countDistinctBoardsByUserId("u1")).thenReturn(0L);
+
+        UserSurfSessionsDTO mine = surfSessionService.getSurfSessionsForUser("u1");
+
+        assertEquals(0L, mine.getTotalSessions());
+        assertEquals(0L, mine.getSpotsSurfedCount());
+        assertEquals(0L, mine.getBoardsUsedCount());
+        assertEquals(0, mine.getSessions().size());
     }
 }

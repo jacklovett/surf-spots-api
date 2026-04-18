@@ -34,6 +34,7 @@ import jakarta.servlet.http.Cookie;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
+import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
@@ -129,7 +130,7 @@ class SurfSessionControllerTests {
     }
 
     @Test
-    void testListMySessionsShouldReturnSessionsWhenServiceReturnsData() throws Exception {
+    void testGetSessionsForUserShouldReturnMinePayloadWhenServiceReturnsData() throws Exception {
         SurfSessionListItemDTO item = SurfSessionListItemDTO.builder()
                 .id(1L)
                 .sessionDate(LocalDate.of(2025, 6, 1))
@@ -143,25 +144,33 @@ class SurfSessionControllerTests {
                 .skillLevel(SkillLevel.INTERMEDIATE)
                 .build();
 
-        when(surfSessionService.listSessionsForUser("user-1")).thenReturn(List.of(item));
+        UserSurfSessionsDTO mine = UserSurfSessionsDTO.builder()
+                .totalSessions(10L)
+                .spotsSurfedCount(4L)
+                .boardsUsedCount(3L)
+                .sessions(List.of(item))
+                .build();
+        when(surfSessionService.getSurfSessionsForUser("user-1")).thenReturn(mine);
 
-        mockMvc.perform(get("/api/surf-sessions/mine")
-                        .cookie(sessionCookie())
-                        .param("userId", "user-1"))
+        mockMvc.perform(get("/api/surf-sessions/user-1")
+                        .cookie(sessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data[0].surfSpotName").value("Test Break"))
-                .andExpect(jsonPath("$.data[0].spotPath").value("/surf-spots/europe/es/andalusia/test-break"));
+                .andExpect(jsonPath("$.data.totalSessions").value(10))
+                .andExpect(jsonPath("$.data.spotsSurfedCount").value(4))
+                .andExpect(jsonPath("$.data.boardsUsedCount").value(3))
+                .andExpect(jsonPath("$.data.sessions[0].surfSpotName").value("Test Break"))
+                .andExpect(jsonPath("$.data.sessions[0].spotPath").value("/surf-spots/europe/es/andalusia/test-break"));
 
-        verify(surfSessionService).listSessionsForUser("user-1");
+        verify(surfSessionService).getSurfSessionsForUser("user-1");
     }
 
     @Test
-    void testListMySessionsShouldReturn400WhenUserIdMissing() throws Exception {
-        mockMvc.perform(get("/api/surf-sessions/mine").cookie(sessionCookie()))
-                .andExpect(status().isBadRequest());
+    void testGetSessionsForUserShouldReturn404WhenUserIdPathMissing() throws Exception {
+        mockMvc.perform(get("/api/surf-sessions/").cookie(sessionCookie()))
+                .andExpect(status().isNotFound());
 
-        verify(surfSessionService, never()).listSessionsForUser(any());
+        verify(surfSessionService, never()).getSurfSessionsForUser(any());
     }
 
     @Test

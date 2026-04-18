@@ -177,8 +177,7 @@ class TripControllerTests {
 
         when(tripService.getUserTrips(anyString())).thenReturn(trips);
 
-        mockMvc.perform(get("/api/trips/mine")
-                .param("userId", testUserId)
+        mockMvc.perform(get("/api/trips/user/" + testUserId)
                 .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isArray())
@@ -187,8 +186,7 @@ class TripControllerTests {
 
     @Test
     void testGetUserTripsShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
-        mockMvc.perform(get("/api/trips/mine")
-                .param("userId", testUserId))
+        mockMvc.perform(get("/api/trips/user/" + testUserId))
                 .andExpect(status().isForbidden());
     }
 

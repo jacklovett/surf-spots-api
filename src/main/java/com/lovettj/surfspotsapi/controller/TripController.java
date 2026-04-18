@@ -96,8 +96,12 @@ public class TripController {
         }
     }
 
-    @GetMapping("/mine")
-    public ResponseEntity<ApiResponse<List<TripDTO>>> getUserTrips(@RequestParam String userId) {
+    /**
+     * Lists trips for a user. Uses {@code /user/{userId}} so this route does not collide with
+     * {@link #getTrip(String, String)} ({@code GET /{tripId}}) when both identifiers are UUID-shaped strings.
+     */
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<List<TripDTO>>> getUserTrips(@PathVariable String userId) {
         try {
             List<TripDTO> trips = tripService.getUserTrips(userId);
             return ResponseEntity.ok(ApiResponse.success(trips));

@@ -12,6 +12,21 @@ public interface SurfSessionRepository extends JpaRepository<SurfSession, Long> 
     List<SurfSession> findBySurfSpotId(Long surfSpotId);
     List<SurfSession> findBySurfSpotIdAndSkillLevel(Long surfSpotId, SkillLevel skillLevel);
 
+    @Query("SELECT COUNT(s) FROM SurfSession s WHERE s.user.id = :userId")
+    long countAllByUserId(@Param("userId") String userId);
+
+    @Query("SELECT COUNT(DISTINCT s.surfSpot.id) FROM SurfSession s WHERE s.user.id = :userId")
+    long countDistinctSurfSpotsByUserId(@Param("userId") String userId);
+
+    @Query(
+            """
+            SELECT COUNT(DISTINCT s.surfboard.id)
+            FROM SurfSession s
+            WHERE s.user.id = :userId
+              AND s.surfboard IS NOT NULL
+            """)
+    long countDistinctBoardsByUserId(@Param("userId") String userId);
+
     @Query(
             """
             SELECT DISTINCT s FROM SurfSession s

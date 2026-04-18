@@ -1,8 +1,8 @@
 package com.lovettj.surfspotsapi.controller;
 
-import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionMediaDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
+import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
 import com.lovettj.surfspotsapi.http.CreatedResourceLocations;
 import com.lovettj.surfspotsapi.requests.CreateSurfSessionMediaRequest;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,11 +48,11 @@ public class SurfSessionController {
         }
     }
 
-    @GetMapping("/surf-sessions/mine")
-    public ResponseEntity<ApiResponse<List<SurfSessionListItemDTO>>> listMySessions(@RequestParam String userId) {
+    @GetMapping("/surf-sessions/{userId}")
+    public ResponseEntity<ApiResponse<UserSurfSessionsDTO>> getSessionsForUser(@PathVariable String userId) {
         try {
-            List<SurfSessionListItemDTO> sessions = surfSessionService.listSessionsForUser(userId);
-            return ResponseEntity.ok(ApiResponse.success(sessions));
+            UserSurfSessionsDTO payload = surfSessionService.getSurfSessionsForUser(userId);
+            return ResponseEntity.ok(ApiResponse.success(payload));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));

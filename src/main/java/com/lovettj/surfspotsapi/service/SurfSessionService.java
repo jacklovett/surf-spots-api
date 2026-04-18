@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.service;
 import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionMediaDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
+import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
 import com.lovettj.surfspotsapi.entity.SurfSession;
 import com.lovettj.surfspotsapi.entity.SurfSessionMedia;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
@@ -114,18 +115,25 @@ public class SurfSessionService {
     }
 
     /**
-     * Logged sessions for the user, newest first (by session date, then creation time).
+     * Sessions page for a user: DB-backed headline stats plus the full session list (newest first),
+     * same bundle pattern as user-spots / watch list.
      */
-    public List<SurfSessionListItemDTO> listSessionsForUser(String userId) {
+    public UserSurfSessionsDTO getSurfSessionsForUser(String userId) {
         if (userId == null || userId.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SESSION_SUMMARY_USER_ID_REQUIRED);
         }
         if (!userRepository.existsById(userId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND);
         }
-        return surfSessionRepository.findAllForUserList(userId).stream()
+        List<SurfSessionListItemDTO> sessions = surfSessionRepository.findAllForUserList(userId).stream()
                 .map(this::toListItem)
                 .toList();
+        return UserSurfSessionsDTO.builder()
+                .totalSessions(surfSessionRepository.countAllByUserId(userId))
+                .spotsSurfedCount(surfSessionRepository.countDistinctSurfSpotsByUserId(userId))
+                .boardsUsedCount(surfSessionRepository.countDistinctBoardsByUserId(userId))
+                .sessions(sessions)
+                .build();
     }
 
     private SurfSessionListItemDTO toListItem(SurfSession s) {
