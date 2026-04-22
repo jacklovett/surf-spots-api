@@ -12,16 +12,21 @@ import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.requests.CreateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UpdateSurfboardRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class SurfboardService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SurfboardService.class);
 
     private final SurfboardRepository surfboardRepository;
     private final SurfboardMediaRepository surfboardMediaRepository;
@@ -113,14 +118,19 @@ public class SurfboardService {
     public SurfboardDTO getSurfboard(String userId, String surfboardId) {
         Surfboard surfboard = surfboardRepository.findByIdAndUserId(surfboardId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Surfboard not found"));
-
-        return new SurfboardDTO(surfboard);
+        SurfboardDTO dto = new SurfboardDTO(surfboard);
+        applySignedMediaUrls(dto);
+        return dto;
     }
 
     public List<SurfboardDTO> getUserSurfboards(String userId) {
         List<Surfboard> surfboards = surfboardRepository.findByUserId(userId);
         return surfboards.stream()
-                .map(SurfboardDTO::new)
+                .map(surfboard -> {
+                    SurfboardDTO dto = new SurfboardDTO(surfboard);
+                    applySignedMediaUrls(dto);
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -129,11 +139,19 @@ public class SurfboardService {
         Surfboard surfboard = surfboardRepository.findByIdAndUserId(surfboardId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Surfboard not found"));
 
+        String mediaType = request.getMediaType() != null ? request.getMediaType() : "image";
+        String mediaId = request.getMediaId() != null && !request.getMediaId().isBlank()
+                ? request.getMediaId()
+                : UUID.randomUUID().toString();
+        String objectKey = storageService.generateMediaKey(mediaId, mediaType, "surfboards/media");
+
         SurfboardMedia media = SurfboardMedia.builder()
+                .id(mediaId)
                 .surfboard(surfboard)
                 .originalUrl(request.getOriginalUrl())
                 .thumbUrl(request.getThumbUrl())
-                .mediaType(request.getMediaType() != null ? request.getMediaType() : "image")
+                .objectKey(objectKey)
+                .mediaType(mediaType)
                 .build();
 
         media = surfboardMediaRepository.save(media);
@@ -169,6 +187,38 @@ public class SurfboardService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.MEDIA_DELETE_FORBIDDEN);
         }
 
+        String mediaType = media.getMediaType() != null ? media.getMediaType() : "image";
+        String objectKey = storageService.resolveObjectKeyWithFallback(
+                media.getObjectKey(),
+                media.getOriginalUrl(),
+                media.getId(),
+                mediaType,
+                "surfboards/media");
+        storageService.deleteObject(objectKey);
+
         surfboardMediaRepository.delete(media);
+    }
+
+    private void applySignedMediaUrls(SurfboardDTO dto) {
+        if (dto == null || dto.getMedia() == null || dto.getMedia().isEmpty() || !storageService.isStorageConfigured()) {
+            return;
+        }
+        dto.getMedia().forEach(mediaDto -> {
+            String mediaType = mediaDto.getMediaType() != null ? mediaDto.getMediaType() : "image";
+            String resolvedKey = storageService.resolveObjectKeyWithFallback(
+                    null,
+                    mediaDto.getOriginalUrl(),
+                    mediaDto.getId(),
+                    mediaType,
+                    "surfboards/media");
+                    
+            try {
+                String signedUrl = storageService.generatePresignedDownloadUrl(resolvedKey);
+                mediaDto.setOriginalUrl(signedUrl);
+                mediaDto.setThumbUrl(signedUrl);
+            } catch (Exception exception) {
+                logger.warn("Failed to presign surfboard media URL. mediaId={}, keeping original URL.", mediaDto.getId(), exception);
+            }
+        });
     }
 }

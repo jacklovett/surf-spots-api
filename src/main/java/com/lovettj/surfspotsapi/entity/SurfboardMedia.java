@@ -34,6 +34,9 @@ public class SurfboardMedia {
     @Column(name = "thumb_url", columnDefinition = "TEXT")
     private String thumbUrl;
 
+    @Column(name = "object_key", columnDefinition = "TEXT")
+    private String objectKey;
+
     @Column(name = "media_type", nullable = false, length = 50)
     private String mediaType;
 

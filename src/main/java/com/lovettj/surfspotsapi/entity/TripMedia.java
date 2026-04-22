@@ -35,6 +35,9 @@ public class TripMedia {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String url;
 
+    @Column(name = "object_key", columnDefinition = "TEXT")
+    private String objectKey;
+
     @Column(name = "media_type", nullable = false, length = 50)
     private String mediaType;
 

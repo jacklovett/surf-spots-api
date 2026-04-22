@@ -21,6 +21,8 @@ import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.CreateSurfSessionMediaRequest;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +33,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class SurfSessionService {
+    private static final Logger logger = LoggerFactory.getLogger(SurfSessionService.class);
     private static final int MIN_SAMPLE_FOR_SKILL_SEGMENT = 3;
 
     private final SurfSessionRepository surfSessionRepository;
@@ -128,6 +132,7 @@ public class SurfSessionService {
         List<SurfSessionListItemDTO> sessions = surfSessionRepository.findAllForUserList(userId).stream()
                 .map(this::toListItem)
                 .toList();
+        sessions.forEach(this::applySignedMediaUrls);
         return UserSurfSessionsDTO.builder()
                 .totalSessions(surfSessionRepository.countAllByUserId(userId))
                 .spotsSurfedCount(surfSessionRepository.countDistinctSurfSpotsByUserId(userId))
@@ -166,6 +171,30 @@ public class SurfSessionService {
                 .build();
     }
 
+    private void applySignedMediaUrls(SurfSessionListItemDTO sessionDto) {
+        if (sessionDto == null || sessionDto.getMedia() == null || sessionDto.getMedia().isEmpty() || !storageService.isStorageConfigured()) {
+            return;
+        }
+
+        sessionDto.getMedia().forEach(mediaDto -> {
+            String mediaType = mediaDto.getMediaType() != null ? mediaDto.getMediaType() : "image";
+            String resolvedKey = storageService.resolveObjectKeyWithFallback(
+                    null,
+                    mediaDto.getOriginalUrl(),
+                    mediaDto.getId(),
+                    mediaType,
+                    "surf-sessions/media");
+                    
+            try {
+                String signedUrl = storageService.generatePresignedDownloadUrl(resolvedKey);
+                mediaDto.setOriginalUrl(signedUrl);
+                mediaDto.setThumbUrl(signedUrl);
+            } catch (Exception exception) {
+                logger.warn("Failed to presign surf session media URL. mediaId={}, keeping original URL.", mediaDto.getId(), exception);
+            }
+        });
+    }
+
     public String getUploadUrl(String userId, Long sessionId, String mediaType, String mediaId) {
         SurfSession session = surfSessionRepository
                 .findById(sessionId)
@@ -189,11 +218,18 @@ public class SurfSessionService {
         if (!session.getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_MEDIA_ADD_FORBIDDEN);
         }
+        String mediaType = request.getMediaType() != null ? request.getMediaType() : "image";
+        String mediaId = request.getMediaId() != null && !request.getMediaId().isBlank()
+                ? request.getMediaId()
+                : UUID.randomUUID().toString();
+        String objectKey = storageService.generateMediaKey(mediaId, mediaType, "surf-sessions/media");
         SurfSessionMedia media = SurfSessionMedia.builder()
+                .id(mediaId)
                 .surfSession(session)
                 .originalUrl(request.getOriginalUrl())
                 .thumbUrl(request.getThumbUrl())
-                .mediaType(request.getMediaType() != null ? request.getMediaType() : "image")
+                .objectKey(objectKey)
+                .mediaType(mediaType)
                 .build();
         media = surfSessionMediaRepository.save(media);
         return new SurfSessionMediaDTO(media);
@@ -207,6 +243,14 @@ public class SurfSessionService {
         if (!media.getSurfSession().getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.MEDIA_DELETE_FORBIDDEN);
         }
+        String mediaType = media.getMediaType() != null ? media.getMediaType() : "image";
+        String objectKey = storageService.resolveObjectKeyWithFallback(
+                media.getObjectKey(),
+                media.getOriginalUrl(),
+                media.getId(),
+                mediaType,
+                "surf-sessions/media");
+        storageService.deleteObject(objectKey);
         surfSessionMediaRepository.delete(media);
     }
 

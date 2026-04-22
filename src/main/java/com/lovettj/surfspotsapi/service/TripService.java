@@ -177,6 +177,7 @@ public class TripService {
         dto.setSpots(sortedSpots);
         dto.setMembers(allMembers);
         dto.setSurfboards(surfboards);
+        applySignedMediaUrls(dto);
         return dto;
     }
 
@@ -206,6 +207,7 @@ public class TripService {
                     allMembers.addAll(pendingInvitations);
                     
                     dto.setMembers(allMembers);
+                    applySignedMediaUrls(dto);
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -496,12 +498,16 @@ public class TripService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
+        String mediaType = request.getMediaType() != null ? request.getMediaType() : "image";
+        String objectKey = storageService.generateMediaKey(request.getMediaId(), mediaType, "trips/media");
+
         TripMedia tripMedia = TripMedia.builder()
                 .id(request.getMediaId())
                 .trip(trip)
                 .owner(user)
                 .url(request.getUrl())
-                .mediaType(request.getMediaType())
+                .objectKey(objectKey)
+                .mediaType(mediaType)
                 .build();
 
         tripMediaRepository.save(tripMedia);
@@ -519,6 +525,15 @@ public class TripService {
         if (!isTripOwner && !isMediaOwner) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.MEDIA_DELETE_FORBIDDEN);
         }
+
+        String mediaType = tripMedia.getMediaType() != null ? tripMedia.getMediaType() : "image";
+        String objectKey = storageService.resolveObjectKeyWithFallback(
+                tripMedia.getObjectKey(),
+                tripMedia.getUrl(),
+                tripMedia.getId(),
+                mediaType,
+                "trips/media");
+        storageService.deleteObject(objectKey);
 
         tripMediaRepository.delete(tripMedia);
     }
@@ -562,6 +577,29 @@ public class TripService {
                 }
             }
         }
+    }
+
+    private void applySignedMediaUrls(TripDTO dto) {
+        if (dto == null || dto.getMedia() == null || dto.getMedia().isEmpty() || !storageService.isStorageConfigured()) {
+            return;
+        }
+
+        dto.getMedia().forEach(mediaDto -> {
+            String currentUrl = mediaDto.getUrl();
+            String mediaType = mediaDto.getMediaType() != null ? mediaDto.getMediaType() : "image";
+            String resolvedKey = storageService.resolveObjectKeyWithFallback(
+                    null,
+                    currentUrl,
+                    mediaDto.getId(),
+                    mediaType,
+                    "trips/media");
+                    
+            try {
+                mediaDto.setUrl(storageService.generatePresignedDownloadUrl(resolvedKey));
+            } catch (Exception exception) {
+                logger.warn("Failed to presign trip media URL. mediaId={}, keeping original URL.", mediaDto.getId(), exception);
+            }
+        });
     }
 
     /**

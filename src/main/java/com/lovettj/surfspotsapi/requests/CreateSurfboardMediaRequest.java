@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class CreateSurfboardMediaRequest {
+    private String mediaId;
     private String originalUrl;
     private String thumbUrl;
     private String mediaType;

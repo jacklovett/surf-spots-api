@@ -23,6 +23,8 @@ spring:
 
 # App-specific settings
 app:
+  seed:
+    enabled: false
   mail:
     enabled: false # Disable email in tests
   storage:
