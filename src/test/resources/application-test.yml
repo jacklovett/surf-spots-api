@@ -1,9 +1,11 @@
 # Test profile - for all integration tests
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_db}
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
+    # Use a dedicated test database to avoid mutating dev data.
+    # In Docker, set SPRING_TEST_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_TEST_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_TEST_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
     hikari:
       # Same Postgres as dev is often used (localhost:5432); keep pools small per JVM.
       maximum-pool-size: 5

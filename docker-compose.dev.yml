@@ -37,6 +37,10 @@ services:
       # App reads spring.datasource.password from ${DB_PASSWORD} in application.yml
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       MAIL_ENABLED: ${MAIL_ENABLED:-false}
+      # Run tests against a dedicated DB (postgres), not surf_spots_db.
+      SPRING_TEST_DATASOURCE_URL: ${SPRING_TEST_DATASOURCE_URL:-jdbc:postgresql://postgres:5432/postgres}
+      SPRING_TEST_DATASOURCE_USERNAME: ${SPRING_TEST_DATASOURCE_USERNAME:-postgres}
+      SPRING_TEST_DATASOURCE_PASSWORD: ${SPRING_TEST_DATASOURCE_PASSWORD:-${DB_PASSWORD:-postgres}}
       # Scaleway Object Storage (media upload) - set in shell or .env
       S3_ACCESS_KEY: ${S3_ACCESS_KEY:-}
       S3_SECRET_KEY: ${S3_SECRET_KEY:-}

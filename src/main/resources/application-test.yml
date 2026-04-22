@@ -1,8 +1,13 @@
 # Test profile - for running tests
 spring:
+  datasource:
+    # Keep tests away from dev DB. Prefer setting SPRING_TEST_DATASOURCE_URL in environment.
+    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_TEST_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_TEST_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
   jpa:
     hibernate:
-      ddl-auto: create-drop # Create and drop schema for tests
+      ddl-auto: update
   flyway:
     enabled: false # Disable Flyway in tests
   mail:
