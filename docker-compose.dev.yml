@@ -42,9 +42,11 @@ services:
       SPRING_TEST_DATASOURCE_USERNAME: ${SPRING_TEST_DATASOURCE_USERNAME:-postgres}
       SPRING_TEST_DATASOURCE_PASSWORD: ${SPRING_TEST_DATASOURCE_PASSWORD:-${DB_PASSWORD:-postgres}}
       # Scaleway Object Storage (media upload) - set in shell or .env
-      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-}
-      S3_SECRET_KEY: ${S3_SECRET_KEY:-}
+      SCW_ACCESS_KEY: ${SCW_ACCESS_KEY:-}
+      SCW_SECRET_KEY: ${SCW_SECRET_KEY:-}
       S3_BUCKET: ${S3_BUCKET:-surf-spots-media}
+      SCW_ENDPOINT: ${SCW_ENDPOINT:-https://s3.fr-par.scw.cloud}
+      SCW_REGION: ${SCW_REGION:-fr-par}
       # Test configuration - tests will use these when running in Docker
       # When running tests, Spring will use the 'test' profile and these env vars
     ports:

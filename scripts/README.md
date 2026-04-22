@@ -43,6 +43,52 @@ These utility scripts manage seed data for the Surf Spots application. They expo
 
 ## Usage
 
+### Set bucket CORS (Dockerized, reusable for all environments)
+
+Use `set-bucket-cors.ps1` (PowerShell) or `set-bucket-cors.sh` (WSL/Linux/macOS) to apply and verify Object Storage CORS without installing AWS CLI locally.
+Both scripts auto-load `../.env` by default, so no manual `source` is required.
+
+From `surf-spots-api/scripts`:
+
+```powershell
+.\set-bucket-cors.ps1
+```
+
+```bash
+./set-bucket-cors.sh
+```
+
+The script reads these environment variables:
+
+- `SCW_ACCESS_KEY` (required)
+- `SCW_SECRET_KEY` (required)
+- `S3_BUCKET` (required; bucket name)
+- `SCW_ENDPOINT` (optional, default `https://s3.fr-par.scw.cloud`)
+- `SCW_REGION` (optional, default `fr-par`)
+- `CORS_ALLOWED_ORIGINS` (optional, comma-separated; default `http://localhost:5173`)
+
+You can override values directly:
+
+```powershell
+.\set-bucket-cors.ps1 -BucketName "surf-spots-media-dev" -Origins "http://localhost:5173,https://your-prod-domain.com"
+```
+
+```bash
+./set-bucket-cors.sh "surf-spots-media-dev" "http://localhost:5173,https://your-prod-domain.com"
+```
+
+Custom env file path:
+
+```powershell
+.\set-bucket-cors.ps1 -EnvFile "C:\dev\surf-spots-api\.env"
+```
+
+```bash
+ENV_FILE=/mnt/c/dev/surf-spots-api/.env ./set-bucket-cors.sh
+```
+
+This command is idempotent and safe to rerun for dev/staging/prod.
+
 ### Fix data and order (export then restart API)
 
 **Step 1 – Export from Google Sheets**

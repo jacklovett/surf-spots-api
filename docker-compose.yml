@@ -36,9 +36,11 @@ services:
       MAIL_PASSWORD: ${MAIL_PASSWORD:-}
       MAIL_ENABLED: ${MAIL_ENABLED:-true}
       # Scaleway Object Storage (media upload) - set in shell or .env
-      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-}
-      S3_SECRET_KEY: ${S3_SECRET_KEY:-}
+      SCW_ACCESS_KEY: ${SCW_ACCESS_KEY:-}
+      SCW_SECRET_KEY: ${SCW_SECRET_KEY:-}
       S3_BUCKET: ${S3_BUCKET:-surf-spots-media}
+      SCW_ENDPOINT: ${SCW_ENDPOINT:-https://s3.fr-par.scw.cloud}
+      SCW_REGION: ${SCW_REGION:-fr-par}
     ports:
       - "8080:8080"
     depends_on:
