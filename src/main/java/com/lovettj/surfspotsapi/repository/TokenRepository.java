@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 
 public interface TokenRepository extends JpaRepository<PasswordResetToken, Long> {
 
-    Optional<PasswordResetToken> findByToken(String token);
+    Optional<PasswordResetToken> findByTokenHash(String tokenHash);
 
     @Modifying
     @Transactional

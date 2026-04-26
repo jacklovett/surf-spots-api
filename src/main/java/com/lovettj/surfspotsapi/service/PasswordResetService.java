@@ -1,11 +1,9 @@
 package com.lovettj.surfspotsapi.service;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.lovettj.surfspotsapi.config.AllowedOrigins;
 import com.lovettj.surfspotsapi.entity.PasswordResetToken;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.repository.TokenRepository;
+import com.lovettj.surfspotsapi.repository.UserRepository;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.security.RateLimiter;
+import com.lovettj.surfspotsapi.security.TokenHasher;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,44 +30,65 @@ public class PasswordResetService {
     private static final Logger logger = LoggerFactory.getLogger(PasswordResetService.class);
 
     private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
     private final EmailService emailService;
     private final UserService userService;
     private final RateLimiter rateLimiter;
+    private final AllowedOrigins allowedOrigins;
 
-    // TODO: Update allowed origins
-    private final List<String> ALLOWED_ORIGINS = Arrays.asList(
-            "https://surfspots.com",
-            "https://stg-surfspots.com",
-            "http://localhost:5173"
-    );
-
+    /**
+     * Start a password reset flow for the given email address.
+     *
+     * The response is identical regardless of whether the email exists. We never throw
+     * a 404 here because doing so lets an attacker enumerate accounts. Rate limiting,
+     * origin validation, and secret generation all happen before the database lookup
+     * so timing is roughly constant.
+     */
     @Transactional
-    public void createPasswordResetToken(String email, String origin) {
-        rateLimiter.checkRateLimit(email);
+    public void createPasswordResetToken(String email, String origin, String clientIp) {
+        rateLimiter.checkRateLimit(RateLimiter.Bucket.FORGOT_PASSWORD, clientIp);
+        rateLimiter.checkRateLimit(RateLimiter.Bucket.FORGOT_PASSWORD, email);
 
-        if (!ALLOWED_ORIGINS.contains(origin)) {
-            logger.warn("Invalid origin attempt from: {}", origin);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid origin");
+        if (!allowedOrigins.contains(origin)) {
+            logger.warn("Password reset blocked: origin not on allowlist ({})", origin);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.INVALID_ORIGIN);
         }
 
-        User user = userService.findUserByEmail(email);
+        Optional<User> existing = userRepository.findByEmail(email);
+        if (existing.isEmpty()) {
+            logger.info("Password reset requested for unknown email; returning generic response");
+            return;
+        }
+        User user = existing.get();
 
-        String token = UUID.randomUUID().toString();
-        PasswordResetToken resetToken = new PasswordResetToken(token, user);
-        // Ensure only one active token per user
+        String plaintext = TokenHasher.generateToken();
+        String hashed = TokenHasher.hash(plaintext);
+
         tokenRepository.deleteByUser(user);
-        tokenRepository.save(resetToken);
+        tokenRepository.save(new PasswordResetToken(hashed, user));
 
-        sendResetEmail(user, origin, token);
+        sendResetEmail(user, origin, plaintext);
     }
 
+    /**
+     * Consume a reset token and set a new password. The lookup is done by hashed
+     * token so the database never sees plaintext. A single error message covers
+     * unknown, expired, and already-used tokens so attackers cannot probe the
+     * validity of arbitrary tokens.
+     */
     @Transactional
     public void resetPassword(String token, String password) {
-        PasswordResetToken resetToken = tokenRepository.findByToken(token)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid token"));
+        if (token == null || token.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.RESET_TOKEN_INVALID_OR_EXPIRED);
+        }
+
+        PasswordResetToken resetToken = tokenRepository.findByTokenHash(TokenHasher.hash(token))
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, ApiErrors.RESET_TOKEN_INVALID_OR_EXPIRED));
 
         if (resetToken.getExpiresAt().isBefore(Instant.now())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token has expired");
+            tokenRepository.delete(resetToken);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.RESET_TOKEN_INVALID_OR_EXPIRED);
         }
 
         userService.setUserPassword(resetToken.getUser(), password);
