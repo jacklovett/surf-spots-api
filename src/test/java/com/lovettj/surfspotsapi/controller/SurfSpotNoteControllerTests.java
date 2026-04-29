@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,9 +27,12 @@ import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.requests.SurfSpotNoteRequest;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.SurfSpotNoteService;
+import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
+import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(MockMvcDefaults.class)
 class SurfSpotNoteControllerTests {
 
     @Autowired
@@ -62,7 +66,7 @@ class SurfSpotNoteControllerTests {
     }
 
     private Cookie createValidSessionCookie() {
-        return new Cookie("session", "testpayload.testsignature");
+        return SessionTestCookieFactory.createSignedSessionCookie(userId);
     }
 
     @Test

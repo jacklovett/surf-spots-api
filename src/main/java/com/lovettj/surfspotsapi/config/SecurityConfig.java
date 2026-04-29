@@ -10,13 +10,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovettj.surfspotsapi.security.SessionCookieVerifier;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    SessionCookieFilter sessionCookieFilter() {
-        return new SessionCookieFilter();
+    SessionCookieFilter sessionCookieFilter(SessionCookieVerifier sessionCookieVerifier) {
+        return new SessionCookieFilter(sessionCookieVerifier);
+    }
+
+    @Bean
+    CsrfOriginFilter csrfOriginFilter(AllowedOrigins allowedOrigins, ObjectMapper objectMapper) {
+        return new CsrfOriginFilter(allowedOrigins, objectMapper);
     }
 
     @Bean
@@ -25,30 +33,34 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            SessionCookieFilter sessionCookieFilter,
+            CsrfOriginFilter csrfOriginFilter) throws Exception {
         http
-                .cors(Customizer.withDefaults()) // Enable CORS using the CorsConfig bean
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for API usage
+                .cors(Customizer.withDefaults())
+                // Spring synchronizer-token CSRF is disabled for cross-origin JSON clients.
+                // CsrfOriginFilter enforces Origin/Referer against the same allowlist as CORS
+                // (OWASP defence in depth with SameSite=Lax on the session cookie).
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                // Explicitly allow all public endpoints
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/continents/**").permitAll()
                 .requestMatchers("/api/countries/**").permitAll()
-                .requestMatchers("/api/regions/**").permitAll() // Explicitly include this
+                .requestMatchers("/api/regions/**").permitAll()
                 .requestMatchers("/api/surf-spots/region-id/**").permitAll()
                 .requestMatchers("/api/surf-spots/sub-region/**").permitAll()
                 .requestMatchers("/api/surf-spots/within-bounds").permitAll()
-                // Writes under /management must be authenticated (never use permitAll on /api/surf-spots/* for all methods).
                 .requestMatchers(HttpMethod.POST, "/api/surf-spots/management").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/api/surf-spots/management/*").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/api/surf-spots/management/*").authenticated()
-                // GET by slug or id only; single-segment * would include "/management" so restrict to GET.
                 .requestMatchers(HttpMethod.GET, "/api/surf-spots/*").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/surf-spots/id/*").permitAll()
-                .requestMatchers("/error").permitAll() // Allow error endpoint for public requests
-                .anyRequest().authenticated() // Protect other endpoints
+                .requestMatchers("/error").permitAll()
+                .anyRequest().authenticated()
                 )
-                .addFilterBefore(sessionCookieFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(csrfOriginFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(sessionCookieFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -40,6 +40,7 @@ import com.lovettj.surfspotsapi.requests.AuthRequest;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
 import com.lovettj.surfspotsapi.requests.SettingsRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTests {
@@ -365,40 +366,31 @@ class UserServiceTests {
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
             () -> userService.registerUser(request));
 
-        assertEquals("Password must be at least 8 characters long", exception.getReason());
+        assertEquals(ApiErrors.PASSWORD_POLICY_VIOLATION, exception.getReason());
     }
 
     @Test
-    void registerUserShouldThrowWhenPasswordTooCommon() {
+    void registerUserShouldAcceptLowComplexityPasswordMeetingLengthRule() {
+        // NIST SP 800-63B dropped mandatory character composition. A long, simple
+        // password like "aaaaaaaaaa" must now be accepted so long as length is met.
         AuthRequest request = new AuthRequest();
         request.setEmail("new@example.com");
-        request.setPassword("password123");
+        request.setPassword("aaaaaaaaaa");
         request.setProvider(AuthProvider.EMAIL);
         request.setName("New User");
 
         doReturn(Optional.empty()).when(userRepository).findByEmail("new@example.com");
+        doReturn("hashed").when(passwordEncoder).encode("aaaaaaaaaa");
+        doAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            if (user.getId() == null) {
+                user.setId("generated");
+            }
+            return user;
+        }).when(userRepository).save(any(User.class));
+        doNothing().when(tripService).processPendingInvitations(anyString(), anyString());
 
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-            () -> userService.registerUser(request));
-
-        assertEquals("Password must include at least three of the following: lowercase letters, uppercase letters, numbers, and symbols", exception.getReason());
-    }
-
-    @Test
-    void registerUserShouldThrowWhenPasswordHasInsufficientVariety() {
-        AuthRequest request = new AuthRequest();
-        request.setEmail("new@example.com");
-        // Long enough but only lowercase letters
-        request.setPassword("aaaaaaaaaaaaaa");
-        request.setProvider(AuthProvider.EMAIL);
-        request.setName("New User");
-
-        doReturn(Optional.empty()).when(userRepository).findByEmail("new@example.com");
-
-        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-            () -> userService.registerUser(request));
-
-        assertEquals("Password must include at least three of the following: lowercase letters, uppercase letters, numbers, and symbols", exception.getReason());
+        assertDoesNotThrow(() -> userService.registerUser(request));
     }
 
     @Test
@@ -413,7 +405,19 @@ class UserServiceTests {
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
             () -> userService.registerUser(request));
 
-        assertEquals("Password is required", exception.getReason());
+        assertEquals(ApiErrors.PASSWORD_POLICY_VIOLATION, exception.getReason());
+    }
+
+    @Test
+    void setUserPasswordShouldRejectPasswordOver128Chars() {
+        // Upper bound shields bcrypt and the BCrypt password encoder from huge
+        // inputs; 129 chars should be rejected with the same generic policy error.
+        String longPassword = "x".repeat(129);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> userService.setUserPassword(testUser, longPassword));
+
+        assertEquals(ApiErrors.PASSWORD_POLICY_VIOLATION, exception.getReason());
     }
 
     @Test
@@ -604,15 +608,48 @@ class UserServiceTests {
     }
 
     @Test
-    void loginUserShouldThrowWithInvalidPassword() {
+    void loginUserShouldThrowGenericMessageWhenPasswordWrong() {
         doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
         doReturn(false).when(passwordEncoder).matches(anyString(), anyString());
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
                 () -> userService.loginUser("test@example.com", "wrongpass"));
 
-        assertEquals("Invalid password", exception.getReason());
+        assertEquals(ApiErrors.INVALID_CREDENTIALS, exception.getReason());
         verify(passwordEncoder).matches("wrongpass", testUser.getPassword());
+    }
+
+    @Test
+    void loginUserShouldThrowSameGenericMessageWhenEmailUnknown() {
+        // Account-enumeration protection: unknown emails must hit the same 401 +
+        // message as a wrong password, AND still perform a bcrypt comparison
+        // against a dummy hash so response time doesn't leak existence.
+        doReturn(Optional.empty()).when(userRepository).findByEmail("nobody@example.com");
+        doReturn(false).when(passwordEncoder).matches(anyString(), anyString());
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> userService.loginUser("nobody@example.com", "whatever"));
+
+        assertEquals(ApiErrors.INVALID_CREDENTIALS, exception.getReason());
+        verify(passwordEncoder).matches(anyString(), anyString());
+    }
+
+    @Test
+    void loginUserShouldThrowGenericMessageWhenUserHasNoPassword() {
+        // OAuth-only account (no stored password) must not reveal that fact; it
+        // should hit the same generic 401 as any other invalid-login attempt.
+        User oauthOnly = new User();
+        oauthOnly.setId("oauth-only");
+        oauthOnly.setEmail("oauth@example.com");
+        oauthOnly.setPassword(null);
+
+        doReturn(Optional.of(oauthOnly)).when(userRepository).findByEmail("oauth@example.com");
+        doReturn(true).when(passwordEncoder).matches(anyString(), anyString());
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> userService.loginUser("oauth@example.com", "whatever"));
+
+        assertEquals(ApiErrors.INVALID_CREDENTIALS, exception.getReason());
     }
 
     @Test

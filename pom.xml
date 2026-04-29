@@ -14,7 +14,14 @@
     <description>Surf Spots backend api</description>
     <properties>
         <java.version>21</java.version>
+        <!--
+          Default: local host Postgres (create DB once: CREATE DATABASE surf_spots_test;).
+          Inside a Linux container (/.dockerenv), profile docker-test-jdbc overrides this to
+          postgres:5432/postgres so mvn test reaches the compose service, not localhost.
+        -->
+        <surfspots.test.jdbc.url>jdbc:postgresql://localhost:5432/surf_spots_test</surfspots.test.jdbc.url>
     </properties>
+
     <dependencies>
         <!-- Spring Boot Starters -->
         <dependency>
@@ -134,6 +141,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <spring.profiles.active>test</spring.profiles.active>
+                        <spring.datasource.url>${surfspots.test.jdbc.url}</spring.datasource.url>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -148,4 +156,20 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- When Maven runs inside a Linux container (e.g. docker exec in api dev image), use the
+             compose Postgres hostname. localhost in that JVM is not the database service. -->
+        <profile>
+            <id>docker-test-jdbc</id>
+            <activation>
+                <file>
+                    <exists>/.dockerenv</exists>
+                </file>
+            </activation>
+            <properties>
+                <surfspots.test.jdbc.url>jdbc:postgresql://postgres:5432/postgres</surfspots.test.jdbc.url>
+            </properties>
+        </profile>
+    </profiles>
 </project>

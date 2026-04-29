@@ -5,6 +5,8 @@ import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
+import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
+import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 
 import org.springframework.http.MediaType;
 
@@ -32,7 +35,10 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(MockMvcDefaults.class)
 class SurfSpotManagementControllerTests {
+
+    private static final String TEST_USER_ID = "test-user-id-123";
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,10 +47,7 @@ class SurfSpotManagementControllerTests {
     private SurfSpotService surfSpotService;
 
     private Cookie createValidSessionCookie() {
-        // SessionCookieFilter expects a cookie with exactly two parts (payload.signature)
-        // Format: "payload.signature" - when split by ".", should have exactly 2 parts
-        Cookie sessionCookie = new Cookie("session", "testpayload.testsignature");
-        return sessionCookie;
+        return SessionTestCookieFactory.createSignedSessionCookie(TEST_USER_ID);
     }
 
     @Test

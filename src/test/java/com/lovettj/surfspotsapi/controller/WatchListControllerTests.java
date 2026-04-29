@@ -3,6 +3,7 @@ package com.lovettj.surfspotsapi.controller;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,9 +33,12 @@ import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.service.NotificationService;
 import com.lovettj.surfspotsapi.service.SwellSeasonService;
 import com.lovettj.surfspotsapi.service.WatchListService;
+import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
+import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(MockMvcDefaults.class)
 class WatchListControllerTests {
 
     @Autowired
@@ -66,10 +71,7 @@ class WatchListControllerTests {
     }
 
     private Cookie createValidSessionCookie() {
-        // SessionCookieFilter expects a cookie with exactly two parts (payload.signature)
-        // Format: "payload.signature" - when split by ".", should have exactly 2 parts
-        Cookie sessionCookie = new Cookie("session", "testpayload.testsignature");
-        return sessionCookie;
+        return SessionTestCookieFactory.createSignedSessionCookie(testUserId);
     }
 
     @Test
@@ -89,11 +91,13 @@ class WatchListControllerTests {
                 .cookie(createValidSessionCookie())
                 .content("{\"userId\": \"" + testUserId + "\", \"surfSpotId\": 1}"))
                 .andExpect(status().isOk());
+
+        verify(watchListService).addSurfSpotToWatchList(testUserId, 1L);
     }
 
     @Test
     void testGetUsersWatchListShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
-        mockMvc.perform(get("/api/watch/" + testUserId))
+        mockMvc.perform(get("/api/watch"))
                 .andExpect(status().isForbidden());
     }
 
@@ -113,7 +117,7 @@ class WatchListControllerTests {
             .notifications(new ArrayList<>())
             .build());
 
-        mockMvc.perform(get("/api/watch/" + testUserId)
+        mockMvc.perform(get("/api/watch")
                 .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk());
     }
@@ -125,14 +129,14 @@ class WatchListControllerTests {
             .notifications(new ArrayList<>())
             .build());
 
-        mockMvc.perform(get("/api/watch/" + testUserId)
+        mockMvc.perform(get("/api/watch")
                 .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk());
     }
 
     @Test
     void testRemoveWatchListSurfSpotShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
-        mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/1"))
+        mockMvc.perform(delete("/api/watch/remove/1"))
                 .andExpect(status().isForbidden());
     }
 
@@ -140,22 +144,20 @@ class WatchListControllerTests {
     void testRemoveWatchListSurfSpotShouldReturnOkWhenAuthenticated() throws Exception {
         doNothing().when(watchListService).removeSurfSpotFromWishList(anyString(), anyLong());
 
-        mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/1")
+        mockMvc.perform(delete("/api/watch/remove/1")
                 .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk());
     }
 
     @Test
     void testRemoveWatchListSurfSpotWithInvalidIdsShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
-        mockMvc.perform(delete("/api/watch/" + testUserId + "/remove/abc"))
+        mockMvc.perform(delete("/api/watch/remove/abc"))
             .andExpect(status().isForbidden());
     }
 
     @Test
     void testRemoveWatchListSurfSpotWithInvalidIdsShouldReturnBadRequestWhenAuthenticated() throws Exception {
-        String invalidUserId = "invalid-user-id";
-
-        mockMvc.perform(delete("/api/watch/" + invalidUserId + "/remove/abc@#$")
+        mockMvc.perform(delete("/api/watch/remove/abc@#$")
                 .cookie(createValidSessionCookie()))
             .andExpect(status().isBadRequest());
     }

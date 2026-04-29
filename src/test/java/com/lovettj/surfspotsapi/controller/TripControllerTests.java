@@ -6,11 +6,14 @@ import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.requests.*;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.TripService;
+import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
+import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +35,7 @@ import static org.hamcrest.Matchers.containsString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(MockMvcDefaults.class)
 class TripControllerTests {
 
     @Autowired
@@ -68,7 +72,7 @@ class TripControllerTests {
     }
 
     private Cookie createValidSessionCookie() {
-        return new Cookie("session", "testpayload.testsignature");
+        return SessionTestCookieFactory.createSignedSessionCookie(testUserId);
     }
 
     @Test
@@ -102,6 +106,21 @@ class TripControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testCreateTripShouldReturnForbiddenWhenUserIdParamDoesNotMatchSession() throws Exception {
+        CreateTripRequest request = new CreateTripRequest();
+        request.setTitle("New Trip");
+
+        mockMvc.perform(post("/api/trips")
+                .param("userId", testUserId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .cookie(SessionTestCookieFactory.createSignedSessionCookie("different-user-id")))
+                .andExpect(status().isForbidden());
+
+        verify(tripService, never()).createTrip(anyString(), any(CreateTripRequest.class));
     }
 
     @Test

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.lovettj.surfspotsapi.requests.UserSurfSpotRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
+import com.lovettj.surfspotsapi.security.AuthenticatedUserResolver;
 import com.lovettj.surfspotsapi.service.UserSurfSpotService;
 
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
@@ -15,19 +16,25 @@ import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
 public class UserSurfSpotController {
 
     private final UserSurfSpotService userSurfSpotService;
+    private final AuthenticatedUserResolver authenticatedUserResolver;
 
-    public UserSurfSpotController(UserSurfSpotService userSurfSpotService) {
+    public UserSurfSpotController(
+            UserSurfSpotService userSurfSpotService,
+            AuthenticatedUserResolver authenticatedUserResolver) {
         this.userSurfSpotService = userSurfSpotService;
+        this.authenticatedUserResolver = authenticatedUserResolver;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserSurfSpotsDTO> getUserSurfSpotsSummary(@PathVariable String userId) {
-        return ResponseEntity.ok(userSurfSpotService.getUserSurfSpotsSummary(userId));
+    @GetMapping
+    public ResponseEntity<UserSurfSpotsDTO> getUserSurfSpotsSummary() {
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        return ResponseEntity.ok(userSurfSpotService.getUserSurfSpotsSummary(currentUserId));
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<String>> addUserSurfSpot(@RequestBody UserSurfSpotRequest request) {
         try {
+            request.setUserId(authenticatedUserResolver.requireCurrentUserId());
             userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
             return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's list."));
         } catch (RuntimeException e) {
@@ -36,15 +43,17 @@ public class UserSurfSpotController {
         }
     }
 
-    @DeleteMapping("/{userId}/remove/{spotId}")
-    public ResponseEntity<ApiResponse<String>> removeUserSurfSpot(@PathVariable String userId, @PathVariable Long spotId) {
-        userSurfSpotService.removeUserSurfSpot(userId, spotId);
+    @DeleteMapping("/remove/{spotId}")
+    public ResponseEntity<ApiResponse<String>> removeUserSurfSpot(@PathVariable Long spotId) {
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        userSurfSpotService.removeUserSurfSpot(currentUserId, spotId);
         return ResponseEntity.ok(ApiResponse.success("Surf spot removed from user's list."));
     }
 
-    @PostMapping("/{userId}/toggle-favourite/{spotId}")
-    public ResponseEntity<String> toggleFavourite(@PathVariable String userId, @PathVariable Long spotId) {
-        userSurfSpotService.toggleIsFavourite(userId, spotId);
+    @PostMapping("/toggle-favourite/{spotId}")
+    public ResponseEntity<String> toggleFavourite(@PathVariable Long spotId) {
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        userSurfSpotService.toggleIsFavourite(currentUserId, spotId);
         return ResponseEntity.ok("Surf spot favourite status toggled.");
     }
 }

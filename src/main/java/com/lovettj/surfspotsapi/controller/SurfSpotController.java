@@ -4,6 +4,7 @@ import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
+import com.lovettj.surfspotsapi.security.AuthenticatedUserResolver;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
 
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,13 @@ import jakarta.persistence.EntityNotFoundException;
 @RequestMapping("/api/surf-spots")
 public class SurfSpotController {
   private final SurfSpotService surfSpotService;
+  private final AuthenticatedUserResolver authenticatedUserResolver;
 
-  public SurfSpotController(SurfSpotService surfSpotService) {
+  public SurfSpotController(
+      SurfSpotService surfSpotService,
+      AuthenticatedUserResolver authenticatedUserResolver) {
     this.surfSpotService = surfSpotService;
+    this.authenticatedUserResolver = authenticatedUserResolver;
   }
 
   /**
@@ -34,6 +39,7 @@ public class SurfSpotController {
           @PathVariable Long regionId,
           @RequestBody SurfSpotFilterDTO filters) {
       try {
+          filters.setUserId(authenticatedUserResolver.currentUserIdOrNull());
           List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsByRegionIdWithFilters(regionId, filters);
           return ResponseEntity.ok(surfSpots);
       } catch (EntityNotFoundException e) {
@@ -46,6 +52,7 @@ public class SurfSpotController {
           @PathVariable String subRegionSlug,
           @RequestBody SurfSpotFilterDTO filters) {
       try {
+          filters.setUserId(authenticatedUserResolver.currentUserIdOrNull());
           List<SurfSpotDTO> surfSpots = surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(subRegionSlug, filters);
           return ResponseEntity.ok(surfSpots);
       } catch (EntityNotFoundException e) {
@@ -55,18 +62,18 @@ public class SurfSpotController {
 
   @GetMapping("/{slug}")
   public ResponseEntity<SurfSpotDTO> getSurfSpotBySlug(@PathVariable String slug,
-          @RequestParam(required = false) String userId,
           @RequestParam(required = false) String countrySlug,
           @RequestParam(required = false) String regionSlug) {
-      return surfSpotService.findBySlugAndLocationAndUserId(slug, userId, countrySlug, regionSlug)
+      String currentUserId = authenticatedUserResolver.currentUserIdOrNull();
+      return surfSpotService.findBySlugAndLocationAndUserId(slug, currentUserId, countrySlug, regionSlug)
               .map(ResponseEntity::ok)
               .orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping("/id/{id}")
-  public ResponseEntity<SurfSpotDTO> getSurfSpotById(@PathVariable Long id,
-          @RequestParam(required = false) String userId) {
-    return surfSpotService.findByIdAndUserId(id, userId)
+  public ResponseEntity<SurfSpotDTO> getSurfSpotById(@PathVariable Long id) {
+    String currentUserId = authenticatedUserResolver.currentUserIdOrNull();
+    return surfSpotService.findByIdAndUserId(id, currentUserId)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
   }
@@ -74,6 +81,7 @@ public class SurfSpotController {
   @PostMapping("/within-bounds")
   public List<SurfSpotDTO> getSurfSpotsWithinBoundsWithFilters(
           @RequestBody SurfSpotBoundsFilterDTO boundsFilter) {
+      boundsFilter.setUserId(authenticatedUserResolver.currentUserIdOrNull());
       BoundingBox boundingBox = new BoundingBox(
           boundsFilter.getMinLatitude(), boundsFilter.getMaxLatitude(),
           boundsFilter.getMinLongitude(), boundsFilter.getMaxLongitude()

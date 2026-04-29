@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * Single source of truth for the origins we trust.  building reset-link URLs sent via email
+ * Single source of truth for the origins we trust (CORS, Origin checks, password-reset links).
  *
  * The default list matches local dev + the production frontend domain and can
  * be overridden via the {@code CORS_ALLOWED_ORIGINS} env var / {@code cors.allowed-origins} property.

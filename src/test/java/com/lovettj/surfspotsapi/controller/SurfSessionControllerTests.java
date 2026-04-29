@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -43,10 +44,15 @@ import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.SurfSessionService;
+import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
+import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(MockMvcDefaults.class)
 class SurfSessionControllerTests {
+
+    private static final String TEST_USER_ID = "user-1";
 
     @Autowired
     private MockMvc mockMvc;
@@ -60,14 +66,14 @@ class SurfSessionControllerTests {
     private SurfSessionRequest validRequest;
 
     private Cookie sessionCookie() {
-        return new Cookie("session", "testpayload.testsignature");
+        return SessionTestCookieFactory.createSignedSessionCookie(TEST_USER_ID);
     }
 
     @BeforeEach
     void setUp() {
         validRequest = new SurfSessionRequest();
         validRequest.setSurfSpotId(1L);
-        validRequest.setUserId("user-1");
+        validRequest.setUserId(TEST_USER_ID);
         validRequest.setSessionDate(LocalDate.of(2025, 3, 20));
         validRequest.setWaveSize(WaveSize.CHEST_SHOULDER);
         validRequest.setCrowdLevel(CrowdLevel.FEW);
@@ -152,7 +158,7 @@ class SurfSessionControllerTests {
                 .build();
         when(surfSessionService.getSurfSessionsForUser("user-1")).thenReturn(mine);
 
-        mockMvc.perform(get("/api/surf-sessions/user-1")
+        mockMvc.perform(get("/api/surf-sessions")
                         .cookie(sessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -166,19 +172,24 @@ class SurfSessionControllerTests {
     }
 
     @Test
-    void testGetSessionsForUserShouldReturn404WhenUserIdPathMissing() throws Exception {
-        mockMvc.perform(get("/api/surf-sessions/").cookie(sessionCookie()))
-                .andExpect(status().isNotFound());
+    void testGetSessionsForUserShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        mockMvc.perform(get("/api/surf-sessions"))
+                .andExpect(status().isForbidden());
 
         verify(surfSessionService, never()).getSurfSessionsForUser(any());
     }
 
     @Test
-    void testGetSpotSessionsSummaryShouldReturn400WhenUserIdMissing() throws Exception {
-        mockMvc.perform(get("/api/surf-spots/5/sessions").cookie(sessionCookie()))
-                .andExpect(status().isBadRequest());
+    void testGetSpotSessionsSummaryShouldResolveCurrentUserFromSession() throws Exception {
+        when(surfSessionService.getSpotSummaryForUser(eq(5L), eq("user-1"))).thenReturn(
+                SurfSessionSummaryDTO.builder()
+                        .sampleSize(0)
+                        .build());
 
-        verify(surfSessionService, never()).getSpotSummaryForUser(any(), any());
+        mockMvc.perform(get("/api/surf-spots/5/sessions").cookie(sessionCookie()))
+                .andExpect(status().isOk());
+
+        verify(surfSessionService).getSpotSummaryForUser(eq(5L), eq("user-1"));
     }
 
     @Test
@@ -227,8 +238,7 @@ class SurfSessionControllerTests {
         when(surfSessionService.getSpotSummaryForUser(eq(99L), eq("user-1"))).thenReturn(dto);
 
         mockMvc.perform(get("/api/surf-spots/99/sessions")
-                        .cookie(sessionCookie())
-                        .param("userId", "user-1"))
+                        .cookie(sessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.waveQualityDistribution.FUN").value(2))
                 .andExpect(jsonPath("$.segmentHeadline").value("Intermediate (2 sessions)"))

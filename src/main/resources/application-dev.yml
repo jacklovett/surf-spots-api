@@ -25,6 +25,8 @@ spring:
 
 # App-specific settings
 app:
+  auth:
+    session-secret: ${SESSION_SECRET:SECRET}
   mail:
     enabled: false # Set to true when you want to enable email in dev
   storage:

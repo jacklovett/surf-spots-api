@@ -1,6 +1,8 @@
 spring:
   profiles:
-    active: dev # Default to dev profile for local development
+    # default (not active): Surefire sets spring.profiles.active=test; "active: dev" here
+    # merges with that in some setups so both dev+test run and JDBC/seeding misbehave.
+    default: dev
   datasource:
     url: jdbc:postgresql://localhost:5432/surf_spots_db
     username: postgres
@@ -46,6 +48,8 @@ logging:
 
 # App-specific settings
 app:
+  auth:
+    session-secret: ${SESSION_SECRET:}
   mail:
     enabled: ${MAIL_ENABLED:true} # Set to false to disable email sending
   storage:

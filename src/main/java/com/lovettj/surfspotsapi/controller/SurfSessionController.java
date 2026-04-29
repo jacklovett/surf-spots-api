@@ -9,6 +9,7 @@ import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.requests.UploadMediaRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
+import com.lovettj.surfspotsapi.security.AuthenticatedUserResolver;
 import com.lovettj.surfspotsapi.service.SurfSessionService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -27,14 +28,19 @@ public class SurfSessionController {
     private static final Logger logger = LoggerFactory.getLogger(SurfSessionController.class);
 
     private final SurfSessionService surfSessionService;
+    private final AuthenticatedUserResolver authenticatedUserResolver;
 
-    public SurfSessionController(SurfSessionService surfSessionService) {
+    public SurfSessionController(
+            SurfSessionService surfSessionService,
+            AuthenticatedUserResolver authenticatedUserResolver) {
         this.surfSessionService = surfSessionService;
+        this.authenticatedUserResolver = authenticatedUserResolver;
     }
 
     @PostMapping("/surf-sessions")
     public ResponseEntity<ApiResponse<String>> createSession(@Valid @RequestBody SurfSessionRequest request) {
         try {
+            request.setUserId(authenticatedUserResolver.requireCurrentUserId());
             surfSessionService.createSession(request);
             return ResponseEntity.ok(ApiResponse.success("Surf session saved"));
         } catch (ResponseStatusException e) {
@@ -48,9 +54,10 @@ public class SurfSessionController {
         }
     }
 
-    @GetMapping("/surf-sessions/{userId}")
-    public ResponseEntity<ApiResponse<UserSurfSessionsDTO>> getSessionsForUser(@PathVariable String userId) {
+    @GetMapping("/surf-sessions")
+    public ResponseEntity<ApiResponse<UserSurfSessionsDTO>> getSessionsForUser() {
         try {
+            String userId = authenticatedUserResolver.requireCurrentUserId();
             UserSurfSessionsDTO payload = surfSessionService.getSurfSessionsForUser(userId);
             return ResponseEntity.ok(ApiResponse.success(payload));
         } catch (ResponseStatusException e) {
@@ -65,18 +72,16 @@ public class SurfSessionController {
     }
 
     @GetMapping("/surf-spots/{id}/sessions")
-    public ResponseEntity<SurfSessionSummaryDTO> getSpotSessionsSummary(
-            @PathVariable Long id,
-            @RequestParam String userId
-    ) {
+    public ResponseEntity<SurfSessionSummaryDTO> getSpotSessionsSummary(@PathVariable Long id) {
+        String userId = authenticatedUserResolver.requireCurrentUserId();
         return ResponseEntity.ok(surfSessionService.getSpotSummaryForUser(id, userId));
     }
 
     @PostMapping("/surf-sessions/{sessionId}/media/upload-url")
     public ResponseEntity<ApiResponse<Map<String, String>>> getMediaUploadUrl(
             @PathVariable Long sessionId,
-            @RequestBody UploadMediaRequest request,
-            @RequestParam String userId) {
+            @RequestBody UploadMediaRequest request) {
+        String userId = authenticatedUserResolver.requireCurrentUserId();
         return MediaUploadUrlResponseHandler.buildUploadUrlResponse(
                 logger,
                 "sessionId",
@@ -93,8 +98,8 @@ public class SurfSessionController {
     @PostMapping("/surf-sessions/{sessionId}/media")
     public ResponseEntity<ApiResponse<SurfSessionMediaDTO>> addMedia(
             @PathVariable Long sessionId,
-            @RequestBody CreateSurfSessionMediaRequest request,
-            @RequestParam String userId) {
+            @RequestBody CreateSurfSessionMediaRequest request) {
+        String userId = authenticatedUserResolver.requireCurrentUserId();
         return MediaMutationResponseHandler.addMediaCreated(
                 logger,
                 "sessionId",
@@ -107,9 +112,8 @@ public class SurfSessionController {
     }
 
     @DeleteMapping("/surf-sessions/media/{mediaId}")
-    public ResponseEntity<ApiResponse<String>> deleteMedia(
-            @PathVariable String mediaId,
-            @RequestParam String userId) {
+    public ResponseEntity<ApiResponse<String>> deleteMedia(@PathVariable String mediaId) {
+        String userId = authenticatedUserResolver.requireCurrentUserId();
         return MediaMutationResponseHandler.deleteMedia(
                 "surf session media",
                 () -> surfSessionService.deleteMedia(userId, mediaId)

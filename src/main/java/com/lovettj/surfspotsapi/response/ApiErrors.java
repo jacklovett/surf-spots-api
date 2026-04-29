@@ -59,6 +59,30 @@ public final class ApiErrors {
     public static final String MEDIA_DELETE_FORBIDDEN =
             "You don't have permission to delete this media";
 
+    /** Auth: generic login failure. Used for BOTH unknown email AND wrong password to prevent account enumeration. */
+    public static final String INVALID_CREDENTIALS =
+            "That email and password didn't match. Try again or use Forgot password.";
+
+    /** Auth: generic forgot-password response. Identical for existing and non-existing emails. */
+    public static final String FORGOT_PASSWORD_ACCEPTED =
+            "If an account with that email exists, a password reset link has been sent.";
+
+    /** Auth: generic reset-password failure. Used for invalid, expired, or unknown reset tokens. */
+    public static final String RESET_TOKEN_INVALID_OR_EXPIRED =
+            "This reset link is invalid or has expired. Request a new one.";
+
+    /** Auth: password does not meet policy. Text mirrors the NIST SP 800-63B minimum we enforce. */
+    public static final String PASSWORD_POLICY_VIOLATION =
+            "Password must be between 8 and 128 characters.";
+
+    /** Auth: too many attempts from this caller. */
+    public static final String TOO_MANY_ATTEMPTS =
+            "Too many attempts. Please try again later.";
+
+    /** Auth: request blocked because its Origin / Referer is not on the allowlist (CSRF defence). */
+    public static final String INVALID_ORIGIN =
+            "Request blocked. Please reload the page and try again.";
+
     /**
      * Formats a safe user-facing error message from action and target, e.g. "Unable to create trip. Please try again later."
      * Use only fixed action/target strings (e.g. "create", "trip")—never user input. If target is null or empty,

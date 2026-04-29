@@ -15,10 +15,12 @@ public class DataSeeder {
 
     /**
      * One-time load of reference data from JSON when the database is empty (no continents yet).
-     * Production data changes belong in migrations, not here. Excluded from the {@code test} profile.
+     * Production data changes belong in migrations, not here.
+     * {@code @Profile({"dev","prod","!test"})} is wrong: array entries are OR'd, so {@code dev}
+     * still matches when both dev and test are active. Use a single expression instead.
      */
     @Bean
-    @Profile({"dev", "prod", "!test"})
+    @Profile("(dev | prod) & !test")
     public CommandLineRunner seedData(SeedService seedService) {
         return args -> {
             logger.info("Starting data seeding...");

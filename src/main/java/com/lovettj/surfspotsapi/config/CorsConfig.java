@@ -1,22 +1,23 @@
 package com.lovettj.surfspotsapi.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import org.springframework.lang.NonNull;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 public class CorsConfig implements WebMvcConfigurer {
 
-  @Value("${cors.allowed-origins:http://localhost:5173,https://surf-spots-five.vercel.app}")
-  private String allowedOrigins;
+  private final AllowedOrigins allowedOrigins;
 
   @Override
   public void addCorsMappings(@NonNull CorsRegistry registry) {
     registry.addMapping("/**")
-        .allowedOrigins(allowedOrigins.split(","))
+        .allowedOrigins(allowedOrigins.asList().toArray(new String[0]))
         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
         .allowedHeaders("*")
         .allowCredentials(true);

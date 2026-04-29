@@ -1,8 +1,14 @@
 # Test profile - for running tests
 spring:
+  autoconfigure:
+    exclude:
+      # oauth2-client is on the classpath; no spring.security.oauth2.client.registration.* in tests.
+      - org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration
   datasource:
-    # Keep tests away from dev DB. Prefer setting SPRING_TEST_DATASOURCE_URL in environment.
-    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    # Dedicated DB name so it is never confused with dev (surf_spots_db). Create once locally:
+    #   psql -U postgres -h localhost -c "CREATE DATABASE surf_spots_test;"
+    # SPRING_DATASOURCE_URL in .env overrides this; Maven Surefire sets spring.datasource.url to the same test DB.
+    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_test}
     username: ${SPRING_TEST_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_TEST_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
   jpa:
@@ -23,6 +29,8 @@ spring:
 
 # App-specific settings
 app:
+  auth:
+    session-secret: test-session-secret
   seed:
     enabled: false
   mail:

@@ -37,6 +37,6 @@ public class UserProfile {
     emergencyContactName = user.getEmergencyContactName();
     emergencyContactPhone = user.getEmergencyContactPhone();
     emergencyContactRelationship = user.getEmergencyContactRelationship();
-    settings = new SettingsDTO(user.getSettings());
+    settings = user.getSettings() != null ? new SettingsDTO(user.getSettings()) : null;
   }
 }

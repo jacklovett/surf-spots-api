@@ -36,7 +36,6 @@ public class SurfSessionRequest {
 
     private Boolean wouldSurfAgain;
 
-    @NotNull(message = "User id is required")
     private String userId;
 
     private SkillLevel skillLevel;

@@ -71,6 +71,16 @@ public class UserService {
     public UserProfile updateUserProfile(UserRequest updateUserRequest) {
         String email = updateUserRequest.getEmail();
         User user = findUserByEmail(email);
+        return updateUserProfile(user, updateUserRequest);
+    }
+
+    public UserProfile updateUserProfile(String userId, UserRequest updateUserRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
+        return updateUserProfile(user, updateUserRequest);
+    }
+
+    private UserProfile updateUserProfile(User user, UserRequest updateUserRequest) {
         user.setName(updateUserRequest.getName());
         user.setCountry(updateUserRequest.getCountry());
         user.setCity(updateUserRequest.getCity());
@@ -201,68 +211,55 @@ public class UserService {
         user.setSettings(settings);
     }
 
+    // A pre-computed bcrypt hash of a value nobody will guess. Used only to keep
+    // login-timing roughly constant when the email doesn't exist — see loginUser.
+    private static final String DUMMY_BCRYPT_HASH =
+            "$2a$10$CwTycUXWue0Thq9StjUM0uJ8PO4yZ3fJ5Jq4fH.zj7r.AvMhZqR.C";
+
+    /**
+     * Authenticate a user by email + password.
+     *
+     * Returns 401 with a generic "invalid credentials" message for BOTH unknown
+     * emails AND wrong passwords, to prevent account enumeration. The bcrypt
+     * comparison still runs against a dummy hash when the user is not found so
+     * an attacker can't distinguish the two cases by response time.
+     */
     public User loginUser(String email, String password) {
-        User user = findUserByEmail(email);
-        // Check if the password matches
-        boolean passwordMatches = passwordEncoder.matches(password, user.getPassword());
-         
-        if (!passwordMatches) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
+        Optional<User> maybeUser = userRepository.findByEmail(email);
+
+        String storedHash = maybeUser
+                .map(User::getPassword)
+                .orElse(DUMMY_BCRYPT_HASH);
+        String passwordToCheck = password == null ? "" : password;
+
+        boolean passwordMatches = passwordEncoder.matches(passwordToCheck, storedHash);
+
+        if (maybeUser.isEmpty() || !passwordMatches || maybeUser.get().getPassword() == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ApiErrors.INVALID_CREDENTIALS);
         }
 
-        return user;
+        return maybeUser.get();
     }
+
+    // Password policy follows NIST SP 800-63B: length is the only hard requirement,
+    // no mandatory character composition, no forced rotation.
+    // Upper bound guards against DoS via very large bcrypt inputs; bcrypt itself
+    // only uses the first 72 bytes but we reject earlier to fail fast.
+    private static final int PASSWORD_MIN_LENGTH = 8;
+    private static final int PASSWORD_MAX_LENGTH = 128;
 
     public void setUserPassword(User user, String password) {
-        if (password == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password is required");
+        if (password == null || password.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.PASSWORD_POLICY_VIOLATION);
         }
 
-        String trimmedPassword = password.trim();
-
-        // Enforce stronger password policy: length and character variety
-        if (trimmedPassword.length() < 8) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Password must be at least 8 characters long");
+        if (password.length() < PASSWORD_MIN_LENGTH || password.length() > PASSWORD_MAX_LENGTH) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.PASSWORD_POLICY_VIOLATION);
         }
 
-        if (!hasSufficientCharacterVariety(trimmedPassword)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Password must include at least three of the following: lowercase letters, uppercase letters, numbers, and symbols");
-        }
-
-        // hash new password
-        String hashedPassword = passwordEncoder.encode(trimmedPassword);
+        String hashedPassword = passwordEncoder.encode(password);
         user.setPassword(hashedPassword);
         userRepository.save(user);
-    }
-
-    private boolean hasSufficientCharacterVariety(String password) {
-        boolean hasLower = false;
-        boolean hasUpper = false;
-        boolean hasDigit = false;
-        boolean hasSymbol = false;
-
-        for (char c : password.toCharArray()) {
-            if (Character.isLowerCase(c)) {
-                hasLower = true;
-            } else if (Character.isUpperCase(c)) {
-                hasUpper = true;
-            } else if (Character.isDigit(c)) {
-                hasDigit = true;
-            } else {
-                hasSymbol = true;
-            }
-        }
-
-        int categories = 0;
-        if (hasLower) categories++;
-        if (hasUpper) categories++;
-        if (hasDigit) categories++;
-        if (hasSymbol) categories++;
-
-        // Require at least 3 character categories
-        return categories >= 3;
     }
 
     public User findUserByEmail(String email) {

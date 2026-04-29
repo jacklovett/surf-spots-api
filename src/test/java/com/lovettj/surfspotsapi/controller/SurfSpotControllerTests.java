@@ -7,6 +7,8 @@ import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.service.SurfSpotService;
+import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
+import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 
 import org.springframework.http.MediaType;
 
@@ -30,6 +33,7 @@ import java.util.Optional;
 import java.util.Arrays;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,6 +41,7 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(MockMvcDefaults.class)
 class SurfSpotControllerTests {
 
     @Autowired
@@ -47,6 +52,8 @@ class SurfSpotControllerTests {
 
     private SurfSpotDTO surfSpotDTO;
 
+    private static final String TEST_USER_ID = "test-user-id-123";
+
     @BeforeEach
     public void setUp() {
         surfSpotDTO = SurfSpotDTO.builder()
@@ -55,6 +62,10 @@ class SurfSpotControllerTests {
                 .description("A famous surf spot.")
                 .type(SurfSpotType.REEF_BREAK)
                 .build();
+    }
+
+    private Cookie createValidSessionCookie() {
+        return SessionTestCookieFactory.createSignedSessionCookie(TEST_USER_ID);
     }
 
     @Test
@@ -74,12 +85,12 @@ class SurfSpotControllerTests {
 
     @Test
     void testGetSurfSpotBySlugShouldReturnSurfSpot() throws Exception {
-        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("pipeline", "test-user-id-123", null, null))
+        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("pipeline", TEST_USER_ID, null, null))
                 .thenReturn(Optional.of(surfSpotDTO));
 
         mockMvc.perform(get("/api/surf-spots/pipeline")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("userId", "test-user-id-123"))
+                .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Pipeline")));
     }
@@ -92,12 +103,12 @@ class SurfSpotControllerTests {
                 .isRiverWave(true)
                 .isWavepool(false)
                 .build();
-        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("novelty-spot", "test-user-id-123", null, null))
+        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("novelty-spot", TEST_USER_ID, null, null))
                 .thenReturn(Optional.of(noveltySpot));
 
         mockMvc.perform(get("/api/surf-spots/novelty-spot")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("userId", "test-user-id-123"))
+                .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.isRiverWave", is(true)))
                 .andExpect(jsonPath("$.isWavepool", is(false)));
@@ -110,12 +121,12 @@ class SurfSpotControllerTests {
                 .name("Pending Spot")
                 .status(SurfSpotStatus.PENDING)
                 .build();
-        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("pending-spot", "test-user-id-123", null, null))
+        Mockito.when(surfSpotService.findBySlugAndLocationAndUserId("pending-spot", TEST_USER_ID, null, null))
                 .thenReturn(Optional.of(pendingSpot));
 
         mockMvc.perform(get("/api/surf-spots/pending-spot")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("userId", "test-user-id-123"))
+                .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Pending Spot")))
                 .andExpect(jsonPath("$.status", is("Pending")));
@@ -123,12 +134,12 @@ class SurfSpotControllerTests {
 
     @Test
     void testGetSurfSpotByIdShouldReturnSurfSpotDTO() throws Exception {
-        Mockito.when(surfSpotService.findByIdAndUserId(1L, "test-user-id-123"))
+        Mockito.when(surfSpotService.findByIdAndUserId(1L, TEST_USER_ID))
                 .thenReturn(Optional.of(surfSpotDTO));
 
         mockMvc.perform(get("/api/surf-spots/id/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("userId", "test-user-id-123"))
+                .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Pipeline")));
     }
@@ -155,12 +166,12 @@ class SurfSpotControllerTests {
                 .webcams(Arrays.asList("https://webcam.example.com/pipeline"))
                 .build();
 
-        Mockito.when(surfSpotService.findByIdAndUserId(1L, "test-user-id-123"))
+        Mockito.when(surfSpotService.findByIdAndUserId(1L, TEST_USER_ID))
                 .thenReturn(Optional.of(dtoWithLinks));
 
         mockMvc.perform(get("/api/surf-spots/id/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("userId", "test-user-id-123"))
+                .cookie(createValidSessionCookie()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Pipeline")))
                 .andExpect(jsonPath("$.forecasts[0]", is("https://forecast.example.com/pipeline")))
@@ -169,12 +180,12 @@ class SurfSpotControllerTests {
 
     @Test
     void testGetSurfSpotByIdShouldReturnNotFoundWhenSurfSpotDoesNotExist() throws Exception {
-        Mockito.when(surfSpotService.findByIdAndUserId(999L, "test-user-id-123"))
+        Mockito.when(surfSpotService.findByIdAndUserId(999L, TEST_USER_ID))
                 .thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/surf-spots/id/999")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("userId", "test-user-id-123"))
+                .cookie(createValidSessionCookie()))
                 .andExpect(status().isNotFound());
     }
 

@@ -5,6 +5,7 @@ import com.lovettj.surfspotsapi.http.CreatedResourceLocations;
 import com.lovettj.surfspotsapi.requests.*;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
+import com.lovettj.surfspotsapi.security.AuthenticatedUserResolver;
 import com.lovettj.surfspotsapi.service.TripService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +25,21 @@ public class TripController {
     private static final Logger logger = LoggerFactory.getLogger(TripController.class);
 
     private final TripService tripService;
+    private final AuthenticatedUserResolver authenticatedUserResolver;
 
-    public TripController(TripService tripService) {
+    public TripController(TripService tripService, AuthenticatedUserResolver authenticatedUserResolver) {
         this.tripService = tripService;
+        this.authenticatedUserResolver = authenticatedUserResolver;
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<TripDTO>> createTrip(
             @RequestBody CreateTripRequest request,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            TripDTO trip = tripService.createTrip(userId, request);
-            URI location = CreatedResourceLocations.fromApiPath("/api/trips/{tripId}", userId, trip.getId());
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            TripDTO trip = tripService.createTrip(currentUserId, request);
+            URI location = CreatedResourceLocations.fromApiPath("/api/trips/{tripId}", currentUserId, trip.getId());
             return ResponseEntity.created(location)
                     .body(ApiResponse.success(trip, "Trip created successfully", HttpStatus.CREATED.value()));
         } catch (ResponseStatusException e) {
@@ -51,9 +55,10 @@ public class TripController {
     public ResponseEntity<ApiResponse<TripDTO>> updateTrip(
             @PathVariable String tripId,
             @RequestBody UpdateTripRequest request,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            TripDTO trip = tripService.updateTrip(userId, tripId, request);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            TripDTO trip = tripService.updateTrip(currentUserId, tripId, request);
             return ResponseEntity.ok(ApiResponse.success(trip, "Trip updated successfully"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -67,9 +72,10 @@ public class TripController {
     @DeleteMapping("/{tripId}")
     public ResponseEntity<ApiResponse<String>> deleteTrip(
             @PathVariable String tripId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            tripService.deleteTrip(userId, tripId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.deleteTrip(currentUserId, tripId);
             return ResponseEntity.ok(ApiResponse.success("Trip deleted successfully"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -83,9 +89,10 @@ public class TripController {
     @GetMapping("/{tripId}")
     public ResponseEntity<ApiResponse<TripDTO>> getTrip(
             @PathVariable String tripId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            TripDTO trip = tripService.getTrip(userId, tripId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            TripDTO trip = tripService.getTrip(currentUserId, tripId);
             return ResponseEntity.ok(ApiResponse.success(trip));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -103,7 +110,8 @@ public class TripController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<ApiResponse<List<TripDTO>>> getUserTrips(@PathVariable String userId) {
         try {
-            List<TripDTO> trips = tripService.getUserTrips(userId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            List<TripDTO> trips = tripService.getUserTrips(currentUserId);
             return ResponseEntity.ok(ApiResponse.success(trips));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -118,9 +126,10 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> addSpot(
             @PathVariable String tripId,
             @PathVariable Long surfSpotId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            tripService.addSpot(userId, tripId, surfSpotId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.addSpot(currentUserId, tripId, surfSpotId);
             return ResponseEntity.ok(ApiResponse.success("Spot added to trip"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -135,9 +144,10 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> removeSpot(
             @PathVariable String tripId,
             @PathVariable String tripSpotId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            tripService.removeSpot(userId, tripId, tripSpotId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.removeSpot(currentUserId, tripId, tripSpotId);
             return ResponseEntity.ok(ApiResponse.success("Spot removed from trip"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -152,9 +162,10 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> addSurfboard(
             @PathVariable String tripId,
             @PathVariable String surfboardId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            tripService.addSurfboard(userId, tripId, surfboardId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.addSurfboard(currentUserId, tripId, surfboardId);
             return ResponseEntity.ok(ApiResponse.success("Surfboard added to trip"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -169,9 +180,10 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> removeSurfboard(
             @PathVariable String tripId,
             @PathVariable String tripSurfboardId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            tripService.removeSurfboard(userId, tripId, tripSurfboardId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.removeSurfboard(currentUserId, tripId, tripSurfboardId);
             return ResponseEntity.ok(ApiResponse.success("Surfboard removed from trip"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -186,9 +198,10 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> addMember(
             @PathVariable String tripId,
             @RequestBody AddTripMemberRequest request,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            tripService.addMember(userId, tripId, request);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.addMember(currentUserId, tripId, request);
             return ResponseEntity.ok(ApiResponse.success("Invitation sent"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -199,13 +212,13 @@ public class TripController {
         }
     }
 
-    @DeleteMapping("/{tripId}/members/{userId}")
+    @DeleteMapping("/{tripId}/members/{memberUserId}")
     public ResponseEntity<ApiResponse<String>> removeMember(
             @PathVariable String tripId,
-            @PathVariable String userId,
-            @RequestParam String currentUserId) {
+            @PathVariable String memberUserId) {
         try {
-            tripService.removeMember(currentUserId, tripId, userId);
+            String authenticatedUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.removeMember(authenticatedUserId, tripId, memberUserId);
             return ResponseEntity.ok(ApiResponse.success("Member removed from trip"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -220,9 +233,10 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> cancelInvitation(
             @PathVariable String tripId,
             @PathVariable String invitationId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
         try {
-            tripService.cancelInvitation(userId, tripId, invitationId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            tripService.cancelInvitation(currentUserId, tripId, invitationId);
             return ResponseEntity.ok(ApiResponse.success("Invitation cancelled"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
@@ -237,12 +251,13 @@ public class TripController {
     public ResponseEntity<ApiResponse<Map<String, String>>> getUploadUrl(
             @PathVariable String tripId,
             @RequestBody UploadMediaRequest request,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
         return MediaUploadUrlResponseHandler.buildUploadUrlResponse(
                 logger,
                 "tripId",
                 tripId,
-                generatedMediaId -> tripService.getUploadUrl(userId, tripId, request, generatedMediaId)
+                generatedMediaId -> tripService.getUploadUrl(currentUserId, tripId, request, generatedMediaId)
         );
     }
 
@@ -250,12 +265,13 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> recordMedia(
             @PathVariable String tripId,
             @RequestBody RecordMediaRequest request,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
         return MediaMutationResponseHandler.recordMediaOk(
                 logger,
                 tripId,
                 "trip media",
-                () -> tripService.recordMedia(userId, tripId, request)
+                () -> tripService.recordMedia(currentUserId, tripId, request)
         );
     }
 
@@ -263,10 +279,11 @@ public class TripController {
     public ResponseEntity<ApiResponse<String>> deleteMedia(
             @PathVariable String tripId,
             @PathVariable String mediaId,
-            @RequestParam String userId) {
+            @RequestParam(required = false) String userId) {
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
         return MediaMutationResponseHandler.deleteMedia(
                 "trip media",
-                () -> tripService.deleteMedia(userId, tripId, mediaId)
+                () -> tripService.deleteMedia(currentUserId, tripId, mediaId)
         );
     }
 }

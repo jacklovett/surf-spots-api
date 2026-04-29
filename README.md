@@ -27,12 +27,12 @@ docker-compose -f docker-compose.dev.yml logs -f api
 
 **Run all tests:**
 ```bash
-docker-compose -f docker-compose.dev.yml exec api mvn test
+docker compose -f docker-compose.dev.yml --profile tests run --rm tests
 ```
 
 **Run specific test:**
 ```bash
-docker-compose -f docker-compose.dev.yml exec api mvn test -Dtest=SurfSpotsApplicationTests
+docker compose -f docker-compose.dev.yml --profile tests run --rm tests sh -c "mvn test -Dtest=SurfSpotsApplicationTests"
 ```
 
 **Restart API container:**
@@ -424,6 +424,7 @@ S3_BUCKET=surf-spots-media
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `DB_PASSWORD` | Yes (when not using Docker default) | PostgreSQL password for user `postgres`. |
+| `SESSION_SECRET` | Yes (for cookie-authenticated requests) | Must match frontend `SESSION_SECRET` so the API can verify signed `session` cookies. |
 | `MAIL_USERNAME` | No | SMTP username (default: empty). |
 | `MAIL_PASSWORD` | No | SMTP password (default: empty). |
 | `MAIL_ENABLED` | No | Enable email (default: `true`). |
@@ -439,7 +440,7 @@ S3_BUCKET=surf-spots-media
 The application supports multiple profiles:
 
 - **dev** (default) - Local development with Hibernate auto-update, email disabled
-- **test** - Testing profile with in-memory database
+- **test** - Integration tests; Postgres test database (`application-test.yml`, defaults in `src/test/resources/application.properties`)
 - **prod** - Production profile with Flyway migrations enabled
 
 The active profile is set in `application.yml` and can be overridden:
@@ -544,60 +545,41 @@ The API will be available at:
 
 ## Testing
 
-### Running Tests with Docker
+### Docker (recommended)
 
-Since everything runs in Docker, you have a few options:
+The **`api`** service sets **`SPRING_DATASOURCE_*`** for the **dev** database. Spring Boot gives those env vars high precedence, so **do not run `mvn test` inside the same `api` container** or tests would inherit the dev URL.
 
-#### Option 1: Run Tests in the API Container (Recommended)
-
-If your API container is running, execute tests inside it:
+Use the **`tests`** service (compose profile **`tests`**): same image, **`SPRING_PROFILES_ACTIVE=test`**, and **`SPRING_DATASOURCE_*`** pointing at **`surf_spots_test_db`**.
 
 ```bash
-# Make sure PostgreSQL is running first
-docker-compose -f docker-compose.dev.yml up -d postgres
-
-# Run all tests (uses 'test' profile automatically)
-docker-compose -f docker-compose.dev.yml exec api mvn test
-
-# Run specific test class
-docker-compose -f docker-compose.dev.yml exec api mvn test -Dtest=SurfSpotsApplicationTests
-
-# Run tests with coverage
-docker-compose -f docker-compose.dev.yml exec api mvn test jacoco:report
+docker compose -f docker-compose.dev.yml up -d postgres
+docker compose -f docker-compose.dev.yml --profile tests run --rm tests
 ```
 
-**Note:** Tests automatically use the `test` profile which connects to the PostgreSQL service in Docker.
-
-#### Option 2: Run Tests in a One-Off Container
-
-Run tests in a temporary container (useful if the API isn't running):
+Specific class or JaCoCo:
 
 ```bash
-# Run all tests
-docker-compose -f docker-compose.dev.yml run --rm api mvn test
-
-# Run specific test class
-docker-compose -f docker-compose.dev.yml run --rm api mvn test -Dtest=SurfSpotsApplicationTests
+docker compose -f docker-compose.dev.yml --profile tests run --rm tests sh -c "mvn test -Dtest=SurfSpotsApplicationTests"
+docker compose -f docker-compose.dev.yml --profile tests run --rm tests sh -c "mvn test jacoco:report"
 ```
 
-The `--rm` flag automatically removes the container after tests complete.
-
-#### Option 3: Use Maven Wrapper (If Java is Installed Locally)
-
-If you have Java 21 installed locally, you can use the Maven wrapper:
+### Local Maven (Java on the host)
 
 ```bash
-# Run all tests
 ./mvnw test
-
-# Run specific test class
 ./mvnw test -Dtest=SurfSpotsApplicationTests
-
-# Run tests with coverage
 ./mvnw test jacoco:report
 ```
 
-**Note:** Tests use the `test` profile which connects to a test database. Make sure PostgreSQL is running (via Docker) for integration tests.
+Surefire sets **`spring.profiles.active=test`**. Main **`application.yml`** uses **`spring.profiles.default: dev`** (not `active`) so **dev** is not locked on while tests run. JDBC defaults: **`src/test/resources/application.properties`** and **`application-test.yml`**; Docker **`tests`** service sets **`SPRING_DATASOURCE_*`** to the test DB host.
+
+Create **`surf_spots_test_db`** once if it is missing (e.g. `docker exec surf-spots-postgres-dev psql -U postgres -c "CREATE DATABASE surf_spots_test_db;"`, or `db-init/` on a new Docker volume).
+
+### How this maps to Spring Boot
+
+- **`SPRING_DATASOURCE_URL`** / username / password are the [documented](https://docs.spring.io/spring-boot/reference/features/external-config.html) way to supply JDBC from the environment.
+- **`application-dev.yml`** and **`application-test.yml`** hold sensible **defaults** for local runs without those env vars.
+- **`src/main/resources/application.yml`** does not set a JDBC URL; each profile supplies one.
 
 ## Project Structure
 

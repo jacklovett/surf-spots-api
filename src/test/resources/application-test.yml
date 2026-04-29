@@ -1,9 +1,8 @@
 # Test profile - for all integration tests
 spring:
   datasource:
-    # Use a dedicated test database to avoid mutating dev data.
-    # In Docker, set SPRING_TEST_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
-    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    # Dedicated DB (see main application-test.yml). Docker: SPRING_TEST_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_test}
     username: ${SPRING_TEST_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_TEST_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
     hikari:
@@ -16,8 +15,12 @@ spring:
   flyway:
     enabled: false # Disable Flyway in tests
 
-# Disable automatic seeding for all tests
+# Disable automatic seeding for all tests.
+# Keep session secret here: this file can load after main application-test.yml; without
+# app.auth, SessionTestCookieFactory and MockMvc-authenticated tests break (404/403).
 app:
+  auth:
+    session-secret: test-session-secret
   seed:
     enabled: false
 
