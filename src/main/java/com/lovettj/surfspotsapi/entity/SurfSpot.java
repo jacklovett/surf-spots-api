@@ -79,6 +79,14 @@ public class SurfSpot extends SluggableEntity {
 
     private Double longitude;
 
+    /**
+     * IANA zone (e.g. Australia/Sydney) used to convert manual session times in that zone to stored
+     * instants and to derive local calendar fields from wearable/partner UTC timestamps.
+     */
+    @Size(max = 64)
+    @Column(name = "iana_zone_id", length = 64)
+    private String ianaZoneId;
+
     @ManyToOne
     @JoinColumn(name = "region_id")
     @JsonBackReference("region-surfspots")

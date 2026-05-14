@@ -33,9 +33,36 @@ public final class ApiErrors {
     public static final String SKILL_LEVEL_REQUIRED_FOR_SESSION =
             "Add your skill level to your profile before logging a session.";
 
+    /** Neither session date nor wearable/partner start instant was provided. */
+    public static final String SESSION_DATE_OR_START_INSTANT_REQUIRED =
+            "Provide a session date, or start/end instants from a wearable or partner.";
+
+    /** Client sent an end time without a start time. */
+    public static final String SESSION_END_TIME_REQUIRES_START =
+            "Pick a start time first, then an end time.";
+
+    /** End time is not after start time on the session day. */
+    public static final String SESSION_END_BEFORE_START =
+            "End time needs to be later than start time.";
+
+    /** Derived span from start/end exceeds the maximum allowed window. */
+    public static final String SESSION_DURATION_MINUTES_INVALID =
+            "That session window is too long (maximum 24 hours).";
+
     /** Surfboard id was provided but that board was not found for the signed-in user. */
     public static final String SURFBOARD_NOT_FOUND_FOR_USER =
             "That surfboard was not found for your account.";
+
+    /**
+     * Sync payloads must send {@link com.lovettj.surfspotsapi.enums.ExternalSessionProvider} and provider-local
+     * {@code externalSessionId} together; omit both for sessions logged only in the app.
+     */
+    public static final String EXTERNAL_SESSION_SYNC_PAIR_REQUIRED =
+            "Provide both externalSessionProvider and externalSessionId for synced sessions, or omit both for logs entered only in the app.";
+
+    /** Same user already stored this integration's external session id (replay or concurrent sync). */
+    public static final String SURF_SESSION_ALREADY_SYNCED =
+            "This session was already imported from that integration for this external id.";
 
     /** Session summary endpoint requires a userId query parameter. */
     public static final String SESSION_SUMMARY_USER_ID_REQUIRED =

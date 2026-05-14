@@ -11,9 +11,11 @@ import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.security.AuthenticatedUserResolver;
 import com.lovettj.surfspotsapi.service.SurfSessionService;
+import com.lovettj.surfspotsapi.util.SqlExceptionInspection;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +44,25 @@ public class SurfSessionController {
         try {
             request.setUserId(authenticatedUserResolver.requireCurrentUserId());
             surfSessionService.createSession(request);
-            return ResponseEntity.ok(ApiResponse.success("Surf session saved"));
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(ApiResponse.success("Surf session saved", "Surf session saved", HttpStatus.CREATED.value()));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (DataIntegrityViolationException e) {
+            String externalSessionId = request.getExternalSessionId();
+            if (externalSessionId != null
+                    && !externalSessionId.isBlank()
+                    && request.getExternalSessionProvider() != null
+                    && SqlExceptionInspection.isSurfSessionExternalSyncUniqueViolation(e)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body(ApiResponse.error(ApiErrors.SURF_SESSION_ALREADY_SYNCED, HttpStatus.CONFLICT.value()));
+            }
+            logger.warn("Data integrity violation creating surf session", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error(
+                            ApiErrors.formatErrorMessage("create", "surf session"),
+                            HttpStatus.INTERNAL_SERVER_ERROR.value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(

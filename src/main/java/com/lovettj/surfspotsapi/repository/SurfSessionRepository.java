@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.repository;
 
 import com.lovettj.surfspotsapi.entity.SurfSession;
+import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SurfSessionRepository extends JpaRepository<SurfSession, Long> {
+    boolean existsByUserIdAndExternalSessionProviderAndExternalSessionId(
+            String userId, ExternalSessionProvider externalSessionProvider, String externalSessionId);
+
     List<SurfSession> findBySurfSpotId(Long surfSpotId);
     List<SurfSession> findBySurfSpotIdAndSkillLevel(Long surfSpotId, SkillLevel skillLevel);
 

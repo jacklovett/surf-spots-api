@@ -170,7 +170,8 @@ The script converts:
 - **Foreign keys**: Name-based (e.g., `continent_name: "Africa"`) → ID-based (e.g., `continent: { id: 1 }`)
 - **Boolean fields**: String values ("TRUE"/"FALSE") → Boolean values
 - **Arrays**: Comma-separated strings → JSON arrays
-- **Typical crowd** (`crowd_level`, last SurfSpots column): optional; one of `EMPTY`, `FEW`, `BUSY`, `PACKED` (matches `CrowdLevel` in the API)
+- **Typical crowd** (`crowd_level`, column AE / index 30): optional; one of `EMPTY`, `FEW`, `BUSY`, `PACKED` (matches `CrowdLevel` in the API)
+- **IANA zone** (`iana_zone_id`, column AF / index 31): optional; e.g. `Pacific/Auckland` for `SurfSpot.ianaZoneId` (session wall-clock at the break; see API)
 - **Numbers**: String numbers → Numeric values
 - **Bounding boxes**: JSON string arrays → Actual arrays
 
