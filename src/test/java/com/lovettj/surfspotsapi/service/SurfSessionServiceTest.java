@@ -5,11 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +25,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.springframework.http.HttpStatus;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
@@ -32,6 +40,7 @@ import com.lovettj.surfspotsapi.entity.SurfSession;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
+import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
@@ -42,6 +51,8 @@ import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.SurfboardRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
+import com.lovettj.surfspotsapi.util.SqlExceptionInspection;
 
 @ExtendWith(MockitoExtension.class)
 class SurfSessionServiceTest {
@@ -172,9 +183,264 @@ class SurfSessionServiceTest {
     }
 
     @Test
+    void createSessionShouldDeriveDurationFromStartAndEnd() {
+        request.setSurfboardId(null);
+        request.setSessionStartTime(LocalTime.of(9, 0));
+        request.setSessionEndTime(LocalTime.of(11, 30));
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        surfSessionService.createSession(request);
+
+        Instant expectedStart =
+                ZonedDateTime.of(LocalDate.of(2025, 4, 1), LocalTime.of(9, 0), ZoneId.of("UTC")).toInstant();
+        Instant expectedEnd =
+                ZonedDateTime.of(LocalDate.of(2025, 4, 1), LocalTime.of(11, 30), ZoneId.of("UTC")).toInstant();
+
+        verify(surfSessionRepository)
+                .save(
+                        argThat(
+                                session ->
+                                        Integer.valueOf(150).equals(session.getDurationMinutes())
+                                                && expectedStart.equals(session.getSessionStartInstant())
+                                                && expectedEnd.equals(session.getSessionEndInstant())));
+        verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
+    }
+
+    @Test
+    void createSessionShouldPersistUtcInstantsWhenSpotHasIanaZoneAndManualTimes() {
+        request.setSurfboardId(null);
+        request.setSessionStartTime(LocalTime.of(9, 0));
+        request.setSessionEndTime(LocalTime.of(11, 30));
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+        when(surfSpot.getIanaZoneId()).thenReturn("Australia/Sydney");
+
+        Instant expectedStart =
+                ZonedDateTime.of(
+                                LocalDate.of(2025, 4, 1),
+                                LocalTime.of(9, 0),
+                                ZoneId.of("Australia/Sydney"))
+                        .toInstant();
+        Instant expectedEnd =
+                ZonedDateTime.of(
+                                LocalDate.of(2025, 4, 1),
+                                LocalTime.of(11, 30),
+                                ZoneId.of("Australia/Sydney"))
+                        .toInstant();
+
+        surfSessionService.createSession(request);
+
+        verify(surfSessionRepository)
+                .save(
+                        argThat(
+                                session ->
+                                        expectedStart.equals(session.getSessionStartInstant())
+                                                && expectedEnd.equals(session.getSessionEndInstant())));
+        verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
+    }
+
+    @Test
+    void createSessionShouldDeriveLocalTimesFromWearableInstantsUsingSpotZone() {
+        request.setSurfboardId(null);
+        request.setSessionDate(null);
+        request.setSessionStartTime(null);
+        request.setSessionEndTime(null);
+        request.setSessionStartInstant(Instant.parse("2025-04-01T14:00:00Z"));
+        request.setSessionEndInstant(Instant.parse("2025-04-01T16:30:00Z"));
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+        when(surfSpot.getIanaZoneId()).thenReturn("UTC");
+
+        surfSessionService.createSession(request);
+
+        verify(surfSessionRepository)
+                .save(
+                        argThat(
+                                session ->
+                                        LocalDate.of(2025, 4, 1).equals(session.getSessionDate())
+                                                && Integer.valueOf(150).equals(session.getDurationMinutes())
+                                                && Instant.parse("2025-04-01T14:00:00Z")
+                                                        .equals(session.getSessionStartInstant())
+                                                && Instant.parse("2025-04-01T16:30:00Z")
+                                                        .equals(session.getSessionEndInstant())));
+        verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
+    }
+
+    @Test
+    void createSessionShouldAllowStartTimeOnlyWithNullDuration() {
+        request.setSurfboardId(null);
+        request.setSessionStartTime(LocalTime.of(6, 30));
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        surfSessionService.createSession(request);
+
+        verify(surfSessionRepository)
+                .save(
+                        argThat(
+                                session ->
+                                        session.getDurationMinutes() == null
+                                                && LocalTime.of(6, 30)
+                                                        .equals(
+                                                                ZonedDateTime.ofInstant(
+                                                                                session.getSessionStartInstant(),
+                                                                                ZoneId.of("UTC"))
+                                                                        .toLocalTime())
+                                                && session.getSessionEndInstant() == null));
+    }
+
+    @Test
+    void createSessionShouldRejectEndWithoutStart() {
+        request.setSurfboardId(null);
+        request.setSessionEndTime(LocalTime.of(11, 0));
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSessionRepository, never()).save(any());
+    }
+
+    @Test
+    void createSessionShouldRejectWhenEndEqualsStart() {
+        request.setSurfboardId(null);
+        request.setSessionStartTime(LocalTime.of(10, 0));
+        request.setSessionEndTime(LocalTime.of(10, 0));
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSessionRepository, never()).save(any());
+    }
+
+    @Test
+    void createSessionShouldRejectWhenEndBeforeStart() {
+        request.setSurfboardId(null);
+        request.setSessionStartTime(LocalTime.of(14, 0));
+        request.setSessionEndTime(LocalTime.of(9, 0));
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSessionRepository, never()).save(any());
+    }
+
+    @Test
+    void createSessionShouldRejectDuplicateExternalKeyForSameUserAndProvider() {
+        request.setSurfboardId(null);
+        request.setExternalSessionProvider(ExternalSessionProvider.SURFLINE);
+        request.setExternalSessionId("healthkit-workout-1");
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+                        "u1", ExternalSessionProvider.SURFLINE, "healthkit-workout-1"))
+                .thenReturn(true);
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.CONFLICT, ex.getStatusCode());
+        assertEquals(ApiErrors.SURF_SESSION_ALREADY_SYNCED, ex.getReason());
+        verify(surfSessionRepository, never()).save(any());
+        verify(userSurfSpotService, never()).addUserSurfSpot(any(), any());
+    }
+
+    @Test
+    void createSessionShouldReturnConflictWhenFlushHitsUniqueViolationForExternalSync() {
+        request.setSurfboardId(null);
+        request.setExternalSessionProvider(ExternalSessionProvider.RIP_CURL_SEARCH_GPS3);
+        request.setExternalSessionId("race");
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+                        "u1", ExternalSessionProvider.RIP_CURL_SEARCH_GPS3, "race"))
+                .thenReturn(false);
+        SQLException duplicateKey =
+                new SQLException(
+                        "duplicate key value violates unique constraint \""
+                                + SqlExceptionInspection.UQ_SURF_SESSION_USER_PROVIDER_EXTERNAL
+                                + "\"",
+                        "23505");
+        when(surfSessionRepository.save(any(SurfSession.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+        doThrow(new DataIntegrityViolationException("unique violation", duplicateKey))
+                .when(surfSessionRepository)
+                .flush();
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.CONFLICT, ex.getStatusCode());
+        assertEquals(ApiErrors.SURF_SESSION_ALREADY_SYNCED, ex.getReason());
+        verify(userSurfSpotService, never()).addUserSurfSpot(any(), any());
+    }
+
+    @Test
+    void createSessionShouldRejectExternalIdWithoutProvider() {
+        request.setSurfboardId(null);
+        request.setExternalSessionId("orphan-id");
+        request.setExternalSessionProvider(null);
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        assertEquals(ApiErrors.EXTERNAL_SESSION_SYNC_PAIR_REQUIRED, ex.getReason());
+        verify(surfSessionRepository, never()).save(any());
+    }
+
+    @Test
+    void createSessionShouldRejectProviderWithoutExternalId() {
+        request.setSurfboardId(null);
+        request.setExternalSessionProvider(ExternalSessionProvider.GARMIN);
+        request.setExternalSessionId(null);
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+
+        ResponseStatusException ex =
+                assertThrows(ResponseStatusException.class, () -> surfSessionService.createSession(request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        assertEquals(ApiErrors.EXTERNAL_SESSION_SYNC_PAIR_REQUIRED, ex.getReason());
+        verify(surfSessionRepository, never()).save(any());
+    }
+
+    @Test
+    void createSessionShouldAllowSameExternalIdWhenProvidersDiffer() {
+        request.setSurfboardId(null);
+        request.setExternalSessionProvider(ExternalSessionProvider.SURFLINE);
+        request.setExternalSessionId("workout-99");
+        when(userRepository.findById("u1")).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
+        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+                        "u1", ExternalSessionProvider.SURFLINE, "workout-99"))
+                .thenReturn(false);
+
+        surfSessionService.createSession(request);
+
+        verify(surfSessionRepository)
+                .save(argThat(session -> ExternalSessionProvider.SURFLINE.equals(session.getExternalSessionProvider())
+                        && "workout-99".equals(session.getExternalSessionId())));
+
+        request.setExternalSessionProvider(ExternalSessionProvider.RIP_CURL_SEARCH_GPS3);
+        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+                        "u1", ExternalSessionProvider.RIP_CURL_SEARCH_GPS3, "workout-99"))
+                .thenReturn(false);
+
+        surfSessionService.createSession(request);
+
+        verify(surfSessionRepository, times(2)).save(any());
+        verify(userSurfSpotService, times(2)).addUserSurfSpot("u1", 10L);
+    }
+
+    @Test
     void getSpotSummaryForUserShouldRejectBlankUserId() {
         ResponseStatusException ex = assertThrows(ResponseStatusException.class,
-                () -> surfSessionService.getSpotSummaryForUser(1L, "   "));
+                () -> surfSessionService.getSpotSummaryForUser(1L, "  "));
         assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
     }
 
@@ -289,6 +555,11 @@ class SurfSessionServiceTest {
                 .wouldSurfAgain(true)
                 .build();
         session.setId(1L);
+        session.setDurationMinutes(60);
+        session.setSessionStartInstant(
+                ZonedDateTime.of(LocalDate.of(2025, 6, 1), LocalTime.of(8, 0), ZoneId.of("UTC")).toInstant());
+        session.setSessionEndInstant(
+                ZonedDateTime.of(LocalDate.of(2025, 6, 1), LocalTime.of(9, 0), ZoneId.of("UTC")).toInstant());
 
         when(userRepository.existsById("u1")).thenReturn(true);
         when(surfSessionRepository.findAllForUserList("u1")).thenReturn(List.of(session));
@@ -303,6 +574,9 @@ class SurfSessionServiceTest {
         assertEquals("Test Break", mine.getSessions().get(0).getSurfSpotName());
         assertEquals(Long.valueOf(5L), mine.getSessions().get(0).getSurfSpotId());
         assertEquals(WaveQuality.FUN, mine.getSessions().get(0).getWaveQuality());
+        assertEquals(60, mine.getSessions().get(0).getDurationMinutes().intValue());
+        assertEquals(LocalTime.of(8, 0), mine.getSessions().get(0).getSessionStartTime());
+        assertEquals(LocalTime.of(9, 0), mine.getSessions().get(0).getSessionEndTime());
         assertEquals(1L, mine.getTotalSessions());
         assertEquals(1L, mine.getSpotsSurfedCount());
         assertEquals(0L, mine.getBoardsUsedCount());

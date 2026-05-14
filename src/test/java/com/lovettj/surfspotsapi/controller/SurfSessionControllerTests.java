@@ -13,10 +13,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.sql.SQLException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +28,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,6 +41,7 @@ import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
+import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveQuality;
@@ -92,7 +97,27 @@ class SurfSessionControllerTests {
                         .cookie(sessionCookie())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRequest)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.status").value(201));
+
+        verify(surfSessionService).createSession(any(SurfSessionRequest.class));
+    }
+
+    @Test
+    void testCreateSessionShouldAcceptPayloadWithStartInstantAndNoSessionDate() throws Exception {
+        SurfSessionRequest wearable = new SurfSessionRequest();
+        wearable.setSurfSpotId(1L);
+        wearable.setUserId(TEST_USER_ID);
+        wearable.setSessionStartInstant(Instant.parse("2025-04-01T14:00:00Z"));
+        wearable.setSessionEndInstant(Instant.parse("2025-04-01T15:00:00Z"));
+        doNothing().when(surfSessionService).createSession(any(SurfSessionRequest.class));
+
+        mockMvc.perform(post("/api/surf-sessions")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(wearable)))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value(true));
 
         verify(surfSessionService).createSession(any(SurfSessionRequest.class));
@@ -110,7 +135,7 @@ class SurfSessionControllerTests {
                         .cookie(sessionCookie())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(minimal)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value(true));
 
         verify(surfSessionService)
@@ -130,7 +155,7 @@ class SurfSessionControllerTests {
                         .cookie(sessionCookie())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRequest)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         verify(surfSessionService).createSession(any(SurfSessionRequest.class));
     }
@@ -203,6 +228,24 @@ class SurfSessionControllerTests {
                         .content(objectMapper.writeValueAsString(validRequest)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value(ApiErrors.USER_NOT_FOUND));
+    }
+
+    @Test
+    void testCreateSessionShouldReturn409WhenServiceThrowsUniqueViolationWithExternalId() throws Exception {
+        validRequest.setExternalSessionProvider(ExternalSessionProvider.GARMIN);
+        validRequest.setExternalSessionId("activity-1");
+        SQLException duplicateKey = new SQLException("duplicate key", "23505");
+        doThrow(new DataIntegrityViolationException("unique", duplicateKey))
+                .when(surfSessionService)
+                .createSession(any(SurfSessionRequest.class));
+
+        mockMvc.perform(post("/api/surf-sessions")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validRequest)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_ALREADY_SYNCED));
     }
 
     @Test
