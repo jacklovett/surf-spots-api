@@ -338,7 +338,7 @@ class SurfSessionServiceTest {
         request.setExternalSessionId("healthkit-workout-1");
         when(userRepository.findById("u1")).thenReturn(Optional.of(user));
         when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
-        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+        when(surfSessionRepository.existsByUserIdAndExternalSessionProviderAndExternalSessionId(
                         "u1", ExternalSessionProvider.SURFLINE, "healthkit-workout-1"))
                 .thenReturn(true);
 
@@ -357,7 +357,7 @@ class SurfSessionServiceTest {
         request.setExternalSessionId("race");
         when(userRepository.findById("u1")).thenReturn(Optional.of(user));
         when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
-        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+        when(surfSessionRepository.existsByUserIdAndExternalSessionProviderAndExternalSessionId(
                         "u1", ExternalSessionProvider.RIP_CURL_SEARCH_GPS3, "race"))
                 .thenReturn(false);
         SQLException duplicateKey =
@@ -416,7 +416,7 @@ class SurfSessionServiceTest {
         request.setExternalSessionId("workout-99");
         when(userRepository.findById("u1")).thenReturn(Optional.of(user));
         when(surfSpotRepository.findById(10L)).thenReturn(Optional.of(surfSpot));
-        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+        when(surfSessionRepository.existsByUserIdAndExternalSessionProviderAndExternalSessionId(
                         "u1", ExternalSessionProvider.SURFLINE, "workout-99"))
                 .thenReturn(false);
 
@@ -427,7 +427,7 @@ class SurfSessionServiceTest {
                         && "workout-99".equals(session.getExternalSessionId())));
 
         request.setExternalSessionProvider(ExternalSessionProvider.RIP_CURL_SEARCH_GPS3);
-        when(surfSessionRepository.existsByUser_IdAndExternalSessionProviderAndExternalSessionId(
+        when(surfSessionRepository.existsByUserIdAndExternalSessionProviderAndExternalSessionId(
                         "u1", ExternalSessionProvider.RIP_CURL_SEARCH_GPS3, "workout-99"))
                 .thenReturn(false);
 
