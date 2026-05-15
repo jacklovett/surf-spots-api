@@ -116,7 +116,7 @@ public class SurfSessionService {
 
         ExternalSyncPair externalSync = resolveExternalSyncPair(request);
         if (externalSync != null
-                && surfSessionRepository.existsByUserIdAndExternalSessionProviderAndExternalSessionId(
+                && surfSessionRepository.externalSessionAlreadyRecordedForUser(
                         request.getUserId(), externalSync.provider(), externalSync.externalId())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ApiErrors.SURF_SESSION_ALREADY_SYNCED);
         }

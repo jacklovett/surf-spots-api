@@ -10,8 +10,22 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SurfSessionRepository extends JpaRepository<SurfSession, Long> {
-    boolean existsByUserIdAndExternalSessionProviderAndExternalSessionId(
-            String userId, ExternalSessionProvider externalSessionProvider, String externalSessionId);
+
+    /**
+     * Whether this user already has a session for the same external provider/id (idempotent imports).
+     */
+    @Query(
+            """
+            SELECT CASE WHEN COUNT(session) > 0 THEN true ELSE false END
+            FROM SurfSession session
+            WHERE session.user.id = :userId
+              AND session.externalSessionProvider = :externalSessionProvider
+              AND session.externalSessionId = :externalSessionId
+            """)
+    boolean externalSessionAlreadyRecordedForUser(
+            @Param("userId") String userId,
+            @Param("externalSessionProvider") ExternalSessionProvider externalSessionProvider,
+            @Param("externalSessionId") String externalSessionId);
 
     List<SurfSession> findBySurfSpotId(Long surfSpotId);
     List<SurfSession> findBySurfSpotIdAndSkillLevel(Long surfSpotId, SkillLevel skillLevel);
