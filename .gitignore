@@ -43,7 +43,7 @@ Thumbs.db
 !src/main/resources/db/migration/*.sql
 
 # Cache, temporary and plugin directories
-.mvn/
+# Keep .mvn/wrapper/ tracked so ./mvnw works on fresh clones (only timing is local)
 .cache/
 tmp/
 !src/main/resources/static

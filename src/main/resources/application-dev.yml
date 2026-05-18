@@ -9,13 +9,16 @@ spring:
     hibernate:
       ddl-auto: none # Rely on Flyway migrations for schema consistency (incl. check constraints)
   flyway:
+    # Run migrations on every dev boot so the DB matches JPA (e.g. Docker stack + local `mvn`).
+    # If multiple API processes share one DB and you hit Flyway checksum conflicts, use separate DBs or coordinate deploys.
     enabled: true
     baseline-on-migrate: true
     baseline-version: 0
   mail:
-    # Disable email sending in development - emails will be logged instead
-    host: localhost
-    port: 1025 # Use a mock SMTP server like MailHog or just disable
+    # Capture outbound mail with Mailpit/MailHog: SMTP on 1025, UI on 8025 (see docker-compose.dev.yml).
+    # In Docker, set SPRING_MAIL_HOST=mailpit so the API reaches the Mailpit container (not localhost).
+    host: ${SPRING_MAIL_HOST:localhost}
+    port: ${SPRING_MAIL_PORT:1025}
     properties:
       mail:
         smtp:
@@ -27,8 +30,12 @@ spring:
 app:
   auth:
     session-secret: ${SESSION_SECRET:SECRET}
+  email:
+    # Dev profile: serve masthead hero logo from API so mail preview works without the frontend.
+    logo-url: http://localhost:${server.port:8080}/email/logo.png
   mail:
-    enabled: false # Set to true when you want to enable email in dev
+    # Default off. Set MAIL_ENABLED=true (e.g. in .env) to send through Mailpit in docker-compose.dev.yml.
+    enabled: ${MAIL_ENABLED:false}
   storage:
     s3:
       endpoint: ${SCW_ENDPOINT:https://s3.fr-par.scw.cloud}

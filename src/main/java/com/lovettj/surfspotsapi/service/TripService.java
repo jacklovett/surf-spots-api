@@ -8,6 +8,7 @@ import com.lovettj.surfspotsapi.dto.TripSurfboardDTO;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.*;
 import com.lovettj.surfspotsapi.requests.*;
+import com.lovettj.surfspotsapi.util.EmailVerificationRequirements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -312,6 +313,10 @@ public class TripService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only trip owner can add members");
         }
 
+        User inviter = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Inviter not found"));
+        EmailVerificationRequirements.requireVerifiedEmail(inviter);
+
         String emailInput = request.getEmail();
         final String email;
         if (emailInput == null || emailInput.isEmpty()) {
@@ -366,11 +371,8 @@ public class TripService {
                 }
             }
         }
-        
+
         // Create PENDING invitation
-        User inviter = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Inviter not found"));
-        
         String token = UUID.randomUUID().toString();
         TripInvitation invitation = TripInvitation.builder()
                 .id(UUID.randomUUID().toString())
@@ -388,11 +390,13 @@ public class TripService {
         try {
             String inviterName = inviter.getName();
             emailService.sendTripInvitation(
-                email,
-                inviterName,
-                trip.getTitle(),
-                token
-            );
+                    email,
+                    inviterName,
+                    trip.getTitle(),
+                    token,
+                    trip.getStartDate(),
+                    trip.getEndDate(),
+                    trip.getDescription());
         } catch (Exception e) {
             // Log but don't fail the request
             logger.warn("Failed to send invitation email: {}", e.getMessage(), e);
@@ -571,6 +575,25 @@ public class TripService {
                     invitation.setAcceptedAt(java.time.LocalDateTime.now());
                     invitation.setTripMember(tripMember);
                     tripInvitationRepository.save(invitation);
+
+                    try {
+                        Trip tripForEmail = invitation.getTrip();
+                        User inviterUser = invitation.getInvitedBy();
+                        emailService.sendTripMemberAddedNotification(
+                                user.getEmail(),
+                                user.getName(),
+                                inviterUser.getName(),
+                                tripForEmail.getTitle(),
+                                tripForEmail.getStartDate(),
+                                tripForEmail.getEndDate(),
+                                tripForEmail.getDescription());
+                    } catch (Exception emailException) {
+                        logger.warn(
+                                "Failed to send trip member added email for invitation {}: {}",
+                                invitation.getId(),
+                                emailException.getMessage(),
+                                emailException);
+                    }
                 } catch (Exception e) {
                     // Log error but continue processing other invitations
                     logger.warn("Failed to process invitation {}: {}", invitation.getId(), e.getMessage(), e);

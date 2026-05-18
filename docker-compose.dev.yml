@@ -1,5 +1,3 @@
-version: '3.8'
-
 # Development Docker Compose - Full stack (PostgreSQL + Spring Boot API)
 # Everything runs in Docker - no need to install Java or Maven locally!
 services:
@@ -25,6 +23,16 @@ services:
     networks:
       - surf-spots-network
 
+  # SMTP sink + web UI to inspect real sent messages (http://localhost:8025).
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: surf-spots-mailpit-dev
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - surf-spots-network
+
   api:
     build:
       context: .
@@ -37,6 +45,9 @@ services:
       # App reads spring.datasource.password from ${DB_PASSWORD} in application.yml
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       MAIL_ENABLED: ${MAIL_ENABLED:-false}
+      # When MAIL_ENABLED=true, send to Mailpit from inside Docker (override host defaults in application-dev.yml).
+      SPRING_MAIL_HOST: ${SPRING_MAIL_HOST:-mailpit}
+      SPRING_MAIL_PORT: ${SPRING_MAIL_PORT:-1025}
       # Run tests against a dedicated DB (postgres), not surf_spots_db.
       SPRING_TEST_DATASOURCE_URL: ${SPRING_TEST_DATASOURCE_URL:-jdbc:postgresql://postgres:5432/postgres}
       SPRING_TEST_DATASOURCE_USERNAME: ${SPRING_TEST_DATASOURCE_USERNAME:-postgres}

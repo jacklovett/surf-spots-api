@@ -77,16 +77,6 @@ public class CsrfOriginFilter implements Filter {
     }
 
     private boolean hasTrustedSource(String origin, String referer) {
-        if (allowedOrigins.contains(origin)) {
-            return true;
-        }
-        if (referer != null && !referer.isBlank()) {
-            for (String trusted : allowedOrigins.asList()) {
-                if (referer.startsWith(trusted + "/") || referer.equals(trusted)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return allowedOrigins.resolveTrustedAppOrigin(origin, referer).isPresent();
     }
 }

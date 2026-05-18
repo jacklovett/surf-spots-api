@@ -46,12 +46,28 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] %logger{36} - %msg%n%rEx"
 
+# Trusted browser origins (CORS, CSRF Origin filter, password-reset / email link trust).
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,https://surf-spots-five.vercel.app}
+
 # App-specific settings
 app:
   auth:
     session-secret: ${SESSION_SECRET:}
+  # Public web app origin (trip emails, invite links). No trailing slash.
+  url: ${APP_URL:http://localhost:5173}
+  # Browser-reachable API base for email action links (GET verify-email redirect). No trailing slash.
+  public-api-base-url: ${APP_PUBLIC_API_URL:http://localhost:8080}
+  email:
+    # Full URL to masthead image (same asset as home hero: public/images/png/logo.png). Default: {app.url}/images/png/logo.png
+    # Dev profile sets this to the API static copy so mail preview works without the frontend.
+    logo-url: ${APP_EMAIL_LOGO_URL:}
   mail:
     enabled: ${MAIL_ENABLED:true} # Set to false to disable email sending
+    # Optional From header; use an address verified with your SMTP provider (e.g. Scaleway).
+    from: ${MAIL_FROM:}
+    # Inbox for contact form submissions
+    contact-to: ${MAIL_CONTACT_TO:hello@surfspots.com}
   storage:
     s3:
       endpoint: ${SCW_ENDPOINT:https://s3.fr-par.scw.cloud}

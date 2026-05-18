@@ -37,6 +37,9 @@ public class User {
   private String name;
   private String password;
 
+  @Column(name = "email_verified", nullable = false)
+  private boolean emailVerified;
+
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "settings_id")
   private Settings settings;

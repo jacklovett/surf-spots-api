@@ -7,12 +7,15 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.lovettj.surfspotsapi.config.AppProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.config.AllowedOrigins;
+import com.lovettj.surfspotsapi.email.EmailLayoutVariables;
+import com.lovettj.surfspotsapi.email.TransactionalEmailTemplate;
 import com.lovettj.surfspotsapi.entity.PasswordResetToken;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.repository.TokenRepository;
@@ -35,6 +38,7 @@ public class PasswordResetService {
     private final UserService userService;
     private final RateLimiter rateLimiter;
     private final AllowedOrigins allowedOrigins;
+    private final AppProperties appProperties;
 
     /**
      * Start a password reset flow for the given email address.
@@ -45,12 +49,13 @@ public class PasswordResetService {
      * so timing is roughly constant.
      */
     @Transactional
-    public void createPasswordResetToken(String email, String origin, String clientIp) {
+    public void createPasswordResetToken(String email, String origin, String referer, String clientIp) {
         rateLimiter.checkRateLimit(RateLimiter.Bucket.FORGOT_PASSWORD, clientIp);
         rateLimiter.checkRateLimit(RateLimiter.Bucket.FORGOT_PASSWORD, email);
 
-        if (!allowedOrigins.contains(origin)) {
-            logger.warn("Password reset blocked: origin not on allowlist ({})", origin);
+        Optional<String> trustedBase = allowedOrigins.resolveTrustedAppOrigin(origin, referer);
+        if (trustedBase.isEmpty()) {
+            logger.warn("Password reset blocked: origin/referer not on allowlist (origin={}, referer={})", origin, referer);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.INVALID_ORIGIN);
         }
 
@@ -67,7 +72,7 @@ public class PasswordResetService {
         tokenRepository.deleteByUser(user);
         tokenRepository.save(new PasswordResetToken(hashed, user));
 
-        sendResetEmail(user, origin, plaintext);
+        sendResetEmail(user, trustedBase.get(), plaintext);
     }
 
     /**
@@ -99,6 +104,7 @@ public class PasswordResetService {
         String resetLink = origin + "/reset-password?token=" + token;
         Map<String, Object> emailVariables = new HashMap<>();
         emailVariables.put("resetLink", resetLink);
-        emailService.sendEmail(user.getEmail(), "Password Reset Request", "reset-password", emailVariables);
+        emailVariables.put("appUrl", EmailLayoutVariables.normalizeAppBaseUrl(appProperties.getUrl()));
+        emailService.sendEmail(user.getEmail(), "Password Reset Request", TransactionalEmailTemplate.RESET_PASSWORD.getLogicalName(), emailVariables);
     }
 }

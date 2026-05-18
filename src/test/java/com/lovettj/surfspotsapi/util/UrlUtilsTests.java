@@ -2,10 +2,24 @@ package com.lovettj.surfspotsapi.util;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UrlUtilsTests {
+
+    @Test
+    void stripTrailingSlashesShouldReturnNullForNullOrBlank() {
+        assertNull(UrlUtils.stripTrailingSlashes(null));
+        assertNull(UrlUtils.stripTrailingSlashes(""));
+        assertNull(UrlUtils.stripTrailingSlashes("   "));
+    }
+
+    @Test
+    void stripTrailingSlashesShouldTrimAndRemoveTrailingSlashes() {
+        assertEquals("http://localhost:5173", UrlUtils.stripTrailingSlashes("  http://localhost:5173///  "));
+    }
 
     @Test
     void testIsValidHttpUrlShouldReturnTrueForNull() {

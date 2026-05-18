@@ -2,27 +2,34 @@ package com.lovettj.surfspotsapi.service;
 
 import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.entity.Trip;
+import com.lovettj.surfspotsapi.entity.TripInvitation;
 import com.lovettj.surfspotsapi.entity.TripMember;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.repository.*;
+import com.lovettj.surfspotsapi.requests.AddTripMemberRequest;
 import com.lovettj.surfspotsapi.requests.CreateTripRequest;
 import com.lovettj.surfspotsapi.requests.UpdateTripRequest;
 import com.lovettj.surfspotsapi.requests.UploadMediaRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -78,6 +85,7 @@ class TripServiceTest {
                 .id(userId)
                 .email("test@example.com")
                 .name("Test User")
+                .emailVerified(true)
                 .build();
 
         testTrip = Trip.builder()
@@ -224,7 +232,7 @@ class TripServiceTest {
     void getUploadUrl_SuccessAsMember() {
         // Given
         String memberUserId = UUID.randomUUID().toString();
-        User memberUser = User.builder().id(memberUserId).email("member@example.com").build();
+        User memberUser = User.builder().id(memberUserId).email("member@example.com").emailVerified(true).build();
         TripMember member = TripMember.builder()
                 .id(UUID.randomUUID().toString())
                 .user(memberUser)
@@ -319,5 +327,88 @@ class TripServiceTest {
         });
         assertEquals(400, exception.getStatusCode().value());
         verify(storageService, never()).generateMediaKey(any(), any(), any());
+    }
+
+    @Test
+    void addMemberShouldRejectWhenOwnerEmailNotVerified() {
+        User unverifiedOwner = User.builder()
+                .id(userId)
+                .email("owner@example.com")
+                .name("Owner")
+                .emailVerified(false)
+                .build();
+        Trip tripOwnedByUnverified = Trip.builder()
+                .id(tripId)
+                .owner(unverifiedOwner)
+                .title("Coast run")
+                .description("Weekend")
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(3))
+                .build();
+
+        when(tripRepository.findById(tripId)).thenReturn(Optional.of(tripOwnedByUnverified));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(unverifiedOwner));
+
+        AddTripMemberRequest request = new AddTripMemberRequest();
+        request.setEmail("invitee@example.com");
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> tripService.addMember(userId, tripId, request));
+        assertEquals(HttpStatus.FORBIDDEN, exception.getStatusCode());
+        assertEquals(ApiErrors.EMAIL_VERIFICATION_REQUIRED, exception.getReason());
+        verify(tripInvitationRepository, never()).save(any());
+        verify(emailService, never()).sendTripInvitation(anyString(), anyString(), anyString(), anyString(), any(), any(), any());
+    }
+
+    @Test
+    void processPendingInvitationsShouldSendMemberAddedEmailWithTripDetails() {
+        String memberId = UUID.randomUUID().toString();
+        User inviter = User.builder()
+                .id(UUID.randomUUID().toString())
+                .email("owner@example.com")
+                .name("Alex Surfer")
+                .emailVerified(true)
+                .build();
+        User member = User.builder()
+                .id(memberId)
+                .email("jamie@example.com")
+                .name("Jamie")
+                .emailVerified(true)
+                .build();
+        LocalDate start = LocalDate.of(2026, 4, 1);
+        LocalDate end = LocalDate.of(2026, 4, 14);
+        Trip trip = Trip.builder()
+                .id(tripId)
+                .owner(inviter)
+                .title("Spring swell")
+                .description("West coast run")
+                .startDate(start)
+                .endDate(end)
+                .build();
+        TripInvitation invitation = TripInvitation.builder()
+                .id(UUID.randomUUID().toString())
+                .trip(trip)
+                .email(member.getEmail())
+                .invitedBy(inviter)
+                .invitedAt(LocalDateTime.now())
+                .status("PENDING")
+                .token("preview-token")
+                .build();
+
+        when(tripInvitationRepository.findByEmail(member.getEmail())).thenReturn(List.of(invitation));
+        when(userRepository.findById(memberId)).thenReturn(Optional.of(member));
+        when(tripMemberRepository.findByTripIdAndUserId(tripId, memberId)).thenReturn(Optional.empty());
+
+        tripService.processPendingInvitations(member.getEmail(), memberId);
+
+        verify(emailService)
+                .sendTripMemberAddedNotification(
+                        eq(member.getEmail()),
+                        eq(member.getName()),
+                        eq(inviter.getName()),
+                        eq(trip.getTitle()),
+                        eq(start),
+                        eq(end),
+                        eq(trip.getDescription()));
     }
 }

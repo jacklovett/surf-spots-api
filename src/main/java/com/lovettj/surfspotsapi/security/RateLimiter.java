@@ -31,7 +31,11 @@ public class RateLimiter {
     public enum Bucket {
         LOGIN(10, Duration.ofMinutes(15)),
         REGISTER(5, Duration.ofHours(1)),
-        FORGOT_PASSWORD(5, Duration.ofHours(1));
+        FORGOT_PASSWORD(5, Duration.ofHours(1)),
+        /** Consume verification token attempts (per IP). */
+        VERIFY_EMAIL(20, Duration.ofMinutes(15)),
+        /** Resend verification email (per IP and per email). */
+        RESEND_VERIFICATION(5, Duration.ofHours(1));
 
         final int maxAttempts;
         final Duration window;

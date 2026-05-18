@@ -392,6 +392,8 @@ cp src/main/resources/static/seedData.backup/*.json src/main/resources/static/se
 
 ## Configuration
 
+Full guide to **transactional email**, **Mailpit**, **dev HTML previews**, and env vars: **[docs/EMAIL.md](docs/EMAIL.md)**.
+
 ### Environment Variables (use a `.env` file)
 
 You can put all config in a **`.env` file** in the project root (same folder as `pom.xml`). The app loads it when you run locally (Maven or IDE), and Docker Compose reads the same file when you run with `docker-compose up`. **Do not commit `.env`** (it’s in `.gitignore`).
@@ -427,7 +429,7 @@ S3_BUCKET=surf-spots-media
 | `SESSION_SECRET` | Yes (for cookie-authenticated requests) | Must match frontend `SESSION_SECRET` so the API can verify signed `session` cookies. |
 | `MAIL_USERNAME` | No | SMTP username (default: empty). |
 | `MAIL_PASSWORD` | No | SMTP password (default: empty). |
-| `MAIL_ENABLED` | No | Enable email (default: `true`). |
+| `MAIL_ENABLED` | No | Send email when `true`. In **dev** profile defaults to `false`; set `true` to use Mailpit locally. Non-dev defaults come from `application.yml`. |
 | `S3_ACCESS_KEY` | For media upload | Scaleway Object Storage API key. |
 | `S3_SECRET_KEY` | For media upload | Scaleway Object Storage API key. |
 | `S3_BUCKET` | No | Bucket name (default: `surf-spots-media`). |
@@ -439,7 +441,7 @@ S3_BUCKET=surf-spots-media
 
 The application supports multiple profiles:
 
-- **dev** (default) - Local development with Hibernate auto-update, email disabled
+- **dev** (default) - Local development; Flyway migrations on; email off unless `MAIL_ENABLED=true` (use Mailpit, see below)
 - **test** - Integration tests; Postgres test database (`application-test.yml`, defaults in `src/test/resources/application.properties`)
 - **prod** - Production profile with Flyway migrations enabled
 
@@ -480,6 +482,21 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
    ```bash
    docker-compose -f docker-compose.dev.yml down
    ```
+
+### Mailpit (optional — capture outbound email in dev)
+
+The dev Compose file starts **[Mailpit](https://mailpit.axllent.org/)**: a local SMTP server that stores messages instead of delivering them, with a web UI at **http://localhost:8025** (SMTP **1025**).
+
+1. In `.env`, set **`MAIL_ENABLED=true`** (Compose passes this into the API container).
+2. Restart the **`api`** service so Spring picks up the change.
+3. Trigger an email from the app (e.g. forgot password, verify email).
+4. Open **http://localhost:8025** and read the message.
+
+With **`MAIL_ENABLED=false`** (default), the API does not send mail; `EmailService` only logs that sending is disabled.
+
+If you run the API **on the host** (`mvn spring-boot:run`) but want Mailpit, start only Mailpit (and Postgres if needed):  
+`docker compose -f docker-compose.dev.yml up -d mailpit`  
+then set `SPRING_MAIL_HOST=localhost` and `SPRING_MAIL_PORT=1025` (and `MAIL_ENABLED=true`).
 
 **Note:** Code changes require restarting the API container:
 ```bash

@@ -11,6 +11,7 @@ public class UserProfile {
   private String id;
   private String name;
   private String email;
+  private boolean emailVerified;
   private String country;
   private String city;
   private Integer age;
@@ -27,6 +28,7 @@ public class UserProfile {
     id = user.getId();
     name = user.getName();
     email = user.getEmail();
+    emailVerified = user.isEmailVerified();
     country = user.getCountry();
     city = user.getCity();
     age = user.getAge();

@@ -35,6 +35,9 @@ services:
       MAIL_USERNAME: ${MAIL_USERNAME:-}
       MAIL_PASSWORD: ${MAIL_PASSWORD:-}
       MAIL_ENABLED: ${MAIL_ENABLED:-true}
+      APP_URL: ${APP_URL:-http://localhost:5173}
+      MAIL_FROM: ${MAIL_FROM:-}
+      MAIL_CONTACT_TO: ${MAIL_CONTACT_TO:-hello@surfspots.com}
       # Scaleway Object Storage (media upload) - set in shell or .env
       SCW_ACCESS_KEY: ${SCW_ACCESS_KEY:-}
       SCW_SECRET_KEY: ${SCW_SECRET_KEY:-}

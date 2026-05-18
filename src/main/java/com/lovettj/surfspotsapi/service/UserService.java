@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.response.ApiErrors;
@@ -23,8 +24,9 @@ import com.lovettj.surfspotsapi.requests.UserRequest;
 import com.lovettj.surfspotsapi.util.EmergencyContactPhoneSupport;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -33,6 +35,7 @@ public class UserService {
     private final UserAuthProviderRepository userAuthProviderRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final TripService tripService;
+    private final EmailVerificationSendScheduler emailVerificationSendScheduler;
 
     public Optional<UserProfile> getUserProfile(String userId) {
         return userRepository.findById(userId)
@@ -45,7 +48,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
-        // Check if the current password matches the stored password
+        // Verified email is not required: the caller already proved control via current password.
         if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The provided password doesn't match your current password.");
         }
@@ -168,22 +171,26 @@ public class UserService {
 
     private User createNewUser(AuthRequest authRequest, boolean isOAuthProvider) {
         User newUser = createUserFromRequest(authRequest);
+        newUser.setEmailVerified(isOAuthProvider);
         setupUserSettings(newUser);
         newUser = userRepository.save(newUser);
-        
+
         // Add the auth provider to the new user
         if (isOAuthProvider) {
             UserAuthProvider authProvider = UserAuthProvider.builder()
-                .user(newUser)
-                .provider(authRequest.getProvider())
-                .providerId(authRequest.getProviderId())
-                .build();
+                    .user(newUser)
+                    .provider(authRequest.getProvider())
+                    .providerId(authRequest.getProviderId())
+                    .build();
             userAuthProviderRepository.save(authProvider);
         }
-        
-        // Process any pending trip invitations for this email
+
         tripService.processPendingInvitations(newUser.getEmail(), newUser.getId());
         
+        if (!isOAuthProvider) {
+            emailVerificationSendScheduler.sendVerificationEmailForUserId(newUser.getId());
+        }
+
         return newUser;
     }
 
@@ -289,14 +296,17 @@ public class UserService {
         try {
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
-            
+
+            // Unverified users may still delete their account (escape hatch); session must match path userId (controller).
             tripService.deleteAllUserTrips(userId, user.getEmail());
             userRepository.delete(user);
         } catch (ResponseStatusException e) {
             throw e;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, 
-                "Unexpected error during user deletion: " + e.getMessage(), e);
+            log.error("Unexpected error during user deletion for userId={}", userId, e);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    ApiErrors.SOMETHING_WENT_WRONG);
         }
     }
 }

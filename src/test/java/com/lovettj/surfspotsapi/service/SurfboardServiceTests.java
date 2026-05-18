@@ -61,6 +61,7 @@ class SurfboardServiceTests {
                 .id(userId)
                 .email("test@example.com")
                 .name("Test User")
+                .emailVerified(true)
                 .build();
 
         testSurfboard = Surfboard.builder()
@@ -301,7 +302,7 @@ class SurfboardServiceTests {
         // Given
         String mediaId = UUID.randomUUID().toString();
         String otherUserId = UUID.randomUUID().toString();
-        User otherUser = User.builder().id(otherUserId).build();
+        User otherUser = User.builder().id(otherUserId).emailVerified(true).build();
         Surfboard otherSurfboard = Surfboard.builder()
                 .id(UUID.randomUUID().toString())
                 .user(otherUser)

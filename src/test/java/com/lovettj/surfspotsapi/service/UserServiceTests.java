@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -57,6 +58,9 @@ class UserServiceTests {
     @Mock
     private TripService tripService;
 
+    @Mock
+    private EmailVerificationSendScheduler emailVerificationSendScheduler;
+
     @InjectMocks
     private UserService userService;
 
@@ -71,7 +75,8 @@ class UserServiceTests {
         testUser.setEmail("test@example.com");
         testUser.setName("Test User");
         testUser.setPassword("hashedPassword");
-        
+        testUser.setEmailVerified(true);
+
         // Initialize settings
         Settings settings = Settings.builder()
             .newSurfSpotEmails(true)
@@ -116,6 +121,38 @@ class UserServiceTests {
 
         assertDoesNotThrow(() -> userService.updatePassword(request));
         verify(userRepository).save(any(User.class));
+    }
+
+    @Test
+    void updatePasswordShouldSucceedWhenEmailNotVerified() {
+        testUser.setEmailVerified(false);
+        ChangePasswordRequest request = new ChangePasswordRequest();
+        request.setUserId(testUserId);
+        request.setCurrentPassword("currentPass");
+        request.setNewPassword("ValidPassword123!");
+
+        doReturn(Optional.of(testUser)).when(userRepository).findById(testUserId);
+        doReturn(true).when(passwordEncoder).matches("currentPass", "hashedPassword");
+        doReturn("newHashedPassword").when(passwordEncoder).encode("ValidPassword123!");
+
+        assertDoesNotThrow(() -> userService.updatePassword(request));
+        verify(passwordEncoder).matches("currentPass", "hashedPassword");
+        verify(userRepository).save(any(User.class));
+        testUser.setEmailVerified(true);
+    }
+
+    @Test
+    void deleteAccountShouldSucceedWhenEmailNotVerified() {
+        testUser.setEmailVerified(false);
+        doReturn(Optional.of(testUser)).when(userRepository).findById(testUserId);
+        doNothing().when(tripService).deleteAllUserTrips(testUserId, testUser.getEmail());
+        doNothing().when(userRepository).delete(testUser);
+
+        assertDoesNotThrow(() -> userService.deleteAccount(testUserId));
+
+        verify(tripService).deleteAllUserTrips(testUserId, testUser.getEmail());
+        verify(userRepository).delete(testUser);
+        testUser.setEmailVerified(true);
     }
 
     @Test
@@ -260,14 +297,15 @@ class UserServiceTests {
             }
             return user;
         }).when(userRepository).save(any(User.class));
-        doNothing().when(tripService).processPendingInvitations(anyString(), anyString());
+        doNothing().when(emailVerificationSendScheduler).sendVerificationEmailForUserId(anyString());
 
         userService.registerUser(request);
 
         verify(userRepository).findByEmail("new@example.com");
         verify(passwordEncoder).encode("ValidPassword123!");
         verify(userRepository, times(2)).save(any(User.class)); // Now expecting 2 saves
-        verify(tripService).processPendingInvitations(anyString(), anyString());
+        verify(emailVerificationSendScheduler).sendVerificationEmailForUserId("generated-user-id");
+        verify(tripService).processPendingInvitations("new@example.com", "generated-user-id");
     }
 
     @Test
@@ -296,6 +334,7 @@ class UserServiceTests {
         verify(userRepository).save(argThat(user -> {
             assertEquals("google@example.com", user.getEmail());
             assertEquals("Google User", user.getName());
+            assertTrue(user.isEmailVerified());
             assertNotNull(user.getSettings());
             assertTrue(user.getSettings().isNewSurfSpotEmails());
             assertTrue(user.getSettings().isNearbySurfSpotsEmails());
@@ -309,6 +348,8 @@ class UserServiceTests {
             assertEquals("google123", authProvider.getProviderId());
             return true;
         }));
+        verify(emailVerificationSendScheduler, never()).sendVerificationEmailForUserId(anyString());
+        verify(tripService).processPendingInvitations(anyString(), anyString());
     }
 
     @Test
@@ -388,9 +429,11 @@ class UserServiceTests {
             }
             return user;
         }).when(userRepository).save(any(User.class));
-        doNothing().when(tripService).processPendingInvitations(anyString(), anyString());
+        doNothing().when(emailVerificationSendScheduler).sendVerificationEmailForUserId(anyString());
 
         assertDoesNotThrow(() -> userService.registerUser(request));
+        verify(emailVerificationSendScheduler).sendVerificationEmailForUserId("generated");
+        verify(tripService).processPendingInvitations("new@example.com", "generated");
     }
 
     @Test
@@ -459,6 +502,7 @@ class UserServiceTests {
         verify(userRepository).save(argThat(user -> {
             assertEquals("facebook@example.com", user.getEmail());
             assertEquals("Facebook User", user.getName());
+            assertTrue(user.isEmailVerified());
             assertNotNull(user.getSettings());
             assertTrue(user.getSettings().isNewSurfSpotEmails());
             assertTrue(user.getSettings().isNearbySurfSpotsEmails());
@@ -472,6 +516,8 @@ class UserServiceTests {
             assertEquals("facebook123", authProvider.getProviderId());
             return true;
         }));
+        verify(emailVerificationSendScheduler, never()).sendVerificationEmailForUserId(anyString());
+        verify(tripService).processPendingInvitations(anyString(), anyString());
     }
 
     @Test
@@ -605,6 +651,19 @@ class UserServiceTests {
         User result = userService.loginUser("test@example.com", "password123");
 
         assertEquals("test@example.com", result.getEmail());
+    }
+
+    @Test
+    void loginUserShouldAllowSignInWhenEmailNotVerified() {
+        testUser.setEmailVerified(false);
+        doReturn(Optional.of(testUser)).when(userRepository).findByEmail("test@example.com");
+        doReturn(true).when(passwordEncoder).matches("password123", testUser.getPassword());
+
+        User result = userService.loginUser("test@example.com", "password123");
+
+        assertEquals("test@example.com", result.getEmail());
+        assertFalse(result.isEmailVerified());
+        testUser.setEmailVerified(true);
     }
 
     @Test
@@ -808,6 +867,7 @@ class UserServiceTests {
         User testUser = User.builder()
                 .id(testUserId)
                 .email("test@example.com")
+                .emailVerified(true)
                 .build();
         
         when(userRepository.findById(testUserId)).thenReturn(Optional.of(testUser));

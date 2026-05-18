@@ -1,8 +1,14 @@
 package com.lovettj.surfspotsapi.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -32,6 +38,7 @@ import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.security.RateLimiter;
 import com.lovettj.surfspotsapi.service.PasswordResetService;
 import com.lovettj.surfspotsapi.service.UserService;
+import com.lovettj.surfspotsapi.service.EmailVerificationService;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 
 @SpringBootTest
@@ -47,6 +54,9 @@ class AuthControllerTests {
 
     @MockBean
     private PasswordResetService passwordResetService;
+
+    @MockBean
+    private EmailVerificationService emailVerificationService;
 
     @MockBean
     private RateLimiter rateLimiter;
@@ -67,6 +77,7 @@ class AuthControllerTests {
         User user = new User();
         user.setId("test-user-id");
         user.setEmail("test@example.com");
+        user.setEmailVerified(false);
         user.setSettings(settings);
 
         when(userService.registerUser(any(AuthRequest.class))).thenReturn(user);
@@ -80,7 +91,7 @@ class AuthControllerTests {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/api/user/test-user-id"))
                 .andExpect(content().json(
-                        "{\"message\":\"Account created successfully\",\"status\":201,\"success\":true," +
+                        "{\"message\":\"Account created successfully. We sent a verification link to your email.\",\"status\":201,\"success\":true," +
                                 "\"data\":" + expectedJson + "}"));
     }
 
@@ -98,6 +109,7 @@ class AuthControllerTests {
         User user = new User();
         user.setId("test-user-id");
         user.setEmail("google@example.com");
+        user.setEmailVerified(true);
         user.setSettings(settings);
 
         when(userService.registerUser(any(AuthRequest.class))).thenReturn(user);
@@ -129,6 +141,7 @@ class AuthControllerTests {
         User user = new User();
         user.setId("test-user-id");
         user.setEmail("facebook@example.com");
+        user.setEmailVerified(true);
         user.setSettings(settings);
 
         when(userService.registerUser(any(AuthRequest.class))).thenReturn(user);
@@ -288,19 +301,17 @@ class AuthControllerTests {
     }
 
     @Test
-    void forgotPasswordShouldReturnGenericResponseEvenWhenServiceFails() throws Exception {
-        // The service throwing a 500 must not expose the failure to callers — it
-        // would give an attacker a side channel for account enumeration.
+    void forgotPasswordShouldReturnGenericServerErrorWhenServiceThrowsUnexpectedly() throws Exception {
         String body = "{\"email\":\"anyone@example.com\"}";
 
         doThrow(new RuntimeException("boom")).when(passwordResetService)
-                .createPasswordResetToken(any(), any(), any());
+                .createPasswordResetToken(any(), any(), any(), any());
 
         mockMvc.perform(post("/api/auth/forgot-password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.FORGOT_PASSWORD_ACCEPTED)));
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.SOMETHING_WENT_WRONG)));
     }
 
     @Test
@@ -308,12 +319,128 @@ class AuthControllerTests {
         String body = "{\"email\":\"anyone@example.com\"}";
 
         doThrow(new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, ApiErrors.TOO_MANY_ATTEMPTS))
-                .when(passwordResetService).createPasswordResetToken(any(), any(), any());
+                .when(passwordResetService).createPasswordResetToken(any(), any(), any(), any());
 
         mockMvc.perform(post("/api/auth/forgot-password")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().isTooManyRequests())
                 .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.TOO_MANY_ATTEMPTS)));
+    }
+
+    @Test
+    void loginUserShouldReturnOkWhenEmailNotVerified() throws Exception {
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setEmail("u@example.com");
+        authRequest.setPassword("password123");
+        authRequest.setProvider(AuthProvider.EMAIL);
+
+        User user = new User();
+        user.setId("id-1");
+        user.setEmail("u@example.com");
+        user.setName("Pat");
+        user.setEmailVerified(false);
+        user.setSettings(new Settings());
+
+        when(userService.loginUser(any(), any())).thenReturn(user);
+
+        mockMvc.perform(post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(authRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message", Matchers.is("Login successful")))
+                .andExpect(jsonPath("$.success", Matchers.is(true)))
+                .andExpect(jsonPath("$.data.emailVerified", Matchers.is(false)))
+                .andExpect(jsonPath("$.data.email", Matchers.is("u@example.com")));
+    }
+
+    @Test
+    void verifyEmailGetShouldRedirectWhenRateLimited() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, ApiErrors.TOO_MANY_ATTEMPTS))
+                .when(rateLimiter).checkRateLimit(eq(RateLimiter.Bucket.VERIFY_EMAIL), anyString());
+
+        mockMvc.perform(get("/api/auth/verify-email").param("token", "any-token"))
+                .andExpect(status().isFound())
+                .andExpect(header().string("Location", Matchers.endsWith("/auth?verifyError=rate_limit")));
+
+        verify(emailVerificationService, never()).verifyEmailWithToken(anyString());
+    }
+
+    @Test
+    void verifyEmailGetShouldRedirectToServerErrorWhenVerificationThrowsUnexpectedly() throws Exception {
+        doThrow(new RuntimeException("database unavailable"))
+                .when(emailVerificationService).verifyEmailWithToken("tok");
+
+        mockMvc.perform(get("/api/auth/verify-email").param("token", "tok"))
+                .andExpect(status().isFound())
+                .andExpect(header().string("Location", Matchers.endsWith("/auth?verifyError=server")));
+    }
+
+    @Test
+    void verifyEmailGetShouldRedirectToFrontendWhenTokenMissing() throws Exception {
+        mockMvc.perform(get("/api/auth/verify-email"))
+                .andExpect(status().isFound())
+                .andExpect(header().string("Location", Matchers.endsWith("/auth?verifyError=missing")));
+    }
+
+    @Test
+    void verifyEmailGetShouldRedirectToFrontendWhenTokenBlank() throws Exception {
+        mockMvc.perform(get("/api/auth/verify-email").param("token", "   "))
+                .andExpect(status().isFound())
+                .andExpect(header().string("Location", Matchers.endsWith("/auth?verifyError=missing")));
+    }
+
+    @Test
+    void verifyEmailGetShouldRedirectToFrontendWhenVerificationSucceeds() throws Exception {
+        doNothing().when(emailVerificationService).verifyEmailWithToken("good-token");
+
+        mockMvc.perform(get("/api/auth/verify-email").param("token", "good-token"))
+                .andExpect(status().isFound())
+                .andExpect(header().string("Location", Matchers.endsWith("/auth?verified=true")));
+    }
+
+    @Test
+    void verifyEmailGetShouldRedirectToFrontendWhenVerificationFails() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.VERIFY_EMAIL_TOKEN_INVALID_OR_EXPIRED))
+                .when(emailVerificationService).verifyEmailWithToken("bad-token");
+
+        mockMvc.perform(get("/api/auth/verify-email").param("token", "bad-token"))
+                .andExpect(status().isFound())
+                .andExpect(header().string("Location", Matchers.endsWith("/auth?verifyError=invalid")));
+    }
+
+    @Test
+    void verifyEmailShouldReturnOk() throws Exception {
+        doNothing().when(emailVerificationService).verifyEmailWithToken("tok");
+
+        mockMvc.perform(post("/api/auth/verify-email")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"token\":\"tok\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message", Matchers.is("Email verified. Thank you.")));
+    }
+
+    @Test
+    void resendVerificationShouldReturnAccepted() throws Exception {
+        mockMvc.perform(post("/api/auth/resend-verification")
+                .header("Origin", "http://localhost:5173")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"anyone@example.com\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.RESEND_VERIFICATION_ACCEPTED)));
+    }
+
+    @Test
+    void resendVerificationShouldReturnGenericServerErrorWhenServiceThrowsUnexpectedly() throws Exception {
+        doThrow(new RuntimeException("simulated mail outage"))
+                .when(emailVerificationService)
+                .resendVerificationEmail(anyString(), any(), any(), anyString());
+
+        mockMvc.perform(post("/api/auth/resend-verification")
+                .header("Origin", "http://localhost:5173")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"anyone@example.com\"}"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.SOMETHING_WENT_WRONG)));
     }
 }

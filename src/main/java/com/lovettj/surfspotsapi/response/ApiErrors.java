@@ -106,6 +106,31 @@ public final class ApiErrors {
     public static final String TOO_MANY_ATTEMPTS =
             "Too many attempts. Please try again later.";
 
+    /** Optional copy for clients that remind users to confirm their inbox. */
+    public static final String EMAIL_NOT_VERIFIED =
+            "This account's email is not verified yet. Check your inbox for the link we sent.";
+
+    /**
+     * Sensitive action (for example adding trip members / sending invitations) blocked until the inbox is verified.
+     */
+    public static final String EMAIL_VERIFICATION_REQUIRED =
+            "Verify your email before doing this. Check your inbox for the link we sent.";
+
+    /** Account delete: signed-in user may only delete their own account. */
+    public static final String ACCOUNT_DELETE_NOT_PERMITTED =
+            "You can only delete your own account.";
+
+    /** Auth: email verification token unknown, expired, or already used. */
+    public static final String VERIFY_EMAIL_TOKEN_INVALID_OR_EXPIRED =
+            "This verification link is invalid or has expired. Use the latest message from your inbox, or contact support if it keeps failing.";
+
+    /**
+     * Auth: resend verification response. Same shape as forgot-password so callers cannot tell
+     * whether the email exists or is already verified.
+     */
+    public static final String RESEND_VERIFICATION_ACCEPTED =
+            "If that account exists and still needs verification, we sent a new email.";
+
     /** Auth: request blocked because its Origin / Referer is not on the allowlist (CSRF defence). */
     public static final String INVALID_ORIGIN =
             "Request blocked. Please reload the page and try again.";

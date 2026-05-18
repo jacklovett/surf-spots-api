@@ -20,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.config.AllowedOrigins;
+import com.lovettj.surfspotsapi.config.AppProperties;
+import com.lovettj.surfspotsapi.email.TransactionalEmailTemplate;
 import com.lovettj.surfspotsapi.entity.PasswordResetToken;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.repository.TokenRepository;
@@ -54,6 +56,9 @@ class PasswordResetServiceTests {
     @Mock
     private AllowedOrigins allowedOrigins;
 
+    @Mock
+    private AppProperties appProperties;
+
     @InjectMocks
     private PasswordResetService passwordResetService;
 
@@ -65,15 +70,17 @@ class PasswordResetServiceTests {
                 .id("test-user-id-123")
                 .email(USER_EMAIL)
                 .name("Test User")
+                .emailVerified(true)
                 .build();
     }
 
     @Test
     void createPasswordResetTokenShouldEmailHashedTokenOnSuccess() {
-        when(allowedOrigins.contains(VALID_ORIGIN)).thenReturn(true);
+        when(appProperties.getUrl()).thenReturn(VALID_ORIGIN);
+        when(allowedOrigins.resolveTrustedAppOrigin(VALID_ORIGIN, null)).thenReturn(Optional.of(VALID_ORIGIN));
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(testUser));
 
-        assertDoesNotThrow(() -> passwordResetService.createPasswordResetToken(USER_EMAIL, VALID_ORIGIN, CLIENT_IP));
+        assertDoesNotThrow(() -> passwordResetService.createPasswordResetToken(USER_EMAIL, VALID_ORIGIN, null, CLIENT_IP));
 
         verify(rateLimiter).checkRateLimit(RateLimiter.Bucket.FORGOT_PASSWORD, CLIENT_IP);
         verify(rateLimiter).checkRateLimit(RateLimiter.Bucket.FORGOT_PASSWORD, USER_EMAIL);
@@ -90,7 +97,7 @@ class PasswordResetServiceTests {
 
         verify(emailService).sendEmail(eq(USER_EMAIL),
                 eq("Password Reset Request"),
-                eq("reset-password"),
+                eq(TransactionalEmailTemplate.RESET_PASSWORD.getLogicalName()),
                 anyMap());
     }
 
@@ -99,10 +106,10 @@ class PasswordResetServiceTests {
         // No ResponseStatusException and no exception from the email service — the
         // caller-facing response must be indistinguishable from the happy path so
         // we don't leak which emails are registered.
-        when(allowedOrigins.contains(VALID_ORIGIN)).thenReturn(true);
+        when(allowedOrigins.resolveTrustedAppOrigin(VALID_ORIGIN, null)).thenReturn(Optional.of(VALID_ORIGIN));
         when(userRepository.findByEmail("ghost@example.com")).thenReturn(Optional.empty());
 
-        assertDoesNotThrow(() -> passwordResetService.createPasswordResetToken("ghost@example.com", VALID_ORIGIN, CLIENT_IP));
+        assertDoesNotThrow(() -> passwordResetService.createPasswordResetToken("ghost@example.com", VALID_ORIGIN, null, CLIENT_IP));
 
         verify(tokenRepository, never()).save(any(PasswordResetToken.class));
         verify(tokenRepository, never()).deleteByUser(any());
@@ -111,10 +118,10 @@ class PasswordResetServiceTests {
 
     @Test
     void createPasswordResetTokenShouldRejectUntrustedOrigin() {
-        when(allowedOrigins.contains(INVALID_ORIGIN)).thenReturn(false);
+        when(allowedOrigins.resolveTrustedAppOrigin(INVALID_ORIGIN, null)).thenReturn(Optional.empty());
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-                () -> passwordResetService.createPasswordResetToken(USER_EMAIL, INVALID_ORIGIN, CLIENT_IP));
+                () -> passwordResetService.createPasswordResetToken(USER_EMAIL, INVALID_ORIGIN, null, CLIENT_IP));
 
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
         assertEquals(ApiErrors.INVALID_ORIGIN, exception.getReason());
@@ -125,12 +132,27 @@ class PasswordResetServiceTests {
     }
 
     @Test
+    void createPasswordResetTokenShouldAcceptTrustedRefererWhenOriginAbsent() {
+        String referer = VALID_ORIGIN + "/auth/forgot-password";
+        when(appProperties.getUrl()).thenReturn(VALID_ORIGIN);
+        when(allowedOrigins.resolveTrustedAppOrigin(null, referer)).thenReturn(Optional.of(VALID_ORIGIN));
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(testUser));
+
+        assertDoesNotThrow(() -> passwordResetService.createPasswordResetToken(USER_EMAIL, null, referer, CLIENT_IP));
+
+        verify(emailService).sendEmail(eq(USER_EMAIL),
+                eq("Password Reset Request"),
+                eq(TransactionalEmailTemplate.RESET_PASSWORD.getLogicalName()),
+                anyMap());
+    }
+
+    @Test
     void createPasswordResetTokenShouldSurfaceRateLimit() {
         doThrow(new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, ApiErrors.TOO_MANY_ATTEMPTS))
                 .when(rateLimiter).checkRateLimit(RateLimiter.Bucket.FORGOT_PASSWORD, CLIENT_IP);
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class,
-                () -> passwordResetService.createPasswordResetToken(USER_EMAIL, VALID_ORIGIN, CLIENT_IP));
+                () -> passwordResetService.createPasswordResetToken(USER_EMAIL, VALID_ORIGIN, null, CLIENT_IP));
 
         assertEquals(HttpStatus.TOO_MANY_REQUESTS, exception.getStatusCode());
         verify(userRepository, never()).findByEmail(any());

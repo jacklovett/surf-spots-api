@@ -1,5 +1,8 @@
 package com.lovettj.surfspotsapi.controller;
 
+import com.lovettj.surfspotsapi.config.AppProperties;
+import com.lovettj.surfspotsapi.email.EmailLayoutVariables;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -9,6 +12,7 @@ import com.lovettj.surfspotsapi.requests.ContactRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.EmailService;
+import com.lovettj.surfspotsapi.email.TransactionalEmailTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +22,17 @@ import java.util.Map;
 public class ContactController {
 
     private final EmailService emailService;
+    private final String contactFormRecipient;
+    private final String appBaseUrl;
     private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
-    
-    // Admin email where contact form messages will be sent
-    private static final String ADMIN_EMAIL = "hello@surfspots.com";
 
-    public ContactController(EmailService emailService) {
+    public ContactController(
+            EmailService emailService,
+            @Value("${app.mail.contact-to:hello@surfspots.com}") String contactFormRecipient,
+            AppProperties appProperties) {
         this.emailService = emailService;
+        this.contactFormRecipient = contactFormRecipient;
+        this.appBaseUrl = EmailLayoutVariables.normalizeAppBaseUrl(appProperties.getUrl());
     }
 
     @PostMapping
@@ -36,12 +44,13 @@ public class ContactController {
             emailVariables.put("email", contactRequest.getEmail());
             emailVariables.put("subject", contactRequest.getSubject());
             emailVariables.put("message", contactRequest.getMessage());
+            emailVariables.put("appUrl", appBaseUrl);
 
             // Send email to admin
             emailService.sendEmail(
-                ADMIN_EMAIL,
+                contactFormRecipient,
                 "Contact Form: " + contactRequest.getSubject(),
-                "contact-message",
+                TransactionalEmailTemplate.CONTACT_MESSAGE.getLogicalName(),
                 emailVariables
             );
 

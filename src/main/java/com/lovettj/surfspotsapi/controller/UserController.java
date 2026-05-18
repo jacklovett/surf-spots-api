@@ -109,13 +109,18 @@ public class UserController {
 
     /**
      * Account delete lives under {@code /account/...} so it never collides with
-     * {@code GET /api/user/me}. A regex on {@code /{userId}} is fragile: repetition
-     * braces in the regex can close the Spring path-variable block early.
+     * {@code GET /api/user/me}. Path variable is {@code accountUserId} (not {@code userId}) so
+     * {@link AuthenticatedUserInterceptor} does not treat the segment as a generic {@code userId}
+     * match check; the controller still enforces that only the signed-in user may delete their account.
      */
-    @DeleteMapping("/account/{userId}")
-    public ResponseEntity<ApiResponse<String>> deleteAccount(@PathVariable String userId) {
+    @DeleteMapping("/account/{accountUserId}")
+    public ResponseEntity<ApiResponse<String>> deleteAccount(@PathVariable String accountUserId) {
         try {
-            userService.deleteAccount(userId);
+            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+            if (!currentUserId.equals(accountUserId)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.ACCOUNT_DELETE_NOT_PERMITTED);
+            }
+            userService.deleteAccount(accountUserId);
             return ResponseEntity.ok(ApiResponse.success("Account deleted successfully"));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())

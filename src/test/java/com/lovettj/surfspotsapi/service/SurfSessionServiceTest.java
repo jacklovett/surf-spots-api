@@ -97,6 +97,7 @@ class SurfSessionServiceTest {
         user = User.builder()
                 .id("u1")
                 .skillLevel(SkillLevel.INTERMEDIATE)
+                .emailVerified(true)
                 .build();
     }
 

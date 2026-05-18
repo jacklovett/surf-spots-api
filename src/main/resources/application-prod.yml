@@ -28,6 +28,10 @@ server:
   port: 8080
   max-http-header-size: 16KB
   max-http-post-size: 50MB
+
+# Production host: set DATABASE_*, SESSION_SECRET, SCW_*, S3_BUCKET, APP_URL,
+# MAIL_USERNAME, MAIL_PASSWORD, MAIL_ENABLED, optional MAIL_FROM, MAIL_CONTACT_TO,
+# and CORS allowlist (see AllowedOrigins / deployment env).
 app:
   storage:
     s3:

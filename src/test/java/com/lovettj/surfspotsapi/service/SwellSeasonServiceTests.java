@@ -359,6 +359,7 @@ class SwellSeasonServiceTests {
     private WatchListSurfSpot createWatchListSurfSpot(SurfSpot surfSpot) {
         User user = User.builder()
             .id("user1")
+            .emailVerified(true)
             .build();
 
         return WatchListSurfSpot.builder()

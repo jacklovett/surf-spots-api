@@ -56,6 +56,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/api/surf-spots/management/*").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/surf-spots/*").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/surf-spots/id/*").permitAll()
+                // Dev-only HTML email previews (bean exists only with profile "dev")
+                .requestMatchers("/api/dev/mail-preview/**").permitAll()
                 .requestMatchers("/error").permitAll()
                 .anyRequest().authenticated()
                 )
