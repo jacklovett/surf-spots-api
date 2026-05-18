@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
+import com.lovettj.surfspotsapi.dto.UserRegistrationResult;
 import com.lovettj.surfspotsapi.email.EmailLayoutVariables;
 import com.lovettj.surfspotsapi.http.CreatedResourceLocations;
 import com.lovettj.surfspotsapi.response.ApiErrors;
@@ -95,15 +96,21 @@ public class AuthController {
         String clientIp = ClientIpExtractor.extract(httpRequest);
         try {
             rateLimiter.checkRateLimit(RateLimiter.Bucket.REGISTER, clientIp);
-            User user = userService.registerUser(authRequest);
+            UserRegistrationResult registration = userService.registerUser(authRequest);
+            User user = registration.user();
             URI location = CreatedResourceLocations.fromApiPath("/api/user/{userId}", null, user.getId());
             UserProfile profile = new UserProfile(user);
-            String message =
-                    profile.isEmailVerified()
-                            ? "Account created successfully"
-                            : "Account created successfully. We sent a verification link to your email.";
+            final String message;
+            if (registration.newlyCreatedAccount()) {
+                message = profile.isEmailVerified()
+                        ? "Account created successfully"
+                        : "Account created successfully. We sent a verification link to your email.";
+            } else {
+                // Existing OAuth sign-in or linking a provider to an existing email: no post-register toast copy.
+                message = null;
+            }
             return ResponseEntity.created(location)
-                    .body(ApiResponse.success(profile, message, HttpStatus.CREATED.value()));
+                    .body(new ApiResponse<>(profile, message, HttpStatus.CREATED.value(), true));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode())
                     .body(ApiResponse.error(e.getReason() != null ? e.getReason() : "Request failed.", e.getStatusCode().value()));

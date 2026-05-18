@@ -30,6 +30,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
+import com.lovettj.surfspotsapi.dto.UserRegistrationResult;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.UserAuthProvider;
@@ -299,7 +300,8 @@ class UserServiceTests {
         }).when(userRepository).save(any(User.class));
         doNothing().when(emailVerificationSendScheduler).sendVerificationEmailForUserId(anyString());
 
-        userService.registerUser(request);
+        UserRegistrationResult registration = userService.registerUser(request);
+        assertTrue(registration.newlyCreatedAccount());
 
         verify(userRepository).findByEmail("new@example.com");
         verify(passwordEncoder).encode("ValidPassword123!");
@@ -327,7 +329,8 @@ class UserServiceTests {
         }).when(userRepository).save(any(User.class));
         doNothing().when(tripService).processPendingInvitations(anyString(), anyString());
 
-        userService.registerUser(request);
+        UserRegistrationResult registration = userService.registerUser(request);
+        assertTrue(registration.newlyCreatedAccount());
 
         verify(userRepository).findByEmail("google@example.com");
         verify(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
@@ -629,9 +632,10 @@ class UserServiceTests {
 
         doReturn(Optional.of(existingAuthProvider)).when(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
 
-        User result = userService.registerUser(request);
+        UserRegistrationResult registration = userService.registerUser(request);
 
-        assertEquals(testUser, result);
+        assertEquals(testUser, registration.user());
+        assertFalse(registration.newlyCreatedAccount());
         verify(userAuthProviderRepository).findByProviderAndProviderId(AuthProvider.GOOGLE, "google123");
         // Should not check email or create new user since OAuth provider already exists
         verify(userRepository, times(0)).findByEmail(anyString());

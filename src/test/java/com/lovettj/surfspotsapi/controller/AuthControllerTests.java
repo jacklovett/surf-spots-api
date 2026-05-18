@@ -30,6 +30,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.lovettj.surfspotsapi.dto.UserProfile;
+import com.lovettj.surfspotsapi.dto.UserRegistrationResult;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
 import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.entity.User;
@@ -80,7 +81,7 @@ class AuthControllerTests {
         user.setEmailVerified(false);
         user.setSettings(settings);
 
-        when(userService.registerUser(any(AuthRequest.class))).thenReturn(user);
+        when(userService.registerUser(any(AuthRequest.class))).thenReturn(new UserRegistrationResult(user, true));
 
         UserProfile expectedProfile = new UserProfile(user);
         String expectedJson = objectMapper.writeValueAsString(expectedProfile);
@@ -112,7 +113,7 @@ class AuthControllerTests {
         user.setEmailVerified(true);
         user.setSettings(settings);
 
-        when(userService.registerUser(any(AuthRequest.class))).thenReturn(user);
+        when(userService.registerUser(any(AuthRequest.class))).thenReturn(new UserRegistrationResult(user, true));
 
         UserProfile expectedProfile = new UserProfile(user);
         String expectedJson = objectMapper.writeValueAsString(expectedProfile);
@@ -124,6 +125,39 @@ class AuthControllerTests {
                 .andExpect(header().string("Location", "/api/user/test-user-id"))
                 .andExpect(content().json(
                         "{\"message\":\"Account created successfully\",\"status\":201,\"success\":true," +
+                                "\"data\":" + expectedJson + "}"));
+    }
+
+    @Test
+    void registerUserShouldReturnNullMessageWhenGoogleAuthExistingAccount() throws Exception {
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setEmail("google@example.com");
+        authRequest.setProvider(AuthProvider.GOOGLE);
+        authRequest.setProviderId("google123");
+        authRequest.setName("Google User");
+
+        Settings settings = new Settings();
+        settings.setNewSurfSpotEmails(false);
+
+        User user = new User();
+        user.setId("test-user-id");
+        user.setEmail("google@example.com");
+        user.setEmailVerified(true);
+        user.setSettings(settings);
+
+        when(userService.registerUser(any(AuthRequest.class)))
+                .thenReturn(new UserRegistrationResult(user, false));
+
+        UserProfile expectedProfile = new UserProfile(user);
+        String expectedJson = objectMapper.writeValueAsString(expectedProfile);
+
+        mockMvc.perform(post("/api/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(authRequest)))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/user/test-user-id"))
+                .andExpect(content().json(
+                        "{\"message\":null,\"status\":201,\"success\":true," +
                                 "\"data\":" + expectedJson + "}"));
     }
 
@@ -144,7 +178,7 @@ class AuthControllerTests {
         user.setEmailVerified(true);
         user.setSettings(settings);
 
-        when(userService.registerUser(any(AuthRequest.class))).thenReturn(user);
+        when(userService.registerUser(any(AuthRequest.class))).thenReturn(new UserRegistrationResult(user, true));
 
         UserProfile expectedProfile = new UserProfile(user);
         String expectedJson = objectMapper.writeValueAsString(expectedProfile);

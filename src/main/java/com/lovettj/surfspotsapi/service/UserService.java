@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.dto.UserProfile;
+import com.lovettj.surfspotsapi.dto.UserRegistrationResult;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.entity.AuthProvider;
@@ -103,7 +104,7 @@ public class UserService {
         return new UserProfile(user);
     }
 
-    public User registerUser(AuthRequest authRequest) {
+    public UserRegistrationResult registerUser(AuthRequest authRequest) {
         boolean isOAuthProvider = authRequest.getProvider() != AuthProvider.EMAIL;
         
         if (isOAuthProvider) {
@@ -117,17 +118,18 @@ public class UserService {
                 .findByProviderAndProviderId(authRequest.getProvider(), authRequest.getProviderId());
             if (existingProvider.isPresent()) {
                 // User already exists with this OAuth provider
-                return existingProvider.get().getUser();
+                return new UserRegistrationResult(existingProvider.get().getUser(), false);
             }
         }
         
         Optional<User> existingUser = userRepository.findByEmail(authRequest.getEmail());
 
         if (existingUser.isPresent()) {
-            return handleExistingUser(existingUser.get(), authRequest, isOAuthProvider);
-        } else {
-           return createNewUser(authRequest, isOAuthProvider);
+            return new UserRegistrationResult(
+                    handleExistingUser(existingUser.get(), authRequest, isOAuthProvider),
+                    false);
         }
+        return new UserRegistrationResult(createNewUser(authRequest, isOAuthProvider), true);
     }
 
     private User handleExistingUser(User existingUser, AuthRequest authRequest, boolean isOAuthProvider) {
