@@ -8,8 +8,10 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -194,6 +196,73 @@ class SurfSessionControllerTests {
                 .andExpect(jsonPath("$.data.sessions[0].spotPath").value("/surf-spots/europe/es/andalusia/test-break"));
 
         verify(surfSessionService).getSurfSessionsForUser("user-1");
+    }
+
+    @Test
+    void testGetSessionByIdShouldReturnOneSession() throws Exception {
+        SurfSessionListItemDTO item = SurfSessionListItemDTO.builder()
+                .id(5L)
+                .sessionDate(LocalDate.of(2025, 7, 1))
+                .surfSpotId(9L)
+                .surfSpotName("Beach")
+                .spotPath("/surf-spots/europe/es/andalusia/beach")
+                .build();
+        when(surfSessionService.getSessionByIdForUser("user-1", 5L)).thenReturn(item);
+
+        mockMvc.perform(get("/api/surf-sessions/5").cookie(sessionCookie()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.id").value(5))
+                .andExpect(jsonPath("$.data.surfSpotName").value("Beach"));
+
+        verify(surfSessionService).getSessionByIdForUser("user-1", 5L);
+    }
+
+    @Test
+    void testGetSessionByIdShouldReturn404WhenNotFound() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND))
+                .when(surfSessionService)
+                .getSessionByIdForUser("user-1", 99L);
+
+        mockMvc.perform(get("/api/surf-sessions/99").cookie(sessionCookie()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_NOT_FOUND));
+    }
+
+    @Test
+    void testGetSessionByIdShouldReturn403WhenForbidden() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN))
+                .when(surfSessionService)
+                .getSessionByIdForUser("user-1", 5L);
+
+        mockMvc.perform(get("/api/surf-sessions/5").cookie(sessionCookie()))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN));
+    }
+
+    @Test
+    void testUpdateSessionShouldReturnOk() throws Exception {
+        doNothing().when(surfSessionService).updateSession(eq("user-1"), eq(2L), any(SurfSessionRequest.class));
+
+        mockMvc.perform(put("/api/surf-sessions/2")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
+
+        verify(surfSessionService).updateSession(eq("user-1"), eq(2L), any(SurfSessionRequest.class));
+    }
+
+    @Test
+    void testDeleteSessionShouldReturnOk() throws Exception {
+        doNothing().when(surfSessionService).deleteSession("user-1", 3L);
+
+        mockMvc.perform(delete("/api/surf-sessions/3").cookie(sessionCookie()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
+
+        verify(surfSessionService).deleteSession("user-1", 3L);
     }
 
     @Test

@@ -71,6 +71,14 @@ public final class ApiErrors {
     /** Surf session id does not exist. */
     public static final String SURF_SESSION_NOT_FOUND = "Surf session not found";
 
+    /** Signed-in user does not own this surf session (read or write). */
+    public static final String SURF_SESSION_ACCESS_FORBIDDEN =
+            "You don't have permission to access this session";
+
+    /** Update payload surf spot id does not match the session's surf spot (client bug or tampering). */
+    public static final String SURF_SESSION_SPOT_MISMATCH =
+            "This session belongs to a different surf spot. Reload the page and try again.";
+
     /** Media id does not exist. */
     public static final String MEDIA_NOT_FOUND = "Media not found";
 
@@ -85,6 +93,11 @@ public final class ApiErrors {
     /** Signed-in user does not own this media; cannot delete. */
     public static final String MEDIA_DELETE_FORBIDDEN =
             "You don't have permission to delete this media";
+
+    /**
+     * Session resolver: endpoint requires a signed-in user but the principal is missing or anonymous.
+     */
+    public static final String AUTHENTICATION_REQUIRED = "Authentication required";
 
     /** Auth: generic login failure. Used for BOTH unknown email AND wrong password to prevent account enumeration. */
     public static final String INVALID_CREDENTIALS =

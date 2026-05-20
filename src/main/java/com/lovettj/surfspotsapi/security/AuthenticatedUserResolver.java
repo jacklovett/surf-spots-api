@@ -1,5 +1,7 @@
 package com.lovettj.surfspotsapi.security;
 
+import com.lovettj.surfspotsapi.response.ApiErrors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,7 +15,7 @@ public class AuthenticatedUserResolver {
     public String requireCurrentUserId() {
         String userId = currentUserIdOrNull();
         if (userId == null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Authentication required");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.AUTHENTICATION_REQUIRED);
         }
 
         return userId;

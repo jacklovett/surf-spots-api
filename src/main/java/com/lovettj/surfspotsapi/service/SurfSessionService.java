@@ -38,6 +38,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -99,19 +100,7 @@ public class SurfSessionService {
             userRepository.save(user);
         }
 
-        Surfboard surfboard = null;
-        if (request.getSurfboardId() != null && !request.getSurfboardId().isBlank()) {
-            surfboard = surfboardRepository
-                    .findByIdAndUserId(request.getSurfboardId().trim(), request.getUserId())
-                    .orElseThrow(
-                            () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURFBOARD_NOT_FOUND_FOR_USER));
-        }
-
-        Boolean wouldAgain = request.getWouldSurfAgain();
-        if (wouldAgain == null) {
-            wouldAgain = Boolean.FALSE;
-        }
-
+        Surfboard surfboard = loadOptionalSurfboardForSessionRequest(request, request.getUserId());
         ResolvedTiming timing = resolveTiming(request, surfSpot);
 
         ExternalSyncPair externalSync = resolveExternalSyncPair(request);
@@ -121,31 +110,157 @@ public class SurfSessionService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ApiErrors.SURF_SESSION_ALREADY_SYNCED);
         }
 
+        Boolean wouldSurfAgain = normalizeWouldSurfAgain(request.getWouldSurfAgain());
+
         SurfSession session = SurfSession.builder()
                 .user(user)
                 .surfSpot(surfSpot)
-                .skillLevel(userSkillLevel)
-                .sessionDate(timing.sessionDate())
-                .durationMinutes(timing.durationMinutes())
-                .sessionStartInstant(timing.sessionStartInstant())
-                .sessionEndInstant(timing.sessionEndInstant())
                 .externalSessionProvider(externalSync != null ? externalSync.provider() : null)
                 .externalSessionId(externalSync != null ? externalSync.externalId() : null)
-                .waveSize(request.getWaveSize())
-                .crowdLevel(request.getCrowdLevel())
-                .waveQuality(request.getWaveQuality())
-                .swellDirection(blankToNull(request.getSwellDirection()))
-                .windDirection(blankToNull(request.getWindDirection()))
-                .tide(request.getTide())
-                .sessionNotes(blankToNull(request.getSessionNotes()))
-                .wouldSurfAgain(wouldAgain)
-                .surfboard(surfboard)
                 .build();
+        applyTimingSkillAndEditableSessionFieldsFromRequest(
+                session, request, timing, userSkillLevel, wouldSurfAgain, surfboard);
 
         persistSessionOrConflictOnDuplicateExternalId(session, externalSync != null);
 
         // Idempotent: ensures the spot appears in surfed spots without a separate "I surfed here" step.
         userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
+    }
+
+    /**
+     * Loads one session for the signed-in user (sessions list row shape, including signed media URLs when configured).
+     */
+    public SurfSessionListItemDTO getSessionByIdForUser(String userId, Long sessionId) {
+        SurfSession session = surfSessionRepository
+                .findById(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+        
+        if (!session.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
+        }
+        
+        SurfSessionListItemDTO dto = toListItem(session);
+        applySignedMediaUrls(dto);
+        return dto;
+    }
+
+    /**
+     * Updates fields the user can edit in the app. External sync keys ({@link SurfSession#getExternalSessionProvider()},
+     * {@link SurfSession#getExternalSessionId()}) are never changed here, so partner records are not modified.
+     */
+    @Transactional
+    public void updateSession(String userId, Long sessionId, SurfSessionRequest request) {
+        SurfSession session = surfSessionRepository
+                .findById(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+        
+        if (!session.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
+        }
+        
+        if (request.getSurfSpotId() == null
+                || !request.getSurfSpotId().equals(session.getSurfSpot().getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_SPOT_MISMATCH);
+        }
+
+        User user = session.getUser();
+        // Preserve the session's stored skill unless the client sends an explicit skill (first-time profile fill).
+        SkillLevel skillForSession = request.getSkillLevel() != null
+                ? request.getSkillLevel()
+                : (session.getSkillLevel() != null
+                        ? session.getSkillLevel()
+                        : user.getSkillLevel());
+        if (skillForSession == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SKILL_LEVEL_REQUIRED_FOR_SESSION);
+        }
+        if (user.getSkillLevel() == null && request.getSkillLevel() != null) {
+            user.setSkillLevel(request.getSkillLevel());
+            userRepository.save(user);
+        }
+
+        SurfSpot surfSpot = session.getSurfSpot();
+        ResolvedTiming timing = resolveTimingForUpdate(session, request, surfSpot);
+
+        Surfboard surfboard = loadOptionalSurfboardForSessionRequest(request, userId);
+        Boolean wouldSurfAgain = normalizeWouldSurfAgain(request.getWouldSurfAgain());
+        applyTimingSkillAndEditableSessionFieldsFromRequest(
+                session, request, timing, skillForSession, wouldSurfAgain, surfboard);
+
+        surfSessionRepository.save(session);
+    }
+
+    /**
+     * Shared by {@link #createSession} and {@link #updateSession}: timing, skill on the row, and user-editable
+     * session content from the request (not external sync ids).
+     */
+    private void applyTimingSkillAndEditableSessionFieldsFromRequest(
+            SurfSession session,
+            SurfSessionRequest request,
+            ResolvedTiming timing,
+            SkillLevel skillLevel,
+            Boolean wouldSurfAgain,
+            Surfboard surfboard) {
+        session.setSkillLevel(skillLevel);
+        session.setSessionDate(timing.sessionDate());
+        session.setDurationMinutes(timing.durationMinutes());
+        session.setSessionStartInstant(timing.sessionStartInstant());
+        session.setSessionEndInstant(timing.sessionEndInstant());
+        session.setWaveSize(request.getWaveSize());
+        session.setCrowdLevel(request.getCrowdLevel());
+        session.setWaveQuality(request.getWaveQuality());
+        session.setSwellDirection(blankToNull(request.getSwellDirection()));
+        session.setWindDirection(blankToNull(request.getWindDirection()));
+        session.setTide(request.getTide());
+        session.setSessionNotes(blankToNull(request.getSessionNotes()));
+        session.setWouldSurfAgain(wouldSurfAgain);
+        session.setSurfboard(surfboard);
+    }
+
+    private Surfboard loadOptionalSurfboardForSessionRequest(SurfSessionRequest request, String userId) {
+        if (request.getSurfboardId() == null || request.getSurfboardId().isBlank()) {
+            return null;
+        }
+        return surfboardRepository
+                .findByIdAndUserId(request.getSurfboardId().trim(), userId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURFBOARD_NOT_FOUND_FOR_USER));
+    }
+
+    private static Boolean normalizeWouldSurfAgain(Boolean requestValue) {
+        return requestValue != null ? requestValue : Boolean.FALSE;
+    }
+
+    /**
+     * Deletes the session row (cascade removes media rows). Object storage is cleared first per file; if the DB
+     * transaction fails after a successful storage delete, orphaned objects may remain (same tradeoff as
+     * {@link #deleteMedia}).
+     */
+    @Transactional
+    public void deleteSession(String userId, Long sessionId) {
+        SurfSession session = surfSessionRepository
+                .findById(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+        if (!session.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
+        }
+        List<SurfSessionMedia> mediaList = session.getMedia();
+        if (mediaList != null && !mediaList.isEmpty()) {
+            for (SurfSessionMedia media : new ArrayList<>(mediaList)) {
+                deleteSessionMediaObjectFromStorage(media);
+            }
+        }
+        surfSessionRepository.delete(session);
+    }
+
+    private void deleteSessionMediaObjectFromStorage(SurfSessionMedia media) {
+        String mediaType = media.getMediaType() != null ? media.getMediaType() : "image";
+        String objectKey = storageService.resolveObjectKeyWithFallback(
+                media.getObjectKey(),
+                media.getOriginalUrl(),
+                media.getId(),
+                mediaType,
+                "surf-sessions/media");
+        storageService.deleteObject(objectKey);
     }
 
     /**
@@ -304,14 +419,7 @@ public class SurfSessionService {
         if (!media.getSurfSession().getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.MEDIA_DELETE_FORBIDDEN);
         }
-        String mediaType = media.getMediaType() != null ? media.getMediaType() : "image";
-        String objectKey = storageService.resolveObjectKeyWithFallback(
-                media.getObjectKey(),
-                media.getOriginalUrl(),
-                media.getId(),
-                mediaType,
-                "surf-sessions/media");
-        storageService.deleteObject(objectKey);
+        deleteSessionMediaObjectFromStorage(media);
         surfSessionMediaRepository.delete(media);
     }
 
@@ -416,6 +524,32 @@ public class SurfSessionService {
         }
         String trimmed = value.trim();
         return trimmed.isEmpty() ? null : trimmed;
+    }
+
+    /**
+     * When the session was stored with UTC instants (imports / wearables) and the client omits all
+     * timing fields, keep the stored timeline so a notes-only update does not clear instants via the
+     * manual-date path in {@link #resolveTiming}.
+     */
+    private ResolvedTiming resolveTimingForUpdate(
+            SurfSession session, SurfSessionRequest request, SurfSpot surfSpot) {
+        boolean sessionStoredInstants =
+                session.getSessionStartInstant() != null || session.getSessionEndInstant() != null;
+        if (sessionStoredInstants && !requestSpecifiesExplicitTiming(request)) {
+            return new ResolvedTiming(
+                    session.getSessionDate(),
+                    session.getDurationMinutes(),
+                    session.getSessionStartInstant(),
+                    session.getSessionEndInstant());
+        }
+        return resolveTiming(request, surfSpot);
+    }
+
+    private static boolean requestSpecifiesExplicitTiming(SurfSessionRequest request) {
+        return request.getSessionStartInstant() != null
+                || request.getSessionEndInstant() != null
+                || request.getSessionStartTime() != null
+                || request.getSessionEndTime() != null;
     }
 
     /**

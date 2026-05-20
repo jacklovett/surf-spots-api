@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.controller;
 
+import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionMediaDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
@@ -84,6 +85,58 @@ public class SurfSessionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(
                             ApiErrors.formatErrorMessage("load", "surf sessions"),
+                            HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
+
+    @GetMapping("/surf-sessions/{sessionId}")
+    public ResponseEntity<ApiResponse<SurfSessionListItemDTO>> getSession(@PathVariable Long sessionId) {
+        try {
+            String userId = authenticatedUserResolver.requireCurrentUserId();
+            SurfSessionListItemDTO payload = surfSessionService.getSessionByIdForUser(userId, sessionId);
+            return ResponseEntity.ok(ApiResponse.success(payload));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error(
+                            ApiErrors.formatErrorMessage("load", "surf session"),
+                            HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
+
+    @PutMapping("/surf-sessions/{sessionId}")
+    public ResponseEntity<ApiResponse<String>> updateSession(
+            @PathVariable Long sessionId, @Valid @RequestBody SurfSessionRequest request) {
+        try {
+            request.setUserId(authenticatedUserResolver.requireCurrentUserId());
+            surfSessionService.updateSession(request.getUserId(), sessionId, request);
+            return ResponseEntity.ok(ApiResponse.success("Surf session updated", "Surf session updated", HttpStatus.OK.value()));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error(
+                            ApiErrors.formatErrorMessage("update", "surf session"),
+                            HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        }
+    }
+
+    @DeleteMapping("/surf-sessions/{sessionId}")
+    public ResponseEntity<ApiResponse<String>> deleteSession(@PathVariable Long sessionId) {
+        try {
+            String userId = authenticatedUserResolver.requireCurrentUserId();
+            surfSessionService.deleteSession(userId, sessionId);
+            return ResponseEntity.ok(ApiResponse.success("Surf session deleted", "Surf session deleted", HttpStatus.OK.value()));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode())
+                    .body(ApiResponse.error(e.getReason(), e.getStatusCode().value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error(
+                            ApiErrors.formatErrorMessage("delete", "surf session"),
                             HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }

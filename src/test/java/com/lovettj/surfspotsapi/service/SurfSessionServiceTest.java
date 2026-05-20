@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -37,6 +38,7 @@ import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SurfSession;
+import com.lovettj.surfspotsapi.entity.SurfSessionMedia;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
@@ -613,5 +615,169 @@ class SurfSessionServiceTest {
         assertEquals(0L, mine.getSpotsSurfedCount());
         assertEquals(0L, mine.getBoardsUsedCount());
         assertEquals(0, mine.getSessions().size());
+    }
+
+    @Test
+    void getSessionByIdForUserShouldRejectWhenMissing() {
+        when(surfSessionRepository.findById(99L)).thenReturn(Optional.empty());
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSessionService.getSessionByIdForUser("u1", 99L));
+        assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
+    }
+
+    @Test
+    void getSessionByIdForUserShouldRejectWhenOwnerMismatch() {
+        User otherUser = User.builder().id("other").skillLevel(SkillLevel.BEGINNER).emailVerified(true).build();
+        SurfSession session = SurfSession.builder()
+                .user(otherUser)
+                .surfSpot(surfSpot)
+                .skillLevel(SkillLevel.BEGINNER)
+                .sessionDate(LocalDate.of(2025, 1, 1))
+                .wouldSurfAgain(false)
+                .build();
+        session.setId(7L);
+        when(surfSessionRepository.findById(7L)).thenReturn(Optional.of(session));
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSessionService.getSessionByIdForUser("u1", 7L));
+        assertEquals(HttpStatus.FORBIDDEN, ex.getStatusCode());
+    }
+
+    @Test
+    void updateSessionShouldRejectWhenSurfSpotIdDoesNotMatchSession() {
+        when(surfSpot.getId()).thenReturn(10L);
+        SurfSession session = SurfSession.builder()
+                .user(user)
+                .surfSpot(surfSpot)
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .sessionDate(LocalDate.of(2025, 4, 1))
+                .wouldSurfAgain(false)
+                .build();
+        session.setId(3L);
+        when(surfSessionRepository.findById(3L)).thenReturn(Optional.of(session));
+        request.setSurfSpotId(11L);
+
+        ResponseStatusException ex = assertThrows(ResponseStatusException.class,
+                () -> surfSessionService.updateSession("u1", 3L, request));
+        assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+        verify(surfSessionRepository, never()).save(any());
+    }
+
+    @Test
+    void deleteSessionShouldDeleteStoredMediaThenSession() {
+        SurfSessionMedia media = SurfSessionMedia.builder()
+                .id("media-a")
+                .originalUrl("https://bucket/key")
+                .mediaType("image")
+                .build();
+        SurfSession session = SurfSession.builder()
+                .user(user)
+                .surfSpot(surfSpot)
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .sessionDate(LocalDate.of(2025, 4, 1))
+                .wouldSurfAgain(false)
+                .build();
+        session.setId(8L);
+        media.setSurfSession(session);
+        session.setMedia(List.of(media));
+        when(surfSessionRepository.findById(8L)).thenReturn(Optional.of(session));
+        when(storageService.resolveObjectKeyWithFallback(
+                null, "https://bucket/key", "media-a", "image", "surf-sessions/media"))
+                .thenReturn("surf-sessions/media/media-a");
+        when(storageService.deleteObject("surf-sessions/media/media-a")).thenReturn(true);
+
+        surfSessionService.deleteSession("u1", 8L);
+
+        verify(storageService).deleteObject("surf-sessions/media/media-a");
+        verify(surfSessionRepository).delete(session);
+    }
+
+    @Test
+    void updateSessionShouldPersistNotesWhenSurfSpotMatches() {
+        when(surfSpot.getId()).thenReturn(10L);
+        when(surfSpot.getIanaZoneId()).thenReturn("UTC");
+        SurfSession session = SurfSession.builder()
+                .user(user)
+                .surfSpot(surfSpot)
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .sessionDate(LocalDate.of(2025, 4, 1))
+                .wouldSurfAgain(false)
+                .sessionNotes("Old")
+                .build();
+        session.setId(3L);
+        when(surfSessionRepository.findById(3L)).thenReturn(Optional.of(session));
+        request.setSurfSpotId(10L);
+        request.setSessionNotes("New notes");
+
+        surfSessionService.updateSession("u1", 3L, request);
+
+        assertEquals("New notes", session.getSessionNotes());
+        verify(surfSessionRepository).save(session);
+    }
+
+    @Test
+    void updateSessionShouldPreserveStoredInstantsWhenRequestOmitsTimingFields() {
+        when(surfSpot.getId()).thenReturn(10L);
+        Instant start = Instant.parse("2025-04-01T14:00:00Z");
+        Instant end = Instant.parse("2025-04-01T15:30:00Z");
+        SurfSession session = SurfSession.builder()
+                .user(user)
+                .surfSpot(surfSpot)
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .sessionDate(LocalDate.of(2025, 4, 1))
+                .durationMinutes(90)
+                .sessionStartInstant(start)
+                .sessionEndInstant(end)
+                .wouldSurfAgain(false)
+                .sessionNotes("Imported")
+                .waveSize(WaveSize.SMALL)
+                .crowdLevel(CrowdLevel.EMPTY)
+                .waveQuality(WaveQuality.OKAY)
+                .tide(Tide.MID)
+                .build();
+        session.setId(3L);
+        when(surfSessionRepository.findById(3L)).thenReturn(Optional.of(session));
+
+        SurfSessionRequest patch = new SurfSessionRequest();
+        patch.setSurfSpotId(10L);
+        patch.setUserId("u1");
+        patch.setSessionDate(LocalDate.of(2025, 4, 1));
+        patch.setSkillLevel(SkillLevel.INTERMEDIATE);
+        patch.setWaveSize(WaveSize.SMALL);
+        patch.setCrowdLevel(CrowdLevel.EMPTY);
+        patch.setWaveQuality(WaveQuality.OKAY);
+        patch.setWouldSurfAgain(false);
+        patch.setTide(Tide.MID);
+        patch.setSwellDirection("N");
+        patch.setWindDirection("SW");
+        patch.setSessionNotes("Edited notes only");
+
+        surfSessionService.updateSession("u1", 3L, patch);
+
+        assertEquals(start, session.getSessionStartInstant());
+        assertEquals(end, session.getSessionEndInstant());
+        assertEquals(Integer.valueOf(90), session.getDurationMinutes());
+        assertEquals("Edited notes only", session.getSessionNotes());
+        verify(surfSessionRepository).save(session);
+    }
+
+    @Test
+    void deleteSessionWithNoMediaShouldDeleteWithoutStorageCalls() {
+        SurfSession session = SurfSession.builder()
+                .user(user)
+                .surfSpot(surfSpot)
+                .skillLevel(SkillLevel.INTERMEDIATE)
+                .sessionDate(LocalDate.of(2025, 4, 1))
+                .wouldSurfAgain(false)
+                .build();
+        session.setId(8L);
+        session.setMedia(Collections.emptyList());
+        when(surfSessionRepository.findById(8L)).thenReturn(Optional.of(session));
+
+        surfSessionService.deleteSession("u1", 8L);
+
+        verify(storageService, never()).deleteObject(anyString());
+        verify(surfSessionRepository).delete(session);
     }
 }
