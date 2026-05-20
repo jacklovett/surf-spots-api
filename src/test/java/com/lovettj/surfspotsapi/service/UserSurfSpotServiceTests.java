@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
+import com.lovettj.surfspotsapi.enums.WaveDirection;
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
 import com.lovettj.surfspotsapi.entity.Region;
@@ -84,7 +86,7 @@ class UserSurfSpotServiceTests {
                 .isFavourite(false)
                 .build();
 
-        when(userSurfSpotRepository.findByUserId(userId)).thenReturn(List.of(uss));
+        when(userSurfSpotRepository.findByUserIdOrderByCreatedAtDesc(userId)).thenReturn(List.of(uss));
         when(watchListRepository.findByUserId(anyString())).thenReturn(Collections.emptyList());
 
         UserSurfSpotsDTO summary = userSurfSpotService.getUserSurfSpotsSummary(userId);
@@ -93,7 +95,66 @@ class UserSurfSpotServiceTests {
         assertEquals(1, summary.getTotalCount());
         assertNull(summary.getMostSurfedSpotType());
         assertNull(summary.getMostSurfedBeachBottomType());
+        assertNull(summary.getMostSurfedWaveDirection());
         assertNull(summary.getSkillLevel());
         assertEquals(1, summary.getSurfedSpots().size());
+    }
+
+    @Test
+    void getUserSurfSpotsSummaryShouldReturnMostCommonWaveDirection() {
+        SurfSpot leftSpot = copySpotWithWaveDirection(riverSpotWithNullEnums, 1L, "Left Point", WaveDirection.LEFT);
+        SurfSpot rightSpot = copySpotWithWaveDirection(riverSpotWithNullEnums, 2L, "Right Point", WaveDirection.RIGHT);
+        SurfSpot anotherLeftSpot = copySpotWithWaveDirection(riverSpotWithNullEnums, 3L, "Another Left", WaveDirection.LEFT);
+
+        List<UserSurfSpot> userSurfSpots = List.of(
+                userSurfSpotFor(leftSpot),
+                userSurfSpotFor(rightSpot),
+                userSurfSpotFor(anotherLeftSpot));
+
+        when(userSurfSpotRepository.findByUserIdOrderByCreatedAtDesc(userId)).thenReturn(userSurfSpots);
+        when(watchListRepository.findByUserId(anyString())).thenReturn(Collections.emptyList());
+
+        UserSurfSpotsDTO summary = userSurfSpotService.getUserSurfSpotsSummary(userId);
+
+        assertEquals(WaveDirection.LEFT, summary.getMostSurfedWaveDirection());
+    }
+
+    @Test
+    void getUserSurfSpotsSummaryShouldReturnSurfedSpotsNewestFirst() {
+        SurfSpot olderSpot = copySpotWithWaveDirection(riverSpotWithNullEnums, 1L, "Older", WaveDirection.LEFT);
+        SurfSpot newerSpot = copySpotWithWaveDirection(riverSpotWithNullEnums, 2L, "Newer", WaveDirection.RIGHT);
+
+        UserSurfSpot olderEntry = userSurfSpotFor(olderSpot);
+        olderEntry.setCreatedAt(LocalDateTime.of(2024, 1, 1, 10, 0));
+        UserSurfSpot newerEntry = userSurfSpotFor(newerSpot);
+        newerEntry.setCreatedAt(LocalDateTime.of(2025, 6, 15, 10, 0));
+
+        when(userSurfSpotRepository.findByUserIdOrderByCreatedAtDesc(userId))
+                .thenReturn(List.of(newerEntry, olderEntry));
+        when(watchListRepository.findByUserId(anyString())).thenReturn(Collections.emptyList());
+
+        UserSurfSpotsDTO summary = userSurfSpotService.getUserSurfSpotsSummary(userId);
+
+        assertEquals(2L, summary.getSurfedSpots().get(0).getSurfSpot().getId());
+        assertEquals(1L, summary.getSurfedSpots().get(1).getSurfSpot().getId());
+    }
+
+    private UserSurfSpot userSurfSpotFor(SurfSpot surfSpot) {
+        return UserSurfSpot.builder()
+                .user(user)
+                .surfSpot(surfSpot)
+                .isFavourite(false)
+                .build();
+    }
+
+    private static SurfSpot copySpotWithWaveDirection(
+            SurfSpot template, Long id, String name, WaveDirection waveDirection) {
+        SurfSpot spot = new SurfSpot();
+        spot.setId(id);
+        spot.setName(name);
+        spot.setSlug(name.toLowerCase().replace(' ', '-'));
+        spot.setRegion(template.getRegion());
+        spot.setWaveDirection(waveDirection);
+        return spot;
     }
 }

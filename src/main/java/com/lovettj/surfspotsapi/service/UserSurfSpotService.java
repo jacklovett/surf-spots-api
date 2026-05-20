@@ -13,6 +13,7 @@ import com.lovettj.surfspotsapi.entity.UserSurfSpot;
 import com.lovettj.surfspotsapi.enums.BeachBottomType;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotType;
+import com.lovettj.surfspotsapi.enums.WaveDirection;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
@@ -47,10 +48,10 @@ public class UserSurfSpotService {
     }
 
     public UserSurfSpotsDTO getUserSurfSpotsSummary(String userId) {
-        List<UserSurfSpot> userSurfSpots = userSurfSpotRepository.findByUserId(userId);
+        List<UserSurfSpot> userSurfSpots = userSurfSpotRepository.findByUserIdOrderByCreatedAtDesc(userId);
 
         if (userSurfSpots.isEmpty()) {
-            return new UserSurfSpotsDTO(0, 0, 0, null, null, null, Collections.emptyList());
+            return new UserSurfSpotsDTO(0, 0, 0, null, null, null, null, Collections.emptyList());
         }
 
         int totalCount = userSurfSpots.size();
@@ -60,6 +61,7 @@ public class UserSurfSpotService {
         int continentCount = distinctContinents.size();
         SurfSpotType mostSurfedSpotType = getMostSurfedSpotType(userSurfSpots);
         BeachBottomType mostSurfedBeachType = getMostSurfedBeachType(userSurfSpots);
+        WaveDirection mostSurfedWaveDirection = getMostSurfedWaveDirection(userSurfSpots);
         SkillLevel skillLevel = getSkillLevel(userSurfSpots);
         List<SurfedSpotDTO> surfedSpots = mapToSurfSpotDTO(userSurfSpots);
 
@@ -69,6 +71,7 @@ public class UserSurfSpotService {
                 .continentCount(continentCount)
                 .mostSurfedSpotType(mostSurfedSpotType)
                 .mostSurfedBeachBottomType(mostSurfedBeachType)
+                .mostSurfedWaveDirection(mostSurfedWaveDirection)
                 .skillLevel(skillLevel)
                 .surfedSpots(surfedSpots).build();
     }
@@ -161,6 +164,13 @@ public class UserSurfSpotService {
         return getMostCommonAttribute(userSurfSpots, uss -> {
             SurfSpot s = uss.getSurfSpot();
             return s != null ? s.getBeachBottomType() : null;
+        });
+    }
+
+    private WaveDirection getMostSurfedWaveDirection(List<UserSurfSpot> userSurfSpots) {
+        return getMostCommonAttribute(userSurfSpots, uss -> {
+            SurfSpot s = uss.getSurfSpot();
+            return s != null ? s.getWaveDirection() : null;
         });
     }
 
