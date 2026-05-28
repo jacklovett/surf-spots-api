@@ -4,10 +4,10 @@ package com.lovettj.surfspotsapi.enums;
  * Typical crowd on a surf spot, and per surf session log. Stored as enum name in DB.
  */
 public enum CrowdLevel {
-    EMPTY("Usually empty lineups"),
-    FEW("Usually few people out"),
-    BUSY("Often busy"),
-    PACKED("Often packed");
+    EMPTY("Usually quiet"),
+    FEW("Usually a small group"),
+    BUSY("Usually competitive"),
+    PACKED("Usually overcrowded");
 
     private final String summaryTrendLine;
 

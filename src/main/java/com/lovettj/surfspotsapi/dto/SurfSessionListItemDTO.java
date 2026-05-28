@@ -10,7 +10,7 @@ import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
-import com.lovettj.surfspotsapi.enums.WaveQuality;
+import com.lovettj.surfspotsapi.enums.WaveFace;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 
 import lombok.AllArgsConstructor;
@@ -43,13 +43,13 @@ public class SurfSessionListItemDTO {
     private String spotPath;
     private WaveSize waveSize;
     private CrowdLevel crowdLevel;
-    private WaveQuality waveQuality;
+    private WaveFace waveFace;
+    private Integer sessionRating;
     private String swellDirection;
     private String windDirection;
     private Tide tide;
     /** User-written notes from the log form, not partner payload storage. */
     private String sessionNotes;
-    private Boolean wouldSurfAgain;
     private SkillLevel skillLevel;
     private String surfboardId;
     private String surfboardName;

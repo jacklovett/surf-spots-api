@@ -4,10 +4,12 @@ import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
-import com.lovettj.surfspotsapi.enums.WaveQuality;
+import com.lovettj.surfspotsapi.enums.WaveFace;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -48,7 +50,11 @@ public class SurfSessionRequest {
 
     private CrowdLevel crowdLevel;
 
-    private WaveQuality waveQuality;
+    private WaveFace waveFace;
+
+    @Min(value = 1, message = "Session rating must be between 1 and 5")
+    @Max(value = 5, message = "Session rating must be between 1 and 5")
+    private Integer sessionRating;
 
     private Tide tide;
 
@@ -61,8 +67,6 @@ public class SurfSessionRequest {
      */
     @Size(max = 2000, message = "Session notes must be at most 2000 characters")
     private String sessionNotes;
-
-    private Boolean wouldSurfAgain;
 
     private String userId;
 

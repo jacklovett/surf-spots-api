@@ -46,7 +46,6 @@ import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
-import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
@@ -84,8 +83,7 @@ class SurfSessionControllerTests {
         validRequest.setSessionDate(LocalDate.of(2025, 3, 20));
         validRequest.setWaveSize(WaveSize.CHEST_SHOULDER);
         validRequest.setCrowdLevel(CrowdLevel.FEW);
-        validRequest.setWaveQuality(WaveQuality.FUN);
-        validRequest.setWouldSurfAgain(true);
+        validRequest.setSessionRating(4);
         validRequest.setTide(Tide.MID);
         validRequest.setSwellDirection("N,NE");
         validRequest.setWindDirection("SW");
@@ -145,7 +143,8 @@ class SurfSessionControllerTests {
                         argThat(
                                 r -> r.getWaveSize() == null
                                         && r.getTide() == null
-                                        && r.getWouldSurfAgain() == null));
+                                        && r.getWaveFace() == null
+                                        && r.getSessionRating() == null));
     }
 
     @Test
@@ -172,8 +171,7 @@ class SurfSessionControllerTests {
                 .spotPath("/surf-spots/europe/es/andalusia/test-break")
                 .waveSize(WaveSize.CHEST_SHOULDER)
                 .crowdLevel(CrowdLevel.FEW)
-                .waveQuality(WaveQuality.FUN)
-                .wouldSurfAgain(true)
+                .sessionRating(4)
                 .skillLevel(SkillLevel.INTERMEDIATE)
                 .build();
 
@@ -329,22 +327,16 @@ class SurfSessionControllerTests {
     }
 
     @Test
-    void testGetSpotSessionsSummaryShouldReturnWaveQualityDistribution() throws Exception {
-        Map<String, Long> wq = new LinkedHashMap<>();
-        wq.put("FUN", 2L);
+    void testGetSpotSessionsSummaryShouldReturnSessionRatingDistribution() throws Exception {
+        Map<String, Long> ratingDistribution = new LinkedHashMap<>();
+        ratingDistribution.put("4", 2L);
         SurfSessionSummaryDTO dto = SurfSessionSummaryDTO.builder()
                 .skillLevel(SkillLevel.INTERMEDIATE)
                 .sampleSize(2)
                 .waveSizeDistribution(Map.of("CHEST_SHOULDER", 2L))
                 .crowdDistribution(Map.of("BUSY", 2L))
-                .waveQualityDistribution(wq)
-                .wouldSurfAgainTrueCount(2L)
-                .wouldSurfAgainFalseCount(0L)
+                .sessionRatingDistribution(ratingDistribution)
                 .fallbackToAllSkills(false)
-                .segmentHeadline("Intermediate (2 sessions)")
-                .waveQualityTrendLine("Mostly fun waves")
-                .crowdTrendLine("Often busy")
-                .wouldSurfAgainLine("2/2 would surf again")
                 .build();
 
         when(surfSessionService.getSpotSummaryForUser(eq(99L), eq("user-1"))).thenReturn(dto);
@@ -352,8 +344,7 @@ class SurfSessionControllerTests {
         mockMvc.perform(get("/api/surf-spots/99/sessions")
                         .cookie(sessionCookie()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.waveQualityDistribution.FUN").value(2))
-                .andExpect(jsonPath("$.segmentHeadline").value("Intermediate (2 sessions)"))
-                .andExpect(jsonPath("$.waveQualityTrendLine").value("Mostly fun waves"));
+                .andExpect(jsonPath("$.sessionRatingDistribution['4']").value(2))
+                .andExpect(jsonPath("$.sampleSize").value(2));
     }
 }

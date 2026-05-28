@@ -45,7 +45,6 @@ import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
-import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.repository.SurfSessionMediaRepository;
 import com.lovettj.surfspotsapi.repository.SurfSessionRepository;
@@ -90,8 +89,7 @@ class SurfSessionServiceTest {
         request.setSessionDate(LocalDate.of(2025, 4, 1));
         request.setWaveSize(WaveSize.SMALL);
         request.setCrowdLevel(CrowdLevel.EMPTY);
-        request.setWaveQuality(WaveQuality.OKAY);
-        request.setWouldSurfAgain(false);
+        request.setSessionRating(3);
         request.setTide(Tide.MID);
         request.setSwellDirection("N");
         request.setWindDirection("SW");
@@ -129,13 +127,13 @@ class SurfSessionServiceTest {
     }
 
     @Test
-    void createSessionShouldDefaultWouldSurfAgainWhenNullAndPersistNullDetailEnums() {
+    void createSessionShouldPersistNullDetailFieldsWhenOmitted() {
         request.setSurfboardId(null);
         request.setWaveSize(null);
         request.setCrowdLevel(null);
-        request.setWaveQuality(null);
+        request.setWaveFace(null);
+        request.setSessionRating(null);
         request.setTide(null);
-        request.setWouldSurfAgain(null);
         request.setSwellDirection(null);
         request.setWindDirection(null);
         when(userRepository.findById("u1")).thenReturn(Optional.of(user));
@@ -148,9 +146,9 @@ class SurfSessionServiceTest {
                         argThat(
                                 s -> s.getWaveSize() == null
                                         && s.getCrowdLevel() == null
-                                        && s.getWaveQuality() == null
-                                        && s.getTide() == null
-                                        && Boolean.FALSE.equals(s.getWouldSurfAgain())));
+                                        && s.getWaveFace() == null
+                                        && s.getSessionRating() == null
+                                        && s.getTide() == null));
         verify(userSurfSpotService).addUserSurfSpot("u1", 10L);
     }
 
@@ -469,7 +467,7 @@ class SurfSessionServiceTest {
     }
 
     @Test
-    void getSpotSummaryShouldUseEnumSummaryTrendLinesForDominantBuckets() {
+    void getSpotSummaryShouldReturnSessionRatingDistribution() {
         SurfSession s1 =
                 SurfSession.builder()
                         .user(user)
@@ -478,8 +476,7 @@ class SurfSessionServiceTest {
                         .sessionDate(LocalDate.of(2025, 1, 1))
                         .waveSize(WaveSize.SMALL)
                         .crowdLevel(CrowdLevel.BUSY)
-                        .waveQuality(WaveQuality.FUN)
-                        .wouldSurfAgain(true)
+                        .sessionRating(4)
                         .build();
         SurfSession s2 =
                 SurfSession.builder()
@@ -489,8 +486,7 @@ class SurfSessionServiceTest {
                         .sessionDate(LocalDate.of(2025, 1, 2))
                         .waveSize(WaveSize.SMALL)
                         .crowdLevel(CrowdLevel.BUSY)
-                        .waveQuality(WaveQuality.FUN)
-                        .wouldSurfAgain(true)
+                        .sessionRating(4)
                         .build();
         SurfSession s3 =
                 SurfSession.builder()
@@ -500,8 +496,7 @@ class SurfSessionServiceTest {
                         .sessionDate(LocalDate.of(2025, 1, 3))
                         .waveSize(WaveSize.SMALL)
                         .crowdLevel(CrowdLevel.BUSY)
-                        .waveQuality(WaveQuality.FUN)
-                        .wouldSurfAgain(true)
+                        .sessionRating(5)
                         .build();
         // Need >= MIN_SAMPLE_FOR_SKILL_SEGMENT (3) or the service falls back to findBySurfSpotId, which must be stubbed separately.
         when(surfSessionRepository.findBySurfSpotIdAndSkillLevel(1L, SkillLevel.INTERMEDIATE))
@@ -510,8 +505,9 @@ class SurfSessionServiceTest {
         SurfSessionSummaryDTO dto = surfSessionService.getSpotSummary(1L, SkillLevel.INTERMEDIATE);
 
         assertNotNull(dto);
-        assertEquals(WaveQuality.FUN.getSummaryTrendLine(), dto.getWaveQualityTrendLine());
-        assertEquals(CrowdLevel.BUSY.getSummaryTrendLine(), dto.getCrowdTrendLine());
+        assertEquals(2L, dto.getSessionRatingDistribution().get("4"));
+        assertEquals(1L, dto.getSessionRatingDistribution().get("5"));
+        assertEquals(3L, dto.getCrowdDistribution().get("BUSY"));
     }
 
     @Test
@@ -554,8 +550,7 @@ class SurfSessionServiceTest {
                 .sessionDate(LocalDate.of(2025, 6, 1))
                 .waveSize(WaveSize.CHEST_SHOULDER)
                 .crowdLevel(CrowdLevel.FEW)
-                .waveQuality(WaveQuality.FUN)
-                .wouldSurfAgain(true)
+                .sessionRating(4)
                 .build();
         session.setId(1L);
         session.setDurationMinutes(60);
@@ -576,7 +571,7 @@ class SurfSessionServiceTest {
         assertEquals("/surf-spots/europe/es/andalusia/test-break", mine.getSessions().get(0).getSpotPath());
         assertEquals("Test Break", mine.getSessions().get(0).getSurfSpotName());
         assertEquals(Long.valueOf(5L), mine.getSessions().get(0).getSurfSpotId());
-        assertEquals(WaveQuality.FUN, mine.getSessions().get(0).getWaveQuality());
+        assertEquals(Integer.valueOf(4), mine.getSessions().get(0).getSessionRating());
         assertEquals(60, mine.getSessions().get(0).getDurationMinutes().intValue());
         assertEquals(LocalTime.of(8, 0), mine.getSessions().get(0).getSessionStartTime());
         assertEquals(LocalTime.of(9, 0), mine.getSessions().get(0).getSessionEndTime());
@@ -634,7 +629,6 @@ class SurfSessionServiceTest {
                 .surfSpot(surfSpot)
                 .skillLevel(SkillLevel.BEGINNER)
                 .sessionDate(LocalDate.of(2025, 1, 1))
-                .wouldSurfAgain(false)
                 .build();
         session.setId(7L);
         when(surfSessionRepository.findById(7L)).thenReturn(Optional.of(session));
@@ -652,7 +646,6 @@ class SurfSessionServiceTest {
                 .surfSpot(surfSpot)
                 .skillLevel(SkillLevel.INTERMEDIATE)
                 .sessionDate(LocalDate.of(2025, 4, 1))
-                .wouldSurfAgain(false)
                 .build();
         session.setId(3L);
         when(surfSessionRepository.findById(3L)).thenReturn(Optional.of(session));
@@ -676,7 +669,6 @@ class SurfSessionServiceTest {
                 .surfSpot(surfSpot)
                 .skillLevel(SkillLevel.INTERMEDIATE)
                 .sessionDate(LocalDate.of(2025, 4, 1))
-                .wouldSurfAgain(false)
                 .build();
         session.setId(8L);
         media.setSurfSession(session);
@@ -702,7 +694,6 @@ class SurfSessionServiceTest {
                 .surfSpot(surfSpot)
                 .skillLevel(SkillLevel.INTERMEDIATE)
                 .sessionDate(LocalDate.of(2025, 4, 1))
-                .wouldSurfAgain(false)
                 .sessionNotes("Old")
                 .build();
         session.setId(3L);
@@ -729,11 +720,10 @@ class SurfSessionServiceTest {
                 .durationMinutes(90)
                 .sessionStartInstant(start)
                 .sessionEndInstant(end)
-                .wouldSurfAgain(false)
                 .sessionNotes("Imported")
                 .waveSize(WaveSize.SMALL)
                 .crowdLevel(CrowdLevel.EMPTY)
-                .waveQuality(WaveQuality.OKAY)
+                .sessionRating(3)
                 .tide(Tide.MID)
                 .build();
         session.setId(3L);
@@ -746,8 +736,7 @@ class SurfSessionServiceTest {
         patch.setSkillLevel(SkillLevel.INTERMEDIATE);
         patch.setWaveSize(WaveSize.SMALL);
         patch.setCrowdLevel(CrowdLevel.EMPTY);
-        patch.setWaveQuality(WaveQuality.OKAY);
-        patch.setWouldSurfAgain(false);
+        patch.setSessionRating(3);
         patch.setTide(Tide.MID);
         patch.setSwellDirection("N");
         patch.setWindDirection("SW");
@@ -769,7 +758,6 @@ class SurfSessionServiceTest {
                 .surfSpot(surfSpot)
                 .skillLevel(SkillLevel.INTERMEDIATE)
                 .sessionDate(LocalDate.of(2025, 4, 1))
-                .wouldSurfAgain(false)
                 .build();
         session.setId(8L);
         session.setMedia(Collections.emptyList());

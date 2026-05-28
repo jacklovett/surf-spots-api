@@ -12,7 +12,6 @@ import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
-import com.lovettj.surfspotsapi.enums.WaveQuality;
 import com.lovettj.surfspotsapi.repository.SurfSessionMediaRepository;
 import com.lovettj.surfspotsapi.repository.SurfSessionRepository;
 import com.lovettj.surfspotsapi.util.SurfSpotPathUtil;
@@ -110,16 +109,15 @@ public class SurfSessionService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, ApiErrors.SURF_SESSION_ALREADY_SYNCED);
         }
 
-        Boolean wouldSurfAgain = normalizeWouldSurfAgain(request.getWouldSurfAgain());
-
         SurfSession session = SurfSession.builder()
                 .user(user)
                 .surfSpot(surfSpot)
                 .externalSessionProvider(externalSync != null ? externalSync.provider() : null)
                 .externalSessionId(externalSync != null ? externalSync.externalId() : null)
                 .build();
+
         applyTimingSkillAndEditableSessionFieldsFromRequest(
-                session, request, timing, userSkillLevel, wouldSurfAgain, surfboard);
+                session, request, timing, userSkillLevel, surfboard);
 
         persistSessionOrConflictOnDuplicateExternalId(session, externalSync != null);
 
@@ -182,9 +180,8 @@ public class SurfSessionService {
         ResolvedTiming timing = resolveTimingForUpdate(session, request, surfSpot);
 
         Surfboard surfboard = loadOptionalSurfboardForSessionRequest(request, userId);
-        Boolean wouldSurfAgain = normalizeWouldSurfAgain(request.getWouldSurfAgain());
         applyTimingSkillAndEditableSessionFieldsFromRequest(
-                session, request, timing, skillForSession, wouldSurfAgain, surfboard);
+                session, request, timing, skillForSession, surfboard);
 
         surfSessionRepository.save(session);
     }
@@ -198,7 +195,6 @@ public class SurfSessionService {
             SurfSessionRequest request,
             ResolvedTiming timing,
             SkillLevel skillLevel,
-            Boolean wouldSurfAgain,
             Surfboard surfboard) {
         session.setSkillLevel(skillLevel);
         session.setSessionDate(timing.sessionDate());
@@ -207,12 +203,12 @@ public class SurfSessionService {
         session.setSessionEndInstant(timing.sessionEndInstant());
         session.setWaveSize(request.getWaveSize());
         session.setCrowdLevel(request.getCrowdLevel());
-        session.setWaveQuality(request.getWaveQuality());
+        session.setWaveFace(request.getWaveFace());
+        session.setSessionRating(request.getSessionRating());
         session.setSwellDirection(blankToNull(request.getSwellDirection()));
         session.setWindDirection(blankToNull(request.getWindDirection()));
         session.setTide(request.getTide());
         session.setSessionNotes(blankToNull(request.getSessionNotes()));
-        session.setWouldSurfAgain(wouldSurfAgain);
         session.setSurfboard(surfboard);
     }
 
@@ -224,10 +220,6 @@ public class SurfSessionService {
                 .findByIdAndUserId(request.getSurfboardId().trim(), userId)
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURFBOARD_NOT_FOUND_FOR_USER));
-    }
-
-    private static Boolean normalizeWouldSurfAgain(Boolean requestValue) {
-        return requestValue != null ? requestValue : Boolean.FALSE;
     }
 
     /**
@@ -327,12 +319,12 @@ public class SurfSessionService {
                 .spotPath(spotPath)
                 .waveSize(s.getWaveSize())
                 .crowdLevel(s.getCrowdLevel())
-                .waveQuality(s.getWaveQuality())
+                .waveFace(s.getWaveFace())
+                .sessionRating(s.getSessionRating())
                 .swellDirection(s.getSwellDirection())
                 .windDirection(s.getWindDirection())
                 .tide(s.getTide())
                 .sessionNotes(s.getSessionNotes())
-                .wouldSurfAgain(s.getWouldSurfAgain())
                 .skillLevel(s.getSkillLevel())
                 .surfboardId(board != null ? board.getId() : null)
                 .surfboardName(board != null ? board.getName() : null)
@@ -450,72 +442,20 @@ public class SurfSessionService {
             effectiveSkillLevel = null;
         }
 
-        long trueCount =
-                sessions.stream().filter(s -> Boolean.TRUE.equals(s.getWouldSurfAgain())).count();
-        long falseCount =
-                sessions.stream().filter(s -> Boolean.FALSE.equals(s.getWouldSurfAgain())).count();
-
-        Map<String, Long> waveQualityDistribution =
-                countBy(sessions, s -> s.getWaveQuality() != null ? s.getWaveQuality().name() : null);
         Map<String, Long> crowdDistribution =
                 countBy(sessions, s -> s.getCrowdLevel() != null ? s.getCrowdLevel().name() : null);
+        Map<String, Long> sessionRatingDistribution = countBy(
+                sessions,
+                s -> s.getSessionRating() != null ? String.valueOf(s.getSessionRating()) : null);
 
         return SurfSessionSummaryDTO.builder()
                 .skillLevel(effectiveSkillLevel)
                 .sampleSize(sessions.size())
                 .waveSizeDistribution(countBy(sessions, s -> s.getWaveSize() != null ? s.getWaveSize().name() : null))
                 .crowdDistribution(crowdDistribution)
-                .waveQualityDistribution(waveQualityDistribution)
-                .wouldSurfAgainTrueCount(trueCount)
-                .wouldSurfAgainFalseCount(falseCount)
+                .sessionRatingDistribution(sessionRatingDistribution)
                 .fallbackToAllSkills(fallbackToAllSkills)
-                .segmentHeadline(buildSegmentHeadline(effectiveSkillLevel, sessions.size(), fallbackToAllSkills))
-                .waveQualityTrendLine(waveQualityTrendLineFromDistribution(waveQualityDistribution))
-                .crowdTrendLine(crowdTrendLineFromDistribution(crowdDistribution))
-                .wouldSurfAgainLine(buildWouldSurfAgainLine(trueCount, falseCount))
                 .build();
-    }
-
-    private static String buildSegmentHeadline(
-            SkillLevel skillLevel, int sampleSize, boolean fallbackToAllSkills) {
-        if (fallbackToAllSkills || skillLevel == null) {
-            return String.format("Surfers (%d sessions)", sampleSize);
-        }
-        return String.format("%s (%d sessions)", skillLevel.getDisplayName(), sampleSize);
-    }
-
-    private static String buildWouldSurfAgainLine(long trueCount, long falseCount) {
-        long total = trueCount + falseCount;
-        if (total <= 0) {
-            return null;
-        }
-        return String.format("%d/%d would surf again", trueCount, total);
-    }
-
-    /**
-     * Bucket with the highest count (ties broken by map iteration order for equal counts).
-     */
-    private static String dominantEnumKey(Map<String, Long> countsByEnumName) {
-        if (countsByEnumName == null || countsByEnumName.isEmpty()) {
-            return null;
-        }
-        return Collections.max(countsByEnumName.entrySet(), Map.Entry.comparingByValue()).getKey();
-    }
-
-    private static String waveQualityTrendLineFromDistribution(Map<String, Long> countsByEnumName) {
-        String topKey = dominantEnumKey(countsByEnumName);
-        if (topKey == null) {
-            return null;
-        }
-        return WaveQuality.valueOf(topKey).getSummaryTrendLine();
-    }
-
-    private static String crowdTrendLineFromDistribution(Map<String, Long> countsByEnumName) {
-        String topKey = dominantEnumKey(countsByEnumName);
-        if (topKey == null) {
-            return null;
-        }
-        return CrowdLevel.valueOf(topKey).getSummaryTrendLine();
     }
 
     private static String blankToNull(String value) {

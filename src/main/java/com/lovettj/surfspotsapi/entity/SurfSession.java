@@ -4,7 +4,7 @@ import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
-import com.lovettj.surfspotsapi.enums.WaveQuality;
+import com.lovettj.surfspotsapi.enums.WaveFace;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import jakarta.persistence.*;
 import lombok.*;
@@ -86,9 +86,14 @@ public class SurfSession {
     @Enumerated(EnumType.STRING)
     private CrowdLevel crowdLevel;
 
+    /** Surface feel (clean, mushy, choppy, etc.). Optional. */
     @Enumerated(EnumType.STRING)
-    @Column(name = "wave_quality")
-    private WaveQuality waveQuality;
+    @Column(name = "wave_face")
+    private WaveFace waveFace;
+
+    /** User rating for this session (1-5). Optional. */
+    @Column(name = "session_rating")
+    private Integer sessionRating;
 
     @Column(name = "swell_direction")
     private String swellDirection;
@@ -105,8 +110,6 @@ public class SurfSession {
      */
     @Column(name = "session_notes", columnDefinition = "TEXT")
     private String sessionNotes;
-
-    private Boolean wouldSurfAgain;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "surfboard_id")
