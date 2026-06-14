@@ -144,6 +144,9 @@ public class SurfSpot extends SluggableEntity {
     @Column(name = "is_river_wave")
     private Boolean isRiverWave;
 
+    @Column(name = "is_wsl_tour_stop")
+    private Boolean isWslTourStop;
+
     @ManyToOne
     @JoinColumn(name = "swell_season_id")
     private SwellSeason swellSeason;

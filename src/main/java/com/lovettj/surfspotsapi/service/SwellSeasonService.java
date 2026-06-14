@@ -116,6 +116,7 @@ public class SwellSeasonService {
             String description = buildDescription(spots, isSeasonStarting);
 
             NotificationDTO notification = NotificationDTO.builder()
+                .id("swell-" + entry.getKey())
                 .type("swell")
                 .title(title)
                 .description(description)

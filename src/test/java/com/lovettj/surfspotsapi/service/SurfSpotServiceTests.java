@@ -1,6 +1,8 @@
 package com.lovettj.surfspotsapi.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,6 +13,8 @@ import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
+import com.lovettj.surfspotsapi.repository.SurfEventRepository;
+import com.lovettj.surfspotsapi.enums.EventType;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
@@ -48,14 +52,28 @@ class SurfSpotServiceTests {
     
     @Mock
     private SwellSeasonDeterminationService swellSeasonDeterminationService;
-    
+
+    @Mock
+    private SurfEventRepository surfEventRepository;
+
     private SurfSpotService surfSpotService;
 
     private String testUserId;
 
     @BeforeEach
     public void setUp() {
-        surfSpotService = new SurfSpotService(surfSpotRepository, regionRepository, subRegionRepository, userSurfSpotService, watchListService, swellSeasonDeterminationService);
+        surfSpotService = new SurfSpotService(
+                surfSpotRepository,
+                regionRepository,
+                subRegionRepository,
+                userSurfSpotService,
+                watchListService,
+                swellSeasonDeterminationService,
+                surfEventRepository);
+        lenient()
+                .when(surfEventRepository.findLinkedSurfSpotIdsForSeasonYearExcludingStatuses(
+                        eq(EventType.CONTEST), anyInt(), any()))
+                .thenReturn(Collections.emptySet());
         testUserId = "test-user-id-123";
     }
 
@@ -104,6 +122,20 @@ class SurfSpotServiceTests {
         assertNotNull(result);
         assertEquals(2, result.size());
         verify(surfSpotRepository).findWithinBoundsWithFilters(filters);
+    }
+
+    @Test
+    public void testMapToSurfSpotDTOShouldSetIsOnWslTourThisSeasonWhenSpotHasActiveContest() {
+        SurfSpot spot = createMockSurfSpot();
+        SurfSpotDTO dto = surfSpotService.mapToSurfSpotDTO(spot, testUserId, Set.of(1L));
+        assertTrue(dto.getIsOnWslTourThisSeason());
+    }
+
+    @Test
+    public void testMapToSurfSpotDTOShouldSetIsOnWslTourThisSeasonFalseWhenSpotHasNoActiveContest() {
+        SurfSpot spot = createMockSurfSpot();
+        SurfSpotDTO dto = surfSpotService.mapToSurfSpotDTO(spot, testUserId, Set.of(99L));
+        assertFalse(dto.getIsOnWslTourThisSeason());
     }
 
     @Test

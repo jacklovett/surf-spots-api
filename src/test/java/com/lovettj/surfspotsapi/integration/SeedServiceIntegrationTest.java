@@ -9,6 +9,7 @@ import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SwellSeasonRepository;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
+import com.lovettj.surfspotsapi.repository.SurfEventRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotNoteRepository;
 import com.lovettj.surfspotsapi.repository.TripSpotRepository;
@@ -64,6 +65,9 @@ class SeedServiceIntegrationTest {
     private SurfSpotRepository surfSpotRepository;
 
     @Autowired
+    private SurfEventRepository surfEventRepository;
+
+    @Autowired
     private SurfSpotNoteRepository surfSpotNoteRepository;
 
     @Autowired
@@ -79,6 +83,7 @@ class SeedServiceIntegrationTest {
         userSurfSpotRepository.deleteAll();
         watchListRepository.deleteAll();
         surfSpotNoteRepository.deleteAll();
+        surfEventRepository.deleteAll();
         surfSpotRepository.deleteAll();
         subRegionRepository.deleteAll();
         regionRepository.deleteAll();

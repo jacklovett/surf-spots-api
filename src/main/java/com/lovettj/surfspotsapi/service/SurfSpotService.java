@@ -1,9 +1,11 @@
 package com.lovettj.surfspotsapi.service;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -15,8 +17,11 @@ import com.lovettj.surfspotsapi.dto.SurfSpotDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotFilterDTO;
 import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.*;
+import com.lovettj.surfspotsapi.enums.EventStatus;
+import com.lovettj.surfspotsapi.enums.EventType;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SubRegionRepository;
+import com.lovettj.surfspotsapi.repository.SurfEventRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.requests.BoundingBox;
 import com.lovettj.surfspotsapi.requests.SurfSpotRequest;
@@ -34,14 +39,23 @@ public class SurfSpotService {
     private final UserSurfSpotService userSurfSpotService;
     private final WatchListService watchListService;
     private final SwellSeasonDeterminationService swellSeasonDeterminationService;
+    private final SurfEventRepository surfEventRepository;
 
-    public SurfSpotService(SurfSpotRepository surfSpotRepository, RegionRepository regionRepository, SubRegionRepository subRegionRepository, UserSurfSpotService userSurfSpotService, WatchListService watchListService, SwellSeasonDeterminationService swellSeasonDeterminationService) {
+    public SurfSpotService(
+            SurfSpotRepository surfSpotRepository,
+            RegionRepository regionRepository,
+            SubRegionRepository subRegionRepository,
+            UserSurfSpotService userSurfSpotService,
+            WatchListService watchListService,
+            SwellSeasonDeterminationService swellSeasonDeterminationService,
+            SurfEventRepository surfEventRepository) {
         this.surfSpotRepository = surfSpotRepository;
         this.regionRepository = regionRepository;
         this.subRegionRepository = subRegionRepository;
         this.userSurfSpotService = userSurfSpotService;
         this.watchListService = watchListService;
         this.swellSeasonDeterminationService = swellSeasonDeterminationService;
+        this.surfEventRepository = surfEventRepository;
     }
 
     /**
@@ -291,8 +305,9 @@ public class SurfSpotService {
                 filters);
         // Filter by season if needed
         surfSpots = filterBySeason(surfSpots, filters);
+        Set<Long> activeContestSpotIds = loadActiveContestSpotIdsForCurrentYear();
         return surfSpots.stream()
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
+                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId(), activeContestSpotIds))
                 .toList();
     }
 
@@ -305,8 +320,9 @@ public class SurfSpotService {
                 .orElseThrow(() -> new EntityNotFoundException("Region not found"));
         List<SurfSpot> surfSpots = surfSpotRepository.findByRegionWithFilters(region, filters);
         surfSpots = filterBySeason(surfSpots, filters);
+        Set<Long> activeContestSpotIds = loadActiveContestSpotIdsForCurrentYear();
         return surfSpots.stream()
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
+                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId(), activeContestSpotIds))
                 .toList();
     }
 
@@ -316,12 +332,17 @@ public class SurfSpotService {
         List<SurfSpot> surfSpots = surfSpotRepository.findBySubRegionWithFilters(subRegion, filters);
         // Filter by season if needed
         surfSpots = filterBySeason(surfSpots, filters);
+        Set<Long> activeContestSpotIds = loadActiveContestSpotIdsForCurrentYear();
         return surfSpots.stream()
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId()))
+                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId(), activeContestSpotIds))
                 .toList();
     }
 
     public SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId) {
+        return mapToSurfSpotDTO(surfSpot, userId, loadActiveContestSpotIdsForCurrentYear());
+    }
+
+    public SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId, Set<Long> activeContestSpotIds) {
         // SurfSpotDTO constructor now sets the path automatically
         SurfSpotDTO surfSpotDTO;
         try {
@@ -345,7 +366,20 @@ public class SurfSpotService {
             surfSpotDTO.setIsWatched(isWatched);
         }
 
+        if (surfSpot.getId() != null && activeContestSpotIds != null) {
+            surfSpotDTO.setIsOnWslTourThisSeason(activeContestSpotIds.contains(surfSpot.getId()));
+        } else {
+            surfSpotDTO.setIsOnWslTourThisSeason(false);
+        }
+
         return surfSpotDTO;
+    }
+
+    private Set<Long> loadActiveContestSpotIdsForCurrentYear() {
+        return surfEventRepository.findLinkedSurfSpotIdsForSeasonYearExcludingStatuses(
+                EventType.CONTEST,
+                LocalDate.now().getYear(),
+                EventStatus.excludedFromSeasonActivity());
     }
 
     private static List<String> forecastUrlsForPersistence(SurfSpotRequest surfSpotRequest) {

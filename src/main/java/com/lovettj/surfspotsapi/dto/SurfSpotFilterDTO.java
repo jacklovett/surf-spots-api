@@ -34,11 +34,13 @@ public class SurfSpotFilterDTO {
     private Boolean boatRequired;
     private Boolean isWavepool;
     private Boolean isRiverWave;
+    private Boolean isWslTourStop;
+    private Boolean isOnWslTourThisSeason;
     private List<String> foodOptions;
     private List<String> accommodationOptions;
     private List<String> facilities;
     private List<String> hazards;
     private List<String> forecasts;
     private List<String> webcams;
-    private List<String> seasons; // List of month names to filter by
+    private List<String> seasons;
 }

@@ -15,6 +15,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -66,6 +67,7 @@ services:
       # Mount source code for hot reload (changes require container restart, but faster than rebuild)
       - ./src:/app/src
       - ./pom.xml:/app/pom.xml
+      - ./scripts/contest-import/snapshots:/app/scripts/contest-import/snapshots:ro
       # Cache Maven dependencies
       - maven_cache:/root/.m2
     depends_on:

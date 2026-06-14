@@ -68,6 +68,10 @@ public class SurfSpotDTO {
     private String wavepoolUrl;
     @JsonProperty("isRiverWave")
     private Boolean isRiverWave;
+    @JsonProperty("isWslTourStop")
+    private Boolean isWslTourStop;
+    @JsonProperty("isOnWslTourThisSeason")
+    private Boolean isOnWslTourThisSeason;
     private SurfSpotStatus status;
 
     private Boolean foodNearby;
@@ -115,6 +119,7 @@ public class SurfSpotDTO {
         this.setIsWavepool(surfSpot.getIsWavepool());
         this.setWavepoolUrl(surfSpot.getWavepoolUrl());
         this.setIsRiverWave(surfSpot.getIsRiverWave());
+        this.setIsWslTourStop(surfSpot.getIsWslTourStop());
         this.setStatus(surfSpot.getStatus());
         this.setFoodNearby(surfSpot.getFoodNearby());
         this.setFoodOptions(surfSpot.getFoodOptions());

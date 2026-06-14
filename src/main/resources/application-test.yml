@@ -11,6 +11,11 @@ spring:
     url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_test}
     username: ${SPRING_TEST_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_TEST_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
+    hikari:
+      # Fail fast when Postgres is not running (avoids multi-minute hangs per @SpringBootTest).
+      connection-timeout: 5000
+      initialization-fail-timeout: 5000
+      validation-timeout: 3000
   jpa:
     hibernate:
       ddl-auto: update

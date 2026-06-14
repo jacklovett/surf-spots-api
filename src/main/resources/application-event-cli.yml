@@ -1,0 +1,16 @@
+spring:
+  main:
+    web-application-type: none
+  devtools:
+    restart:
+      enabled: false
+
+# Uses the same spring.datasource.* as the active Spring profile (dev, prod, etc.).
+# Example — local dev DB:
+#   mvnw spring-boot:run -Dspring-boot.run.profiles=dev,event-cli ...
+# Example — production DB (verify URL before running):
+#   mvnw spring-boot:run -Dspring-boot.run.profiles=prod,event-cli ...
+
+app:
+  seed:
+    enabled: false

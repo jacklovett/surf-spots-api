@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.*;
 
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,9 @@ import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.SubRegion;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
+import com.lovettj.surfspotsapi.entity.SurfEvent;
+import com.lovettj.surfspotsapi.enums.EventStatus;
+import com.lovettj.surfspotsapi.enums.EventType;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.enums.Tide;
@@ -37,7 +41,7 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         predicates.add(cb.equal(root.get("region"), region));
         // Only include surf spots that don't belong to a sub-region
         predicates.add(cb.isNull(root.get("subRegion")));
-        addCommonPredicates(cb, root, predicates, filters);
+        addCommonPredicates(cb, cq, root, predicates, filters);
         addPrivateSpotsFilters(cb, root, predicates, filters.getUserId());
 
         cq.where(predicates.toArray(new Predicate[0]));
@@ -52,7 +56,7 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(cb.equal(root.get("subRegion"), subRegion));
-        addCommonPredicates(cb, root, predicates, filters);
+        addCommonPredicates(cb, cq, root, predicates, filters);
         addPrivateSpotsFilters(cb, root, predicates, filters.getUserId());
 
         cq.where(predicates.toArray(new Predicate[0]));
@@ -74,7 +78,7 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         predicates.add(cb.between(root.get("latitude"), minLat, maxLat));
         predicates.add(cb.between(root.get("longitude"), minLong, maxLong));
         
-        addCommonPredicates(cb, root, predicates, filters);
+        addCommonPredicates(cb, cq, root, predicates, filters);
         addPrivateSpotsFilters(cb, root, predicates, filters.getUserId());    
         
         cq.where(predicates.toArray(new Predicate[0]));
@@ -138,7 +142,12 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
         return results.get(0);
     }
 
-    private void addCommonPredicates(CriteriaBuilder cb, Root<SurfSpot> root, List<Predicate> predicates, SurfSpotFilterDTO filters) {
+    private void addCommonPredicates(
+            CriteriaBuilder cb,
+            CriteriaQuery<SurfSpot> criteriaQuery,
+            Root<SurfSpot> root,
+            List<Predicate> predicates,
+            SurfSpotFilterDTO filters) {
         // Type (enum)
         if (filters.getType() != null && !filters.getType().isEmpty()) {
             predicates.add(root.get("type").in(filters.getType()));
@@ -199,6 +208,19 @@ public class SurfSpotRepositoryImpl implements SurfSpotRepositoryCustom {
 
         if (filters.getIsRiverWave() != null) {
             predicates.add(cb.equal(root.get("isRiverWave"), filters.getIsRiverWave()));
+        }
+
+        if (filters.getIsWslTourStop() != null) {
+            Subquery<Long> activeContestSubquery = criteriaQuery.subquery(Long.class);
+            Root<SurfEvent> eventRoot = activeContestSubquery.from(SurfEvent.class);
+            activeContestSubquery
+                    .select(eventRoot.get("id"))
+                    .where(
+                            cb.equal(eventRoot.get("surfSpot"), root),
+                            cb.equal(eventRoot.get("eventType"), EventType.CONTEST),
+                            cb.equal(eventRoot.join("contestDetail").get("seasonYear"), LocalDate.now().getYear()),
+                            cb.not(eventRoot.get("status").in(EventStatus.excludedFromSeasonActivity())));
+            predicates.add(cb.or(cb.equal(root.get("isWslTourStop"), true), cb.exists(activeContestSubquery)));
         }
 
         // SwellDirection (string array) - smart filtering: if filtering by "E", also match "E-NE", "E-SE", etc.

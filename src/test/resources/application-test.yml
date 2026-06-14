@@ -9,6 +9,9 @@ spring:
       # Same Postgres as dev is often used (localhost:5432); keep pools small per JVM.
       maximum-pool-size: 5
       minimum-idle: 1
+      connection-timeout: 5000
+      initialization-fail-timeout: 5000
+      validation-timeout: 3000
   jpa:
     hibernate:
       ddl-auto: update # Hibernate automatically updates schema

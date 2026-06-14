@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
@@ -29,11 +30,17 @@ class NotificationServiceTest {
     @Mock
     private SwellSeasonService swellSeasonService;
 
+    @Mock
+    private EventNotificationService eventNotificationService;
+
     private NotificationService notificationService;
 
     @BeforeEach
     void setUp() {
-        notificationService = new NotificationService(swellSeasonService);
+        notificationService = new NotificationService(swellSeasonService, eventNotificationService);
+        lenient()
+                .when(eventNotificationService.generateEventNotifications(anyMap()))
+                .thenReturn(Collections.emptyList());
     }
 
     @Test
@@ -44,8 +51,23 @@ class NotificationServiceTest {
         
         assertNotNull(notifications);
         assertTrue(notifications.isEmpty());
-        // NotificationService returns early for empty lists, so swellSeasonService is not called
         verify(swellSeasonService, never()).generateSwellSeasonNotifications(any());
+        verify(eventNotificationService, never()).generateEventNotifications(anyMap());
+    }
+
+    @Test
+    void testGenerateNotificationsShouldReturnEmptyListWhenWatchListHasNoResolvableSpots() {
+        WatchListSurfSpot watchListItem = WatchListSurfSpot.builder()
+                .user(User.builder().id("user1").emailVerified(true).build())
+                .surfSpot(null)
+                .build();
+
+        List<NotificationDTO> notifications =
+                notificationService.generateNotifications(List.of(watchListItem));
+
+        assertTrue(notifications.isEmpty());
+        verify(swellSeasonService, never()).generateSwellSeasonNotifications(any());
+        verify(eventNotificationService, never()).generateEventNotifications(anyMap());
     }
 
     @Test
@@ -88,6 +110,8 @@ class NotificationServiceTest {
         
         when(swellSeasonService.generateSwellSeasonNotifications(watchList))
             .thenReturn(List.of(expectedNotification));
+        when(eventNotificationService.generateEventNotifications(anyMap()))
+            .thenReturn(Collections.emptyList());
 
         List<NotificationDTO> notifications = notificationService.generateNotifications(watchList);
 
@@ -137,6 +161,8 @@ class NotificationServiceTest {
         
         when(swellSeasonService.generateSwellSeasonNotifications(watchList))
             .thenReturn(List.of(expectedNotification));
+        when(eventNotificationService.generateEventNotifications(anyMap()))
+            .thenReturn(Collections.emptyList());
 
         List<NotificationDTO> notifications = notificationService.generateNotifications(watchList);
 
@@ -275,6 +301,8 @@ class NotificationServiceTest {
         
         when(swellSeasonService.generateSwellSeasonNotifications(watchList))
             .thenReturn(List.of(expectedNotification));
+        when(eventNotificationService.generateEventNotifications(anyMap()))
+            .thenReturn(Collections.emptyList());
 
         List<NotificationDTO> notifications = notificationService.generateNotifications(watchList);
 
@@ -320,6 +348,8 @@ class NotificationServiceTest {
         
         when(swellSeasonService.generateSwellSeasonNotifications(watchList))
             .thenReturn(List.of(expectedNotification));
+        when(eventNotificationService.generateEventNotifications(anyMap()))
+            .thenReturn(Collections.emptyList());
 
         List<NotificationDTO> notifications = notificationService.generateNotifications(watchList);
 
@@ -390,6 +420,8 @@ class NotificationServiceTest {
         
         when(swellSeasonService.generateSwellSeasonNotifications(watchList))
             .thenReturn(List.of(expectedNotification));
+        when(eventNotificationService.generateEventNotifications(anyMap()))
+            .thenReturn(Collections.emptyList());
 
         List<NotificationDTO> notifications = notificationService.generateNotifications(watchList);
 
@@ -397,6 +429,44 @@ class NotificationServiceTest {
         // Should have ONE notification for the region (not per spot)
         assertEquals(1, notifications.size());
         verify(swellSeasonService).generateSwellSeasonNotifications(watchList);
+    }
+
+    @Test
+    void testGenerateNotificationsShouldMergeSwellAndEventNotificationsSortedByCreatedAt() {
+        SurfSpot surfSpot = SurfSpot.builder().id(1L).name("Pipeline").build();
+        WatchListSurfSpot watchListItem = createWatchListSurfSpot(surfSpot);
+        List<WatchListSurfSpot> watchList = List.of(watchListItem);
+
+        LocalDateTime now = LocalDateTime.now();
+        NotificationDTO swellNotification = NotificationDTO.builder()
+                .id("swell-1_1")
+                .title("Winter Swell Has Arrived")
+                .description("Swell season started")
+                .type("swell")
+                .location("Winter Swell")
+                .createdAt(now.minusHours(2))
+                .build();
+        NotificationDTO eventNotification = NotificationDTO.builder()
+                .id("wsl-event-10")
+                .title("Billabong Pro Pipeline — CT waiting period open")
+                .description("CT event in waiting period")
+                .type("event")
+                .location("Pipeline, Oahu, Hawaii")
+                .surfSpotName("Pipeline")
+                .createdAt(now.minusHours(1))
+                .build();
+
+        when(swellSeasonService.generateSwellSeasonNotifications(watchList))
+                .thenReturn(List.of(swellNotification));
+        when(eventNotificationService.generateEventNotifications(anyMap()))
+                .thenReturn(List.of(eventNotification));
+
+        List<NotificationDTO> notifications = notificationService.generateNotifications(watchList);
+
+        assertEquals(2, notifications.size());
+        assertEquals("event", notifications.get(0).getType());
+        assertEquals("swell", notifications.get(1).getType());
+        verify(eventNotificationService).generateEventNotifications(anyMap());
     }
 
     // Helper methods

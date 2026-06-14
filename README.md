@@ -95,6 +95,7 @@ docker-compose -f docker-compose.dev.yml logs -f api
 - [Installation](#installation)
 - [Database Setup](#database-setup)
 - [Seed Data Management](#seed-data-management)
+- [WSL Championship Tour schedule](scripts/contest-import/README.md)
 - [Configuration](#configuration)
 - [Running the Application](#running-the-application)
 - [Testing](#testing)
@@ -390,6 +391,20 @@ To restore from backup:
 cp src/main/resources/static/seedData.backup/*.json src/main/resources/static/seedData/
 ```
 
+## WSL Championship Tour schedule
+
+CT event dates and surf-spot links are managed via a **manual CLI** (not HTTP endpoints). Save the WSL schedule page in your browser, then run `--contest-sync --file=...`. See the operator guide.
+
+Full operator guide: **[scripts/contest-import/README.md](scripts/contest-import/README.md)**
+
+```powershell
+docker compose -f docker-compose.dev.yml run --rm --no-deps `
+  -v "${PWD}/scripts/contest-import/snapshots:/snapshots" `
+  api mvn -B "-Dmaven.test.skip=true" spring-boot:run `
+  "-Dspring-boot.run.profiles=dev,event-cli" `
+  "-Dspring-boot.run.arguments=--contest-sync --file=/snapshots/ct-2026.html --year=2026"
+```
+
 ## Configuration
 
 Full guide to **transactional email**, **Mailpit**, **dev HTML previews**, and env vars: **[docs/EMAIL.md](docs/EMAIL.md)**.
@@ -435,6 +450,8 @@ S3_BUCKET=surf-spots-media
 | `S3_BUCKET` | No | Bucket name (default: `surf-spots-media`). |
 | `S3_ENDPOINT`, `S3_REGION` | No | Override endpoint/region if not Paris. |
 
+WSL CT schedule: manual CLI — [scripts/contest-import/README.md](scripts/contest-import/README.md). No env vars required.
+
 **Other ways to set them:** You can still use your shell (`export DB_PASSWORD=postgres`) or your IDE run configuration; real environment variables override values from `.env`. For **deployment** (e.g. Scaleway), set variables in the platform’s environment settings (not a file).
 
 ### Application Profiles
@@ -444,6 +461,7 @@ The application supports multiple profiles:
 - **dev** (default) - Local development; Flyway migrations on; email off unless `MAIL_ENABLED=true` (use Mailpit, see below)
 - **test** - Integration tests; Postgres test database (`application-test.yml`, defaults in `src/test/resources/application.properties`)
 - **prod** - Production profile with Flyway migrations enabled
+- **event-cli** - One-off contest schedule sync/link commands; ([scripts/contest-import/README.md](scripts/contest-import/README.md))
 
 The active profile is set in `application.yml` and can be overridden:
 ```bash
@@ -591,6 +609,21 @@ docker compose -f docker-compose.dev.yml --profile tests run --rm tests sh -c "m
 Surefire sets **`spring.profiles.active=test`**. Main **`application.yml`** uses **`spring.profiles.default: dev`** (not `active`) so **dev** is not locked on while tests run. JDBC defaults: **`src/test/resources/application.properties`** and **`application-test.yml`**; Docker **`tests`** service sets **`SPRING_DATASOURCE_*`** to the test DB host.
 
 Create **`surf_spots_test_db`** once if it is missing (e.g. `docker exec surf-spots-postgres-dev psql -U postgres -c "CREATE DATABASE surf_spots_test_db;"`, or `db-init/` on a new Docker volume).
+
+Integration tests (`SeedServiceIntegrationTest`, `SurfEventFilterIntegrationTest`, `ContestScheduleSyncWorkflowIntegrationTest`) require Postgres — use the Docker **`tests`** service above.
+
+To run a subset (e.g. WSL parser and service tests):
+
+```bash
+./mvnw test -Dtest=ContestScheduleHtmlParserTests,ContestScheduleSyncServiceTests,ContestVenueLinkServiceTests,EventStatusTests,ContestDateRangeParserTests,EventNotificationServiceTests
+```
+
+### Why tests can appear to hang
+
+- **`@SpringBootTest` without Postgres** — Hikari waits on connection (now **5s** fail-fast in `application-test.yml`).
+- **Full `./mvnw test`** — 12+ Spring context boots; can take **many minutes** even when healthy.
+- **Do not use `-q`** when debugging; it hides progress.
+- **Do not run `mvn test` inside the `api` dev container** — it inherits the dev DB URL (see Docker section above).
 
 ### How this maps to Spring Boot
 
