@@ -94,6 +94,7 @@ public class UserService {
         user.setWeight(updateUserRequest.getWeight());
         user.setSkillLevel(updateUserRequest.getSkillLevel());
         user.setEmergencyContactName(trimToNull(updateUserRequest.getEmergencyContactName()));
+        user.setEmergencyContactEmail(trimToNull(updateUserRequest.getEmergencyContactEmail()));
         String emergencyPhone = trimToNull(updateUserRequest.getEmergencyContactPhone());
         if (emergencyPhone != null) {
             emergencyPhone = EmergencyContactPhoneSupport.normalizeToE164OrThrow(emergencyPhone);

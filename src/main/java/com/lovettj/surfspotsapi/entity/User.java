@@ -67,6 +67,9 @@ public class User {
   @Column(name = "emergency_contact_name")
   private String emergencyContactName;
 
+  @Column(name = "emergency_contact_email")
+  private String emergencyContactEmail;
+
   @Column(name = "emergency_contact_phone")
   private String emergencyContactPhone;
 

@@ -31,6 +31,8 @@ public class UserRequest {
 
   private String emergencyContactName;
 
+  private String emergencyContactEmail;
+
   private String emergencyContactPhone;
 
   private EmergencyContactRelationship emergencyContactRelationship;

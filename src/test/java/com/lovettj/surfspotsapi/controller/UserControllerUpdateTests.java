@@ -111,6 +111,23 @@ class UserControllerUpdateTests {
                 .andExpect(jsonPath("$.message").value(ApiErrors.formatErrorMessage("update", "profile")));
     }
 
+    @Test
+    void testUpdateProfileShouldAcceptEmergencyContactEmail() throws Exception {
+        UserRequest request = new UserRequest();
+        request.setName("Test User");
+        request.setEmergencyContactName("Jane Doe");
+        request.setEmergencyContactEmail("jane@example.com");
+
+        mockMvc.perform(put("/api/user/update/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .cookie(sessionCookie()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value("Profile updated successfully!"));
+
+        verify(userService).updateUserProfile(TEST_USER_ID, request);
+    }
+
     // --- PUT /api/user/update-password ---
 
     @Test

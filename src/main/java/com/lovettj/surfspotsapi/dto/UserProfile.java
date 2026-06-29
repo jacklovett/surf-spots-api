@@ -20,6 +20,7 @@ public class UserProfile {
   private Integer weight;
   private SkillLevel skillLevel;
   private String emergencyContactName;
+  private String emergencyContactEmail;
   private String emergencyContactPhone;
   private EmergencyContactRelationship emergencyContactRelationship;
   private SettingsDTO settings;
@@ -37,6 +38,7 @@ public class UserProfile {
     weight = user.getWeight();
     skillLevel = user.getSkillLevel();
     emergencyContactName = user.getEmergencyContactName();
+    emergencyContactEmail = user.getEmergencyContactEmail();
     emergencyContactPhone = user.getEmergencyContactPhone();
     emergencyContactRelationship = user.getEmergencyContactRelationship();
     settings = user.getSettings() != null ? new SettingsDTO(user.getSettings()) : null;
