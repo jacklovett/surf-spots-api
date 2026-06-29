@@ -477,4 +477,41 @@ class AuthControllerTests {
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.SOMETHING_WENT_WRONG)));
     }
+
+    // --- POST /api/auth/reset-password ---
+
+    @Test
+    void resetPasswordShouldReturnOkWhenTokenAndPasswordAreValid() throws Exception {
+        doNothing().when(passwordResetService).resetPassword(anyString(), anyString());
+
+        mockMvc.perform(post("/api/auth/reset-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"token\":\"valid-token\",\"newPassword\":\"newPassword1!\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", Matchers.is("Password successfully reset.")));
+    }
+
+    @Test
+    void resetPasswordShouldReturn400WhenTokenIsInvalidOrExpired() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.VERIFY_EMAIL_TOKEN_INVALID_OR_EXPIRED))
+                .when(passwordResetService).resetPassword(anyString(), anyString());
+
+        mockMvc.perform(post("/api/auth/reset-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"token\":\"expired-token\",\"newPassword\":\"newPassword1!\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.VERIFY_EMAIL_TOKEN_INVALID_OR_EXPIRED)));
+    }
+
+    @Test
+    void resetPasswordShouldReturn500WhenServiceThrowsUnexpectedly() throws Exception {
+        doThrow(new RuntimeException("DB failure"))
+                .when(passwordResetService).resetPassword(anyString(), anyString());
+
+        mockMvc.perform(post("/api/auth/reset-password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"token\":\"any-token\",\"newPassword\":\"anyPassword1!\"}"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message", Matchers.is(ApiErrors.formatErrorMessage("change", "password"))));
+    }
 }

@@ -454,4 +454,121 @@ class TripControllerTests {
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.message").value(ApiErrors.formatErrorMessage("create", "trip")));
     }
+
+    // --- POST /{tripId}/surfboards/{surfboardId} ---
+
+    @Test
+    void testAddSurfboardShouldReturnOk() throws Exception {
+        String surfboardId = UUID.randomUUID().toString();
+        doNothing().when(tripService).addSurfboard(anyString(), anyString(), anyString());
+
+        mockMvc.perform(post("/api/trips/" + testTripId + "/surfboards/" + surfboardId)
+                .param("userId", testUserId)
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value("Surfboard added to trip"));
+
+        verify(tripService).addSurfboard(testUserId, testTripId, surfboardId);
+    }
+
+    @Test
+    void testAddSurfboardShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        String surfboardId = UUID.randomUUID().toString();
+
+        mockMvc.perform(post("/api/trips/" + testTripId + "/surfboards/" + surfboardId)
+                .param("userId", testUserId))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testAddSurfboardShouldReturn404WhenTripNotFound() throws Exception {
+        String surfboardId = UUID.randomUUID().toString();
+
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found"))
+                .when(tripService).addSurfboard(anyString(), anyString(), anyString());
+
+        mockMvc.perform(post("/api/trips/" + testTripId + "/surfboards/" + surfboardId)
+                .param("userId", testUserId)
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Trip not found"));
+    }
+
+    // --- DELETE /{tripId}/surfboards/{tripSurfboardId} ---
+
+    @Test
+    void testRemoveSurfboardShouldReturnOk() throws Exception {
+        String tripSurfboardId = UUID.randomUUID().toString();
+        doNothing().when(tripService).removeSurfboard(anyString(), anyString(), anyString());
+
+        mockMvc.perform(delete("/api/trips/" + testTripId + "/surfboards/" + tripSurfboardId)
+                .param("userId", testUserId)
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value("Surfboard removed from trip"));
+
+        verify(tripService).removeSurfboard(testUserId, testTripId, tripSurfboardId);
+    }
+
+    @Test
+    void testRemoveSurfboardShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        String tripSurfboardId = UUID.randomUUID().toString();
+
+        mockMvc.perform(delete("/api/trips/" + testTripId + "/surfboards/" + tripSurfboardId)
+                .param("userId", testUserId))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testRemoveSurfboardShouldReturn403WhenUserIsNotTripOwner() throws Exception {
+        String tripSurfboardId = UUID.randomUUID().toString();
+
+        doThrow(new ResponseStatusException(HttpStatus.FORBIDDEN, "Not authorized"))
+                .when(tripService).removeSurfboard(anyString(), anyString(), anyString());
+
+        mockMvc.perform(delete("/api/trips/" + testTripId + "/surfboards/" + tripSurfboardId)
+                .param("userId", testUserId)
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.message").value("Not authorized"));
+    }
+
+    // --- DELETE /{tripId}/invitations/{invitationId} ---
+
+    @Test
+    void testCancelInvitationShouldReturnOk() throws Exception {
+        String invitationId = UUID.randomUUID().toString();
+        doNothing().when(tripService).cancelInvitation(anyString(), anyString(), anyString());
+
+        mockMvc.perform(delete("/api/trips/" + testTripId + "/invitations/" + invitationId)
+                .param("userId", testUserId)
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value("Invitation cancelled"));
+
+        verify(tripService).cancelInvitation(testUserId, testTripId, invitationId);
+    }
+
+    @Test
+    void testCancelInvitationShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        String invitationId = UUID.randomUUID().toString();
+
+        mockMvc.perform(delete("/api/trips/" + testTripId + "/invitations/" + invitationId)
+                .param("userId", testUserId))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testCancelInvitationShouldReturn404WhenInvitationNotFound() throws Exception {
+        String invitationId = UUID.randomUUID().toString();
+
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Invitation not found"))
+                .when(tripService).cancelInvitation(anyString(), anyString(), anyString());
+
+        mockMvc.perform(delete("/api/trips/" + testTripId + "/invitations/" + invitationId)
+                .param("userId", testUserId)
+                .cookie(createValidSessionCookie()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Invitation not found"));
+    }
 }

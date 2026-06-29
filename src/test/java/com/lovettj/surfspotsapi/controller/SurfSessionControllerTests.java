@@ -1,6 +1,8 @@
 package com.lovettj.surfspotsapi.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -20,6 +22,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import java.sql.SQLException;
 
@@ -40,6 +43,7 @@ import jakarta.servlet.http.Cookie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
+import com.lovettj.surfspotsapi.dto.SurfSessionMediaDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
@@ -47,7 +51,9 @@ import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveSize;
+import com.lovettj.surfspotsapi.requests.CreateSurfSessionMediaRequest;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
+import com.lovettj.surfspotsapi.requests.UploadMediaRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.SurfSessionService;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
@@ -346,5 +352,127 @@ class SurfSessionControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.sessionRatingDistribution['4']").value(2))
                 .andExpect(jsonPath("$.sampleSize").value(2));
+    }
+
+    // --- POST /api/surf-sessions/{sessionId}/media/upload-url ---
+
+    @Test
+    void testGetMediaUploadUrlShouldReturnOkWhenAuthenticated() throws Exception {
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image/jpeg");
+
+        when(surfSessionService.getUploadUrl(anyString(), anyLong(), anyString(), anyString()))
+                .thenReturn("https://example.com/upload/123");
+
+        mockMvc.perform(post("/api/surf-sessions/5/media/upload-url")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.uploadUrl").exists())
+                .andExpect(jsonPath("$.data.mediaId").exists());
+    }
+
+    @Test
+    void testGetMediaUploadUrlShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image/jpeg");
+
+        mockMvc.perform(post("/api/surf-sessions/5/media/upload-url")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testGetMediaUploadUrlShouldReturnServiceUnavailableWhenStorageNotConfigured() throws Exception {
+        UploadMediaRequest request = new UploadMediaRequest();
+        request.setMediaType("image/jpeg");
+
+        when(surfSessionService.getUploadUrl(anyString(), anyLong(), anyString(), anyString()))
+                .thenThrow(new IllegalStateException("Media storage is not configured."));
+
+        mockMvc.perform(post("/api/surf-sessions/5/media/upload-url")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isServiceUnavailable())
+                .andExpect(jsonPath("$.message").value(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE));
+    }
+
+    // --- POST /api/surf-sessions/{sessionId}/media ---
+
+    @Test
+    void testAddMediaShouldReturnCreatedWhenAuthenticated() throws Exception {
+        CreateSurfSessionMediaRequest request = new CreateSurfSessionMediaRequest();
+        request.setMediaId(UUID.randomUUID().toString());
+        request.setOriginalUrl("https://example.com/media/original.jpg");
+        request.setThumbUrl("https://example.com/media/thumb.jpg");
+        request.setMediaType("image/jpeg");
+
+        SurfSessionMediaDTO mediaDTO = SurfSessionMediaDTO.builder()
+                .id(request.getMediaId())
+                .surfSessionId(5L)
+                .originalUrl(request.getOriginalUrl())
+                .mediaType("image/jpeg")
+                .build();
+
+        when(surfSessionService.addMedia(anyString(), anyLong(), any(CreateSurfSessionMediaRequest.class)))
+                .thenReturn(mediaDTO);
+
+        mockMvc.perform(post("/api/surf-sessions/5/media")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.data.id").value(request.getMediaId()));
+    }
+
+    @Test
+    void testAddMediaShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        CreateSurfSessionMediaRequest request = new CreateSurfSessionMediaRequest();
+        request.setMediaId(UUID.randomUUID().toString());
+        request.setOriginalUrl("https://example.com/media/photo.jpg");
+        request.setMediaType("image/jpeg");
+
+        mockMvc.perform(post("/api/surf-sessions/5/media")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isForbidden());
+    }
+
+    // --- DELETE /api/surf-sessions/media/{mediaId} ---
+
+    @Test
+    void testDeleteMediaShouldReturnOkWhenAuthenticated() throws Exception {
+        String mediaId = UUID.randomUUID().toString();
+        doNothing().when(surfSessionService).deleteMedia(anyString(), anyString());
+
+        mockMvc.perform(delete("/api/surf-sessions/media/" + mediaId)
+                        .cookie(sessionCookie()))
+                .andExpect(status().isOk());
+
+        verify(surfSessionService).deleteMedia(TEST_USER_ID, mediaId);
+    }
+
+    @Test
+    void testDeleteMediaShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        String mediaId = UUID.randomUUID().toString();
+
+        mockMvc.perform(delete("/api/surf-sessions/media/" + mediaId))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testDeleteMediaShouldReturn404WhenMediaNotFound() throws Exception {
+        String mediaId = UUID.randomUUID().toString();
+
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Media not found"))
+                .when(surfSessionService).deleteMedia(anyString(), anyString());
+
+        mockMvc.perform(delete("/api/surf-sessions/media/" + mediaId)
+                        .cookie(sessionCookie()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Media not found"));
     }
 }
