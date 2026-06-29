@@ -175,6 +175,7 @@ public class SurfSpotService {
         surfSpot.setIsWavepool(surfSpotRequest.isWavepool());
         surfSpot.setWavepoolUrl(surfSpotRequest.getWavepoolUrl());
         surfSpot.setIsRiverWave(surfSpotRequest.isRiverWave());
+        surfSpot.setIsWslTourStop(false);
         surfSpot.setAccommodationNearby(surfSpotRequest.isAccommodationNearby());
         surfSpot.setFoodNearby(surfSpotRequest.isFoodNearby());
 
