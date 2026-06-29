@@ -42,4 +42,7 @@ public class SurfEventContestDetail {
 
     @Column(name = "venue_location_key", nullable = false)
     private String venueLocationKey;
+
+    @Column(columnDefinition = "TEXT")
+    private String url;
 }

@@ -34,6 +34,9 @@ class ContestScheduleHtmlParserTests {
         assertEquals(LocalDate.of(2026, 6, 19), rioPro.getStartDate());
         assertEquals(LocalDate.of(2026, 6, 27), rioPro.getEndDate());
         assertEquals("Upcoming", rioPro.getStatus());
+        assertEquals(
+                "https://www.worldsurfleague.com/events/2026/ct/440/vivo-rio-pro/main",
+                rioPro.getUrl());
 
         ContestScheduleImportDTO.ContestScheduleEventDTO elSalvadorPro = schedule.getEvents().stream()
                 .filter(eventRow -> eventRow.getLocationName().contains("Punta Roca"))

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lovettj.surfspotsapi.constants.ContestImportConstants;
 import com.lovettj.surfspotsapi.dto.ContestScheduleImportDTO;
+import com.lovettj.surfspotsapi.dto.NotificationDTO;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.enums.EventStatus;
 import com.lovettj.surfspotsapi.enums.EventType;
@@ -64,6 +65,7 @@ class ContestScheduleSyncWorkflowIntegrationTest {
         eventRow.setStartDate(LocalDate.now().minusDays(1));
         eventRow.setEndDate(LocalDate.now().plusDays(5));
         eventRow.setStatus("Upcoming");
+        eventRow.setUrl("https://www.worldsurfleague.com/events/2026/ct/999/integration-ct-stop/main");
 
         ContestScheduleImportDTO schedule = new ContestScheduleImportDTO();
         schedule.setYear(currentYear);
@@ -84,7 +86,12 @@ class ContestScheduleSyncWorkflowIntegrationTest {
         assertTrue(activeContestSpotIds.contains(testSpot.getId()));
 
         Map<Long, SurfSpot> watchedSpotsById = Map.of(reloadedSpot.getId(), reloadedSpot);
-        assertFalse(eventNotificationService.generateEventNotifications(watchedSpotsById).isEmpty());
+        List<NotificationDTO> notifications =
+                eventNotificationService.generateEventNotifications(watchedSpotsById);
+        assertFalse(notifications.isEmpty());
+        assertEquals(
+                "https://www.worldsurfleague.com/events/2026/ct/999/integration-ct-stop/main",
+                notifications.get(0).getLink());
 
         var persistedEvent = surfEventRepository
                 .findContestByOrganizerSeriesVenueAndSeasonYear(

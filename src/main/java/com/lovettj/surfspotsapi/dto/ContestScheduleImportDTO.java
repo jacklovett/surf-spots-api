@@ -17,5 +17,6 @@ public class ContestScheduleImportDTO {
         private LocalDate startDate;
         private LocalDate endDate;
         private String status;
+        private String url;
     }
 }

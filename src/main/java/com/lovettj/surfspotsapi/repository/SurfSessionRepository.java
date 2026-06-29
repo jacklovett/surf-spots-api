@@ -10,13 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SurfSessionRepository extends JpaRepository<SurfSession, Long> {
-
-    /**
-     * Whether this user already has a session for the same external provider/id (idempotent imports).
-     */
     @Query(
             """
-            SELECT CASE WHEN COUNT(session) > 0 THEN true ELSE false END
+            SELECT COUNT(session) > 0
             FROM SurfSession session
             WHERE session.user.id = :userId
               AND session.externalSessionProvider = :externalSessionProvider

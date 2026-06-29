@@ -121,6 +121,7 @@ public class SwellSeasonService {
                 .title(title)
                 .description(description)
                 .location(location)
+                .surfSpotName(firstSpot.getName())
                 .createdAt(LocalDateTime.now())
                 .build();
 

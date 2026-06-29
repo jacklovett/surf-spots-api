@@ -1,6 +1,7 @@
 package com.lovettj.surfspotsapi.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -70,6 +71,39 @@ class EventNotificationServiceTests {
         assertEquals("surf-event-20", notification.getId());
         assertEquals("Pipeline", notification.getSurfSpotName());
         assertEquals("Billabong Pro Pipeline — CT waiting period open", notification.getTitle());
+        assertNull(notification.getLink());
+        assertEquals(LocalDate.now().minusDays(1), notification.getStartDate());
+        assertEquals(LocalDate.now().plusDays(5), notification.getEndDate());
+        assertEquals("UPCOMING", notification.getStatus());
+    }
+
+    @Test
+    void testGenerateEventNotificationsShouldCopyImportedUrlOntoNotificationLink() {
+        SurfSpot pipeline = SurfSpot.builder().id(5L).name("Pipeline").build();
+        SurfEvent activeEvent = contestEvent(
+                20L,
+                pipeline,
+                "Billabong Pro Pipeline",
+                "Pipeline, Oahu, Hawaii",
+                LocalDate.now().minusDays(1),
+                LocalDate.now().plusDays(5),
+                EventStatus.UPCOMING);
+        activeEvent.getContestDetail().setUrl(
+                "https://www.worldsurfleague.com/events/2026/ct/446/lexus-pipe-masters/main");
+
+        when(surfEventRepository.findSeasonActiveEventsForYearAndSurfSpotIds(
+                        eq(EventType.CONTEST),
+                        eq(LocalDate.now().getYear()),
+                        eq(Set.of(5L)),
+                        eq(EventStatus.excludedFromSeasonActivity())))
+                .thenReturn(List.of(activeEvent));
+
+        List<NotificationDTO> notifications =
+                eventNotificationService.generateEventNotifications(watchedSpots(pipeline));
+
+        assertEquals(
+                "https://www.worldsurfleague.com/events/2026/ct/446/lexus-pipe-masters/main",
+                notifications.get(0).getLink());
     }
 
     @Test
@@ -115,33 +149,6 @@ class EventNotificationServiceTests {
                 eventNotificationService.generateEventNotifications(watchedSpotsById);
 
         assertTrue(notifications.isEmpty());
-    }
-
-    @Test
-    void testGenerateEventNotificationsShouldDeduplicateByEventId() {
-        SurfSpot pipeline = SurfSpot.builder().id(5L).name("Pipeline").build();
-        SurfEvent activeEvent = contestEvent(
-                22L,
-                pipeline,
-                "CT Stop",
-                "Pipeline, Oahu, Hawaii",
-                LocalDate.now().minusDays(1),
-                LocalDate.now().plusDays(3),
-                EventStatus.ACTIVE);
-
-        Map<Long, SurfSpot> watchedSpotsById = watchedSpots(pipeline);
-
-        when(surfEventRepository.findSeasonActiveEventsForYearAndSurfSpotIds(
-                        eq(EventType.CONTEST),
-                        eq(LocalDate.now().getYear()),
-                        eq(Set.of(5L)),
-                        eq(EventStatus.excludedFromSeasonActivity())))
-                .thenReturn(List.of(activeEvent));
-
-        List<NotificationDTO> notifications =
-                eventNotificationService.generateEventNotifications(watchedSpotsById);
-
-        assertEquals(1, notifications.size());
     }
 
     @Test

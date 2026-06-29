@@ -174,6 +174,40 @@ class ContestScheduleSyncServiceTests {
     }
 
     @Test
+    void testUpsertScheduleShouldPersistUrlFromImportRow() {
+        ContestScheduleImportDTO schedule = scheduleWithSingleEvent(
+                "Lexus Pipe Masters",
+                "Pipeline, Oahu, Hawaii",
+                LocalDate.of(2026, 12, 8),
+                LocalDate.of(2026, 12, 20),
+                "Upcoming",
+                "https://www.worldsurfleague.com/events/2026/ct/446/lexus-pipe-masters/main");
+
+        when(surfEventRepository.findContestByOrganizerSeriesVenueAndSeasonYear(
+                        ContestImportConstants.ORGANIZER_WSL,
+                        ContestImportConstants.CHAMPIONSHIP_TOUR_SERIES,
+                        "pipeline-oahu-hawaii",
+                        2026))
+                .thenReturn(Optional.empty());
+        when(surfEventRepository
+                        .findFirstByContestDetailOrganizerAndContestDetailSeriesAndContestDetailVenueLocationKeyAndContestDetailSeasonYearLessThanOrderByContestDetailSeasonYearDesc(
+                                ContestImportConstants.ORGANIZER_WSL,
+                                ContestImportConstants.CHAMPIONSHIP_TOUR_SERIES,
+                                "pipeline-oahu-hawaii",
+                                2026))
+                .thenReturn(Optional.empty());
+        when(surfEventRepository.save(any(SurfEvent.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        contestScheduleSyncService.upsertSchedule(schedule);
+
+        ArgumentCaptor<SurfEvent> savedEventCaptor = ArgumentCaptor.forClass(SurfEvent.class);
+        verify(surfEventRepository).save(savedEventCaptor.capture());
+        assertEquals(
+                "https://www.worldsurfleague.com/events/2026/ct/446/lexus-pipe-masters/main",
+                savedEventCaptor.getValue().getContestDetail().getUrl());
+    }
+
+    @Test
     void testUpsertScheduleShouldThrowWhenYearMissing() {
         ContestScheduleImportDTO schedule = new ContestScheduleImportDTO();
         schedule.setEvents(List.of(new ContestScheduleImportDTO.ContestScheduleEventDTO()));
@@ -329,12 +363,23 @@ class ContestScheduleSyncServiceTests {
             LocalDate startDate,
             LocalDate endDate,
             String status) {
+        return scheduleWithSingleEvent(name, locationName, startDate, endDate, status, null);
+    }
+
+    private ContestScheduleImportDTO scheduleWithSingleEvent(
+            String name,
+            String locationName,
+            LocalDate startDate,
+            LocalDate endDate,
+            String status,
+            String url) {
         ContestScheduleImportDTO.ContestScheduleEventDTO eventRow = new ContestScheduleImportDTO.ContestScheduleEventDTO();
         eventRow.setName(name);
         eventRow.setLocationName(locationName);
         eventRow.setStartDate(startDate);
         eventRow.setEndDate(endDate);
         eventRow.setStatus(status);
+        eventRow.setUrl(url);
 
         ContestScheduleImportDTO schedule = new ContestScheduleImportDTO();
         schedule.setYear(2026);

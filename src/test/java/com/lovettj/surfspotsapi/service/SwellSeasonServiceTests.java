@@ -85,6 +85,8 @@ class SwellSeasonServiceTests {
         assertTrue(startNotification.getDescription().contains("Mavericks") || 
                    startNotification.getDescription().contains("Trestles"),
             "Description should mention affected spots");
+        assertEquals("Mavericks", startNotification.getSurfSpotName());
+        assertNull(startNotification.getLink());
     }
 
     @Test

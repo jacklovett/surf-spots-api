@@ -129,6 +129,7 @@ public class ContestScheduleSyncService {
                 .series(ContestImportConstants.CHAMPIONSHIP_TOUR_SERIES)
                 .seasonYear(seasonYear)
                 .venueLocationKey(venueLocationKey)
+                .url(eventRow.getUrl())
                 .build();
         event.setContestDetail(contestDetail);
         return event;
@@ -141,6 +142,7 @@ public class ContestScheduleSyncService {
         event.setStartDate(eventRow.getStartDate());
         event.setEndDate(eventRow.getEndDate());
         event.setStatus(EventStatus.fromContestPageLabel(eventRow.getStatus()));
+        event.getContestDetail().setUrl(eventRow.getUrl());
     }
 
     private void validateEventRow(ContestScheduleImportDTO.ContestScheduleEventDTO eventRow) {

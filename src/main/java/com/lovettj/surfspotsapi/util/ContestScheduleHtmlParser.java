@@ -26,6 +26,11 @@ public final class ContestScheduleHtmlParser {
             Pattern.compile("event-tour-details__tour-name\">([^<]+)</span>");
     private static final Pattern STATUS_PATTERN =
             Pattern.compile("class=\"event-status[^\"]*\"[^>]*>\\s*<span>([^<]+)</span>");
+    private static final Pattern EVENT_NAME_ANCHOR_OPEN_PATTERN = Pattern.compile(
+            "<a\\s[^>]*class=\"[^\"]*event-schedule-details__event-name[^\"]*\"[^>]*>",
+            Pattern.CASE_INSENSITIVE);
+    private static final Pattern HREF_ATTRIBUTE_PATTERN =
+            Pattern.compile("href=\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
     private static final Pattern NAME_ANCHOR_PATTERN = Pattern.compile(
             "<a\\s[^>]*class=\"[^\"]*event-schedule-details__event-name[^\"]*\"[^>]*>(.*?)</a>",
             Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
@@ -83,7 +88,20 @@ public final class ContestScheduleHtmlParser {
         eventRow.setStartDate(dateRange.start());
         eventRow.setEndDate(dateRange.end());
         eventRow.setStatus(statusLabel != null ? statusLabel.trim() : null);
+        eventRow.setUrl(extractUrl(rowHtml));
         return eventRow;
+    }
+
+    private static String extractUrl(String rowHtml) {
+        Matcher anchorMatcher = EVENT_NAME_ANCHOR_OPEN_PATTERN.matcher(rowHtml);
+        if (!anchorMatcher.find()) {
+            return null;
+        }
+        Matcher hrefMatcher = HREF_ATTRIBUTE_PATTERN.matcher(anchorMatcher.group(0));
+        if (!hrefMatcher.find()) {
+            return null;
+        }
+        return hrefMatcher.group(1).trim();
     }
 
     private static String extractEventName(String rowHtml) {

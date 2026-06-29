@@ -3,7 +3,6 @@ package com.lovettj.surfspotsapi.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,25 +40,11 @@ public class EventNotificationService {
                 EventStatus.excludedFromSeasonActivity());
 
         LocalDate today = LocalDate.now();
-        Set<Long> notifiedEventIds = new HashSet<>();
 
         for (SurfEvent event : activeEvents) {
-            if (event.getSurfSpot() == null || event.getId() == null) {
-                continue;
-            }
-            if (notifiedEventIds.contains(event.getId())) {
-                continue;
-            }
             if (today.isBefore(event.getStartDate()) || today.isAfter(event.getEndDate())) {
                 continue;
             }
-
-            SurfSpot linkedSpot = watchedSpotsById.get(event.getSurfSpot().getId());
-            if (linkedSpot == null) {
-                continue;
-            }
-
-            notifiedEventIds.add(event.getId());
 
             String description = String.format(
                     "%s is on the WSL CT at %s through %s.",
@@ -77,7 +62,11 @@ public class EventNotificationService {
                     .title(title)
                     .description(description)
                     .location(event.getLocationName())
-                    .surfSpotName(linkedSpot.getName())
+                    .surfSpotName(event.getSurfSpot().getName())
+                    .link(event.getContestDetail().getUrl())
+                    .startDate(event.getStartDate())
+                    .endDate(event.getEndDate())
+                    .status(event.getStatus().name())
                     .createdAt(LocalDateTime.now())
                     .build();
 
