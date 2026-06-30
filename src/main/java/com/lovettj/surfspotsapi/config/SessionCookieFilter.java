@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.security.SessionCookieVerifier;
 
 import java.io.IOException;
@@ -22,9 +23,11 @@ public class SessionCookieFilter implements Filter {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionCookieFilter.class);
     private final SessionCookieVerifier sessionCookieVerifier;
+    private final UserRepository userRepository;
 
-    public SessionCookieFilter(SessionCookieVerifier sessionCookieVerifier) {
+    public SessionCookieFilter(SessionCookieVerifier sessionCookieVerifier, UserRepository userRepository) {
         this.sessionCookieVerifier = sessionCookieVerifier;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -46,8 +49,15 @@ public class SessionCookieFilter implements Filter {
         if (sessionCookie != null) {
             Optional<String> userId = sessionCookieVerifier.verifyAndExtractUserId(sessionCookie.getValue());
             if (userId.isPresent()) {
+                String extractedUserId = userId.get();
+                if (!userRepository.existsById(extractedUserId)) {
+                    // Cookie is cryptographically valid but the user no longer exists; treat as unauthenticated.
+                    logger.warn("Session cookie references unknown user; treating as unauthenticated for {} {}", method, pathToMatch);
+                    chain.doFilter(request, response);
+                    return;
+                }
                 PreAuthenticatedAuthenticationToken authToken = new PreAuthenticatedAuthenticationToken(
-                        userId.get(),
+                        extractedUserId,
                         null,
                         Collections.emptyList()
                 );

@@ -30,13 +30,11 @@ import jakarta.servlet.http.Cookie;
 
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
 import com.lovettj.surfspotsapi.service.UserSurfSpotService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class UserSurfSpotControllerTests {
+class UserSurfSpotControllerTests extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

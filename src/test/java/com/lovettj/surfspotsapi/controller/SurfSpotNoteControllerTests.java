@@ -27,13 +27,11 @@ import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.requests.SurfSpotNoteRequest;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.SurfSpotNoteService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class SurfSpotNoteControllerTests {
+class SurfSpotNoteControllerTests extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -12,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.security.SessionCookieVerifier;
 
 @Configuration
@@ -29,8 +30,8 @@ public class SecurityConfig {
     static class WebSecurityConfiguration {
 
         @Bean
-        SessionCookieFilter sessionCookieFilter(SessionCookieVerifier sessionCookieVerifier) {
-            return new SessionCookieFilter(sessionCookieVerifier);
+        SessionCookieFilter sessionCookieFilter(SessionCookieVerifier sessionCookieVerifier, UserRepository userRepository) {
+            return new SessionCookieFilter(sessionCookieVerifier, userRepository);
         }
 
         @Bean

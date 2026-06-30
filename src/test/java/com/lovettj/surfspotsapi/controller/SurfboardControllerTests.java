@@ -9,6 +9,7 @@ import com.lovettj.surfspotsapi.requests.UpdateSurfboardRequest;
 import com.lovettj.surfspotsapi.requests.UploadSurfboardMediaRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.SurfboardService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,10 +41,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class SurfboardControllerTests {
+class SurfboardControllerTests extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

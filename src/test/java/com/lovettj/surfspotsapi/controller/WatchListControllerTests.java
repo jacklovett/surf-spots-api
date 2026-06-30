@@ -33,13 +33,11 @@ import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.service.NotificationService;
 import com.lovettj.surfspotsapi.service.SwellSeasonService;
 import com.lovettj.surfspotsapi.service.WatchListService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class WatchListControllerTests {
+class WatchListControllerTests extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

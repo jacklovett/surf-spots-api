@@ -56,13 +56,11 @@ import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.requests.UploadMediaRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.SurfSessionService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class SurfSessionControllerTests {
+class SurfSessionControllerTests extends BaseControllerTest {
 
     private static final String TEST_USER_ID = "user-1";
 

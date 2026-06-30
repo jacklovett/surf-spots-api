@@ -6,6 +6,7 @@ import com.lovettj.surfspotsapi.dto.TripDTO;
 import com.lovettj.surfspotsapi.requests.*;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.TripService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,10 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.containsString;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class TripControllerTests {
+class TripControllerTests extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

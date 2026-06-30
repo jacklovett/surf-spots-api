@@ -23,6 +23,7 @@ import com.lovettj.surfspotsapi.entity.Settings;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.UserService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
@@ -32,10 +33,7 @@ import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
  * the richer profile, so it must reliably derive identity from the signed
  * cookie and never from a query parameter.
  */
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class UserControllerMeTests {
+class UserControllerMeTests extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

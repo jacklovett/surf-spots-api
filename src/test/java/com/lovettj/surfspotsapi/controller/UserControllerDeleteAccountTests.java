@@ -20,13 +20,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.service.UserService;
+import com.lovettj.surfspotsapi.testutil.BaseControllerTest;
 import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 import com.lovettj.surfspotsapi.testutil.SessionTestCookieFactory;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(MockMvcDefaults.class)
-class UserControllerDeleteAccountTests {
+class UserControllerDeleteAccountTests extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
