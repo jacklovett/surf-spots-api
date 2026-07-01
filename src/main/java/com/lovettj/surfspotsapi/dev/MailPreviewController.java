@@ -36,6 +36,7 @@ public class MailPreviewController {
     private final String previewAppBaseUrl;
     private final String previewPublicApiBaseUrl;
     private final String previewEmailLogoUrl;
+    private final String mapboxAccessToken;
 
     public MailPreviewController(
             TemplateEngine templateEngine,
@@ -47,6 +48,8 @@ public class MailPreviewController {
                 EmailLayoutVariables.normalizeAppBaseUrl(appProperties.getPublicApiBaseUrl());
         this.previewEmailLogoUrl =
                 EmailLayoutVariables.resolveLogoImageUrl(emailLogoUrlOverride, previewAppBaseUrl);
+        String token = appProperties.getMapbox().getAccessToken();
+        this.mapboxAccessToken = token != null && !token.isBlank() ? token : null;
     }
 
     @GetMapping(value = { "", "/" }, produces = MediaType.TEXT_HTML_VALUE)
@@ -159,6 +162,37 @@ public class MailPreviewController {
                 contact.put("message", "This is sample contact form body text.\nSecond line for pre-wrap.");
                 contact.put("appUrl", previewAppBaseUrl);
                 yield contact;
+            }
+            case SESSION_STARTED -> {
+                Map<String, Object> started = new HashMap<>();
+                started.put("contactName", "Jane Doe");
+                started.put("userName", "Jack");
+                started.put("spotName", "Bundoran Peak");
+                started.put("startTime", "Tue 1 Jul 2026 at 09:15");
+                started.put("expectedReturnTime", "Tue 1 Jul 2026 at 12:00");
+                double previewLat = 54.4783;
+                double previewLng = -8.2779;
+                if (mapboxAccessToken != null) {
+                    String mapImageUrl = String.format(
+                            "https://api.mapbox.com/styles/v1/mapbox/light-v11/static/pin-s+035061(%.4f,%.4f)/%.4f,%.4f,13,0/500x250?access_token=%s",
+                            previewLng, previewLat, previewLng, previewLat, mapboxAccessToken);
+                    started.put("mapImageUrl", mapImageUrl);
+                    started.put("mapsLink", String.format("https://www.google.com/maps?q=%.4f,%.4f", previewLat, previewLng));
+                } else {
+                    started.put("mapImageUrl", null);
+                    started.put("mapsLink", null);
+                }
+                yield started;
+            }
+            case SESSION_ENDED -> {
+                Map<String, Object> ended = new HashMap<>();
+                ended.put("contactName", "Jane Doe");
+                ended.put("userName", "Jack");
+                ended.put("spotName", "Bundoran Peak");
+                ended.put("startTime", "Tue 1 Jul 2026 at 09:15");
+                ended.put("endTime", "Tue 1 Jul 2026 at 11:42");
+                ended.put("duration", "2h 27m");
+                yield ended;
             }
         };
     }

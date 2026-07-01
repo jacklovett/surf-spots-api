@@ -59,6 +59,7 @@ services:
       S3_BUCKET: ${S3_BUCKET:-surf-spots-media}
       SCW_ENDPOINT: ${SCW_ENDPOINT:-https://s3.fr-par.scw.cloud}
       SCW_REGION: ${SCW_REGION:-fr-par}
+      MAPBOX_ACCESS_TOKEN: ${MAPBOX_ACCESS_TOKEN:-}
       # Test configuration - tests will use these when running in Docker
       # When running tests, Spring will use the 'test' profile and these env vars
     ports:

@@ -15,7 +15,9 @@ public enum TransactionalEmailTemplate {
     TRIP_MEMBER_ADDED("trip-member-added"),
     RESET_PASSWORD("reset-password"),
     VERIFY_EMAIL("verify-email"),
-    CONTACT_MESSAGE("contact-message");
+    CONTACT_MESSAGE("contact-message"),
+    SESSION_STARTED("session-started"),
+    SESSION_ENDED("session-ended");
 
     private final String logicalName;
 

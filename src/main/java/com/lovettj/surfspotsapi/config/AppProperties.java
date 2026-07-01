@@ -21,6 +21,13 @@ public class AppProperties {
      */
     private String publicApiBaseUrl;
 
+    /**
+     * Mapbox access token used server-side to generate static map image URLs for session
+     * notification emails. Same token as {@code VITE_MAP_ACCESS_TOKEN} in the frontend.
+     * Environment: {@code MAPBOX_ACCESS_TOKEN} → {@code app.mapbox.access-token}.
+     */
+    private Mapbox mapbox = new Mapbox();
+
     public String getUrl() {
         return url;
     }
@@ -35,5 +42,25 @@ public class AppProperties {
 
     public void setPublicApiBaseUrl(String publicApiBaseUrlValue) {
         this.publicApiBaseUrl = publicApiBaseUrlValue;
+    }
+
+    public Mapbox getMapbox() {
+        return mapbox;
+    }
+
+    public void setMapbox(Mapbox mapboxValue) {
+        this.mapbox = mapboxValue;
+    }
+
+    public static class Mapbox {
+        private String accessToken;
+
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public void setAccessToken(String accessTokenValue) {
+            this.accessToken = accessTokenValue;
+        }
     }
 }

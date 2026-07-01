@@ -53,6 +53,26 @@ class MailPreviewControllerTest {
     }
 
     @Test
+    void sessionStartedPreviewShouldReturnRenderedHtml() throws Exception {
+        String logicalName = TransactionalEmailTemplate.SESSION_STARTED.getLogicalName();
+        when(templateEngine.process(eq(logicalName), any(Context.class))).thenReturn("<html>session-started</html>");
+
+        mockMvc.perform(get("/api/dev/mail-preview/" + logicalName))
+                .andExpect(status().isOk())
+                .andExpect(content().string("<html>session-started</html>"));
+    }
+
+    @Test
+    void sessionEndedPreviewShouldReturnRenderedHtml() throws Exception {
+        String logicalName = TransactionalEmailTemplate.SESSION_ENDED.getLogicalName();
+        when(templateEngine.process(eq(logicalName), any(Context.class))).thenReturn("<html>session-ended</html>");
+
+        mockMvc.perform(get("/api/dev/mail-preview/" + logicalName))
+                .andExpect(status().isOk())
+                .andExpect(content().string("<html>session-ended</html>"));
+    }
+
+    @Test
     void unknownTemplateShouldReturn404() throws Exception {
         mockMvc.perform(get("/api/dev/mail-preview/not-a-template")).andExpect(status().isNotFound());
     }

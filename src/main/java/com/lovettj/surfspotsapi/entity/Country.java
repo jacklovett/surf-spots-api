@@ -39,6 +39,7 @@ public class Country extends SluggableEntity {
     @JsonManagedReference("country-regions")
     private List<Region> regions;
 
+    @Builder.Default
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("country-emergencyNumbers")
     private List<CountryEmergencyNumber> emergencyNumbers = new ArrayList<>();

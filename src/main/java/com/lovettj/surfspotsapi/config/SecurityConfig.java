@@ -65,6 +65,8 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/api/surf-spots/id/*").permitAll()
                     // Dev-only HTML email previews (bean exists only with profile "dev")
                     .requestMatchers("/api/dev/mail-preview/**").permitAll()
+                    // Static email assets (logo served by API in dev for mail preview without frontend)
+                    .requestMatchers("/email/**").permitAll()
                     .requestMatchers("/error").permitAll()
                     .anyRequest().authenticated()
                     )

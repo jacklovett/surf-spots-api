@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequ
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,7 +56,7 @@ class StorageServiceTests {
         StorageService service = new StorageService(BUCKET, presigner);
         String expectedUrl = "https://test-bucket.s3.example.com/key";
         PresignedPutObjectRequest response = mock(PresignedPutObjectRequest.class);
-        when(response.url()).thenReturn(new URL(expectedUrl));
+        when(response.url()).thenReturn(URI.create(expectedUrl).toURL());
         when(presigner.presignPutObject(any(PutObjectPresignRequest.class))).thenReturn(response);
 
         String url = service.generatePresignedUploadUrl("key", "image/jpeg");
@@ -69,7 +69,7 @@ class StorageServiceTests {
         StorageService service = new StorageService(BUCKET, presigner);
         String expectedUrl = "https://test-bucket.s3.example.com/key";
         PresignedGetObjectRequest response = mock(PresignedGetObjectRequest.class);
-        when(response.url()).thenReturn(new URL(expectedUrl));
+        when(response.url()).thenReturn(URI.create(expectedUrl).toURL());
         when(presigner.presignGetObject(any(GetObjectPresignRequest.class))).thenReturn(response);
 
         String url = service.generatePresignedDownloadUrl("key");

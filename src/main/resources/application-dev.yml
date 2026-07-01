@@ -36,6 +36,8 @@ app:
   mail:
     # Default off. Set MAIL_ENABLED=true (e.g. in .env) to send through Mailpit in docker-compose.dev.yml.
     enabled: ${MAIL_ENABLED:false}
+  mapbox:
+    access-token: ${MAPBOX_ACCESS_TOKEN:}
   storage:
     s3:
       endpoint: ${SCW_ENDPOINT:https://s3.fr-par.scw.cloud}

@@ -62,6 +62,8 @@ app:
     # Full URL to masthead image (same asset as home hero: public/images/png/logo.png). Default: {app.url}/images/png/logo.png
     # Dev profile sets this to the API static copy so mail preview works without the frontend.
     logo-url: ${APP_EMAIL_LOGO_URL:}
+  mapbox:
+    access-token: ${MAPBOX_ACCESS_TOKEN:}
   mail:
     enabled: ${MAIL_ENABLED:true} # Set to false to disable email sending
     # Optional From header; use an address verified with your SMTP provider (e.g. Scaleway).

@@ -9,6 +9,12 @@
   emailLogoUrl: /images/png/logo.png (or API /email/logo.png in dev when configured).
 -->
 <body>
+<th:block th:fragment="inter">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</th:block>
+
 <th:block th:fragment="masthead">
     <!-- Wave tile: same SVG pattern as hero-background ::before; g opacity 0.38 for mail clients. -->
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#022a36"
