@@ -1,5 +1,7 @@
 package com.lovettj.surfspotsapi.dev;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +22,7 @@ import org.thymeleaf.context.Context;
 
 import com.lovettj.surfspotsapi.email.EmailLayoutVariables;
 import com.lovettj.surfspotsapi.email.TransactionalEmailTemplate;
+import com.lovettj.surfspotsapi.util.SessionTimeZoneUtil;
 
 /**
  * Renders transactional email HTML in the browser for local visual QA.
@@ -75,14 +78,18 @@ public class MailPreviewController {
                 <body style="font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem;">
                 <h1>Email template previews (dev)</h1>
                 <p>Sample data is filled in. Hard-refresh the browser (Ctrl+F5) if styles look stale after edits.</p>
+                <p style="font-size:0.85rem;color:#666;margin-top:0;">Generated at %s (restart the API after template edits if this timestamp does not change).</p>
+                <p style="font-size:0.95rem;color:#444;margin-bottom:1.5rem;">
+                  Live-session safety emails use <strong>GPS start location</strong> (map + times). A spot name is
+                  included only when start coordinates clearly match one approved catalog spot within 500 m.
+                </p>
                 <ul>
-                """
-                + listItems
-                + """
+                %s
                 </ul>
                 </body>
                 </html>
-                """;
+                """
+                        .formatted(Instant.now(), listItems);
         return previewResponse(html);
     }
 
@@ -170,6 +177,7 @@ public class MailPreviewController {
                 started.put("spotName", "Bundoran Peak");
                 started.put("startTime", "Tue 1 Jul 2026 at 09:15");
                 started.put("expectedReturnTime", "Tue 1 Jul 2026 at 12:00");
+                started.put("timeZoneNote", SessionTimeZoneUtil.emailTimeZoneNote("Jack", ZoneId.of("Europe/Dublin")));
                 double previewLat = 54.4783;
                 double previewLng = -8.2779;
                 if (mapboxAccessToken != null) {
@@ -188,11 +196,35 @@ public class MailPreviewController {
                 Map<String, Object> ended = new HashMap<>();
                 ended.put("contactName", "Jane Doe");
                 ended.put("userName", "Jack");
-                ended.put("spotName", "Bundoran Peak");
                 ended.put("startTime", "Tue 1 Jul 2026 at 09:15");
                 ended.put("endTime", "Tue 1 Jul 2026 at 11:42");
                 ended.put("duration", "2h 27m");
+                ended.put("timeZoneNote", SessionTimeZoneUtil.emailTimeZoneNote("Jack", ZoneId.of("Europe/Dublin")));
                 yield ended;
+            }
+            case SESSION_OVERDUE -> {
+                Map<String, Object> overdue = new HashMap<>();
+                overdue.put("contactName", "Jane Doe");
+                overdue.put("userName", "Jack");
+                overdue.put("spotName", "Bundoran Peak");
+                overdue.put("startTime", "Tue 1 Jul 2026 at 09:15");
+                overdue.put("expectedReturnTime", "Tue 1 Jul 2026 at 12:00");
+                overdue.put("timeZoneNote", SessionTimeZoneUtil.emailTimeZoneNote("Jack", ZoneId.of("Europe/Dublin")));
+                double previewLat = 54.4783;
+                double previewLng = -8.2779;
+                if (mapboxAccessToken != null) {
+                    String mapImageUrl = String.format(
+                            "https://api.mapbox.com/styles/v1/mapbox/light-v11/static/pin-s+035061(%.4f,%.4f)/%.4f,%.4f,13,0/500x250?access_token=%s",
+                            previewLng, previewLat, previewLng, previewLat, mapboxAccessToken);
+                    overdue.put("mapImageUrl", mapImageUrl);
+                    overdue.put(
+                            "mapsLink",
+                            String.format("https://www.google.com/maps?q=%.4f,%.4f", previewLat, previewLng));
+                } else {
+                    overdue.put("mapImageUrl", null);
+                    overdue.put("mapsLink", null);
+                }
+                yield overdue;
             }
         };
     }

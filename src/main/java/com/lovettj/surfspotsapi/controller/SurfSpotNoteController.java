@@ -36,6 +36,7 @@ public class SurfSpotNoteController {
     }
 
     @PostMapping("/surf-spots/id/{id}/notes")
+    @ApiFailureMessage(action = "save", target = "surf spot note")
     public ResponseEntity<ApiResponse<SurfSpotNoteDTO>> saveNoteById(
             @PathVariable Long id,
             @Valid @RequestBody SurfSpotNoteRequest request) {

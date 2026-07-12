@@ -76,5 +76,10 @@
         </tr>
     </table>
 </th:block>
+
+<th:block th:fragment="sessionTimeZoneNote">
+    <p style="margin:0 0 18px 0;font-size:13px;line-height:1.6;letter-spacing:0.02em;color:#666666;"
+       th:text="${timeZoneNote}">All times are in Jack's local time (Europe/Dublin).</p>
+</th:block>
 </body>
 </html>

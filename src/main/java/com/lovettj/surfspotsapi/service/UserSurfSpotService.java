@@ -18,6 +18,7 @@ import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.WatchListRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +28,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -84,9 +88,9 @@ public class UserSurfSpotService {
         if (existingEntry.isEmpty()) {
             // Load the User and SurfSpot entities from the repository to avoid transient entity issues
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
             SurfSpot surfSpot = surfSpotRepository.findById(spotId)
-                    .orElseThrow(() -> new RuntimeException("Surf spot not found with ID: " + spotId));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SPOT_NOT_FOUND));
 
             // Create a new entry with managed entities
             UserSurfSpot newEntry = UserSurfSpot.builder()

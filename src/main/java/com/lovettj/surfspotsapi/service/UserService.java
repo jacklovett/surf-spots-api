@@ -303,10 +303,11 @@ public class UserService {
             // Unverified users may still delete their account (escape hatch); session must match path userId (controller).
             tripService.deleteAllUserTrips(userId, user.getEmail());
             userRepository.delete(user);
-        } catch (ResponseStatusException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("Unexpected error during user deletion for userId={}", userId, e);
+        } catch (Exception exception) {
+            if (exception instanceof ResponseStatusException responseStatusException) {
+                throw responseStatusException;
+            }
+            log.error("Unexpected error during user deletion for userId={}", userId, exception);
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     ApiErrors.SOMETHING_WENT_WRONG);

@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,16 +43,21 @@ import org.springframework.web.server.ResponseStatusException;
 import jakarta.servlet.http.Cookie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovettj.surfspotsapi.dto.LinkSessionsToSpotResultDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionMediaDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
 import com.lovettj.surfspotsapi.dto.UserSurfSessionsDTO;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
+import com.lovettj.surfspotsapi.enums.SessionStatus;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveSize;
 import com.lovettj.surfspotsapi.requests.CreateSurfSessionMediaRequest;
+import com.lovettj.surfspotsapi.requests.EndLiveSurfSessionRequest;
+import com.lovettj.surfspotsapi.requests.LinkSessionsToSpotRequest;
+import com.lovettj.surfspotsapi.requests.StartLiveSurfSessionRequest;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.requests.UploadMediaRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
@@ -257,6 +263,23 @@ class SurfSessionControllerTests extends BaseControllerTest {
     }
 
     @Test
+    void testUpdateSessionShouldReturnSafeValidationMessageWhenSessionDateMissing() throws Exception {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("surfSpotId", 10L);
+        body.put("waveSize", WaveSize.SMALL.name());
+
+        mockMvc.perform(put("/api/surf-sessions/2")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(body)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.message").value(ApiErrors.SESSION_DATE_OR_START_INSTANT_REQUIRED));
+
+        verify(surfSessionService, never()).updateSession(anyString(), anyLong(), any(SurfSessionRequest.class));
+    }
+
+    @Test
     void testDeleteSessionShouldReturnOk() throws Exception {
         doNothing().when(surfSessionService).deleteSession("user-1", 3L);
 
@@ -265,6 +288,67 @@ class SurfSessionControllerTests extends BaseControllerTest {
                 .andExpect(jsonPath("$.success").value(true));
 
         verify(surfSessionService).deleteSession("user-1", 3L);
+    }
+
+    @Test
+    void testLinkSessionsToSpotShouldReturnOk() throws Exception {
+        LinkSessionsToSpotRequest request = new LinkSessionsToSpotRequest();
+        request.setSurfSpotId(22L);
+        request.setAnchorLatitude(54.4783);
+        request.setAnchorLongitude(-8.2779);
+        request.setSessionId(41L);
+
+        when(surfSessionService.linkSessionsToSpot(eq("user-1"), any(LinkSessionsToSpotRequest.class)))
+                .thenReturn(LinkSessionsToSpotResultDTO.builder().linkedSessionCount(2).build());
+
+        mockMvc.perform(post("/api/surf-sessions/link-to-spot")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.linkedSessionCount").value(2))
+                .andExpect(jsonPath("$.message").value("2 past sessions linked to this spot."));
+
+        verify(surfSessionService).linkSessionsToSpot(eq("user-1"), any(LinkSessionsToSpotRequest.class));
+    }
+
+    @Test
+    void testLinkSessionsToSpotShouldReturnOkWithoutMessageWhenNoneLinked() throws Exception {
+        LinkSessionsToSpotRequest request = new LinkSessionsToSpotRequest();
+        request.setSurfSpotId(22L);
+        request.setAnchorLatitude(54.4783);
+        request.setAnchorLongitude(-8.2779);
+
+        when(surfSessionService.linkSessionsToSpot(eq("user-1"), any(LinkSessionsToSpotRequest.class)))
+                .thenReturn(LinkSessionsToSpotResultDTO.builder().linkedSessionCount(0).build());
+
+        mockMvc.perform(post("/api/surf-sessions/link-to-spot")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.linkedSessionCount").value(0))
+                .andExpect(jsonPath("$.message").value("Success"));
+    }
+
+    @Test
+    void testLinkSessionsToSpotShouldReturnBadRequestWhenSurfSpotIdMissing() throws Exception {
+        mockMvc.perform(post("/api/surf-sessions/link-to-spot")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                              "anchorLatitude": 54.4783,
+                              "anchorLongitude": -8.2779
+                            }
+                            """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.message").value(ApiErrors.LINK_SESSIONS_SURF_SPOT_ID_REQUIRED));
+
+        verify(surfSessionService, never()).linkSessionsToSpot(anyString(), any(LinkSessionsToSpotRequest.class));
     }
 
     @Test
@@ -396,6 +480,206 @@ class SurfSessionControllerTests extends BaseControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isServiceUnavailable())
                 .andExpect(jsonPath("$.message").value(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE));
+    }
+
+    // --- POST /api/surf-sessions/start ---
+
+    @Test
+    void testStartLiveSessionShouldReturnCreatedWhenAuthenticated() throws Exception {
+        StartLiveSurfSessionRequest request = new StartLiveSurfSessionRequest();
+        request.setStartLatitude(54.4783);
+        request.setStartLongitude(-8.2779);
+        request.setShareLocationWithEmergencyContact(true);
+        request.setExpectedReturnInstant(Instant.now().plus(2, ChronoUnit.HOURS));
+
+        SurfSessionListItemDTO created = SurfSessionListItemDTO.builder()
+                .id(42L)
+                .status(SessionStatus.IN_PROGRESS)
+                .build();
+
+        when(surfSessionService.startLiveSession(eq(TEST_USER_ID), any(StartLiveSurfSessionRequest.class)))
+                .thenReturn(created);
+
+        mockMvc.perform(post("/api/surf-sessions/start")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.data.id").value(42))
+                .andExpect(jsonPath("$.data.status").value("IN_PROGRESS"));
+    }
+
+    @Test
+    void testStartLiveSessionShouldReturnForbiddenWhenNotAuthenticated() throws Exception {
+        StartLiveSurfSessionRequest request = new StartLiveSurfSessionRequest();
+        request.setStartLatitude(54.4783);
+        request.setStartLongitude(-8.2779);
+
+        mockMvc.perform(post("/api/surf-sessions/start")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void testStartLiveSessionShouldReturnBadRequestWhenCoordinatesMissing() throws Exception {
+        StartLiveSurfSessionRequest request = new StartLiveSurfSessionRequest();
+
+        mockMvc.perform(post("/api/surf-sessions/start")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.message").value(ApiErrors.LIVE_SESSION_START_COORDINATES_REQUIRED));
+
+        verify(surfSessionService, never()).startLiveSession(anyString(), any(StartLiveSurfSessionRequest.class));
+    }
+
+    @Test
+    void testStartLiveSessionShouldReturnBadRequestWhenSharingWithoutExpectedReturn() throws Exception {
+        StartLiveSurfSessionRequest request = new StartLiveSurfSessionRequest();
+        request.setStartLatitude(54.4783);
+        request.setStartLongitude(-8.2779);
+        request.setShareLocationWithEmergencyContact(true);
+
+        mockMvc.perform(post("/api/surf-sessions/start")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.message").value(ApiErrors.LIVE_SESSION_EXPECTED_RETURN_REQUIRED));
+
+        verify(surfSessionService, never()).startLiveSession(anyString(), any(StartLiveSurfSessionRequest.class));
+    }
+
+    @Test
+    void testStartLiveSessionShouldReturnConflictWhenAlreadyInProgress() throws Exception {
+        StartLiveSurfSessionRequest request = new StartLiveSurfSessionRequest();
+        request.setStartLatitude(54.4783);
+        request.setStartLongitude(-8.2779);
+
+        when(surfSessionService.startLiveSession(eq(TEST_USER_ID), any(StartLiveSurfSessionRequest.class)))
+                .thenThrow(new ResponseStatusException(
+                        HttpStatus.CONFLICT, ApiErrors.SURF_SESSION_ALREADY_IN_PROGRESS));
+
+        mockMvc.perform(post("/api/surf-sessions/start")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_ALREADY_IN_PROGRESS));
+    }
+
+    @Test
+    void testStartLiveSessionShouldReturnConflictWhenInProgressUniqueIndexViolated() throws Exception {
+        StartLiveSurfSessionRequest request = new StartLiveSurfSessionRequest();
+        request.setStartLatitude(54.4783);
+        request.setStartLongitude(-8.2779);
+
+        String duplicateMessage =
+                "duplicate key value violates unique constraint \""
+                        + com.lovettj.surfspotsapi.util.SqlExceptionInspection
+                                .UQ_SURF_SESSION_ONE_IN_PROGRESS_PER_USER
+                        + "\"";
+        SQLException sqlException = new SQLException(duplicateMessage, "23505");
+        when(surfSessionService.startLiveSession(eq(TEST_USER_ID), any(StartLiveSurfSessionRequest.class)))
+                .thenThrow(new DataIntegrityViolationException("unique", sqlException));
+
+        mockMvc.perform(post("/api/surf-sessions/start")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_ALREADY_IN_PROGRESS));
+    }
+
+    // --- GET /api/surf-sessions/in-progress ---
+
+    @Test
+    void testGetInProgressSessionShouldReturnOkWhenAuthenticated() throws Exception {
+        SurfSessionListItemDTO inProgress = SurfSessionListItemDTO.builder()
+                .id(7L)
+                .status(SessionStatus.IN_PROGRESS)
+                .build();
+        when(surfSessionService.getInProgressSessionForUser(TEST_USER_ID)).thenReturn(inProgress);
+
+        mockMvc.perform(get("/api/surf-sessions/in-progress").cookie(sessionCookie()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id").value(7))
+                .andExpect(jsonPath("$.data.status").value("IN_PROGRESS"));
+    }
+
+    @Test
+    void testGetInProgressSessionShouldReturnNotFoundWhenNoSession() throws Exception {
+        when(surfSessionService.getInProgressSessionForUser(TEST_USER_ID))
+                .thenThrow(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+
+        mockMvc.perform(get("/api/surf-sessions/in-progress").cookie(sessionCookie()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_NOT_FOUND));
+    }
+
+    // --- POST /api/surf-sessions/{sessionId}/end ---
+
+    @Test
+    void testEndLiveSessionShouldReturnOkWhenAuthenticated() throws Exception {
+        EndLiveSurfSessionRequest request = new EndLiveSurfSessionRequest();
+        request.setSessionNotes("Good session");
+
+        SurfSessionListItemDTO ended = SurfSessionListItemDTO.builder()
+                .id(7L)
+                .status(SessionStatus.COMPLETED)
+                .sessionNotes("Good session")
+                .build();
+
+        when(surfSessionService.endLiveSession(eq(TEST_USER_ID), eq(7L), any(EndLiveSurfSessionRequest.class)))
+                .thenReturn(ended);
+
+        mockMvc.perform(post("/api/surf-sessions/7/end")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.status").value("COMPLETED"))
+                .andExpect(jsonPath("$.data.sessionNotes").value("Good session"));
+    }
+
+    @Test
+    void testEndLiveSessionShouldReturnBadRequestWhenSessionNotInProgress() throws Exception {
+        EndLiveSurfSessionRequest request = new EndLiveSurfSessionRequest();
+
+        when(surfSessionService.endLiveSession(eq(TEST_USER_ID), eq(7L), any(EndLiveSurfSessionRequest.class)))
+                .thenThrow(new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_NOT_IN_PROGRESS));
+
+        mockMvc.perform(post("/api/surf-sessions/7/end")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_NOT_IN_PROGRESS));
+    }
+
+    @Test
+    void testEndLiveSessionShouldReturnBadRequestWhenManualSessionUsesEndEndpoint() throws Exception {
+        EndLiveSurfSessionRequest request = new EndLiveSurfSessionRequest();
+        request.setSessionNotes("Notes");
+
+        when(surfSessionService.endLiveSession(eq(TEST_USER_ID), eq(7L), any(EndLiveSurfSessionRequest.class)))
+                .thenThrow(new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_END_REQUIRES_LIVE_START));
+
+        mockMvc.perform(post("/api/surf-sessions/7/end")
+                        .cookie(sessionCookie())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_END_REQUIRES_LIVE_START));
     }
 
     // --- POST /api/surf-sessions/{sessionId}/media ---

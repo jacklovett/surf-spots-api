@@ -1,5 +1,7 @@
 # Development profile - for local development
 spring:
+  thymeleaf:
+    cache: false
   datasource:
     hikari:
       # Keep dev predictable when several tools hit the same Postgres (Docker + host).

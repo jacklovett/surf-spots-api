@@ -9,7 +9,7 @@
     <th:block th:insert="~{email/fragments :: inter}"></th:block>
 </head>
 <body style="margin:0;padding:0;background-color:#eef2f7;">
-<div style="display:none;max-height:0;overflow:hidden;"><span th:text="${userName}">Someone</span>'s surf session at <span th:text="${spotName}">a spot</span> has ended safely.</div>
+<div style="display:none;max-height:0;overflow:hidden;"><span th:text="${userName}">Someone</span>'s surf session has ended safely.</div>
 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#eef2f7;">
     <tr>
         <td align="center" style="padding:32px 14px 48px 14px;">
@@ -36,7 +36,7 @@
                                     <!-- Session summary -->
                                     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
                                            style="margin:0 0 22px 0;border-collapse:collapse;">
-                                        <tr>
+                                        <tr th:if="${spotName != null}">
                                             <td style="padding:14px 0 10px 0;border-top:1px solid #dddddd;font-size:12px;font-weight:600;letter-spacing:0.02em;color:#666666;width:92px;vertical-align:top;">Spot</td>
                                             <td style="padding:14px 0 10px 0;border-top:1px solid #dddddd;font-size:16px;line-height:1.55;color:#0d1619;font-weight:600;" th:text="${spotName}">Spot name</td>
                                         </tr>
@@ -53,6 +53,8 @@
                                             <td style="padding:14px 0 10px 0;border-top:1px solid #dddddd;font-size:16px;line-height:1.55;color:#0d1619;font-weight:600;" th:text="${duration}">2h 30m</td>
                                         </tr>
                                     </table>
+
+                                    <div th:insert="~{email/fragments :: sessionTimeZoneNote}"></div>
 
                                     <p style="margin:0;font-size:14px;line-height:1.65;letter-spacing:0.02em;color:#666666;">
                                         This notification was sent because you are listed as an emergency contact on Surf Spots.

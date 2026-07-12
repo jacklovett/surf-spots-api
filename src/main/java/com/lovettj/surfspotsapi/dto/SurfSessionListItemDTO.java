@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
+import com.lovettj.surfspotsapi.enums.SessionStatus;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveFace;
@@ -32,6 +33,9 @@ public class SurfSessionListItemDTO {
     /** Canonical UTC window (wearable / partner style). */
     private Instant sessionStartInstant;
     private Instant sessionEndInstant;
+    private SessionStatus status;
+    private boolean shareLocationWithEmergencyContact;
+    private Instant expectedReturnInstant;
     /** Integration source when this row was synced from an external system. */
     private ExternalSessionProvider externalSessionProvider;
     /** Provider-local external key when synced. */
@@ -39,6 +43,9 @@ public class SurfSessionListItemDTO {
     private LocalDateTime createdAt;
     private Long surfSpotId;
     private String surfSpotName;
+    /** Device coordinates captured at live session start (when available). */
+    private Double startLatitude;
+    private Double startLongitude;
     /** Client route path (e.g. /surf-spots/europe/.../spot-slug). */
     private String spotPath;
     private WaveSize waveSize;

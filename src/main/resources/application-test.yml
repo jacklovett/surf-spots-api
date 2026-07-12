@@ -6,9 +6,9 @@ spring:
       - org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration
   datasource:
     # Dedicated DB name so it is never confused with dev (surf_spots_db). Create once locally:
-    #   psql -U postgres -h localhost -c "CREATE DATABASE surf_spots_test;"
+    #   psql -U postgres -h localhost -c "CREATE DATABASE surf_spots_test_db;"
     # SPRING_DATASOURCE_URL in .env overrides this; Maven Surefire sets spring.datasource.url to the same test DB.
-    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_test}
+    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_test_db}
     username: ${SPRING_TEST_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_TEST_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
     hikari:
@@ -36,6 +36,11 @@ spring:
 app:
   auth:
     session-secret: test-session-secret
+  security:
+    # MockMvc does not send Origin; CSRF is covered by CsrfOriginFilterTests.
+    csrf-origin-filter-enabled: false
+  live-session:
+    overdue-notification-enabled: false
   seed:
     enabled: false
   mail:

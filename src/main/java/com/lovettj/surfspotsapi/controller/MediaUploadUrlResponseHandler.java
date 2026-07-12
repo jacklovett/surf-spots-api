@@ -3,36 +3,34 @@ package com.lovettj.surfspotsapi.controller;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
 
 public final class MediaUploadUrlResponseHandler {
 
-    @FunctionalInterface
-    public interface UploadUrlGenerator {
-        String generate(String mediaId) throws Exception;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(MediaUploadUrlResponseHandler.class);
 
     private MediaUploadUrlResponseHandler() {
     }
 
     public static ResponseEntity<ApiResponse<Map<String, String>>> buildUploadUrlResponse(
-            Logger logger,
             String resourceLabel,
             String resourceIdentifier,
-            UploadUrlGenerator uploadUrlGenerator) {
+            Function<String, String> uploadUrlGenerator) {
+        String mediaId = UUID.randomUUID().toString();
         try {
-            String mediaId = UUID.randomUUID().toString();
-            String uploadUrl = uploadUrlGenerator.generate(mediaId);
+            String uploadUrl = uploadUrlGenerator.apply(mediaId);
             return ResponseEntity.ok(ApiResponse.success(Map.of("uploadUrl", uploadUrl, "mediaId", mediaId)));
-        } catch (ResponseStatusException responseStatusException) {
-            return ResponseEntity.status(responseStatusException.getStatusCode())
-                    .body(ApiResponse.error(responseStatusException.getReason(), responseStatusException.getStatusCode().value()));
         } catch (Exception exception) {
+            if (exception instanceof ResponseStatusException responseStatusException) {
+                throw responseStatusException;
+            }
             String detail = detailMessage(exception);
             logger.warn(
                     "upload-url failed {}={}: {}, returning 503 MEDIA_UPLOAD_UNAVAILABLE",
@@ -41,8 +39,8 @@ public final class MediaUploadUrlResponseHandler {
                     detail,
                     exception
             );
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(ApiResponse.error(ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, HttpStatus.SERVICE_UNAVAILABLE.value()));
+            throw new ResponseStatusException(
+                    HttpStatus.SERVICE_UNAVAILABLE, ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, exception);
         }
     }
 

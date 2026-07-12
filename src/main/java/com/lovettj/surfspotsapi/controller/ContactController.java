@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lovettj.surfspotsapi.requests.ContactRequest;
-import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.EmailService;
 import com.lovettj.surfspotsapi.email.TransactionalEmailTemplate;
@@ -36,34 +35,25 @@ public class ContactController {
     }
 
     @PostMapping
+    @ApiFailureMessage(action = "send", target = "contact message")
     public ResponseEntity<ApiResponse<String>> sendContactMessage(@RequestBody ContactRequest contactRequest) {
-        try {
-            // Prepare email variables for the template
-            Map<String, Object> emailVariables = new HashMap<>();
-            emailVariables.put("name", contactRequest.getName());
-            emailVariables.put("email", contactRequest.getEmail());
-            emailVariables.put("subject", contactRequest.getSubject());
-            emailVariables.put("message", contactRequest.getMessage());
-            emailVariables.put("appUrl", appBaseUrl);
+        Map<String, Object> emailVariables = new HashMap<>();
+        emailVariables.put("name", contactRequest.getName());
+        emailVariables.put("email", contactRequest.getEmail());
+        emailVariables.put("subject", contactRequest.getSubject());
+        emailVariables.put("message", contactRequest.getMessage());
+        emailVariables.put("appUrl", appBaseUrl);
 
-            // Send email to admin
-            emailService.sendEmail(
-                contactFormRecipient,
-                "Contact Form: " + contactRequest.getSubject(),
-                TransactionalEmailTemplate.CONTACT_MESSAGE.getLogicalName(),
-                emailVariables
-            );
+        emailService.sendEmail(
+            contactFormRecipient,
+            "Contact Form: " + contactRequest.getSubject(),
+            TransactionalEmailTemplate.CONTACT_MESSAGE.getLogicalName(),
+            emailVariables
+        );
 
-            logger.info("Contact form message sent from {} ({})", 
-                contactRequest.getName(), contactRequest.getEmail());
-                
-            return ResponseEntity.ok(ApiResponse.success(null, "Contact message sent successfully."));
-            
-        } catch (Exception e) {
-            logger.error("Failed to send contact form message from {}: {}", 
-                contactRequest.getEmail(), e.getMessage(), e);
-            return ResponseEntity.status(500)
-                .body(ApiResponse.error(ApiErrors.formatErrorMessage("send", "contact message"), 500));
-        }
+        logger.info("Contact form message sent from {} ({})",
+            contactRequest.getName(), contactRequest.getEmail());
+
+        return ResponseEntity.ok(ApiResponse.success(null, "Contact message sent successfully."));
     }
 }

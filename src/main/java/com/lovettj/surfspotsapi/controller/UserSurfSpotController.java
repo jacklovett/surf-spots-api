@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.lovettj.surfspotsapi.requests.UserSurfSpotRequest;
-import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.security.AuthenticatedUserResolver;
 import com.lovettj.surfspotsapi.service.UserSurfSpotService;
@@ -26,24 +25,22 @@ public class UserSurfSpotController {
     }
 
     @GetMapping
+    @ApiFailureMessage(action = "load", target = "user surf spots")
     public ResponseEntity<UserSurfSpotsDTO> getUserSurfSpotsSummary() {
         String currentUserId = authenticatedUserResolver.requireCurrentUserId();
         return ResponseEntity.ok(userSurfSpotService.getUserSurfSpotsSummary(currentUserId));
     }
 
     @PostMapping
+    @ApiFailureMessage(action = "add", target = "surf spot")
     public ResponseEntity<ApiResponse<String>> addUserSurfSpot(@RequestBody UserSurfSpotRequest request) {
-        try {
-            request.setUserId(authenticatedUserResolver.requireCurrentUserId());
-            userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
-            return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's list."));
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(500)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("add", "surf spot"), 500));
-        }
+        request.setUserId(authenticatedUserResolver.requireCurrentUserId());
+        userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
+        return ResponseEntity.ok(ApiResponse.success("Surf spot added to user's list."));
     }
 
     @DeleteMapping("/remove/{spotId}")
+    @ApiFailureMessage(action = "remove", target = "surf spot")
     public ResponseEntity<ApiResponse<String>> removeUserSurfSpot(@PathVariable Long spotId) {
         String currentUserId = authenticatedUserResolver.requireCurrentUserId();
         userSurfSpotService.removeUserSurfSpot(currentUserId, spotId);
@@ -51,6 +48,7 @@ public class UserSurfSpotController {
     }
 
     @PostMapping("/toggle-favourite/{spotId}")
+    @ApiFailureMessage(action = "update", target = "favourite status")
     public ResponseEntity<String> toggleFavourite(@PathVariable Long spotId) {
         String currentUserId = authenticatedUserResolver.requireCurrentUserId();
         userSurfSpotService.toggleIsFavourite(currentUserId, spotId);

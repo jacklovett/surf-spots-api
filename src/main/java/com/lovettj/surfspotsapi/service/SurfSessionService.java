@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.service;
 
+import com.lovettj.surfspotsapi.dto.LinkSessionsToSpotResultDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionListItemDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionMediaDTO;
 import com.lovettj.surfspotsapi.dto.SurfSessionSummaryDTO;
@@ -11,17 +12,24 @@ import com.lovettj.surfspotsapi.entity.Surfboard;
 import com.lovettj.surfspotsapi.entity.User;
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
+import com.lovettj.surfspotsapi.enums.SessionStatus;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.repository.SurfSessionMediaRepository;
 import com.lovettj.surfspotsapi.repository.SurfSessionRepository;
-import com.lovettj.surfspotsapi.util.SurfSpotPathUtil;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.SurfboardRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.CreateSurfSessionMediaRequest;
+import com.lovettj.surfspotsapi.requests.EndLiveSurfSessionRequest;
+import com.lovettj.surfspotsapi.requests.LinkSessionsToSpotRequest;
+import com.lovettj.surfspotsapi.requests.StartLiveSurfSessionRequest;
 import com.lovettj.surfspotsapi.requests.SurfSessionRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
+import com.lovettj.surfspotsapi.util.CoordinateDistanceUtil;
+import com.lovettj.surfspotsapi.util.SessionTimeZoneUtil;
+import com.lovettj.surfspotsapi.util.StringUtils;
 import com.lovettj.surfspotsapi.util.SqlExceptionInspection;
+import com.lovettj.surfspotsapi.util.SurfSpotPathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,10 +47,12 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -63,6 +73,7 @@ public class SurfSessionService {
     private final SurfboardRepository surfboardRepository;
     private final UserSurfSpotService userSurfSpotService;
     private final StorageService storageService;
+    private final SessionNotificationService sessionNotificationService;
 
     public SurfSessionService(
             SurfSessionRepository surfSessionRepository,
@@ -71,7 +82,8 @@ public class SurfSessionService {
             UserRepository userRepository,
             SurfboardRepository surfboardRepository,
             UserSurfSpotService userSurfSpotService,
-            StorageService storageService) {
+            StorageService storageService,
+            SessionNotificationService sessionNotificationService) {
         this.surfSessionRepository = surfSessionRepository;
         this.surfSessionMediaRepository = surfSessionMediaRepository;
         this.surfSpotRepository = surfSpotRepository;
@@ -79,6 +91,7 @@ public class SurfSessionService {
         this.surfboardRepository = surfboardRepository;
         this.userSurfSpotService = userSurfSpotService;
         this.storageService = storageService;
+        this.sessionNotificationService = sessionNotificationService;
     }
 
     @Transactional
@@ -86,17 +99,20 @@ public class SurfSessionService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
+        if (request.getSurfSpotId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURF_SPOT_NOT_FOUND);
+        }
+
         SurfSpot surfSpot = surfSpotRepository.findById(request.getSurfSpotId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SPOT_NOT_FOUND));
 
         SkillLevel userSkillLevel = user.getSkillLevel();
         if (userSkillLevel == null) {
             userSkillLevel = request.getSkillLevel();
-            if (userSkillLevel == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SKILL_LEVEL_REQUIRED_FOR_SESSION);
+            if (userSkillLevel != null) {
+                user.setSkillLevel(userSkillLevel);
+                userRepository.save(user);
             }
-            user.setSkillLevel(userSkillLevel);
-            userRepository.save(user);
         }
 
         Surfboard surfboard = loadOptionalSurfboardForSessionRequest(request, request.getUserId());
@@ -112,6 +128,7 @@ public class SurfSessionService {
         SurfSession session = SurfSession.builder()
                 .user(user)
                 .surfSpot(surfSpot)
+                .status(SessionStatus.COMPLETED)
                 .externalSessionProvider(externalSync != null ? externalSync.provider() : null)
                 .externalSessionId(externalSync != null ? externalSync.externalId() : null)
                 .build();
@@ -123,6 +140,138 @@ public class SurfSessionService {
 
         // Idempotent: ensures the spot appears in surfed spots without a separate "I surfed here" step.
         userSurfSpotService.addUserSurfSpot(request.getUserId(), request.getSurfSpotId());
+    }
+
+    @Transactional
+    public SurfSessionListItemDTO startLiveSession(String userId, StartLiveSurfSessionRequest request) {
+        if (surfSessionRepository.existsByUserIdAndStatus(userId, SessionStatus.IN_PROGRESS)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, ApiErrors.SURF_SESSION_ALREADY_IN_PROGRESS);
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
+
+        SkillLevel skillForSession = user.getSkillLevel();
+        Surfboard surfboard = loadOptionalSurfboardForLiveSessionRequest(request.getSurfboardId(), userId);
+
+        Instant startInstant = Instant.now();
+        ZoneId zone = SessionTimeZoneUtil.zoneFromStartIanaZoneId(request.getStartIanaZoneId());
+        LocalDate sessionDate = startInstant.atZone(zone).toLocalDate();
+
+        Instant expectedReturnInstant = request.getExpectedReturnInstant();
+        if (expectedReturnInstant != null && !expectedReturnInstant.isAfter(startInstant)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SESSION_END_BEFORE_START);
+        }
+
+        SurfSession session = SurfSession.builder()
+                .user(user)
+                .skillLevel(skillForSession)
+                .sessionDate(sessionDate)
+                .sessionStartInstant(startInstant)
+                .status(SessionStatus.IN_PROGRESS)
+                .startLatitude(request.getStartLatitude())
+                .startLongitude(request.getStartLongitude())
+                .startIanaZoneId(StringUtils.blankToNull(request.getStartIanaZoneId()))
+                .shareLocationWithEmergencyContact(request.isShareLocationWithEmergencyContact())
+                .expectedReturnInstant(expectedReturnInstant)
+                .surfboard(surfboard)
+                .build();
+
+        try {
+            surfSessionRepository.save(session);
+            surfSessionRepository.flush();
+        } catch (DataIntegrityViolationException exception) {
+            if (SqlExceptionInspection.isSurfSessionInProgressUniqueViolation(exception)) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, ApiErrors.SURF_SESSION_ALREADY_IN_PROGRESS);
+            }
+            throw exception;
+        }
+        sessionNotificationService.notifySessionStarted(user, session);
+
+        SurfSessionListItemDTO dto = toListItem(session);
+        applySignedMediaUrls(dto);
+        return dto;
+    }
+
+    @Transactional
+    public SurfSessionListItemDTO endLiveSession(
+            String userId, Long sessionId, EndLiveSurfSessionRequest request) {
+        SurfSession session = surfSessionRepository
+                .findByIdWithUserForUpdate(sessionId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+
+        if (!session.getUser().getId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
+        }
+        if (!hasRecordedLiveStartLocation(session)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_END_REQUIRES_LIVE_START);
+        }
+        if (session.getStatus() == SessionStatus.COMPLETED) {
+            SurfSessionListItemDTO dto = toListItem(session);
+            applySignedMediaUrls(dto);
+            return dto;
+        }
+        if (session.getStatus() != SessionStatus.IN_PROGRESS) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_NOT_IN_PROGRESS);
+        }
+
+        User user = session.getUser();
+        SkillLevel skillForSession = request.getSkillLevel() != null
+                ? request.getSkillLevel()
+                : session.getSkillLevel();
+        if (user.getSkillLevel() == null && request.getSkillLevel() != null) {
+            user.setSkillLevel(request.getSkillLevel());
+            userRepository.save(user);
+        }
+
+        Instant endInstant = Instant.now();
+        Instant startInstant = session.getSessionStartInstant();
+        if (startInstant == null || !endInstant.isAfter(startInstant)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SESSION_END_BEFORE_START);
+        }
+
+        long betweenMinutes = ChronoUnit.MINUTES.between(startInstant, endInstant);
+        long recordedMinutes = Math.min(betweenMinutes, MAX_SESSION_DURATION_MINUTES);
+
+        Surfboard surfboard = loadOptionalSurfboardForLiveSessionRequest(request.getSurfboardId(), userId);
+
+        session.setSkillLevel(skillForSession);
+        session.setSessionEndInstant(endInstant);
+        session.setDurationMinutes(Math.toIntExact(recordedMinutes));
+        session.setStatus(SessionStatus.COMPLETED);
+        session.setWaveSize(request.getWaveSize());
+        session.setCrowdLevel(request.getCrowdLevel());
+        session.setWaveFace(request.getWaveFace());
+        session.setSessionRating(request.getSessionRating());
+        session.setSwellDirection(StringUtils.blankToNull(request.getSwellDirection()));
+        session.setWindDirection(StringUtils.blankToNull(request.getWindDirection()));
+        session.setTide(request.getTide());
+        session.setSessionNotes(StringUtils.blankToNull(request.getSessionNotes()));
+        session.setSurfboard(surfboard);
+
+        applyLiveSessionSurfSpotAssignment(session, userId, request.getSurfSpotId());
+
+        surfSessionRepository.save(session);
+        sessionNotificationService.notifySessionEnded(user, session);
+
+        SurfSessionListItemDTO dto = toListItem(session);
+        applySignedMediaUrls(dto);
+        return dto;
+    }
+
+    @Transactional(readOnly = true)
+    public SurfSessionListItemDTO getInProgressSessionForUser(String userId) {
+        SurfSession session = surfSessionRepository
+                .findFirstByUserIdAndStatusOrderBySessionStartInstantDescCreatedAtDesc(
+                        userId, SessionStatus.IN_PROGRESS)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+
+        SurfSessionListItemDTO dto = toListItem(session);
+        applySignedMediaUrls(dto);
+        return dto;
     }
 
     /**
@@ -155,10 +304,17 @@ public class SurfSessionService {
         if (!session.getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
         }
-        
-        if (request.getSurfSpotId() == null
-                || !request.getSurfSpotId().equals(session.getSurfSpot().getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_SPOT_MISMATCH);
+        if (session.getStatus() == SessionStatus.IN_PROGRESS) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_IN_PROGRESS_USE_END);
+        }
+
+        if (hasRecordedLiveStartLocation(session)) {
+            applyLiveSessionSurfSpotAssignment(session, userId, request.getSurfSpotId());
+        } else {
+            Long sessionSpotId = session.getSurfSpot() != null ? session.getSurfSpot().getId() : null;
+            if (request.getSurfSpotId() == null || !request.getSurfSpotId().equals(sessionSpotId)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_SPOT_MISMATCH);
+            }
         }
 
         User user = session.getUser();
@@ -168,9 +324,6 @@ public class SurfSessionService {
                 : (session.getSkillLevel() != null
                         ? session.getSkillLevel()
                         : user.getSkillLevel());
-        if (skillForSession == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SKILL_LEVEL_REQUIRED_FOR_SESSION);
-        }
         if (user.getSkillLevel() == null && request.getSkillLevel() != null) {
             user.setSkillLevel(request.getSkillLevel());
             userRepository.save(user);
@@ -184,6 +337,75 @@ public class SurfSessionService {
                 session, request, timing, skillForSession, surfboard);
 
         surfSessionRepository.save(session);
+    }
+
+    /**
+     * After creating a surf spot from a GPS session, attach the new spot to completed live sessions
+     * without a linked spot that started near the anchor coordinates (and optionally force-link one session).
+     */
+    @Transactional
+    public LinkSessionsToSpotResultDTO linkSessionsToSpot(String userId, LinkSessionsToSpotRequest request) {
+        SurfSpot surfSpot = surfSpotRepository
+                .findById(request.getSurfSpotId())
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SPOT_NOT_FOUND));
+
+        double anchorLatitude = request.getAnchorLatitude();
+        double anchorLongitude = request.getAnchorLongitude();
+
+        Set<Long> sessionIdsToLink = new HashSet<>();
+        if (request.getSessionId() != null) {
+            SurfSession explicitSession = surfSessionRepository
+                    .findById(request.getSessionId())
+                    .orElseThrow(
+                            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+            if (!explicitSession.getUser().getId().equals(userId)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
+            }
+            if (explicitSession.getStatus() != SessionStatus.IN_PROGRESS
+                    && hasRecordedLiveStartLocation(explicitSession)
+                    && explicitSession.getSurfSpot() == null) {
+                sessionIdsToLink.add(explicitSession.getId());
+            }
+        }
+
+        List<SurfSession> candidates =
+                surfSessionRepository.findUnassignedWithStartLocationByUserIdExcludingInProgress(
+                        userId, SessionStatus.IN_PROGRESS);
+        for (SurfSession candidate : candidates) {
+            double distanceKm = CoordinateDistanceUtil.distanceKm(
+                    candidate.getStartLatitude(),
+                    candidate.getStartLongitude(),
+                    anchorLatitude,
+                    anchorLongitude);
+            if (distanceKm <= CoordinateDistanceUtil.AT_SPOT_RADIUS_KM) {
+                sessionIdsToLink.add(candidate.getId());
+            }
+        }
+
+        int linkedSessionCount = 0;
+        for (Long sessionId : sessionIdsToLink) {
+            SurfSession session = surfSessionRepository
+                    .findById(sessionId)
+                    .orElseThrow(
+                            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+            if (!session.getUser().getId().equals(userId)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
+            }
+            if (session.getStatus() == SessionStatus.IN_PROGRESS || session.getSurfSpot() != null) {
+                continue;
+            }
+            if (!hasRecordedLiveStartLocation(session)) {
+                continue;
+            }
+            applyLiveSessionSurfSpotAssignment(session, userId, surfSpot.getId());
+            surfSessionRepository.save(session);
+            linkedSessionCount++;
+        }
+
+        return LinkSessionsToSpotResultDTO.builder()
+                .linkedSessionCount(linkedSessionCount)
+                .build();
     }
 
     /**
@@ -205,19 +427,23 @@ public class SurfSessionService {
         session.setCrowdLevel(request.getCrowdLevel());
         session.setWaveFace(request.getWaveFace());
         session.setSessionRating(request.getSessionRating());
-        session.setSwellDirection(blankToNull(request.getSwellDirection()));
-        session.setWindDirection(blankToNull(request.getWindDirection()));
+        session.setSwellDirection(StringUtils.blankToNull(request.getSwellDirection()));
+        session.setWindDirection(StringUtils.blankToNull(request.getWindDirection()));
         session.setTide(request.getTide());
-        session.setSessionNotes(blankToNull(request.getSessionNotes()));
+        session.setSessionNotes(StringUtils.blankToNull(request.getSessionNotes()));
         session.setSurfboard(surfboard);
     }
 
     private Surfboard loadOptionalSurfboardForSessionRequest(SurfSessionRequest request, String userId) {
-        if (request.getSurfboardId() == null || request.getSurfboardId().isBlank()) {
+        return loadOptionalSurfboardForLiveSessionRequest(request.getSurfboardId(), userId);
+    }
+
+    private Surfboard loadOptionalSurfboardForLiveSessionRequest(String surfboardId, String userId) {
+        if (surfboardId == null || surfboardId.isBlank()) {
             return null;
         }
         return surfboardRepository
-                .findByIdAndUserId(request.getSurfboardId().trim(), userId)
+                .findByIdAndUserId(surfboardId.trim(), userId)
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURFBOARD_NOT_FOUND_FOR_USER));
     }
@@ -234,6 +460,9 @@ public class SurfSessionService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
         if (!session.getUser().getId().equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.SURF_SESSION_ACCESS_FORBIDDEN);
+        }
+        if (session.getStatus() == SessionStatus.IN_PROGRESS) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SURF_SESSION_IN_PROGRESS_CANNOT_DELETE);
         }
         List<SurfSessionMedia> mediaList = session.getMedia();
         if (mediaList != null && !mediaList.isEmpty()) {
@@ -275,6 +504,7 @@ public class SurfSessionService {
      * Sessions page for a user: DB-backed headline stats plus the full session list (newest first),
      * same bundle pattern as user-spots / watch list.
      */
+    @Transactional(readOnly = true)
     public UserSurfSessionsDTO getSurfSessionsForUser(String userId) {
         if (userId == null || userId.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.SESSION_SUMMARY_USER_ID_REQUIRED);
@@ -294,10 +524,24 @@ public class SurfSessionService {
                 .build();
     }
 
+    private static final String UNKNOWN_LOCATION_SESSION_LABEL = "Unknown location";
+    private static final String LIVE_SESSION_LIST_LABEL = "Live session";
+
+    private String surfSpotNameForListItem(SurfSession session) {
+        SurfSpot spot = session.getSurfSpot();
+        if (spot != null) {
+            return spot.getName();
+        }
+        if (session.getStatus() == SessionStatus.IN_PROGRESS) {
+            return LIVE_SESSION_LIST_LABEL;
+        }
+        return UNKNOWN_LOCATION_SESSION_LABEL;
+    }
+
     private SurfSessionListItemDTO toListItem(SurfSession s) {
         SurfSpot spot = s.getSurfSpot();
-        ZoneId zone = zoneForSpotDisplay(spot);
-        String spotPath = SurfSpotPathUtil.pathFor(spot);
+        ZoneId zone = SessionTimeZoneUtil.zoneForSession(s);
+        String spotPath = spot != null ? SurfSpotPathUtil.pathFor(spot) : null;
         Surfboard board = s.getSurfboard();
         List<SurfSessionMediaDTO> mediaDtos =
                 s.getMedia() == null || s.getMedia().isEmpty()
@@ -311,11 +555,16 @@ public class SurfSessionService {
                 .sessionEndTime(localTimeAtZone(s.getSessionEndInstant(), zone))
                 .sessionStartInstant(s.getSessionStartInstant())
                 .sessionEndInstant(s.getSessionEndInstant())
+                .status(s.getStatus())
+                .shareLocationWithEmergencyContact(s.isShareLocationWithEmergencyContact())
+                .expectedReturnInstant(s.getExpectedReturnInstant())
                 .externalSessionProvider(s.getExternalSessionProvider())
                 .externalSessionId(s.getExternalSessionId())
                 .createdAt(s.getCreatedAt())
-                .surfSpotId(spot.getId())
-                .surfSpotName(spot.getName())
+                .surfSpotId(spot != null ? spot.getId() : null)
+                .surfSpotName(surfSpotNameForListItem(s))
+                .startLatitude(s.getStartLatitude())
+                .startLongitude(s.getStartLongitude())
                 .spotPath(spotPath)
                 .waveSize(s.getWaveSize())
                 .crowdLevel(s.getCrowdLevel())
@@ -337,6 +586,28 @@ public class SurfSessionService {
             return null;
         }
         return instant.atZone(zone).toLocalTime();
+    }
+
+    private static boolean hasRecordedLiveStartLocation(SurfSession session) {
+        return session.getStartLatitude() != null && session.getStartLongitude() != null;
+    }
+
+    private void applyLiveSessionSurfSpotAssignment(
+            SurfSession session, String userId, Long requestedSurfSpotId) {
+        Long currentSpotId = session.getSurfSpot() != null ? session.getSurfSpot().getId() : null;
+        if (Objects.equals(currentSpotId, requestedSurfSpotId)) {
+            return;
+        }
+        if (requestedSurfSpotId == null) {
+            session.setSurfSpot(null);
+            return;
+        }
+        SurfSpot resolvedSpot = surfSpotRepository
+                .findById(requestedSurfSpotId)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SPOT_NOT_FOUND));
+        session.setSurfSpot(resolvedSpot);
+        userSurfSpotService.addUserSurfSpot(userId, resolvedSpot.getId());
     }
 
     private void applySignedMediaUrls(SurfSessionListItemDTO sessionDto) {
@@ -458,14 +729,6 @@ public class SurfSessionService {
                 .build();
     }
 
-    private static String blankToNull(String value) {
-        if (value == null) {
-            return null;
-        }
-        String trimmed = value.trim();
-        return trimmed.isEmpty() ? null : trimmed;
-    }
-
     /**
      * When the session was stored with UTC instants (imports / wearables) and the client omits all
      * timing fields, keep the stored timeline so a notes-only update does not clear instants via the
@@ -496,7 +759,7 @@ public class SurfSessionService {
      * Both external fields null for manual logs; otherwise both required (see {@link ApiErrors#EXTERNAL_SESSION_SYNC_PAIR_REQUIRED}).
      */
     private ExternalSyncPair resolveExternalSyncPair(SurfSessionRequest request) {
-        String externalId = blankToNull(request.getExternalSessionId());
+        String externalId = StringUtils.blankToNull(request.getExternalSessionId());
         ExternalSessionProvider provider = request.getExternalSessionProvider();
         if (externalId == null && provider == null) {
             return null;
@@ -527,16 +790,15 @@ public class SurfSessionService {
         return resolveFromManualLocalTimes(request, surfSpot, sessionDate);
     }
 
-    private ZoneId zoneForSpotDisplay(SurfSpot surfSpot) {
-        String raw = surfSpot.getIanaZoneId();
-        if (raw != null && !raw.isBlank()) {
-            try {
-                return ZoneId.of(raw.trim());
-            } catch (DateTimeException ex) {
-                logger.warn("Invalid iana_zone_id on surf spot {}: {}", surfSpot.getId(), raw);
-            }
+    private ZoneId zoneForSessionDisplay(SurfSpot surfSpot) {
+        if (surfSpot == null) {
+            return ZoneId.of("UTC");
         }
-        return ZoneId.of("UTC");
+        return SessionTimeZoneUtil.zoneForSpot(surfSpot);
+    }
+
+    private ZoneId zoneForSpotDisplay(SurfSpot surfSpot) {
+        return SessionTimeZoneUtil.zoneForSpot(surfSpot);
     }
 
     private ResolvedTiming resolveFromInstants(SurfSessionRequest request, SurfSpot surfSpot) {

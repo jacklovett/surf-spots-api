@@ -17,8 +17,12 @@ import com.lovettj.surfspotsapi.repository.WatchListRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
@@ -52,9 +56,9 @@ public class WatchListService {
 
         if (existingEntry.isEmpty()) {
             User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
             SurfSpot surfSpot = surfSpotRepository.findById(spotId)
-                .orElseThrow(() -> new RuntimeException("Surf spot not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SPOT_NOT_FOUND));
 
             WatchListSurfSpot newEntry = WatchListSurfSpot.builder()
                 .user(user)

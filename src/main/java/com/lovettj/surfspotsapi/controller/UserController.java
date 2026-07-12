@@ -38,73 +38,39 @@ public class UserController {
      * the client-side session cookie.
      */
     @GetMapping("/me")
+    @ApiFailureMessage(action = "load", target = "profile")
     public ResponseEntity<ApiResponse<UserProfile>> getCurrentUser() {
-        try {
-            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
-            return userService.getUserProfile(currentUserId)
-                    .map(profile -> ResponseEntity.ok(ApiResponse.success(profile, "Profile loaded")))
-                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                            .body(ApiResponse.error(ApiErrors.USER_NOT_FOUND, HttpStatus.NOT_FOUND.value())));
-        } catch (ResponseStatusException e) {
-            int code = e.getStatusCode().value();
-            return ResponseEntity.status(code)
-                    .body(ApiResponse.error(e.getReason() != null ? e.getReason()
-                            : ApiErrors.formatErrorMessage("load", "profile"), code));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("load", "profile"),
-                            HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        return userService.getUserProfile(currentUserId)
+                .map(profile -> ResponseEntity.ok(ApiResponse.success(profile, "Profile loaded")))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(ApiResponse.error(ApiErrors.USER_NOT_FOUND, HttpStatus.NOT_FOUND.value())));
     }
 
     @PutMapping("/update/profile")
+    @ApiFailureMessage(action = "update", target = "profile")
     public ResponseEntity<ApiResponse<String>> updateUser(@Valid @RequestBody UserRequest user) {
-        try {
-            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
-            userService.updateUserProfile(currentUserId, user);
-            return ResponseEntity.ok(ApiResponse.success("Profile updated successfully!"));
-        } catch (ResponseStatusException e) {
-            int code = e.getStatusCode().value();
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("update", "profile"), code));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("update", "profile"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        userService.updateUserProfile(currentUserId, user);
+        return ResponseEntity.ok(ApiResponse.success("Profile updated successfully!"));
     }
 
     @PutMapping("/update-password")
+    @ApiFailureMessage(action = "change", target = "password")
     public ResponseEntity<ApiResponse<String>> updatePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        try {
-            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
-            changePasswordRequest.setUserId(currentUserId);
-            userService.updatePassword(changePasswordRequest);
-            return ResponseEntity.ok(ApiResponse.success("Password changed successfully!"));
-        } catch (ResponseStatusException e) {
-            int code = e.getStatusCode().value();
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("change", "password"), code));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("change", "password"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        changePasswordRequest.setUserId(currentUserId);
+        userService.updatePassword(changePasswordRequest);
+        return ResponseEntity.ok(ApiResponse.success("Password changed successfully!"));
     }
 
     @PutMapping("/settings")
+    @ApiFailureMessage(action = "update", target = "settings")
     public ResponseEntity<ApiResponse<String>> updateSettings(@RequestBody SettingsRequest settingsRequest) {
-        try {
-            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
-            settingsRequest.setUserId(currentUserId);
-            userService.updateSettings(settingsRequest);
-            return ResponseEntity.ok(ApiResponse.success("Settings updated successfully!"));
-        } catch (ResponseStatusException e) {
-            int code = e.getStatusCode().value();
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("update", "settings"), code));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("update", "settings"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        settingsRequest.setUserId(currentUserId);
+        userService.updateSettings(settingsRequest);
+        return ResponseEntity.ok(ApiResponse.success("Settings updated successfully!"));
     }
 
     /**
@@ -114,20 +80,13 @@ public class UserController {
      * match check; the controller still enforces that only the signed-in user may delete their account.
      */
     @DeleteMapping("/account/{accountUserId}")
+    @ApiFailureMessage(action = "delete", target = "account")
     public ResponseEntity<ApiResponse<String>> deleteAccount(@PathVariable String accountUserId) {
-        try {
-            String currentUserId = authenticatedUserResolver.requireCurrentUserId();
-            if (!currentUserId.equals(accountUserId)) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.ACCOUNT_DELETE_NOT_PERMITTED);
-            }
-            userService.deleteAccount(accountUserId);
-            return ResponseEntity.ok(ApiResponse.success("Account deleted successfully"));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("delete", "account"), e.getStatusCode().value()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("delete", "account"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        if (!currentUserId.equals(accountUserId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, ApiErrors.ACCOUNT_DELETE_NOT_PERMITTED);
         }
+        userService.deleteAccount(accountUserId);
+        return ResponseEntity.ok(ApiResponse.success("Account deleted successfully"));
     }
 }

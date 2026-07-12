@@ -73,6 +73,16 @@ class MailPreviewControllerTest {
     }
 
     @Test
+    void sessionOverduePreviewShouldReturnRenderedHtml() throws Exception {
+        String logicalName = TransactionalEmailTemplate.SESSION_OVERDUE.getLogicalName();
+        when(templateEngine.process(eq(logicalName), any(Context.class))).thenReturn("<html>session-overdue</html>");
+
+        mockMvc.perform(get("/api/dev/mail-preview/" + logicalName))
+                .andExpect(status().isOk())
+                .andExpect(content().string("<html>session-overdue</html>"));
+    }
+
+    @Test
     void unknownTemplateShouldReturn404() throws Exception {
         mockMvc.perform(get("/api/dev/mail-preview/not-a-template")).andExpect(status().isNotFound());
     }

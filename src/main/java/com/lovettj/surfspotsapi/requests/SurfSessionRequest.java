@@ -10,7 +10,6 @@ import com.lovettj.surfspotsapi.response.ApiErrors;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -20,7 +19,7 @@ import java.time.LocalTime;
 
 @Data
 public class SurfSessionRequest {
-    @NotNull(message = "Surf spot id is required")
+    /** Required for spot-page logs; optional on update for GPS live sessions (unknown location). */
     private Long surfSpotId;
 
     /**
@@ -52,8 +51,8 @@ public class SurfSessionRequest {
 
     private WaveFace waveFace;
 
-    @Min(value = 1, message = "Session rating must be between 1 and 5")
-    @Max(value = 5, message = "Session rating must be between 1 and 5")
+    @Min(value = 1, message = ApiErrors.SESSION_RATING_OUT_OF_RANGE)
+    @Max(value = 5, message = ApiErrors.SESSION_RATING_OUT_OF_RANGE)
     private Integer sessionRating;
 
     private Tide tide;
@@ -92,7 +91,7 @@ public class SurfSessionRequest {
         return (hasId && hasProvider) || (!hasId && !hasProvider);
     }
 
-    @AssertTrue(message = "Session date is required unless session start instant is provided.")
+    @AssertTrue(message = ApiErrors.SESSION_DATE_OR_START_INSTANT_REQUIRED)
     public boolean isSessionDateOrStartInstantProvided() {
         return sessionDate != null || sessionStartInstant != null;
     }

@@ -1,5 +1,6 @@
 package com.lovettj.surfspotsapi.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -43,7 +44,9 @@ public class SecurityConfig {
         SecurityFilterChain securityFilterChain(
                 HttpSecurity http,
                 SessionCookieFilter sessionCookieFilter,
-                CsrfOriginFilter csrfOriginFilter) throws Exception {
+                CsrfOriginFilter csrfOriginFilter,
+                @Value("${app.security.csrf-origin-filter-enabled:true}") boolean csrfOriginFilterEnabled)
+                throws Exception {
             http
                     .cors(Customizer.withDefaults())
                     // Spring synchronizer-token CSRF is disabled for cross-origin JSON clients.
@@ -69,9 +72,12 @@ public class SecurityConfig {
                     .requestMatchers("/email/**").permitAll()
                     .requestMatchers("/error").permitAll()
                     .anyRequest().authenticated()
-                    )
-                    .addFilterBefore(csrfOriginFilter, UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(sessionCookieFilter, UsernamePasswordAuthenticationFilter.class);
+                    );
+
+            if (csrfOriginFilterEnabled) {
+                http.addFilterBefore(csrfOriginFilter, UsernamePasswordAuthenticationFilter.class);
+            }
+            http.addFilterBefore(sessionCookieFilter, UsernamePasswordAuthenticationFilter.class);
 
             return http.build();
         }

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.UserSurfSpotsDTO;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.enums.WaveDirection;
 import com.lovettj.surfspotsapi.entity.Continent;
 import com.lovettj.surfspotsapi.entity.Country;
@@ -137,6 +141,20 @@ class UserSurfSpotServiceTests {
 
         assertEquals(2L, summary.getSurfedSpots().get(0).getSurfSpot().getId());
         assertEquals(1L, summary.getSurfedSpots().get(1).getSurfSpot().getId());
+    }
+
+    @Test
+    void addUserSurfSpotShouldThrowNotFoundWhenSurfSpotMissing() {
+        when(userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, 99L)).thenReturn(Optional.empty());
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(surfSpotRepository.findById(99L)).thenReturn(Optional.empty());
+
+        ResponseStatusException exception = assertThrows(
+                ResponseStatusException.class,
+                () -> userSurfSpotService.addUserSurfSpot(userId, 99L));
+
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        assertEquals(ApiErrors.SURF_SPOT_NOT_FOUND, exception.getReason());
     }
 
     private UserSurfSpot userSurfSpotFor(SurfSpot surfSpot) {

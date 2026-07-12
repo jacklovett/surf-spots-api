@@ -552,7 +552,7 @@ public class TripService {
                 try {
                     // Add user to the trip
                     User user = userRepository.findById(userId)
-                            .orElseThrow(() -> new RuntimeException("User not found"));
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
                     
                     // Check if already a member (in case of race condition)
                     Optional<TripMember> existing = tripMemberRepository.findByTripIdAndUserId(
@@ -648,7 +648,7 @@ public class TripService {
 
         // Delete trip invitations where user was the inviter
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found during trip deletion: " + userId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
         List<TripInvitation> invitationsByInviter = tripInvitationRepository.findByInvitedBy(user);
         if (!invitationsByInviter.isEmpty()) {
             tripInvitationRepository.deleteAll(invitationsByInviter);

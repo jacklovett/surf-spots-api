@@ -2,6 +2,7 @@ package com.lovettj.surfspotsapi.entity;
 
 import com.lovettj.surfspotsapi.enums.CrowdLevel;
 import com.lovettj.surfspotsapi.enums.ExternalSessionProvider;
+import com.lovettj.surfspotsapi.enums.SessionStatus;
 import com.lovettj.surfspotsapi.enums.SkillLevel;
 import com.lovettj.surfspotsapi.enums.Tide;
 import com.lovettj.surfspotsapi.enums.WaveFace;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,12 +40,13 @@ public class SurfSession {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "surf_spot_id", nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "surf_spot_id", nullable = true)
     private SurfSpot surfSpot;
 
+    /** Set from the user profile at live start when available; otherwise collected when the session ends. */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private SkillLevel skillLevel;
 
     /** Local calendar day at the surf spot (denormalized from {@link #sessionStartInstant} for queries and labels). */
@@ -66,6 +69,38 @@ public class SurfSession {
 
     @Column(name = "session_end_instant")
     private Instant sessionEndInstant;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private SessionStatus status = SessionStatus.COMPLETED;
+
+    /** Device coordinates captured at session start (when available), independent of emergency-contact sharing. */
+    @Column(name = "start_latitude")
+    private Double startLatitude;
+
+    @Column(name = "start_longitude")
+    private Double startLongitude;
+
+    /**
+     * IANA zone from the device at live session start (e.g. Europe/Dublin).
+     * Used for local clock labels when no surf spot is linked yet.
+     */
+    @Column(name = "start_iana_zone_id")
+    private String startIanaZoneId;
+
+    /** Per-session opt-in to email the user's emergency contact at start and end. */
+    @Column(name = "share_location_with_emergency_contact", nullable = false)
+    @Builder.Default
+    private boolean shareLocationWithEmergencyContact = false;
+
+    /** Optional "back by" time shown to the emergency contact in the session-started email. */
+    @Column(name = "expected_return_instant")
+    private Instant expectedReturnInstant;
+
+    /** Set after the overdue warning email is sent so the job does not repeat. */
+    @Column(name = "overdue_notification_sent_at")
+    private Instant overdueNotificationSentAt;
 
     /**
      * Integration source for {@link #externalSessionId}. Omitted with id for sessions logged only in our UI.
@@ -115,8 +150,9 @@ public class SurfSession {
     @JoinColumn(name = "surfboard_id")
     private Surfboard surfboard;
 
+    @Builder.Default
     @OneToMany(mappedBy = "surfSession", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SurfSessionMedia> media;
+    private List<SurfSessionMedia> media = new ArrayList<>();
 
     @CreationTimestamp
     @Column(updatable = false)

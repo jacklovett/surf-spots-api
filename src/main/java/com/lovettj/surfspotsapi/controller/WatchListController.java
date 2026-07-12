@@ -23,12 +23,14 @@ public class WatchListController {
   }
 
   @GetMapping
+  @ApiFailureMessage(action = "load", target = "watch list")
   public ResponseEntity<WatchListDTO> getUsersWatchList() {
     String currentUserId = authenticatedUserResolver.requireCurrentUserId();
     return ResponseEntity.ok(watchListService.getUsersWatchList(currentUserId));
   }
 
   @PostMapping
+  @ApiFailureMessage(action = "add", target = "surf spot to watch list")
   public ResponseEntity<ApiResponse<String>> addSurfSpotToWatchList(@RequestBody UserSurfSpotRequest request) {
     request.setUserId(authenticatedUserResolver.requireCurrentUserId());
     watchListService.addSurfSpotToWatchList(request.getUserId(), request.getSurfSpotId());
@@ -36,6 +38,7 @@ public class WatchListController {
   }
 
   @DeleteMapping("/remove/{spotId}")
+  @ApiFailureMessage(action = "remove", target = "surf spot from watch list")
   public ResponseEntity<ApiResponse<String>> removeWatchListSurfSpot(@PathVariable Long spotId) {
     String currentUserId = authenticatedUserResolver.requireCurrentUserId();
     watchListService.removeSurfSpotFromWishList(currentUserId, spotId);

@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,6 +46,11 @@ import com.lovettj.surfspotsapi.testutil.MockMvcDefaults;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(MockMvcDefaults.class)
+@TestPropertySource(
+        properties = {
+            "app.auth.session-secret=test-session-secret",
+            "app.security.csrf-origin-filter-enabled=true",
+        })
 class AuthControllerTests {
 
     @Autowired

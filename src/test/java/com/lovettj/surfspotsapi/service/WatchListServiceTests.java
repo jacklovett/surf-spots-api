@@ -13,8 +13,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.dto.WatchListDTO;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.entity.SurfSpot;
 import com.lovettj.surfspotsapi.entity.Region;
 import com.lovettj.surfspotsapi.entity.Country;
@@ -93,6 +96,20 @@ class WatchListServiceTests {
         watchListService.addSurfSpotToWatchList(testUserId, 1L);
 
         verify(watchListRepository).save(any(WatchListSurfSpot.class));
+    }
+
+    @Test
+    void addSurfSpotToWatchListShouldThrowNotFoundWhenUserMissing() {
+        when(watchListRepository.findByUserIdAndSurfSpotId(testUserId, 1L))
+            .thenReturn(Optional.empty());
+        when(userRepository.findById(testUserId)).thenReturn(Optional.empty());
+
+        ResponseStatusException exception = assertThrows(
+                ResponseStatusException.class,
+                () -> watchListService.addSurfSpotToWatchList(testUserId, 1L));
+
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        assertEquals(ApiErrors.USER_NOT_FOUND, exception.getReason());
     }
 
     @Test

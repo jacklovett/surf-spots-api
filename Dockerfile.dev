@@ -5,6 +5,9 @@ WORKDIR /app
 
 # Copy pom.xml first for dependency caching
 COPY pom.xml .
+COPY mvnw mvnw.cmd ./
+COPY .mvn ./.mvn
+RUN chmod +x mvnw
 
 # Download dependencies (this layer will be cached)
 RUN mvn dependency:go-offline -B

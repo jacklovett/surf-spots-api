@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.lovettj.surfspotsapi.email.TransactionalEmailTemplate;
 import com.lovettj.surfspotsapi.requests.ContactRequest;
-import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.service.EmailService;
 import com.lovettj.surfspotsapi.testutil.AppPropertiesFactory;
@@ -65,22 +64,15 @@ class ContactControllerTests {
     }
 
     @Test
-    void sendContactMessageShouldReturnErrorWhenEmailServiceThrowsException() {
-        // Arrange
+    void sendContactMessageShouldPropagateExceptionWhenEmailServiceThrows() {
         doThrow(new RuntimeException("Email service error"))
             .when(emailService)
             .sendEmail(anyString(), anyString(), anyString(), any());
 
-        // Act
-        ResponseEntity<ApiResponse<String>> response = contactController.sendContactMessage(validContactRequest);
-
-        // Assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertNotNull(response.getBody());
-        ApiResponse<String> body = response.getBody();
-        assertNotNull(body);
-        assertFalse(body.isSuccess());
-        assertEquals(ApiErrors.formatErrorMessage("send", "contact message"), body.getMessage());
+        RuntimeException thrown = assertThrows(
+                RuntimeException.class,
+                () -> contactController.sendContactMessage(validContactRequest));
+        assertEquals("Email service error", thrown.getMessage());
     }
 
     @Test

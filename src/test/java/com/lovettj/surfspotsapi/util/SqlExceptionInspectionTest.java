@@ -37,9 +37,21 @@ class SqlExceptionInspectionTest {
     }
 
     @Test
-    void isPostgresUniqueViolationShouldReturnFalseForOtherSqlStates() {
-        SQLException root = new SQLException("check failed", "23514");
+    void isSurfSessionInProgressUniqueViolationShouldMatchConstraintNameInCauseChain() {
+        String message =
+                "duplicate key value violates unique constraint \""
+                        + SqlExceptionInspection.UQ_SURF_SESSION_ONE_IN_PROGRESS_PER_USER
+                        + "\"";
+        SQLException root = new SQLException(message, "23505");
+        Exception wrapper = new Exception("wrapped", root);
 
-        assertFalse(SqlExceptionInspection.isPostgresUniqueViolation(root));
+        assertTrue(SqlExceptionInspection.isSurfSessionInProgressUniqueViolation(wrapper));
+    }
+
+    @Test
+    void isSurfSessionInProgressUniqueViolationShouldNotMatchGeneric23505WithoutConstraintName() {
+        SQLException root = new SQLException("duplicate key", "23505");
+
+        assertFalse(SqlExceptionInspection.isSurfSessionInProgressUniqueViolation(root));
     }
 }

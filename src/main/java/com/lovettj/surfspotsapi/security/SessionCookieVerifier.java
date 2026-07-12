@@ -18,6 +18,15 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Verifies the signed {@code session} cookie shared with the web app via {@code SESSION_SECRET}.
+ * Wire format: {@code <base64-payload>.<base64-hmac>} (split on the last dot).
+ *
+ * TODO: Decouple API auth from the web app's cookie-signing implementation. Today this verifier
+ * matches the signed-cookie format produced by the Remix session storage layer; the API should
+ * either own an explicit session-cookie contract both sides implement, or authenticate via a
+ * separate API-issued credential instead of parsing the browser session cookie.
+ */
 @Component
 public class SessionCookieVerifier {
 
@@ -46,64 +55,41 @@ public class SessionCookieVerifier {
 
         String decodedCookieValue = decodeCookieValue(rawCookieValue);
         String cookieValue = stripSignedPrefix(decodedCookieValue);
-        String[] parts = cookieValue.split("\\.", 2);
-        if (parts.length != 2) {
-            return Optional.empty();
+
+        int lastDotIndex = cookieValue.lastIndexOf('.');
+        if (lastDotIndex > 0 && lastDotIndex < cookieValue.length() - 1) {
+            String payload = cookieValue.substring(0, lastDotIndex);
+            String providedSignature = cookieValue.substring(lastDotIndex + 1);
+            if (verifyPayloadSignature(payload, providedSignature)) {
+                return extractUserIdFromPayload(payload);
+            }
         }
 
-        String payload = parts[0];
-        String providedSignature = normalizeBase64Url(parts[1]);
-
-        String expectedSignature = normalizeBase64Url(signPayload(payload));
-        if (expectedSignature == null) {
-            return Optional.empty();
-        }
-
-        if (!MessageDigest.isEqual(
-                expectedSignature.getBytes(StandardCharsets.UTF_8),
-                providedSignature.getBytes(StandardCharsets.UTF_8))) {
-            return Optional.empty();
-        }
-
-        return extractUserId(payload);
+        return Optional.empty();
     }
 
-    private String stripSignedPrefix(String value) {
-        if (value.startsWith("\"") && value.endsWith("\"") && value.length() > 1) {
-            value = value.substring(1, value.length() - 1);
-        }
-
-        if (value.startsWith("s:")) {
-            return value.substring(2);
-        }
-        return value;
-    }
-
-    private String decodeCookieValue(String value) {
-        try {
-            return URLDecoder.decode(value, StandardCharsets.UTF_8);
-        } catch (IllegalArgumentException exception) {
-            // If decoding fails, keep original value and let signature validation decide.
-            return value;
-        }
-    }
-
-    private String signPayload(String payload) {
+    private boolean verifyPayloadSignature(String payload, String providedSignature) {
         try {
             Mac mac = Mac.getInstance(HMAC_SHA256);
             SecretKeySpec key = new SecretKeySpec(sessionSecret.getBytes(StandardCharsets.UTF_8), HMAC_SHA256);
             mac.init(key);
-            byte[] signature = mac.doFinal(payload.getBytes(StandardCharsets.UTF_8));
-            return Base64.getUrlEncoder().withoutPadding().encodeToString(signature);
-        } catch (GeneralSecurityException ex) {
-            logger.error("Failed to verify session cookie signature", ex);
-            return null;
+            byte[] signatureBytes = mac.doFinal(payload.getBytes(StandardCharsets.UTF_8));
+            String expectedSignature = Base64.getEncoder()
+                    .encodeToString(signatureBytes)
+                    .replaceAll("=+$", "");
+            String normalizedProvidedSignature = providedSignature.replaceAll("=+$", "");
+            return MessageDigest.isEqual(
+                    expectedSignature.getBytes(StandardCharsets.UTF_8),
+                    normalizedProvidedSignature.getBytes(StandardCharsets.UTF_8));
+        } catch (GeneralSecurityException exception) {
+            logger.error("Failed to verify session cookie signature", exception);
+            return false;
         }
     }
 
-    private Optional<String> extractUserId(String payload) {
+    private Optional<String> extractUserIdFromPayload(String payload) {
         try {
-            JsonNode root = parsePayloadJson(payload);
+            JsonNode root = parseSessionPayload(payload);
             if (root == null) {
                 return Optional.empty();
             }
@@ -119,54 +105,89 @@ public class SessionCookieVerifier {
             }
 
             return Optional.empty();
-        } catch (Exception ex) {
-            logger.debug("Unable to parse session payload", ex);
+        } catch (Exception exception) {
+            logger.debug("Unable to parse session payload", exception);
             return Optional.empty();
         }
     }
 
-    private JsonNode parsePayloadJson(String payload) {
-        // React Router session payloads are typically base64/base64url encoded JSON.
-        // Keep parsing tolerant so local dev cookies with different encodings still verify.
-        try {
-            byte[] decoded = Base64.getUrlDecoder().decode(payload);
-            return objectMapper.readTree(decoded);
-        } catch (Exception ignored) {
-            // try next parser
+    private String stripSignedPrefix(String value) {
+        if (value.startsWith("\"") && value.endsWith("\"") && value.length() > 1) {
+            value = value.substring(1, value.length() - 1);
+        }
+
+        if (value.startsWith("s:")) {
+            return value.substring(2);
+        }
+        return value;
+    }
+
+    private String decodeCookieValue(String value) {
+        // Only percent-decode values that were URL-encoded (e.g. %2B). Plain Base64 HMAC
+        // signatures can contain '+' which URLDecoder would incorrectly turn into a space.
+        if (value == null || !value.contains("%")) {
+            return value;
         }
 
         try {
-            String padded = payload;
-            int remainder = padded.length() % 4;
-            if (remainder != 0) {
-                padded = padded + "=".repeat(4 - remainder);
-            }
-            byte[] decoded = Base64.getDecoder().decode(padded);
-            return objectMapper.readTree(decoded);
-        } catch (Exception ignored) {
-            // try next parser
+            return URLDecoder.decode(value, StandardCharsets.UTF_8);
+        } catch (IllegalArgumentException exception) {
+            return value;
         }
+    }
 
+    private JsonNode parseSessionPayload(String payload) {
         try {
-            return objectMapper.readTree(payload);
+            byte[] decodedBytes = decodeStandardBase64(payload);
+            String escapedJson = new String(decodedBytes, StandardCharsets.UTF_8);
+            String json = URLDecoder.decode(percentEncodeSessionJson(escapedJson), StandardCharsets.UTF_8);
+            return objectMapper.readTree(json);
         } catch (Exception ignored) {
             return null;
         }
     }
 
-    private String normalizeBase64Url(String value) {
-        if (value == null) {
-            return "";
+    private byte[] decodeStandardBase64(String payload) {
+        String paddedPayload = payload;
+        int remainder = paddedPayload.length() % 4;
+        if (remainder != 0) {
+            paddedPayload = paddedPayload + "=".repeat(4 - remainder);
         }
+        return Base64.getDecoder().decode(paddedPayload);
+    }
 
-        String normalized = value.trim()
-                .replace('+', '-')
-                .replace('/', '_');
+    /**
+     * Percent-encodes characters outside {@code [\w*+\-./@]} so {@link URLDecoder} can
+     * decode session JSON embedded in the signed cookie payload.
+     */
+    private String percentEncodeSessionJson(String value) {
+        StringBuilder result = new StringBuilder(value.length());
+        int index = 0;
+        while (index < value.length()) {
+            char currentChar = value.charAt(index++);
+            if (isPercentEncodeLiteral(currentChar)) {
+                result.append(currentChar);
+                continue;
+            }
 
-        while (normalized.endsWith("=")) {
-            normalized = normalized.substring(0, normalized.length() - 1);
+            int codePoint = currentChar;
+            if (codePoint < 256) {
+                result.append(String.format("%%%02X", codePoint));
+            } else {
+                result.append(String.format("%%u%04X", codePoint));
+            }
         }
+        return result.toString();
+    }
 
-        return normalized;
+    private boolean isPercentEncodeLiteral(char currentChar) {
+        return Character.isLetterOrDigit(currentChar)
+                || currentChar == '_'
+                || currentChar == '*'
+                || currentChar == '+'
+                || currentChar == '-'
+                || currentChar == '.'
+                || currentChar == '/'
+                || currentChar == '@';
     }
 }

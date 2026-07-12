@@ -58,15 +58,15 @@ public class AuthController {
                     .location(URI.create(frontendBase + "/auth?verifyError=missing"))
                     .build();
         }
-        
+
         try {
             rateLimiter.checkRateLimit(RateLimiter.Bucket.VERIFY_EMAIL, clientIp);
             emailVerificationService.verifyEmailWithToken(token.trim());
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(URI.create(frontendBase + "/auth?verified=true"))
                     .build();
-        } catch (ResponseStatusException e) {
-            int status = e.getStatusCode().value();
+        } catch (ResponseStatusException exception) {
+            int status = exception.getStatusCode().value();
             if (status == HttpStatus.TOO_MANY_REQUESTS.value()) {
                 return ResponseEntity.status(HttpStatus.FOUND)
                         .location(URI.create(frontendBase + "/auth?verifyError=rate_limit"))
@@ -77,12 +77,12 @@ public class AuthController {
                         .location(URI.create(frontendBase + "/auth?verifyError=invalid"))
                         .build();
             }
-            log.warn("verify-email GET unexpected ResponseStatusException status={}", status, e);
+            log.warn("verify-email GET unexpected ResponseStatusException status={}", status, exception);
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(URI.create(frontendBase + "/auth?verifyError=server"))
                     .build();
-        } catch (Exception e) {
-            log.error("verify-email GET failed", e);
+        } catch (Exception exception) {
+            log.error("verify-email GET failed", exception);
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(URI.create(frontendBase + "/auth?verifyError=server"))
                     .build();
@@ -90,37 +90,30 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @ApiFailureMessage(action = "create", target = "account")
     public ResponseEntity<ApiResponse<UserProfile>> registerUser(
             @RequestBody AuthRequest authRequest,
             HttpServletRequest httpRequest) {
         String clientIp = ClientIpExtractor.extract(httpRequest);
-        try {
-            rateLimiter.checkRateLimit(RateLimiter.Bucket.REGISTER, clientIp);
-            UserRegistrationResult registration = userService.registerUser(authRequest);
-            User user = registration.user();
-            URI location = CreatedResourceLocations.fromApiPath("/api/user/{userId}", null, user.getId());
-            UserProfile profile = new UserProfile(user);
-            final String message;
-            if (registration.newlyCreatedAccount()) {
-                message = profile.isEmailVerified()
-                        ? "Account created successfully"
-                        : "Account created successfully. We sent a verification link to your email.";
-            } else {
-                // Existing OAuth sign-in or linking a provider to an existing email: no post-register toast copy.
-                message = null;
-            }
-            return ResponseEntity.created(location)
-                    .body(new ApiResponse<>(profile, message, HttpStatus.CREATED.value(), true));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : "Request failed.", e.getStatusCode().value()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("create", "account"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        rateLimiter.checkRateLimit(RateLimiter.Bucket.REGISTER, clientIp);
+        UserRegistrationResult registration = userService.registerUser(authRequest);
+        User user = registration.user();
+        URI location = CreatedResourceLocations.fromApiPath("/api/user/{userId}", null, user.getId());
+        UserProfile profile = new UserProfile(user);
+        final String message;
+        if (registration.newlyCreatedAccount()) {
+            message = profile.isEmailVerified()
+                    ? "Account created successfully"
+                    : "Account created successfully. We sent a verification link to your email.";
+        } else {
+            message = null;
         }
+        return ResponseEntity.created(location)
+                .body(new ApiResponse<>(profile, message, HttpStatus.CREATED.value(), true));
     }
 
     @PostMapping("/login")
+    @ApiFailureMessage(action = "sign in", target = "")
     public ResponseEntity<ApiResponse<UserProfile>> loginUser(
             @RequestBody AuthRequest authRequest,
             HttpServletRequest httpRequest) {
@@ -133,41 +126,28 @@ public class AuthController {
             rateLimiter.reset(RateLimiter.Bucket.LOGIN, clientIp);
             rateLimiter.reset(RateLimiter.Bucket.LOGIN, email);
             return ResponseEntity.ok(ApiResponse.success(new UserProfile(authenticatedUser), "Login successful"));
-        } catch (ResponseStatusException e) {
-            int status = e.getStatusCode().value();
-            String safeReason = e.getStatusCode().value() == HttpStatus.UNAUTHORIZED.value()
-                    || e.getStatusCode().value() == HttpStatus.NOT_FOUND.value()
+        } catch (ResponseStatusException exception) {
+            String safeReason = exception.getStatusCode().value() == HttpStatus.UNAUTHORIZED.value()
+                    || exception.getStatusCode().value() == HttpStatus.NOT_FOUND.value()
                             ? ApiErrors.INVALID_CREDENTIALS
-                            : (e.getReason() != null ? e.getReason() : "Request failed.");
-            int safeStatus = e.getStatusCode().value() == HttpStatus.NOT_FOUND.value()
+                            : (exception.getReason() != null ? exception.getReason() : "Request failed.");
+            int safeStatus = exception.getStatusCode().value() == HttpStatus.NOT_FOUND.value()
                     ? HttpStatus.UNAUTHORIZED.value()
-                    : e.getStatusCode().value();
+                    : exception.getStatusCode().value();
             return ResponseEntity.status(safeStatus)
                     .body(ApiResponse.error(safeReason, safeStatus));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("sign in", null), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
 
     @PostMapping("/verify-email")
+    @ApiFailureMessage(action = "verify", target = "email")
     public ResponseEntity<ApiResponse<String>> verifyEmail(
             @RequestBody VerifyEmailRequest request,
             HttpServletRequest httpRequest) {
         String clientIp = ClientIpExtractor.extract(httpRequest);
-        try {
-            rateLimiter.checkRateLimit(RateLimiter.Bucket.VERIFY_EMAIL, clientIp);
-            emailVerificationService.verifyEmailWithToken(request.getToken());
-            return ResponseEntity.ok(ApiResponse.success(null, "Email verified. Thank you."));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(
-                            e.getReason() != null ? e.getReason() : ApiErrors.VERIFY_EMAIL_TOKEN_INVALID_OR_EXPIRED,
-                            e.getStatusCode().value()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("verify", "email"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        rateLimiter.checkRateLimit(RateLimiter.Bucket.VERIFY_EMAIL, clientIp);
+        emailVerificationService.verifyEmailWithToken(request.getToken());
+        return ResponseEntity.ok(ApiResponse.success(null, "Email verified. Thank you."));
     }
 
     @PostMapping("/resend-verification")
@@ -179,15 +159,14 @@ public class AuthController {
         String clientIp = ClientIpExtractor.extract(httpRequest);
         try {
             emailVerificationService.resendVerificationEmail(request.getEmail(), origin, referer, clientIp);
-        } catch (ResponseStatusException e) {
-            int status = e.getStatusCode().value();
+        } catch (ResponseStatusException exception) {
+            int status = exception.getStatusCode().value();
             if (status == HttpStatus.BAD_REQUEST.value() || status == HttpStatus.TOO_MANY_REQUESTS.value()) {
                 return ResponseEntity.status(status)
-                        .body(ApiResponse.error(e.getReason() != null ? e.getReason() : "Request failed.", status));
+                        .body(ApiResponse.error(exception.getReason() != null ? exception.getReason() : "Request failed.", status));
             }
-        } catch (Exception e) {
-            // Real outage or bug: do not claim the email was sent. Use a single generic message (no internals).
-            log.error("Resend verification email failed unexpectedly", e);
+        } catch (Exception exception) {
+            log.error("Resend verification email failed unexpectedly", exception);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(
                             ApiErrors.SOMETHING_WENT_WRONG,
@@ -205,17 +184,14 @@ public class AuthController {
         String clientIp = ClientIpExtractor.extract(httpRequest);
         try {
             passwordResetService.createPasswordResetToken(request.getEmail(), origin, referer, clientIp);
-        } catch (ResponseStatusException e) {
-            // Preserve legitimate 400 (bad origin) and 429 (rate limit) responses, but
-            // never leak other codes that could indicate account existence.
-            int status = e.getStatusCode().value();
+        } catch (ResponseStatusException exception) {
+            int status = exception.getStatusCode().value();
             if (status == HttpStatus.BAD_REQUEST.value() || status == HttpStatus.TOO_MANY_REQUESTS.value()) {
                 return ResponseEntity.status(status)
-                        .body(ApiResponse.error(e.getReason() != null ? e.getReason() : "Request failed.", status));
+                        .body(ApiResponse.error(exception.getReason() != null ? exception.getReason() : "Request failed.", status));
             }
-        } catch (Exception e) {
-            // Real outage or bug: do not claim the reset email was sent. Use a single generic message (no internals).
-            log.error("Forgot-password flow failed unexpectedly", e);
+        } catch (Exception exception) {
+            log.error("Forgot-password flow failed unexpectedly", exception);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(
                             ApiErrors.SOMETHING_WENT_WRONG,
@@ -226,16 +202,9 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
+    @ApiFailureMessage(action = "change", target = "password")
     public ResponseEntity<ApiResponse<String>> resetPassword(@RequestBody ResetPasswordRequest request) {
-        try {
-            passwordResetService.resetPassword(request.getToken(), request.getNewPassword());
-            return ResponseEntity.ok(ApiResponse.success("Password successfully reset."));
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(ApiResponse.error(e.getReason() != null ? e.getReason() : ApiErrors.formatErrorMessage("change", "password"), e.getStatusCode().value()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(ApiErrors.formatErrorMessage("change", "password"), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-        }
+        passwordResetService.resetPassword(request.getToken(), request.getNewPassword());
+        return ResponseEntity.ok(ApiResponse.success("Password successfully reset."));
     }
 }

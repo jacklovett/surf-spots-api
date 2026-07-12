@@ -4,7 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.lovettj.surfspotsapi.response.ApiErrors;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -56,7 +60,7 @@ public class StorageService {
      * @param contentType The content type of the file
      * @return The presigned URL that can be used to upload the file
      * @throws IllegalStateException if storage is not configured
-     * @throws RuntimeException if presigning fails
+     * @throws ResponseStatusException if presigning fails
      */
     public String generatePresignedUploadUrl(String key, String contentType) {
         if (!isStorageConfigured()) {
@@ -77,7 +81,8 @@ public class StorageService {
 
             return presigner.presignPutObject(presignRequest).url().toString();
         } catch (Exception exception) {
-            throw new RuntimeException("Media storage error", exception);
+            throw new ResponseStatusException(
+                    HttpStatus.SERVICE_UNAVAILABLE, ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, exception);
         }
     }
 
@@ -114,7 +119,8 @@ public class StorageService {
                     .build();
             return presigner.presignGetObject(presignRequest).url().toString();
         } catch (Exception exception) {
-            throw new RuntimeException("Media storage error", exception);
+            throw new ResponseStatusException(
+                    HttpStatus.SERVICE_UNAVAILABLE, ApiErrors.MEDIA_UPLOAD_UNAVAILABLE, exception);
         }
     }
 

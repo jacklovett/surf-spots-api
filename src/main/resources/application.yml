@@ -64,6 +64,9 @@ app:
     logo-url: ${APP_EMAIL_LOGO_URL:}
   mapbox:
     access-token: ${MAPBOX_ACCESS_TOKEN:}
+  live-session:
+    overdue-notification-enabled: ${LIVE_SESSION_OVERDUE_NOTIFICATION_ENABLED:true}
+    overdue-notification-check-ms: ${LIVE_SESSION_OVERDUE_NOTIFICATION_CHECK_MS:300000}
   mail:
     enabled: ${MAIL_ENABLED:true} # Set to false to disable email sending
     # Optional From header; use an address verified with your SMTP provider (e.g. Scaleway).

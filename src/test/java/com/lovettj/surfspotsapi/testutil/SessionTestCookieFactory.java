@@ -20,18 +20,21 @@ public final class SessionTestCookieFactory {
 
     private SessionTestCookieFactory() {}
 
+    /**
+     * Builds a {@code session} cookie in the same signed format the web app uses
+     * ({@code base64-payload.base64-hmac}, shared {@code SESSION_SECRET}).
+     */
     public static Cookie createSignedSessionCookie(String userId) {
         try {
             String payloadJson = "{\"user\":{\"id\":\"" + userId + "\"}}";
-            String payload = Base64.getUrlEncoder()
-                    .withoutPadding()
+            String payload = Base64.getEncoder()
                     .encodeToString(payloadJson.getBytes(StandardCharsets.UTF_8));
 
             Mac mac = Mac.getInstance(HMAC_SHA256);
             mac.init(new SecretKeySpec(SESSION_SECRET.getBytes(StandardCharsets.UTF_8), HMAC_SHA256));
-            String signature = Base64.getUrlEncoder()
-                    .withoutPadding()
-                    .encodeToString(mac.doFinal(payload.getBytes(StandardCharsets.UTF_8)));
+            String signature = Base64.getEncoder()
+                    .encodeToString(mac.doFinal(payload.getBytes(StandardCharsets.UTF_8)))
+                    .replaceAll("=+$", "");
 
             return new Cookie("session", payload + "." + signature);
         } catch (Exception exception) {

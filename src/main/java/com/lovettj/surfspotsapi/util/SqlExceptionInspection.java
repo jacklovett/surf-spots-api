@@ -12,6 +12,10 @@ public final class SqlExceptionInspection {
     /** Flyway {@code V34}: partial unique index on external sync idempotency key. */
     public static final String UQ_SURF_SESSION_USER_PROVIDER_EXTERNAL = "uq_surf_session_user_provider_external";
 
+    /** Flyway {@code V41}: at most one in-progress session per user. */
+    public static final String UQ_SURF_SESSION_ONE_IN_PROGRESS_PER_USER =
+            "uq_surf_session_one_in_progress_per_user";
+
     private SqlExceptionInspection() {}
 
     /**
@@ -37,6 +41,11 @@ public final class SqlExceptionInspection {
             return true;
         }
         return isPostgresUniqueViolation(throwable);
+    }
+
+    /** Unique violation on {@link #UQ_SURF_SESSION_ONE_IN_PROGRESS_PER_USER}. */
+    public static boolean isSurfSessionInProgressUniqueViolation(Throwable throwable) {
+        return constraintNameAppearsInCauseMessages(throwable, UQ_SURF_SESSION_ONE_IN_PROGRESS_PER_USER);
     }
 
     private static boolean constraintNameAppearsInCauseMessages(Throwable throwable, String constraintName) {

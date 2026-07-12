@@ -17,7 +17,8 @@ public enum TransactionalEmailTemplate {
     VERIFY_EMAIL("verify-email"),
     CONTACT_MESSAGE("contact-message"),
     SESSION_STARTED("session-started"),
-    SESSION_ENDED("session-ended");
+    SESSION_ENDED("session-ended"),
+    SESSION_OVERDUE("session-overdue");
 
     private final String logicalName;
 

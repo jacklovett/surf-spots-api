@@ -50,7 +50,7 @@ services:
       SPRING_MAIL_HOST: ${SPRING_MAIL_HOST:-mailpit}
       SPRING_MAIL_PORT: ${SPRING_MAIL_PORT:-1025}
       # Run tests against a dedicated DB (postgres), not surf_spots_db.
-      SPRING_TEST_DATASOURCE_URL: ${SPRING_TEST_DATASOURCE_URL:-jdbc:postgresql://postgres:5432/postgres}
+      SPRING_TEST_DATASOURCE_URL: ${SPRING_TEST_DATASOURCE_URL:-jdbc:postgresql://postgres:5432/surf_spots_test_db}
       SPRING_TEST_DATASOURCE_USERNAME: ${SPRING_TEST_DATASOURCE_USERNAME:-postgres}
       SPRING_TEST_DATASOURCE_PASSWORD: ${SPRING_TEST_DATASOURCE_PASSWORD:-${DB_PASSWORD:-postgres}}
       # Scaleway Object Storage (media upload) - set in shell or .env
@@ -78,6 +78,32 @@ services:
       - surf-spots-network
     # Keep container running even if build fails initially
     restart: unless-stopped
+
+  # Dedicated test runner: do not use `mvn test` in the `api` service (it inherits the dev DB URL).
+  tests:
+    profiles: ["tests"]
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_TEST_DATASOURCE_URL: jdbc:postgresql://postgres:5432/surf_spots_test_db
+      SPRING_TEST_DATASOURCE_USERNAME: postgres
+      SPRING_TEST_DATASOURCE_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+    volumes:
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
+      - ./mvnw:/app/mvnw
+      - ./mvnw.cmd:/app/mvnw.cmd
+      - ./.mvn:/app/.mvn
+      - maven_cache:/root/.m2
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - surf-spots-network
+    command: ["./mvnw", "test"]
 
 volumes:
   postgres_data_dev:

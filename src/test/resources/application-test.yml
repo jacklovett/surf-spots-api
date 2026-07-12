@@ -2,7 +2,7 @@
 spring:
   datasource:
     # Dedicated DB (see main application-test.yml). Docker: SPRING_TEST_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
-    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_test}
+    url: ${SPRING_TEST_DATASOURCE_URL:jdbc:postgresql://localhost:5432/surf_spots_test_db}
     username: ${SPRING_TEST_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_TEST_DATASOURCE_PASSWORD:${DB_PASSWORD:postgres}}
     hikari:
@@ -24,7 +24,11 @@ spring:
 app:
   auth:
     session-secret: test-session-secret
+  security:
+    csrf-origin-filter-enabled: false
   public-api-base-url: http://localhost:8080
+  live-session:
+    overdue-notification-enabled: false
   seed:
     enabled: false
 

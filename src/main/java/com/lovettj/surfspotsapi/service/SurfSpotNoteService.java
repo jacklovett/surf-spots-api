@@ -8,9 +8,12 @@ import com.lovettj.surfspotsapi.repository.SurfSpotNoteRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.requests.SurfSpotNoteRequest;
+import com.lovettj.surfspotsapi.response.ApiErrors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -36,21 +39,17 @@ public class SurfSpotNoteService {
     }
 
     public SurfSpotNoteDTO saveNote(SurfSpotNoteRequest request, Long surfSpotId) {
-        // Validate user exists
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
-        // Validate surf spot exists
         SurfSpot surfSpot = surfSpotRepository.findById(surfSpotId)
-                .orElseThrow(() -> new RuntimeException("Surf spot not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.SURF_SPOT_NOT_FOUND));
 
-        // Check if note already exists
         Optional<SurfSpotNote> existingNote = noteRepository.findByUserIdAndSurfSpotId(
                 request.getUserId(), surfSpotId);
 
         SurfSpotNote note;
         if (existingNote.isPresent()) {
-            // Update existing note
             note = existingNote.get();
             note.setNoteText(request.getNoteText() != null ? request.getNoteText() : "");
             note.setPreferredTide(request.getPreferredTide());
@@ -59,7 +58,6 @@ public class SurfSpotNoteService {
             note.setPreferredSwellRange(request.getPreferredSwellRange());
             note.setSkillRequirement(request.getSkillRequirement());
         } else {
-            // Create new note
             note = SurfSpotNote.builder()
                     .user(user)
                     .surfSpot(surfSpot)

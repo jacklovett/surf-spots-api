@@ -29,13 +29,17 @@ public final class ApiErrors {
     public static final String SURF_SPOT_NAME_EXISTS_IN_REGION =
             "A surf spot with this name already exists in this region";
 
-    /** Profile must include a skill level before logging a surf session. */
-    public static final String SKILL_LEVEL_REQUIRED_FOR_SESSION =
-            "Add your skill level to your profile before logging a session.";
-
     /** Neither session date nor wearable/partner start instant was provided. */
     public static final String SESSION_DATE_OR_START_INSTANT_REQUIRED =
             "Provide a session date, or start/end instants from a wearable or partner.";
+
+    /** Generic validation fallback when field-level copy is unavailable. */
+    public static final String CHECK_INPUT =
+            "Something went wrong. Check the details and try again.";
+
+    /** Session rating must be 1–5 when provided. */
+    public static final String SESSION_RATING_OUT_OF_RANGE =
+            "Session rating must be between 1 and 5.";
 
     /** Client sent an end time without a start time. */
     public static final String SESSION_END_TIME_REQUIRES_START =
@@ -78,6 +82,53 @@ public final class ApiErrors {
     /** Update payload surf spot id does not match the session's surf spot (client bug or tampering). */
     public static final String SURF_SESSION_SPOT_MISMATCH =
             "This session belongs to a different surf spot. Reload the page and try again.";
+
+    /** Live start requires device coordinates captured at session start. */
+    public static final String LIVE_SESSION_START_COORDINATES_REQUIRED =
+            "Share your location to start a session.";
+
+    /** Expected return time is required when emailing an emergency contact at session start. */
+    public static final String LIVE_SESSION_EXPECTED_RETURN_REQUIRED =
+            "Choose when you expect to be back if you email your emergency contact.";
+
+    /** Latitude on GPS anchor / live-start payloads. */
+    public static final String COORDINATE_LATITUDE_OUT_OF_RANGE =
+            "Latitude must be between -90 and 90";
+
+    /** Longitude on GPS anchor / live-start payloads. */
+    public static final String COORDINATE_LONGITUDE_OUT_OF_RANGE =
+            "Longitude must be between -180 and 180";
+
+    /** Link-to-spot: surf spot id is required. */
+    public static final String LINK_SESSIONS_SURF_SPOT_ID_REQUIRED = "Surf spot is required.";
+
+    /** Link-to-spot: anchor latitude is required. */
+    public static final String LINK_SESSIONS_ANCHOR_LATITUDE_REQUIRED = "Anchor latitude is required.";
+
+    /** Link-to-spot: anchor longitude is required. */
+    public static final String LINK_SESSIONS_ANCHOR_LONGITUDE_REQUIRED = "Anchor longitude is required.";
+
+    /** Link-to-spot success when exactly one session was linked. */
+    public static final String LINK_SESSIONS_ONE_LINKED = "1 past session linked to this spot.";
+
+    public static final String SURF_SESSION_ALREADY_IN_PROGRESS =
+            "You already have a session in progress. End it before starting another.";
+
+    /** Action requires an in-progress session. */
+    public static final String SURF_SESSION_NOT_IN_PROGRESS =
+            "This session is not in progress.";
+
+    /** Regular session updates are not allowed while a live session is open. */
+    public static final String SURF_SESSION_IN_PROGRESS_USE_END =
+            "This session is still in progress. End it to add your session details.";
+
+    /** In-progress sessions must be ended before deletion. */
+    public static final String SURF_SESSION_IN_PROGRESS_CANNOT_DELETE =
+            "This session is still in progress. End it before deleting.";
+
+    /** Post-end details and spot linking via the live end endpoint require a GPS-started session. */
+    public static final String SURF_SESSION_END_REQUIRES_LIVE_START =
+            "This session was not started as a live session. Use edit session instead.";
 
     /** Media id does not exist. */
     public static final String MEDIA_NOT_FOUND = "Media not found";
@@ -158,5 +209,19 @@ public final class ApiErrors {
             return "Unable to " + action + TRY_AGAIN_LATER;
         }
         return "Unable to " + action + " " + target + TRY_AGAIN_LATER;
+    }
+
+    /**
+     * User-facing success message for link-to-spot when one or more sessions were linked.
+     * Returns null when nothing was linked so callers can omit {@code ApiResponse.message}.
+     */
+    public static String linkSessionsToSpotSuccessMessage(int linkedSessionCount) {
+        if (linkedSessionCount < 1) {
+            return null;
+        }
+        if (linkedSessionCount == 1) {
+            return LINK_SESSIONS_ONE_LINKED;
+        }
+        return linkedSessionCount + " past sessions linked to this spot.";
     }
 }
