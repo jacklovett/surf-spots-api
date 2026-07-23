@@ -2,27 +2,28 @@
 
 A Spring Boot REST API for managing surf spots, trips, and user data. Built with Spring Boot 3.3.5, Java 21, Maven, and PostgreSQL.
 
-## 📋 Quick Reference - Common Commands
+## Quick Reference - Common Commands
 
-**Start everything (PostgreSQL + API):**
+**Recommended local loop (Postgres + Mailpit in Docker, API on the host):**
 ```bash
 cd surf-spots-api
-docker-compose -f docker-compose.dev.yml up
+docker compose -f docker-compose.dev.yml up -d
+./mvnw spring-boot:run
 ```
 
-**Start in background:**
+On Windows PowerShell (outside WSL), use `.\mvnw.cmd spring-boot:run` instead of `./mvnw`.
+
+API: http://localhost:8080 — DevTools reloads on save. Mailpit UI: http://localhost:8025
+
+**Stop Docker deps:**
 ```bash
-docker-compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml down
 ```
 
-**Stop everything:**
+**Optional: API in Docker too** (slower edit loop; bind mounts do not auto-compile `src` into container `target`):
 ```bash
-docker-compose -f docker-compose.dev.yml down
-```
-
-**View API logs:**
-```bash
-docker-compose -f docker-compose.dev.yml logs -f api
+docker compose -f docker-compose.dev.yml --profile docker-api up --build
+docker compose -f docker-compose.dev.yml --profile docker-api logs -f api
 ```
 
 **Run all tests:**
@@ -35,62 +36,48 @@ docker compose -f docker-compose.dev.yml --profile tests run --rm tests
 docker compose -f docker-compose.dev.yml --profile tests run --rm tests sh -c "mvn test -Dtest=SurfSpotsApplicationTests"
 ```
 
-**Restart API container:**
-```bash
-docker-compose -f docker-compose.dev.yml restart api
-```
-
-**Rebuild and restart:**
-```bash
-docker-compose -f docker-compose.dev.yml up --build api
-```
-
 ---
 
-## 🚀 Quick Start (Docker - Recommended)
+## Quick Start (recommended)
 
-**Everything runs in Docker - no need to install Java, Maven, or PostgreSQL!**
+**Docker for Postgres + Mailpit. Run the API on the host** so Spring DevTools hot-reloads Java and email templates.
 
-1. **Make sure Docker Desktop is running:**
-   ```bash
-   docker ps  # Should not error
-   ```
-
-2. **Set the database password** (optional; defaults to `postgres`): in your shell run `export DB_PASSWORD=postgres`, or see [Configuration](#configuration).
-
-3. **Start everything (PostgreSQL + API):**
+1. **Docker Desktop running:** `docker ps` should not error.
+2. **Java 21** on the machine where you run the API, plus the Maven wrapper (`./mvnw`; Windows PowerShell: `.\mvnw.cmd`).
+3. **Copy `.env.example` → `.env`** and set at least `DB_PASSWORD` (default `postgres` is fine) and `SESSION_SECRET` if you use the frontend.
+4. **Start deps:**
    ```bash
    cd surf-spots-api
-   docker-compose -f docker-compose.dev.yml up --build
+   docker compose -f docker-compose.dev.yml up -d
    ```
-
-   The `--build` flag builds the Spring Boot app the first time. After that, you can use:
+   Starts **postgres** (5432) and **mailpit** (SMTP 1025, UI 8025). Does **not** start the API container.
+5. **If an old API container is still bound to 8080**, stop it:
    ```bash
-   docker-compose -f docker-compose.dev.yml up
+   docker compose -f docker-compose.dev.yml --profile docker-api stop api
    ```
-
-4. **That's it!** The API will be running at http://localhost:8080
-
-5. **Stop everything when done:**
+6. **Run the API on the host:**
    ```bash
-   docker-compose -f docker-compose.dev.yml down
+   ./mvnw spring-boot:run
    ```
+   Or run `SurfSpotsApplication` from the IDE with profile `dev`.
+7. **API:** http://localhost:8080 — **Mail preview:** http://localhost:8080/api/dev/mail-preview/
 
-**What's included:**
-- PostgreSQL 16 database (auto-configured)
-- Spring Boot API (Java 21 + Maven - all in Docker!)
-- Hot reload support (code changes require container restart: `docker-compose restart api`)
-- No local Java/Maven installation needed!
+**What's included by default:**
+- PostgreSQL 16 on `localhost:5432`
+- Mailpit for captured mail (`MAIL_ENABLED=true` in `.env` to actually send to it)
+- Host API with DevTools (edit `src` → restart classpath automatically)
 
-**View logs:**
+### Optional: API inside Docker
+
 ```bash
-docker-compose -f docker-compose.dev.yml logs -f api
+docker compose -f docker-compose.dev.yml --profile docker-api up --build
 ```
 
+Use when you do not want Java on the host. Expect a slower edit loop: only `./src` is mounted; you must rebuild classpath inside the container for changes to apply.
 ## Table of Contents
 
-- [Quick Reference - Common Commands](#-quick-reference---common-commands)
-- [Quick Start](#-quick-start-docker---recommended)
+- [Quick Reference - Common Commands](#quick-reference---common-commands)
+- [Quick Start](#quick-start-recommended)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Database Setup](#database-setup)
@@ -104,38 +91,20 @@ docker-compose -f docker-compose.dev.yml logs -f api
 
 ## Prerequisites
 
-### Option 1: Docker Setup (Recommended - Easiest)
+### Recommended: Docker deps + host JDK
 
-**Everything runs in Docker - no local installations needed!**
+- **Docker Desktop** — Postgres + Mailpit (`winget install Docker.DockerDesktop` or [download](https://www.docker.com/products/docker-desktop/))
+- **Java 21** — run the API on the host with the Maven wrapper (`./mvnw`; on Windows PowerShell `.\mvnw.cmd`)
 
-You only need:
-- **Docker Desktop** - Install with: `winget install Docker.DockerDesktop` or [download here](https://www.docker.com/products/docker-desktop/)
+**Why this split:** DevTools hot reload works on the host. Bind-mounting `src` into a Linux API container does not reliably auto-compile into `target`.
 
-**What Docker provides:**
-- PostgreSQL 16 database (no installation needed)
-- Java 21 JDK (included in Maven image)
-- Maven 3.9 (included in build image)
-- Spring Boot application (runs in container)
+### Optional: API in Docker too
 
-**Installing Docker Desktop:**
-- **Windows (winget):** `winget install Docker.DockerDesktop`
-- **Manual:** Download from https://www.docker.com/products/docker-desktop/
-- After installation, restart your computer and start Docker Desktop
-- Verify with: `docker --version`
+With `--profile docker-api`, Compose also runs the Spring Boot app in a Maven container (no host JDK). Prefer the host API when iterating on code.
 
-**Why Docker?** 
-- No need to install Java, Maven, or PostgreSQL locally
-- Consistent environment across all developers
-- Easy to start/stop/clean up
-- Production-like setup
+### Fully manual (no Docker)
 
-### Option 2: Manual Installation
-
-If you prefer not to use Docker, you'll need:
-- **Java 21** (JDK) - Required
-- **Maven 3.6+** - Required for building the project
-- **PostgreSQL 12+** - Required for the database
-- **Git** - For cloning the repository
+- **Java 21**, **Maven 3.6+**, **PostgreSQL 12+**, **Git**
 
 ### Quick Start with Docker (Recommended)
 
@@ -470,81 +439,50 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
 ## Running the Application
 
-### Option 1: Docker (Recommended - Everything in Docker)
+### Option 1: Host API + Docker Postgres/Mailpit (recommended)
 
-**No local Java/Maven installation needed!**
+Same as [Quick Start](#quick-start-recommended):
 
-1. **Make sure Docker Desktop is running**
+```bash
+docker compose -f docker-compose.dev.yml up -d
+./mvnw spring-boot:run
+```
 
-2. **Set the database password** (optional; see [Configuration](#configuration)).
-
-3. **Start everything:**
-   ```bash
-   cd surf-spots-api
-   docker-compose -f docker-compose.dev.yml up --build
-   ```
-
-   First time will take longer (downloads images, builds app). Subsequent starts:
-   ```bash
-   docker-compose -f docker-compose.dev.yml up
-   ```
-
-4. **API will be available at:** http://localhost:8080
-
-5. **View logs:**
-   ```bash
-   docker-compose -f docker-compose.dev.yml logs -f api
-   ```
-
-6. **Stop everything:**
-   ```bash
-   docker-compose -f docker-compose.dev.yml down
-   ```
+Stop deps: `docker compose -f docker-compose.dev.yml down`
 
 ### Mailpit (optional — capture outbound email in dev)
 
-The dev Compose file starts **[Mailpit](https://mailpit.axllent.org/)**: a local SMTP server that stores messages instead of delivering them, with a web UI at **http://localhost:8025** (SMTP **1025**).
+The default Compose stack starts **[Mailpit](https://mailpit.axllent.org/)** with Postgres: SMTP **1025**, UI **http://localhost:8025**.
 
-1. In `.env`, set **`MAIL_ENABLED=true`** (Compose passes this into the API container).
-2. Restart the **`api`** service so Spring picks up the change.
+1. In `.env`, set **`MAIL_ENABLED=true`**.
+2. Restart the **host** API (`./mvnw spring-boot:run`) so Spring picks it up. (`SPRING_MAIL_HOST=localhost` is already the dev default.)
 3. Trigger an email from the app (e.g. forgot password, verify email).
 4. Open **http://localhost:8025** and read the message.
 
 With **`MAIL_ENABLED=false`** (default), the API does not send mail; `EmailService` only logs that sending is disabled.
 
-If you run the API **on the host** (`mvn spring-boot:run`) but want Mailpit, start only Mailpit (and Postgres if needed):  
-`docker compose -f docker-compose.dev.yml up -d mailpit`  
-then set `SPRING_MAIL_HOST=localhost` and `SPRING_MAIL_PORT=1025` (and `MAIL_ENABLED=true`).
+If the API runs in Docker (`--profile docker-api`), Compose sets `SPRING_MAIL_HOST=mailpit` for you; restart that container after changing `MAIL_ENABLED`.
 
-**Note:** Code changes require restarting the API container:
+### Option 2: API inside Docker
+
 ```bash
-docker-compose -f docker-compose.dev.yml restart api
+docker compose -f docker-compose.dev.yml --profile docker-api up --build
 ```
 
-### Option 2: Local Development (Requires Java 21 + Maven)
+Slower edit loop (bind-mounted `src` does not auto-compile into container `target`). Prefer the host API flow above when iterating on code or email templates.
 
-**If you prefer to run the app locally (for better IDE integration, debugging, etc.):**
+### Option 3: Local Development (host API — same as Quick Start)
 
 **Prerequisites:**
 - Java 21 installed
-- Maven installed (or use `./mvnw` wrapper)
-- PostgreSQL running (use Docker: `docker-compose -f docker-compose.dev.yml up -d postgres`)
+- Maven wrapper (`./mvnw`, or `.\mvnw.cmd` in Windows PowerShell)
+- Postgres + Mailpit: `docker compose -f docker-compose.dev.yml up -d`
 
-**Run with Maven Wrapper:**
-
-The project includes Maven Wrapper, so you don't need Maven installed globally:
-
-**Windows:**
-```bash
-.\mvnw.cmd spring-boot:run
-```
-
-**macOS/Linux:**
 ```bash
 ./mvnw spring-boot:run
 ```
 
-### Option 2: Using Maven (if installed globally)
+### Option 4: Using Maven (if installed globally)
 
 ```bash
 mvn spring-boot:run
@@ -582,7 +520,7 @@ The API will be available at:
 
 ### Docker (recommended)
 
-The **`api`** service sets **`SPRING_DATASOURCE_*`** for the **dev** database. Spring Boot gives those env vars high precedence, so **do not run `mvn test` inside the same `api` container** or tests would inherit the dev URL.
+The **`api`** service (profile **`docker-api`**) sets **`SPRING_DATASOURCE_*`** for the **dev** database. Spring Boot gives those env vars high precedence, so **do not run `mvn test` inside that container** or tests would inherit the dev URL.
 
 Use the **`tests`** service (compose profile **`tests`**): same image, **`SPRING_PROFILES_ACTIVE=test`**, and **`SPRING_DATASOURCE_*`** pointing at **`surf_spots_test_db`**.
 

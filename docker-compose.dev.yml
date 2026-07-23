@@ -1,5 +1,12 @@
-# Development Docker Compose - Full stack (PostgreSQL + Spring Boot API)
-# Everything runs in Docker - no need to install Java or Maven locally!
+# Development Docker Compose
+#
+# Default (recommended): Postgres + Mailpit only.
+#   docker compose -f docker-compose.dev.yml up -d
+#   ./mvnw spring-boot:run
+#   (Windows PowerShell: .\mvnw.cmd spring-boot:run)
+#
+# Optional: API inside Docker too (slower edit loop; no reliable src→target watch on Windows mounts):
+#   docker compose -f docker-compose.dev.yml --profile docker-api up --build
 services:
   postgres:
     image: postgres:16
@@ -35,6 +42,7 @@ services:
       - surf-spots-network
 
   api:
+    profiles: ["docker-api"]
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -65,7 +73,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      # Mount source code for hot reload (changes require container restart, but faster than rebuild)
+      # Mount source only. /app/target is NOT mounted — it is built inside the
+      # container. Dockerfile.dev deletes target/.../db/migration before each
+      # start so removed Flyway scripts cannot linger and collide by version.
       - ./src:/app/src
       - ./pom.xml:/app/pom.xml
       - ./scripts/contest-import/snapshots:/app/scripts/contest-import/snapshots:ro

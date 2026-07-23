@@ -3,11 +3,10 @@ FROM maven:3.9-eclipse-temurin-21
 
 WORKDIR /app
 
-# Copy pom.xml first for dependency caching
+# Copy pom.xml first for dependency caching.
+# Use image `mvn` (not mvnw): .dockerignore excludes .mvn/, so the wrapper
+# cannot be COPY'd into the build context.
 COPY pom.xml .
-COPY mvnw mvnw.cmd ./
-COPY .mvn ./.mvn
-RUN chmod +x mvnw
 
 # Download dependencies (this layer will be cached)
 RUN mvn dependency:go-offline -B
@@ -18,6 +17,9 @@ COPY src ./src
 # Expose port
 EXPOSE 8080
 
-# Run the application with Maven (enables hot reload with DevTools)
-CMD ["mvn", "spring-boot:run"]
-
+# Only ./src is bind-mounted from the host (see docker-compose.dev.yml).
+# /app/target lives inside the container. Maven copies resources into target
+# but does not delete removed files — so a deleted migration can linger and
+# Flyway then fails with "Found more than one migration with version N".
+# Wipe the copied migrations before each run so target matches src.
+CMD ["sh", "-c", "rm -rf /app/target/classes/db/migration && mvn spring-boot:run"]
