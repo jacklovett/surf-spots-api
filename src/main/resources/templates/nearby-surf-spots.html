@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta name="color-scheme" content="light only">
+    <title>Surf spots near you</title>
+    <th:block th:insert="~{email/fragments :: inter}"></th:block>
+</head>
+<body style="margin:0;padding:0;background-color:#eef2f7;">
+<div style="display:none;max-height:0;overflow:hidden;">Surf spots near your new location.</div>
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#eef2f7;">
+    <tr>
+        <td align="center" style="padding:32px 14px 48px 14px;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+                   style="max-width:560px;border-collapse:separate;border-spacing:0;border-radius:20px;overflow:hidden;
+                          box-shadow:0 20px 50px rgba(13,22,25,0.12);">
+                <tr>
+                    <td th:insert="~{email/fragments :: masthead}"></td>
+                </tr>
+                <tr>
+                    <td style="background-color:#ffffff;border:1px solid #dddddd;border-top:none;">
+                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                                <td style="padding:40px 30px 44px 30px;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;color:#0d1619;">
+                                    <p style="margin:0 0 10px 0;font-size:12px;font-weight:700;letter-spacing:0.02em;color:#666666;">Travel</p>
+                                    <h1 style="margin:0 0 20px 0;font-size:28px;line-height:1.35;font-weight:700;letter-spacing:0;color:#333333;">Surf spots near you</h1>
+                                    <p style="margin:0 0 28px 0;font-size:16px;line-height:1.7;letter-spacing:0.02em;color:#666666;">
+                                        Looks like you have moved. Here are some well-known spots near your new location.
+                                    </p>
+
+                                    <table th:if="${mapImageUrl != null}" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 28px 0;">
+                                        <tr>
+                                            <td style="border-radius:12px;overflow:hidden;line-height:0;">
+                                                <a th:href="${mapLink}" target="_blank" rel="noopener noreferrer">
+                                                    <img th:src="${mapImageUrl}" width="500" border="0"
+                                                         alt="Map of nearby surf spots"
+                                                         style="display:block;width:100%;max-width:500px;height:auto;border-radius:12px;border:1px solid #dddddd;"/>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <p th:if="${mapImageUrl != null}" style="margin:0 0 28px 0;font-size:13px;line-height:1.6;letter-spacing:0.02em;color:#666666;">
+                                        Grey pin is your location. Teal pins are nearby spots.
+                                    </p>
+
+                                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+                                           style="margin:0 0 28px 0;border-collapse:collapse;">
+                                        <tr th:each="spot, spotStat : ${nearbySpots}">
+                                            <td th:style="${spotStat.first} ? 'padding:16px 0 12px 0;border-top:1px solid #dddddd;font-size:16px;line-height:1.55;color:#0d1619;font-weight:600;' : 'padding:16px 0 12px 0;border-top:1px solid #dddddd;font-size:16px;line-height:1.55;color:#0d1619;font-weight:600;'"
+                                                th:text="${spot.name}">Hossegor</td>
+                                            <td th:if="${spot.distanceLabel}"
+                                                style="padding:16px 0 12px 0;border-top:1px solid #dddddd;font-size:14px;line-height:1.55;color:#666666;text-align:right;white-space:nowrap;"
+                                                th:text="${spot.distanceLabel}">12 km</td>
+                                        </tr>
+                                    </table>
+
+                                    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 32px 0;">
+                                        <tr>
+                                            <td>
+                                                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                                                    <tr>
+                                                        <td style="border-radius:12px;background-color:#035061;border:1px solid #023d4d;">
+                                                            <a th:href="${mapLink}" target="_blank" rel="noopener noreferrer"
+                                                               style="display:inline-block;padding:14px 32px;font-size:16px;font-weight:600;letter-spacing:0.01em;text-transform:none;line-height:1.25;color:#ffffff;text-decoration:none;">Open map</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <p style="margin:0;font-size:16px;line-height:1.6;letter-spacing:0.02em;color:#0d1619;">
+                                        Thanks,<br/>
+                                        <span style="font-weight:600;color:#0d1619;">The Surf Spots team</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <div th:insert="~{email/fragments :: footer}"></div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

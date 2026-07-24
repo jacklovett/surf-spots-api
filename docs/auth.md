@@ -11,9 +11,12 @@ This document describes how authentication works across **surf-spots** (Remix ap
 ## High-level architecture
 
 1. **Remix** issues and reads a **`session` cookie** (signed with `SESSION_SECRET`). The cookie stores only **minimal identity** (`id`, `email`, `name`) as `SessionUser`.
-2. **Remix loaders/actions** call the API with `Cookie` forwarded and `credentials: 'include'` where applicable so the same cookie reaches the API.
-3. The **API** verifies the cookie with **`SessionCookieFilter`** / **`SessionCookieVerifier`** (HMAC, shared `SESSION_SECRET`), then exposes the user id as the Spring Security principal.
-4. **Rich profile data** (country, emergency contacts, settings, etc.) is loaded on demand via **`GET /api/user/me`**, not stored in the session cookie.
+2. **Remix loaders/actions** call the API with `Cookie` forwarded so the same cookie reaches the API.
+3. **Browser → API** (interim): calls go through the same-origin Remix **BFF** (`/api/backend/*`). **BFF** means Backend For Frontend — Remix receives the browser request (with the first-party `session` cookie) and forwards Cookie + Origin to Spring. `networkService` rewrites Spring-relative paths to that proxy automatically. This is **not** the intended permanent architecture; it only works around host-only cookies while the frontend (e.g. `*.vercel.app`) and API (Scaleway) are on unrelated hosts.
+4. The **API** verifies the cookie with **`SessionCookieFilter`** / **`SessionCookieVerifier`** (HMAC, shared `SESSION_SECRET`), then exposes the user id as the Spring Security principal.
+5. **Rich profile data** (country, emergency contacts, settings, etc.) is loaded on demand via **`GET /api/user/me`**, not stored in the session cookie.
+
+**TODO (correct approach — do when ready):** move app + API under one parent domain (e.g. `staging.surfspots.io` + `api.staging.surfspots.io`), set session cookie `Domain=.staging.surfspots.io` (`SESSION_COOKIE_DOMAIN`), point the browser at `VITE_API_URL` directly, and **delete the BFF**. Operator checklist: [staging-domain-setup.md](./staging-domain-setup.md). Do not remove the BFF until that DNS/env cutover is done in the same release.
 
 ## Session cookie (Remix)
 

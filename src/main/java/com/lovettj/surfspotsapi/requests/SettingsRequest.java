@@ -10,4 +10,6 @@ public class SettingsRequest {
     private boolean swellSeasonEmails;
     private boolean eventEmails;
     private boolean promotionEmails;
+    /** Optional; when present must be {@code metric} or {@code imperial}. */
+    private String preferredUnits;
 }

@@ -2,9 +2,11 @@ package com.lovettj.surfspotsapi.service;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -20,12 +22,12 @@ import com.lovettj.surfspotsapi.util.MonthUtils;
 @Service
 public class SwellSeasonService {
 
+    private static final int MAX_SPOTS_TO_LIST = 3;
+
     /**
      * Generates swell season notifications for watched surf spots.
-     * Groups notifications by region and swell season to avoid duplicates.
-     * 
-     * @param watchListSurfSpots List of watched surf spots
-     * @return List of notifications for seasons starting or ending in the current month
+     * Groups by region and swell season. Only fires when the season starts
+     * this month, or ends next month.
      */
     public List<NotificationDTO> generateSwellSeasonNotifications(List<WatchListSurfSpot> watchListSurfSpots) {
         List<NotificationDTO> notifications = new ArrayList<>();
@@ -37,7 +39,6 @@ public class SwellSeasonService {
         Month currentMonth = LocalDateTime.now().getMonth();
         Map<String, List<SurfSpot>> regionSeasonGroups = new HashMap<>();
 
-        // Group spots by region and swell season
         for (WatchListSurfSpot watchListSurfSpot : watchListSurfSpots) {
             SurfSpot surfSpot = watchListSurfSpot.getSurfSpot();
             if (surfSpot == null) {
@@ -54,29 +55,22 @@ public class SwellSeasonService {
                 continue;
             }
 
-            // Check if season is starting or ending soon
             Month startMonth = MonthUtils.parseMonthString(swellSeason.getStartMonth());
             Month endMonth = MonthUtils.parseMonthString(swellSeason.getEndMonth());
-
             if (startMonth == null || endMonth == null) {
                 continue;
             }
 
             boolean isSeasonStarting = currentMonth.equals(startMonth);
-            // Check if current month is one month before the end month
-            Month oneMonthBeforeEnd = endMonth.minus(1);
-            boolean isSeasonEnding = currentMonth.equals(oneMonthBeforeEnd);
-
+            boolean isSeasonEnding = currentMonth.equals(endMonth.minus(1));
             if (!isSeasonStarting && !isSeasonEnding) {
                 continue;
             }
 
-            // Create a key for grouping: regionId + swellSeasonId
             String groupKey = region.getId() + "_" + swellSeason.getId();
-            regionSeasonGroups.computeIfAbsent(groupKey, k -> new ArrayList<>()).add(surfSpot);
+            regionSeasonGroups.computeIfAbsent(groupKey, key -> new ArrayList<>()).add(surfSpot);
         }
 
-        // Generate notifications for each group
         for (Map.Entry<String, List<SurfSpot>> entry : regionSeasonGroups.entrySet()) {
             List<SurfSpot> spots = entry.getValue();
             if (spots.isEmpty()) {
@@ -89,151 +83,117 @@ public class SwellSeasonService {
 
             Month startMonth = MonthUtils.parseMonthString(swellSeason.getStartMonth());
             Month endMonth = MonthUtils.parseMonthString(swellSeason.getEndMonth());
-            Month currentMonthCheck = LocalDateTime.now().getMonth();
-            
-            boolean isSeasonStarting = currentMonthCheck.equals(startMonth);
-            Month oneMonthBeforeEnd = endMonth.minus(1);
-            boolean isSeasonEnding = currentMonthCheck.equals(oneMonthBeforeEnd);
+            boolean isSeasonStarting = currentMonth.equals(startMonth);
 
-            // Build notification
-            String seasonName = swellSeason.getName();
-            String title;
-            if (isSeasonStarting) {
-                title = seasonName + " Has Arrived";
-            } else if (isSeasonEnding) {
-                title = seasonName + " Ending Soon";
-            } else {
-                // Should not happen since we filter for starting/ending, but handle gracefully
-                title = seasonName;
-            }
+            String seasonName =
+                    swellSeason.getName() != null && !swellSeason.getName().isBlank()
+                            ? swellSeason.getName().trim()
+                            : "Swell season";
+            String regionLabel = buildLocationString(region);
+            String seasonWindow = formatSeasonWindow(startMonth, endMonth);
+            String title =
+                    isSeasonStarting
+                            ? seasonName + " is starting"
+                            : seasonName + " ends next month";
+            String description =
+                    buildDescription(spots, isSeasonStarting, regionLabel, seasonWindow);
 
-            // Use swell season name as location, or fall back to region/country
-            String location = (seasonName != null && !seasonName.trim().isEmpty())
-                ? seasonName
-                : buildLocationString(region);
+            String phase = isSeasonStarting ? "starting" : "ending";
+            int seasonYear = LocalDateTime.now().getYear();
 
-            // Build description with affected surf spots
-            String description = buildDescription(spots, isSeasonStarting);
-
-            NotificationDTO notification = NotificationDTO.builder()
-                .id("swell-" + entry.getKey())
-                .type("swell")
-                .title(title)
-                .description(description)
-                .location(location)
-                .surfSpotName(firstSpot.getName())
-                .createdAt(LocalDateTime.now())
-                .build();
-
-            notifications.add(notification);
+            notifications.add(
+                    NotificationDTO.builder()
+                            .id("swell-" + entry.getKey() + "-" + seasonYear + "-" + phase)
+                            .type("swell")
+                            .title(title)
+                            .description(description)
+                            .location(regionLabel.isBlank() ? seasonName : regionLabel)
+                            .surfSpotName(firstSpot.getName())
+                            .link("/watch-list")
+                            .createdAt(LocalDateTime.now())
+                            .build());
         }
 
         return notifications;
     }
 
-    /**
-     * Builds a location string from region and country information
-     */
     private String buildLocationString(Region region) {
         if (region == null) {
             return "";
         }
-
         StringBuilder location = new StringBuilder();
-        if (region.getCountry() != null && region.getCountry().getName() != null) {
-            location.append(region.getCountry().getName());
+        if (region.getName() != null && !region.getName().isBlank()) {
+            location.append(region.getName().trim());
         }
-        if (region.getName() != null) {
+        if (region.getCountry() != null
+                && region.getCountry().getName() != null
+                && !region.getCountry().getName().isBlank()) {
             if (location.length() > 0) {
                 location.append(", ");
             }
-            location.append(region.getName());
+            location.append(region.getCountry().getName().trim());
         }
         return location.toString();
     }
 
-    /**
-     * Builds an enticing description about the affected surf spots.
-     * Lists up to MAX_SPOTS_TO_LIST spots, then shows a count for the rest.
-     */
-    private static final int MAX_SPOTS_TO_LIST = 3;
-
-    private String buildDescription(List<SurfSpot> spots, boolean isSeasonStarting) {
-        if (spots == null || spots.isEmpty()) {
+    private static String formatSeasonWindow(Month startMonth, Month endMonth) {
+        if (startMonth == null || endMonth == null) {
             return "";
         }
+        return displayMonth(startMonth) + " to " + displayMonth(endMonth);
+    }
 
-        int spotCount = spots.size();
-        List<String> validSpotNames = spots.stream()
-            .map(SurfSpot::getName)
-            .filter(name -> name != null && !name.trim().isEmpty())
-            .collect(Collectors.toList());
+    private static String displayMonth(Month month) {
+        return month.getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+    }
 
-        if (validSpotNames.isEmpty()) {
-            return buildGenericDescription(isSeasonStarting, spotCount);
-        }
+    private String buildDescription(
+            List<SurfSpot> spots,
+            boolean isSeasonStarting,
+            String regionLabel,
+            String seasonWindow) {
+        List<String> spotNames =
+                spots.stream()
+                        .map(SurfSpot::getName)
+                        .filter(name -> name != null && !name.isBlank())
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+
+        String where =
+                regionLabel == null || regionLabel.isBlank() ? "spots you watch" : regionLabel;
+        String windowPart =
+                seasonWindow == null || seasonWindow.isBlank() ? "" : " (" + seasonWindow + ")";
+        String spotsPart = formatSpotList(spotNames, spots.size());
 
         if (isSeasonStarting) {
-            return buildStartingDescription(validSpotNames, spotCount);
-        } else {
-            return buildEndingDescription(validSpotNames, spotCount);
+            return "Prime season for "
+                    + where
+                    + windowPart
+                    + " starts this month"
+                    + spotsPart
+                    + " Check forecasts and plan sessions or a trip while the window is open.";
         }
+        return "Prime season for "
+                + where
+                + windowPart
+                + " ends next month"
+                + spotsPart
+                + " Get out there before conditions drop off.";
     }
 
-    /**
-     * Builds an enticing description for when a season is starting
-     */
-    private String buildStartingDescription(List<String> spotNames, int totalCount) {
-        if (totalCount == 1) {
-            return String.format("The prime swell season has arrived for %s! Perfect conditions are on the way - time to check the forecast and plan your session.", 
-                spotNames.get(0));
+    private static String formatSpotList(List<String> spotNames, int totalCount) {
+        if (spotNames.isEmpty()) {
+            if (totalCount <= 0) {
+                return ".";
+            }
+            return " across " + totalCount + " watched spot" + (totalCount == 1 ? "" : "s") + ".";
         }
-
         int spotsToShow = Math.min(MAX_SPOTS_TO_LIST, spotNames.size());
-        String listedSpots = String.join(", ", spotNames.subList(0, spotsToShow));
-        
+        String listed = String.join(", ", spotNames.subList(0, spotsToShow));
         if (totalCount <= MAX_SPOTS_TO_LIST) {
-            return String.format("The prime swell season has arrived! Your watched spots including %s are about to light up with epic conditions. Check the forecasts and start planning your trip!", 
-                listedSpots);
-        } else {
-            int remainingCount = totalCount - spotsToShow;
-            return String.format("The prime swell season has arrived! %s and %d more of your watched spots are about to light up with epic conditions. Perfect time to check forecasts and book that last-minute trip!", 
-                listedSpots, remainingCount);
+            return ": " + listed + ".";
         }
-    }
-
-    /**
-     * Builds an enticing description for when a season is ending soon
-     */
-    private String buildEndingDescription(List<String> spotNames, int totalCount) {
-        if (totalCount == 1) {
-            return String.format("The prime swell season for %s is ending soon! Don't miss out on these last epic sessions - check the forecast and get out there while conditions are still firing.", 
-                spotNames.get(0));
-        }
-
-        int spotsToShow = Math.min(MAX_SPOTS_TO_LIST, spotNames.size());
-        String listedSpots = String.join(", ", spotNames.subList(0, spotsToShow));
-        
-        if (totalCount <= MAX_SPOTS_TO_LIST) {
-            return String.format("The prime swell season is ending soon! Your watched spots including %s still have great conditions. Check the forecasts and catch these last epic sessions before the season wraps up!", 
-                listedSpots);
-        } else {
-            int remainingCount = totalCount - spotsToShow;
-            return String.format("The prime swell season is ending soon! %s and %d more of your watched spots still have great conditions. Don't miss out - check forecasts and book that last-minute trip before the season ends!", 
-                listedSpots, remainingCount);
-        }
-    }
-
-    /**
-     * Builds a generic description when spot names aren't available
-     */
-    private String buildGenericDescription(boolean isSeasonStarting, int spotCount) {
-        if (isSeasonStarting) {
-            return String.format("The prime swell season has arrived for %d of your watched spots! Perfect conditions are on the way - time to check the forecast and plan your sessions.", 
-                spotCount);
-        } else {
-            return String.format("The prime swell season is ending soon for %d of your watched spots! Don't miss out on these last epic sessions - check the forecast and get out there while conditions are still firing.", 
-                spotCount);
-        }
+        int remaining = totalCount - spotsToShow;
+        return ": " + listed + ", and " + remaining + " more.";
     }
 }

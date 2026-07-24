@@ -340,7 +340,7 @@ class UserServiceTests {
             assertTrue(user.isEmailVerified());
             assertNotNull(user.getSettings());
             assertTrue(user.getSettings().isNewSurfSpotEmails());
-            assertTrue(user.getSettings().isNearbySurfSpotsEmails());
+            assertFalse(user.getSettings().isNearbySurfSpotsEmails());
             assertTrue(user.getSettings().isSwellSeasonEmails());
             assertTrue(user.getSettings().isEventEmails());
             assertTrue(user.getSettings().isPromotionEmails());
@@ -508,7 +508,7 @@ class UserServiceTests {
             assertTrue(user.isEmailVerified());
             assertNotNull(user.getSettings());
             assertTrue(user.getSettings().isNewSurfSpotEmails());
-            assertTrue(user.getSettings().isNearbySurfSpotsEmails());
+            assertFalse(user.getSettings().isNearbySurfSpotsEmails());
             assertTrue(user.getSettings().isSwellSeasonEmails());
             assertTrue(user.getSettings().isEventEmails());
             assertTrue(user.getSettings().isPromotionEmails());
@@ -743,9 +743,39 @@ class UserServiceTests {
         request.setSwellSeasonEmails(true);
         request.setEventEmails(true);
         request.setPromotionEmails(true);
+        request.setPreferredUnits("imperial");
 
         userService.updateSettings(request);
-        verify(userRepository).save(any(User.class));
+        verify(userRepository).save(argThat(user -> {
+            assertEquals("imperial", user.getSettings().getPreferredUnits());
+            return true;
+        }));
+    }
+
+    @Test
+    void testUpdateSettingsShouldClearLastKnownLocationWhenNearbyEmailsDisabled() {
+        testUser.getSettings().setLastKnownLatitude(54.5);
+        testUser.getSettings().setLastKnownLongitude(-8.2);
+        testUser.getSettings().setLastKnownLocationAt(java.time.Instant.now());
+        doReturn(Optional.of(testUser)).when(userRepository).findById(testUserId);
+
+        SettingsRequest request = new SettingsRequest();
+        request.setUserId(testUserId);
+        request.setNewSurfSpotEmails(true);
+        request.setNearbySurfSpotsEmails(false);
+        request.setSwellSeasonEmails(true);
+        request.setEventEmails(true);
+        request.setPromotionEmails(true);
+
+        userService.updateSettings(request);
+
+        verify(userRepository).save(argThat(user -> {
+            assertNull(user.getSettings().getLastKnownLatitude());
+            assertNull(user.getSettings().getLastKnownLongitude());
+            assertNull(user.getSettings().getLastKnownLocationAt());
+            assertEquals(false, user.getSettings().isNearbySurfSpotsEmails());
+            return true;
+        }));
     }
 
 

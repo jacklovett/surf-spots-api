@@ -70,7 +70,7 @@ class EventNotificationServiceTests {
         assertEquals("event", notification.getType());
         assertEquals("surf-event-20", notification.getId());
         assertEquals("Pipeline", notification.getSurfSpotName());
-        assertEquals("Billabong Pro Pipeline — CT waiting period open", notification.getTitle());
+        assertEquals("Billabong Pro Pipeline - CT waiting period open", notification.getTitle());
         assertNull(notification.getLink());
         assertEquals(LocalDate.now().minusDays(1), notification.getStartDate());
         assertEquals(LocalDate.now().plusDays(5), notification.getEndDate());
@@ -175,7 +175,7 @@ class EventNotificationServiceTests {
         List<NotificationDTO> notifications =
                 eventNotificationService.generateEventNotifications(watchedSpotsById);
 
-        assertEquals("Billabong Pro Pipeline — CT stop live", notifications.get(0).getTitle());
+        assertEquals("Billabong Pro Pipeline - CT stop live", notifications.get(0).getTitle());
     }
 
     private Map<Long, SurfSpot> watchedSpots(SurfSpot... spots) {

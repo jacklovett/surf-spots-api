@@ -53,8 +53,8 @@ public class EventNotificationService {
                     event.getEndDate());
 
             String title = event.getStatus() == EventStatus.ACTIVE
-                    ? event.getName() + " — CT stop live"
-                    : event.getName() + " — CT waiting period open";
+                    ? event.getName() + " - CT stop live"
+                    : event.getName() + " - CT waiting period open";
 
             NotificationDTO notification = NotificationDTO.builder()
                     .id("surf-event-" + event.getId())

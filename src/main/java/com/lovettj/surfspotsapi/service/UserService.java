@@ -64,12 +64,32 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ApiErrors.USER_NOT_FOUND));
 
         Settings settings = user.getSettings();
+        boolean nearbyEmailsEnabled = settingsRequest.isNearbySurfSpotsEmails();
         settings.setNewSurfSpotEmails(settingsRequest.isNewSurfSpotEmails());
-        settings.setNearbySurfSpotsEmails(settingsRequest.isNearbySurfSpotsEmails());
+        settings.setNearbySurfSpotsEmails(nearbyEmailsEnabled);
         settings.setSwellSeasonEmails(settingsRequest.isSwellSeasonEmails());
         settings.setEventEmails(settingsRequest.isEventEmails());
         settings.setPromotionEmails(settingsRequest.isPromotionEmails());
+        if (!nearbyEmailsEnabled) {
+            settings.setLastKnownLatitude(null);
+            settings.setLastKnownLongitude(null);
+            settings.setLastKnownLocationAt(null);
+        }
+        if (settingsRequest.getPreferredUnits() != null
+                && !settingsRequest.getPreferredUnits().isBlank()) {
+            settings.setPreferredUnits(normalizePreferredUnits(settingsRequest.getPreferredUnits()));
+        }
         userRepository.save(user);
+    }
+
+    private static String normalizePreferredUnits(String preferredUnits) {
+        if ("imperial".equalsIgnoreCase(preferredUnits.trim())) {
+            return "imperial";
+        }
+        if ("metric".equalsIgnoreCase(preferredUnits.trim())) {
+            return "metric";
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "preferredUnits must be metric or imperial");
     }
 
     public UserProfile updateUserProfile(UserRequest updateUserRequest) {
@@ -212,10 +232,11 @@ public class UserService {
     private void setupUserSettings(User user) {
         Settings settings = Settings.builder()
             .newSurfSpotEmails(true)
-            .nearbySurfSpotsEmails(true)
+            .nearbySurfSpotsEmails(false)
             .swellSeasonEmails(true)
             .eventEmails(true)
             .promotionEmails(true)
+            .preferredUnits("metric")
             .user(user)
             .build();
         user.setSettings(settings);

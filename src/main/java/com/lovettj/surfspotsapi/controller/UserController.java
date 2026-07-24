@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,12 @@ import org.springframework.web.server.ResponseStatusException;
 import com.lovettj.surfspotsapi.dto.UserProfile;
 import com.lovettj.surfspotsapi.requests.ChangePasswordRequest;
 import com.lovettj.surfspotsapi.requests.SettingsRequest;
+import com.lovettj.surfspotsapi.requests.UserLocationRequest;
 import com.lovettj.surfspotsapi.requests.UserRequest;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 import com.lovettj.surfspotsapi.response.ApiResponse;
 import com.lovettj.surfspotsapi.security.AuthenticatedUserResolver;
+import com.lovettj.surfspotsapi.service.NearbyTravelNotificationService;
 import com.lovettj.surfspotsapi.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
     private final UserService userService;
+    private final NearbyTravelNotificationService nearbyTravelNotificationService;
     private final AuthenticatedUserResolver authenticatedUserResolver;
 
     /**
@@ -71,6 +75,21 @@ public class UserController {
         settingsRequest.setUserId(currentUserId);
         userService.updateSettings(settingsRequest);
         return ResponseEntity.ok(ApiResponse.success("Settings updated successfully!"));
+    }
+
+    /**
+     * Reports the signed-in user's current browser/device location for nearby-travel alerts.
+     * First report only stores a baseline; later reports may email if the jump is large
+     * and {@code nearbySurfSpotsEmails} is enabled.
+     */
+    @PostMapping("/location")
+    @ApiFailureMessage(action = "update", target = "location")
+    public ResponseEntity<ApiResponse<String>> reportLocation(
+            @Valid @RequestBody UserLocationRequest locationRequest) {
+        String currentUserId = authenticatedUserResolver.requireCurrentUserId();
+        nearbyTravelNotificationService.reportLocation(
+                currentUserId, locationRequest.getLatitude(), locationRequest.getLongitude());
+        return ResponseEntity.ok(ApiResponse.success("Location updated"));
     }
 
     /**

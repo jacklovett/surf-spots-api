@@ -131,7 +131,7 @@ class EmailServiceTests {
 
         Context ctx = ctxCaptor.getValue();
         assertTrue((Boolean) ctx.getVariable("tripHasSchedule"));
-        assertEquals("Mar 10, 2026 – Mar 24, 2026", ctx.getVariable("tripDatesLine"));
+        assertEquals("Mar 10, 2026 - Mar 24, 2026", ctx.getVariable("tripDatesLine"));
         assertTrue((Boolean) ctx.getVariable("tripHasSummary"));
         assertEquals("  Peniche focus. Shared van. ", ctx.getVariable("tripSummaryText"));
     }

@@ -10,6 +10,7 @@ public class SettingsDTO {
     private boolean swellSeasonEmails;
     private boolean eventEmails;
     private boolean promotionEmails;
+    private String preferredUnits;
 
     public SettingsDTO(Settings settings) {
         this.newSurfSpotEmails = settings.isNewSurfSpotEmails();
@@ -17,5 +18,8 @@ public class SettingsDTO {
         this.swellSeasonEmails = settings.isSwellSeasonEmails();
         this.eventEmails = settings.isEventEmails();
         this.promotionEmails = settings.isPromotionEmails();
+        this.preferredUnits = settings.getPreferredUnits() != null
+                ? settings.getPreferredUnits()
+                : "metric";
     }
-} 
+}

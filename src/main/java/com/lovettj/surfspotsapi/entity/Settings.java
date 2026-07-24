@@ -23,4 +23,18 @@ public class Settings {
     private boolean swellSeasonEmails;
     private boolean eventEmails;
     private boolean promotionEmails;
+
+    /** Display preference: {@code metric} or {@code imperial}. */
+    @Column(name = "preferred_units", nullable = false)
+    @Builder.Default
+    private String preferredUnits = "metric";
+
+    @Column(name = "last_known_latitude")
+    private Double lastKnownLatitude;
+
+    @Column(name = "last_known_longitude")
+    private Double lastKnownLongitude;
+
+    @Column(name = "last_known_location_at")
+    private java.time.Instant lastKnownLocationAt;
 }

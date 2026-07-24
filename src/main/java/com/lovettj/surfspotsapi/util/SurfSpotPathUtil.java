@@ -26,6 +26,19 @@ public final class SurfSpotPathUtil {
         }
     }
 
+    /** Human-readable region/country label for email copy. */
+    public static String buildLocationLabel(SurfSpot surfSpot) {
+        if (surfSpot == null || surfSpot.getRegion() == null) {
+            return null;
+        }
+        Region region = surfSpot.getRegion();
+        Country country = region.getCountry();
+        if (country == null) {
+            return region.getName();
+        }
+        return region.getName() + ", " + country.getName();
+    }
+
     private static String buildSlugBasedPath(SurfSpot surfSpot) {
         Region region = surfSpot.getRegion();
         Country country = region != null ? region.getCountry() : null;

@@ -12,25 +12,25 @@ How transactional email works in this project: what gets sent, how to preview it
 
 Best when you want to see what an email looks like without sending anything.
 
-1. Run the API with the **`dev`** profile (default for local Docker and `mvn spring-boot:run`).
+1. Run the API with the **`dev`** profile (default for `./mvnw spring-boot:run` / IDE).
 2. Open **http://localhost:8080/api/dev/mail-preview/** for the index.
 3. Or open a specific template, for example:
    - http://localhost:8080/api/dev/mail-preview/verify-email
    - http://localhost:8080/api/dev/mail-preview/session-started
    - http://localhost:8080/api/dev/mail-preview/session-overdue
 
-Valid `{templateName}` values match `TransactionalEmailTemplate` in code: `verify-email`, `reset-password`, `trip-invitation`, `trip-member-added`, `contact-message`, `session-started`, `session-ended`, `session-overdue`.
+Valid `{templateName}` values match `TransactionalEmailTemplate` in code: `verify-email`, `reset-password`, `trip-invitation`, `trip-member-added`, `contact-message`, `session-started`, `session-ended`, `session-overdue`, `new-surf-spot`, `watch-list-alert`, `nearby-surf-spots`.
 
 ### Option B: Mailpit (capture real sends in dev)
 
 Best when you want to trigger a flow in the app and read the message that would have been sent.
 
-1. Start the dev stack: `docker compose -f docker-compose.dev.yml up` (includes Mailpit).
-2. In `.env`, set **`MAIL_ENABLED=true`** and restart the **`api`** container.
+1. Start deps: `docker compose -f docker-compose.dev.yml up -d` (Postgres + Mailpit).
+2. Run the API on the host (`./mvnw spring-boot:run`). In `.env`, set **`MAIL_ENABLED=true`** and restart the API process.
 3. Trigger mail from the app (register, forgot password, start a shared live session, etc.).
 4. Open **http://localhost:8025** to read captured messages.
 
-API on the **host** with Mailpit in Docker only:
+Mailpit only (if Postgres already up):
 
 ```bash
 docker compose -f docker-compose.dev.yml up -d mailpit
@@ -75,6 +75,14 @@ All messages are **HTML only** (no separate plain-text part). Shared header/foot
 | `session-started` | Emergency contact | User starts a live session with sharing enabled |
 | `session-ended` | Emergency contact | User ends that session |
 | `session-overdue` | Emergency contact | Scheduled job: session still in progress past expected return time (once per session) |
+
+### Settings-gated alerts
+
+| Template | Who gets it | When |
+|----------|-------------|------|
+| `new-surf-spot` | Users with `newSurfSpotEmails` | Surf spot becomes `APPROVED`; includes Mapbox static map pin when coords + `MAPBOX_ACCESS_TOKEN` are set |
+| `watch-list-alert` | Users with `swellSeasonEmails` / `eventEmails` | Daily job: swell/event watch-list alerts (deduped) |
+| `nearby-surf-spots` | Users with `nearbySurfSpotsEmails` | Signed-in browser location jumps ~200 km+; multi-pin Mapbox map when `MAPBOX_ACCESS_TOKEN` is set |
 
 Template files: `templates/{name}.html` for each row above. Names are defined once in `TransactionalEmailTemplate` so previews and sends stay in sync.
 

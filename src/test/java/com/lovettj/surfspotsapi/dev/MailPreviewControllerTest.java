@@ -86,4 +86,15 @@ class MailPreviewControllerTest {
     void unknownTemplateShouldReturn404() throws Exception {
         mockMvc.perform(get("/api/dev/mail-preview/not-a-template")).andExpect(status().isNotFound());
     }
+
+    @Test
+    void watchListAlertEndingPreviewShouldReturnRenderedHtml() throws Exception {
+        String logicalName = TransactionalEmailTemplate.WATCH_LIST_ALERT.getLogicalName();
+        when(templateEngine.process(eq(logicalName), any(Context.class)))
+                .thenReturn("<html>watch-list-ending</html>");
+
+        mockMvc.perform(get("/api/dev/mail-preview/" + logicalName).param("phase", "ending"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("<html>watch-list-ending</html>"));
+    }
 }

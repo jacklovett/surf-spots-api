@@ -448,7 +448,7 @@ class NotificationServiceTest {
                 .build();
         NotificationDTO eventNotification = NotificationDTO.builder()
                 .id("wsl-event-10")
-                .title("Billabong Pro Pipeline — CT waiting period open")
+                .title("Billabong Pro Pipeline - CT waiting period open")
                 .description("CT event in waiting period")
                 .type("event")
                 .location("Pipeline, Oahu, Hawaii")

@@ -52,7 +52,7 @@
 
                                     <div th:insert="~{email/fragments :: sessionTimeZoneNote}"></div>
 
-                                    <!-- Map image — only rendered when coordinates were captured -->
+                                    <!-- Map image: only rendered when coordinates were captured -->
                                     <table th:if="${mapImageUrl != null}" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 22px 0;">
                                         <tr>
                                             <td style="border-radius:12px;overflow:hidden;line-height:0;">
@@ -64,7 +64,7 @@
                                         </tr>
                                     </table>
 
-                                    <!-- Open in Maps button — only when coordinates available -->
+                                    <!-- Open in Maps button: only when coordinates available -->
                                     <table th:if="${mapsLink != null}" role="presentation" cellspacing="0" cellpadding="0" border="0" align="left" style="margin:0 0 22px 0;">
                                         <tr>
                                             <td style="border-radius:12px;background-color:#035061;border:1px solid #023d4d;">

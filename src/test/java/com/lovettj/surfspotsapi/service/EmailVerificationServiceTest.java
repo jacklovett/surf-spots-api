@@ -80,7 +80,7 @@ class EmailVerificationServiceTest {
         doNothing().when(emailVerificationTokenRepository).deleteByUser(user);
         when(emailVerificationTokenRepository.save(any(EmailVerificationToken.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
-        doNothing().when(emailService).sendEmail(anyString(), anyString(), anyString(), any());
+        when(emailService.sendEmail(anyString(), anyString(), anyString(), any())).thenReturn(true);
 
         emailVerificationService.sendVerificationEmail(user);
 

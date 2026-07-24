@@ -50,12 +50,16 @@ public class EmailService {
                 EmailLayoutVariables.resolveLogoImageUrl(emailLogoUrlOverride, this.appBaseUrl);
     }
 
-    public void sendEmail(String to, String subject, String templateName, Map<String, Object> variables) {
+    /**
+     * @return true if the message was sent, or mail is disabled (dry-run logged);
+     *         false if building/sending failed
+     */
+    public boolean sendEmail(String to, String subject, String templateName, Map<String, Object> variables) {
         Map<String, Object> mergedVariables = mergeEmailLayoutVariables(variables);
         if (!emailEnabled) {
             logger.info("Email sending is disabled. Would send email to {} with subject: {}", to, subject);
             logger.debug("Email content: {}", generateHtmlContent(templateName, mergedVariables));
-            return;
+            return true;
         }
 
         try {
@@ -72,11 +76,13 @@ public class EmailService {
 
             mailSender.send(message);
             logger.info("Email sent to {}", to);
+            return true;
         } catch (MessagingException e) {
             logger.error("Failed to build email to {}: {}", to, e.getMessage());
+            return false;
         } catch (MailException e) {
             logger.warn("Failed to send email to {}: {}. This is non-critical and the operation will continue.", to, e.getMessage());
-            // Don't throw - email failures shouldn't break the app
+            return false;
         }
     }
 
@@ -164,7 +170,7 @@ public class EmailService {
             if (tripStartDate.equals(tripEndDate)) {
                 return TRIP_EMAIL_DATE.format(tripStartDate);
             }
-            return TRIP_EMAIL_DATE.format(tripStartDate) + " – " + TRIP_EMAIL_DATE.format(tripEndDate);
+            return TRIP_EMAIL_DATE.format(tripStartDate) + " - " + TRIP_EMAIL_DATE.format(tripEndDate);
         }
         if (tripStartDate != null) {
             return "Starts " + TRIP_EMAIL_DATE.format(tripStartDate);

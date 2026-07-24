@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovettj.surfspotsapi.response.ApiErrors;
@@ -19,6 +21,7 @@ import com.lovettj.surfspotsapi.dto.SurfSpotBoundsFilterDTO;
 import com.lovettj.surfspotsapi.entity.*;
 import com.lovettj.surfspotsapi.enums.EventStatus;
 import com.lovettj.surfspotsapi.enums.EventType;
+import com.lovettj.surfspotsapi.enums.SurfSpotStatus;
 import com.lovettj.surfspotsapi.repository.RegionRepository;
 import com.lovettj.surfspotsapi.repository.SubRegionRepository;
 import com.lovettj.surfspotsapi.repository.SurfEventRepository;
@@ -40,6 +43,7 @@ public class SurfSpotService {
     private final WatchListService watchListService;
     private final SwellSeasonDeterminationService swellSeasonDeterminationService;
     private final SurfEventRepository surfEventRepository;
+    private final NewSurfSpotEmailService newSurfSpotEmailService;
 
     public SurfSpotService(
             SurfSpotRepository surfSpotRepository,
@@ -48,7 +52,8 @@ public class SurfSpotService {
             UserSurfSpotService userSurfSpotService,
             WatchListService watchListService,
             SwellSeasonDeterminationService swellSeasonDeterminationService,
-            SurfEventRepository surfEventRepository) {
+            SurfEventRepository surfEventRepository,
+            NewSurfSpotEmailService newSurfSpotEmailService) {
         this.surfSpotRepository = surfSpotRepository;
         this.regionRepository = regionRepository;
         this.subRegionRepository = subRegionRepository;
@@ -56,6 +61,7 @@ public class SurfSpotService {
         this.watchListService = watchListService;
         this.swellSeasonDeterminationService = swellSeasonDeterminationService;
         this.surfEventRepository = surfEventRepository;
+        this.newSurfSpotEmailService = newSurfSpotEmailService;
     }
 
     /**
@@ -168,7 +174,7 @@ public class SurfSpotService {
         surfSpot.setWaveDirection(surfSpotRequest.getWaveDirection());
         surfSpot.setCrowdLevel(surfSpotRequest.getCrowdLevel());
         surfSpot.setParking(surfSpotRequest.getParking());
-        surfSpot.setStatus(surfSpotRequest.getStatus());
+        surfSpot.setStatus(resolveStatusForCreate(surfSpotRequest.getStatus()));
 
         // Handle boolean fields
         surfSpot.setBoatRequired(surfSpotRequest.isBoatRequired());
@@ -211,7 +217,9 @@ public class SurfSpotService {
         }
 
         // Save the SurfSpot entity
-        return surfSpotRepository.save(surfSpot);
+        SurfSpot savedSurfSpot = surfSpotRepository.save(surfSpot);
+        // Create never emails: only PENDING → APPROVED transitions do.
+        return savedSurfSpot;
     }
 
     public SurfSpot updateSurfSpot(Long id, SurfSpotRequest surfSpotRequest) {
@@ -222,6 +230,8 @@ public class SurfSpotService {
         if (userId == null || !userId.equals(existingSurfSpot.getCreatedBy())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only update surf spots you created");
         }
+
+        SurfSpotStatus previousStatus = existingSurfSpot.getStatus();
 
         validateForecastAndWebcamUrls(
                 surfSpotRequest.isWavepool() ? null : surfSpotRequest.getForecasts(),
@@ -247,7 +257,8 @@ public class SurfSpotService {
         existingSurfSpot.setWaveDirection(surfSpotRequest.getWaveDirection());
         existingSurfSpot.setCrowdLevel(surfSpotRequest.getCrowdLevel());
         existingSurfSpot.setParking(surfSpotRequest.getParking());
-        existingSurfSpot.setStatus(surfSpotRequest.getStatus());
+        existingSurfSpot.setStatus(
+                resolveStatusForUpdate(surfSpotRequest.getStatus(), previousStatus));
 
         // Update boolean fields
         existingSurfSpot.setBoatRequired(surfSpotRequest.isBoatRequired());
@@ -289,7 +300,38 @@ public class SurfSpotService {
         }
 
         // Save and return the updated entity
-        return surfSpotRepository.save(existingSurfSpot);
+        SurfSpot savedSurfSpot = surfSpotRepository.save(existingSurfSpot);
+        scheduleNewSurfSpotApprovalEmails(savedSurfSpot, previousStatus);
+        return savedSurfSpot;
+    }
+
+    /**
+     * Emails after commit so a rolled-back approve never notifies, and {@code @Async}
+     * keeps the HTTP thread free of the SMTP fan-out.
+     */
+    private void scheduleNewSurfSpotApprovalEmails(
+            SurfSpot savedSurfSpot, SurfSpotStatus previousStatus) {
+        if (previousStatus != SurfSpotStatus.PENDING
+                || savedSurfSpot.getStatus() != SurfSpotStatus.APPROVED) {
+            return;
+        }
+
+        Runnable notifyTask =
+                () ->
+                        newSurfSpotEmailService.notifySubscribersIfApproved(
+                                savedSurfSpot, SurfSpotStatus.PENDING);
+                                
+        if (TransactionSynchronizationManager.isSynchronizationActive()) {
+            TransactionSynchronizationManager.registerSynchronization(
+                    new TransactionSynchronization() {
+                        @Override
+                        public void afterCommit() {
+                            notifyTask.run();
+                        }
+                    });
+        } else {
+            notifyTask.run();
+        }
     }
 
     public void deleteSurfSpot(Long id, String userId) {
@@ -395,6 +437,37 @@ public class SurfSpotService {
             return Collections.emptyList();
         }
         return filterNonBlankStrings(surfSpotRequest.getWebcams());
+    }
+
+    /**
+     * App users may only choose PRIVATE or PENDING (e.g. submit for review).
+     * APPROVED is an operator action (e.g. direct DB update) until an admin API exists.
+     * Omitting status on create defaults to PRIVATE; on update leaves the current value.
+     */
+    private static SurfSpotStatus resolveStatusForCreate(SurfSpotStatus requestedStatus) {
+        if (requestedStatus == null) {
+            return SurfSpotStatus.PRIVATE;
+        }
+        return requireUserWritableStatus(requestedStatus);
+    }
+
+    private static SurfSpotStatus resolveStatusForUpdate(
+            SurfSpotStatus requestedStatus, SurfSpotStatus currentStatus) {
+        if (requestedStatus == null) {
+            return currentStatus;
+        }
+        return requireUserWritableStatus(requestedStatus);
+    }
+
+    private static SurfSpotStatus requireUserWritableStatus(SurfSpotStatus requestedStatus) {
+        if (requestedStatus == SurfSpotStatus.APPROVED) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, ApiErrors.SURF_SPOT_APPROVAL_NOT_ALLOWED);
+        }
+        if (requestedStatus != SurfSpotStatus.PRIVATE && requestedStatus != SurfSpotStatus.PENDING) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ApiErrors.CHECK_INPUT);
+        }
+        return requestedStatus;
     }
 
     private static List<String> filterNonBlankStrings(List<String> list) {

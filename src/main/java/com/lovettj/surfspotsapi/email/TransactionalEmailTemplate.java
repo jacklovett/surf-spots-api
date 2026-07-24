@@ -18,7 +18,10 @@ public enum TransactionalEmailTemplate {
     CONTACT_MESSAGE("contact-message"),
     SESSION_STARTED("session-started"),
     SESSION_ENDED("session-ended"),
-    SESSION_OVERDUE("session-overdue");
+    SESSION_OVERDUE("session-overdue"),
+    NEW_SURF_SPOT("new-surf-spot"),
+    WATCH_LIST_ALERT("watch-list-alert"),
+    NEARBY_SURF_SPOTS("nearby-surf-spots");
 
     private final String logicalName;
 

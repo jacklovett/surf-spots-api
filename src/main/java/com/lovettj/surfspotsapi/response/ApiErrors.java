@@ -29,6 +29,10 @@ public final class ApiErrors {
     public static final String SURF_SPOT_NAME_EXISTS_IN_REGION =
             "A surf spot with this name already exists in this region";
 
+    /** Clients cannot set APPROVED; approval is an operator action outside the app API. */
+    public static final String SURF_SPOT_APPROVAL_NOT_ALLOWED =
+            "Surf spots cannot be approved through the app.";
+
     /** Neither session date nor wearable/partner start instant was provided. */
     public static final String SESSION_DATE_OR_START_INSTANT_REQUIRED =
             "Provide a session date, or start/end instants from a wearable or partner.";

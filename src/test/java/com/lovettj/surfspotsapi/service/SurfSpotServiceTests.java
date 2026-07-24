@@ -56,6 +56,9 @@ class SurfSpotServiceTests {
     @Mock
     private SurfEventRepository surfEventRepository;
 
+    @Mock
+    private NewSurfSpotEmailService newSurfSpotEmailService;
+
     private SurfSpotService surfSpotService;
 
     private String testUserId;
@@ -69,7 +72,8 @@ class SurfSpotServiceTests {
                 userSurfSpotService,
                 watchListService,
                 swellSeasonDeterminationService,
-                surfEventRepository);
+                surfEventRepository,
+                newSurfSpotEmailService);
         lenient()
                 .when(surfEventRepository.findLinkedSurfSpotIdsForSeasonYearExcludingStatuses(
                         eq(EventType.CONTEST), anyInt(), any()))
@@ -1000,5 +1004,78 @@ class SurfSpotServiceTests {
         // Verify both determinations were called
         verify(swellSeasonDeterminationService).determineSwellSeason(36.5270, -6.2886);
         verify(swellSeasonDeterminationService).determineSwellSeason(36.7213, -4.4214);
+    }
+
+    @Test
+    void createSurfSpotShouldRejectApprovedStatus() {
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("Sneaky Spot");
+        request.setUserId(testUserId);
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setStatus(SurfSpotStatus.APPROVED);
+
+        ResponseStatusException exception = assertThrows(
+                ResponseStatusException.class,
+                () -> surfSpotService.createSurfSpot(request));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        verify(surfSpotRepository, never()).save(any());
+    }
+
+    @Test
+    void updateSurfSpotShouldAllowPrivateToPending() {
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("My Spot");
+        existingSpot.setCreatedBy("test-user-id");
+        existingSpot.setStatus(SurfSpotStatus.PRIVATE);
+        existingSpot.setLatitude(36.5270);
+        existingSpot.setLongitude(-6.2886);
+        existingSpot.setIsWavepool(true);
+
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("My Spot");
+        request.setUserId("test-user-id");
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setWavepool(true);
+        request.setStatus(SurfSpotStatus.PENDING);
+
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+        when(regionRepository.findById(1L)).thenReturn(Optional.of(createMockRegion()));
+        when(surfSpotRepository.save(any(SurfSpot.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        SurfSpot result = surfSpotService.updateSurfSpot(1L, request);
+
+        assertEquals(SurfSpotStatus.PENDING, result.getStatus());
+    }
+
+    @Test
+    void updateSurfSpotShouldRejectApprovedStatus() {
+        SurfSpot existingSpot = new SurfSpot();
+        existingSpot.setId(1L);
+        existingSpot.setName("My Spot");
+        existingSpot.setCreatedBy("test-user-id");
+        existingSpot.setStatus(SurfSpotStatus.PENDING);
+        existingSpot.setLatitude(36.5270);
+        existingSpot.setLongitude(-6.2886);
+
+        SurfSpotRequest request = new SurfSpotRequest();
+        request.setName("My Spot");
+        request.setUserId("test-user-id");
+        request.setRegionId(1L);
+        request.setLatitude(36.5270);
+        request.setLongitude(-6.2886);
+        request.setStatus(SurfSpotStatus.APPROVED);
+
+        when(surfSpotRepository.findById(1L)).thenReturn(Optional.of(existingSpot));
+
+        ResponseStatusException exception = assertThrows(
+                ResponseStatusException.class,
+                () -> surfSpotService.updateSurfSpot(1L, request));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        verify(surfSpotRepository, never()).save(any());
     }
 }

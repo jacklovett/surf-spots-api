@@ -70,7 +70,7 @@ class SwellSeasonServiceTests {
         
         // Should have ONE notification for the region
         List<NotificationDTO> startNotifications = notifications.stream()
-            .filter(n -> n.getTitle().contains("Has Arrived"))
+            .filter(n -> n.getTitle().contains("is starting"))
             .toList();
         
         assertEquals(1, startNotifications.size(), "Should have exactly one regional notification");
@@ -79,14 +79,14 @@ class SwellSeasonServiceTests {
         NotificationDTO startNotification = startNotifications.get(0);
         assertEquals("swell", startNotification.getType());
         assertTrue(startNotification.getTitle().contains("North Atlantic"));
-        assertTrue(startNotification.getTitle().contains("Has Arrived"));
+        assertTrue(startNotification.getTitle().contains("is starting"));
         assertNotNull(startNotification.getLocation());
         assertNotNull(startNotification.getDescription());
         assertTrue(startNotification.getDescription().contains("Mavericks") || 
                    startNotification.getDescription().contains("Trestles"),
             "Description should mention affected spots");
         assertEquals("Mavericks", startNotification.getSurfSpotName());
-        assertNull(startNotification.getLink());
+        assertEquals("/watch-list", startNotification.getLink());
     }
 
     @Test
@@ -124,7 +124,7 @@ class SwellSeasonServiceTests {
         
         // Should have ONE notification for the region
         List<NotificationDTO> endNotifications = notifications.stream()
-            .filter(n -> n.getTitle().contains("Ending Soon"))
+            .filter(n -> n.getTitle().contains("ends next month"))
             .toList();
         
         assertEquals(1, endNotifications.size(), "Should have exactly one regional notification");
@@ -132,7 +132,7 @@ class SwellSeasonServiceTests {
         NotificationDTO endNotification = endNotifications.get(0);
         assertEquals("swell", endNotification.getType());
         assertTrue(endNotification.getTitle().contains("North Atlantic"));
-        assertTrue(endNotification.getTitle().contains("Ending Soon"));
+        assertTrue(endNotification.getTitle().contains("ends next month"));
     }
 
     @Test
@@ -270,7 +270,7 @@ class SwellSeasonServiceTests {
     }
 
     @Test
-    void testGenerateSwellSeasonNotificationsShouldUseSwellSeasonNameAsLocation() {
+    void testGenerateSwellSeasonNotificationsShouldUseRegionAsLocation() {
         Country country = Country.builder().id(1L).name("USA").build();
         Region region = Region.builder().id(1L).name("California").country(country).build();
 
@@ -287,7 +287,7 @@ class SwellSeasonServiceTests {
 
         assertFalse(notifications.isEmpty());
         NotificationDTO notification = notifications.get(0);
-        assertEquals("North Atlantic", notification.getLocation());
+        assertEquals("California, USA", notification.getLocation());
     }
 
     @Test

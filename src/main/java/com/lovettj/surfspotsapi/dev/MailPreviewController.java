@@ -16,11 +16,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.lovettj.surfspotsapi.email.EmailLayoutVariables;
+import com.lovettj.surfspotsapi.email.MapboxStaticImageUrls;
 import com.lovettj.surfspotsapi.email.TransactionalEmailTemplate;
 import com.lovettj.surfspotsapi.util.SessionTimeZoneUtil;
 
@@ -65,6 +67,13 @@ public class MailPreviewController {
                     .append("\">")
                     .append(name)
                     .append("</a></li>\n");
+            if (template == TransactionalEmailTemplate.WATCH_LIST_ALERT) {
+                listItems.append("<li><a href=\"/api/dev/mail-preview/")
+                        .append(name)
+                        .append("?phase=ending\">")
+                        .append(name)
+                        .append(" (season ending)</a></li>\n");
+            }
         }
         String html =
                 """
@@ -94,11 +103,13 @@ public class MailPreviewController {
     }
 
     @GetMapping(value = "/{templateName}", produces = MediaType.TEXT_HTML_VALUE)
-    public ResponseEntity<String> preview(@PathVariable String templateName) {
+    public ResponseEntity<String> preview(
+            @PathVariable String templateName,
+            @RequestParam(required = false) String phase) {
         TransactionalEmailTemplate template = TransactionalEmailTemplate.fromLogicalName(templateName)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown template"));
         Context context = new Context();
-        context.setVariables(withEmailLayoutVariables(sampleVariables(template)));
+        context.setVariables(withEmailLayoutVariables(sampleVariables(template, phase)));
         String html = templateEngine.process(template.getLogicalName(), context);
         return previewResponse(html);
     }
@@ -118,7 +129,7 @@ public class MailPreviewController {
                 .body(html);
     }
 
-    private Map<String, Object> sampleVariables(TransactionalEmailTemplate template) {
+    private Map<String, Object> sampleVariables(TransactionalEmailTemplate template, String phase) {
         return switch (template) {
             case TRIP_INVITATION -> {
                 Map<String, Object> invitation = new HashMap<>();
@@ -127,7 +138,7 @@ public class MailPreviewController {
                 invitation.put("inviteLink", previewAppBaseUrl + "/auth/sign-up?invite=preview-token");
                 invitation.put("appUrl", previewAppBaseUrl);
                 invitation.put("tripHasSchedule", true);
-                invitation.put("tripDatesLine", "Mar 14, 2026 – Mar 28, 2026");
+                invitation.put("tripDatesLine", "Mar 14, 2026 - Mar 28, 2026");
                 invitation.put("tripHasSummary", true);
                 invitation.put(
                         "tripSummaryText",
@@ -141,7 +152,7 @@ public class MailPreviewController {
                 memberAdded.put("tripTitle", "Portugal spring trip");
                 memberAdded.put("appUrl", previewAppBaseUrl);
                 memberAdded.put("tripHasSchedule", true);
-                memberAdded.put("tripDatesLine", "Mar 14, 2026 – Mar 28, 2026");
+                memberAdded.put("tripDatesLine", "Mar 14, 2026 - Mar 28, 2026");
                 memberAdded.put("tripHasSummary", true);
                 memberAdded.put(
                         "tripSummaryText",
@@ -181,11 +192,11 @@ public class MailPreviewController {
                 double previewLat = 54.4783;
                 double previewLng = -8.2779;
                 if (mapboxAccessToken != null) {
-                    String mapImageUrl = String.format(
-                            "https://api.mapbox.com/styles/v1/mapbox/light-v11/static/pin-s+035061(%.4f,%.4f)/%.4f,%.4f,13,0/500x250?access_token=%s",
-                            previewLng, previewLat, previewLng, previewLat, mapboxAccessToken);
-                    started.put("mapImageUrl", mapImageUrl);
-                    started.put("mapsLink", String.format("https://www.google.com/maps?q=%.4f,%.4f", previewLat, previewLng));
+                    started.put(
+                            "mapImageUrl",
+                            MapboxStaticImageUrls.buildStaticMapImageUrl(
+                                    mapboxAccessToken, previewLat, previewLng, 500, 250));
+                    started.put("mapsLink", MapboxStaticImageUrls.buildMapsLink(previewLat, previewLng));
                 } else {
                     started.put("mapImageUrl", null);
                     started.put("mapsLink", null);
@@ -213,18 +224,88 @@ public class MailPreviewController {
                 double previewLat = 54.4783;
                 double previewLng = -8.2779;
                 if (mapboxAccessToken != null) {
-                    String mapImageUrl = String.format(
-                            "https://api.mapbox.com/styles/v1/mapbox/light-v11/static/pin-s+035061(%.4f,%.4f)/%.4f,%.4f,13,0/500x250?access_token=%s",
-                            previewLng, previewLat, previewLng, previewLat, mapboxAccessToken);
-                    overdue.put("mapImageUrl", mapImageUrl);
                     overdue.put(
-                            "mapsLink",
-                            String.format("https://www.google.com/maps?q=%.4f,%.4f", previewLat, previewLng));
+                            "mapImageUrl",
+                            MapboxStaticImageUrls.buildStaticMapImageUrl(
+                                    mapboxAccessToken, previewLat, previewLng, 500, 250));
+                    overdue.put("mapsLink", MapboxStaticImageUrls.buildMapsLink(previewLat, previewLng));
                 } else {
                     overdue.put("mapImageUrl", null);
                     overdue.put("mapsLink", null);
                 }
                 yield overdue;
+            }
+            case NEW_SURF_SPOT -> {
+                Map<String, Object> newSpot = new HashMap<>();
+                newSpot.put("spotName", "Bundoran Peak");
+                newSpot.put("locationLabel", "Donegal, Ireland");
+                newSpot.put("spotLink", previewAppBaseUrl + "/surf-spots/europe/ireland/donegal/bundoran-peak");
+                newSpot.put("appUrl", previewAppBaseUrl);
+                double previewLat = 54.4783;
+                double previewLng = -8.2779;
+                if (mapboxAccessToken != null) {
+                    newSpot.put(
+                            "mapImageUrl",
+                            MapboxStaticImageUrls.buildStaticMapImageUrl(
+                                    mapboxAccessToken, previewLat, previewLng, 500, 250));
+                } else {
+                    newSpot.put("mapImageUrl", null);
+                }
+                yield newSpot;
+            }
+            case WATCH_LIST_ALERT -> {
+                boolean ending = phase != null && phase.equalsIgnoreCase("ending");
+                Map<String, Object> alert = new HashMap<>();
+                alert.put("alertTypeLabel", "Swell season");
+                alert.put(
+                        "alertTitle",
+                        ending ? "North Atlantic ends next month" : "North Atlantic is starting");
+                alert.put(
+                        "alertDescription",
+                        ending
+                                ? "Prime season for Donegal, Ireland (October to March) ends next month: Bundoran Peak, Tullan Strand, and Mullaghmore. Get out there before conditions drop off."
+                                : "Prime season for Donegal, Ireland (October to March) starts this month: Bundoran Peak, Tullan Strand, and Mullaghmore. Check forecasts and plan sessions or a trip while the window is open.");
+                alert.put("alertLocation", "Donegal, Ireland");
+                alert.put("alertSpotName", "Bundoran Peak");
+                alert.put("alertLink", previewAppBaseUrl + "/watch-list");
+                alert.put("alertCtaLabel", "View watch list");
+                alert.put("appUrl", previewAppBaseUrl);
+                yield alert;
+            }
+            case NEARBY_SURF_SPOTS -> {
+                Map<String, Object> nearby = new HashMap<>();
+                nearby.put(
+                        "nearbySpots",
+                        java.util.List.of(
+                                Map.of("name", "Bundoran Peak", "distanceLabel", "1.1 km"),
+                                Map.of("name", "Tullan Strand", "distanceLabel", "1.4 km")));
+                nearby.put("mapLink", previewAppBaseUrl + "/surf-spots");
+                nearby.put("appUrl", previewAppBaseUrl);
+                // User near Bundoran town; spots on the actual coast (west / north beach).
+                double previewLat = 54.4790;
+                double previewLng = -8.2750;
+                if (mapboxAccessToken != null) {
+                    nearby.put(
+                            "mapImageUrl",
+                            MapboxStaticImageUrls.buildNearbySpotsMapImageUrl(
+                                    mapboxAccessToken,
+                                    previewLat,
+                                    previewLng,
+                                    java.util.List.of(
+                                            new MapboxStaticImageUrls.MapPin(
+                                                    54.4755,
+                                                    -8.2910,
+                                                    MapboxStaticImageUrls.PIN_COLOR_SPOT),
+                                            new MapboxStaticImageUrls.MapPin(
+                                                    54.4890,
+                                                    -8.2820,
+                                                    MapboxStaticImageUrls.PIN_COLOR_SPOT)),
+                                    500,
+                                    250));
+                } else {
+                    nearby.put("mapImageUrl", null);
+                }
+                yield nearby;
             }
         };
     }
