@@ -1,13 +1,17 @@
 package com.lovettj.surfspotsapi.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -155,6 +159,24 @@ class UserSurfSpotServiceTests {
 
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         assertEquals(ApiErrors.SURF_SPOT_NOT_FOUND, exception.getReason());
+    }
+
+    @Test
+    void findSurfedSpotIdsInShouldReturnMatchingIds() {
+        when(userSurfSpotRepository.findSurfSpotIdsByUserIdAndSurfSpotIdIn(userId, List.of(1L, 2L, 3L)))
+                .thenReturn(Set.of(2L, 3L));
+
+        Set<Long> result = userSurfSpotService.findSurfedSpotIdsIn(userId, List.of(1L, 2L, 3L));
+
+        assertEquals(Set.of(2L, 3L), result);
+    }
+
+    @Test
+    void findSurfedSpotIdsInShouldReturnEmptyWithoutQueryWhenSpotIdsEmpty() {
+        Set<Long> result = userSurfSpotService.findSurfedSpotIdsIn(userId, List.of());
+
+        assertTrue(result.isEmpty());
+        verify(userSurfSpotRepository, never()).findSurfSpotIdsByUserIdAndSurfSpotIdIn(any(), any());
     }
 
     private UserSurfSpot userSurfSpotFor(SurfSpot surfSpot) {

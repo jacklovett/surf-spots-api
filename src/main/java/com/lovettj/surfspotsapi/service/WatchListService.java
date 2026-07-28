@@ -1,8 +1,10 @@
 package com.lovettj.surfspotsapi.service;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +73,17 @@ public class WatchListService {
 
     public boolean isWatched(String userId, Long spotId) {
         return watchListRepository.findByUserIdAndSurfSpotId(userId, spotId).isPresent();
+    }
+
+    /**
+     * Spot IDs from {@code spotIds} that are on the user's watch list.
+     * One query for list endpoints instead of per-spot exists checks.
+     */
+    public Set<Long> findWatchedSpotIdsIn(String userId, Collection<Long> spotIds) {
+        if (userId == null || spotIds == null || spotIds.isEmpty()) {
+            return Collections.emptySet();
+        }
+        return watchListRepository.findSurfSpotIdsByUserIdAndSurfSpotIdIn(userId, spotIds);
     }
 
     /**

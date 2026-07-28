@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -348,10 +349,7 @@ public class SurfSpotService {
                 filters);
         // Filter by season if needed
         surfSpots = filterBySeason(surfSpots, filters);
-        Set<Long> activeContestSpotIds = loadActiveContestSpotIdsForCurrentYear();
-        return surfSpots.stream()
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId(), activeContestSpotIds))
-                .toList();
+        return mapSurfSpotsToDTOs(surfSpots, filters.getUserId());
     }
 
     /**
@@ -363,10 +361,7 @@ public class SurfSpotService {
                 .orElseThrow(() -> new EntityNotFoundException("Region not found"));
         List<SurfSpot> surfSpots = surfSpotRepository.findByRegionWithFilters(region, filters);
         surfSpots = filterBySeason(surfSpots, filters);
-        Set<Long> activeContestSpotIds = loadActiveContestSpotIdsForCurrentYear();
-        return surfSpots.stream()
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId(), activeContestSpotIds))
-                .toList();
+        return mapSurfSpotsToDTOs(surfSpots, filters.getUserId());
     }
 
     public List<SurfSpotDTO> findSurfSpotsBySubRegionSlugWithFilters(String slug, SurfSpotFilterDTO filters) {
@@ -375,10 +370,7 @@ public class SurfSpotService {
         List<SurfSpot> surfSpots = surfSpotRepository.findBySubRegionWithFilters(subRegion, filters);
         // Filter by season if needed
         surfSpots = filterBySeason(surfSpots, filters);
-        Set<Long> activeContestSpotIds = loadActiveContestSpotIdsForCurrentYear();
-        return surfSpots.stream()
-                .map(surfSpot -> mapToSurfSpotDTO(surfSpot, filters.getUserId(), activeContestSpotIds))
-                .toList();
+        return mapSurfSpotsToDTOs(surfSpots, filters.getUserId());
     }
 
     public SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId) {
@@ -386,31 +378,77 @@ public class SurfSpotService {
     }
 
     public SurfSpotDTO mapToSurfSpotDTO(SurfSpot surfSpot, String userId, Set<Long> activeContestSpotIds) {
+        Set<Long> surfedSpotIds = Collections.emptySet();
+        Set<Long> watchedSpotIds = Collections.emptySet();
+        boolean includeUserFlags = userId != null;
+        if (includeUserFlags && surfSpot.getId() != null) {
+            Long surfSpotId = surfSpot.getId();
+            boolean isSurfedSpot = userSurfSpotService.isUserSurfedSpot(userId, surfSpotId);
+            boolean isWatched = watchListService.isWatched(userId, surfSpotId);
+            if (isSurfedSpot) {
+                surfedSpotIds = Set.of(surfSpotId);
+            }
+            if (isWatched) {
+                watchedSpotIds = Set.of(surfSpotId);
+            }
+        }
+        return mapToSurfSpotDTO(
+                surfSpot, activeContestSpotIds, surfedSpotIds, watchedSpotIds, includeUserFlags);
+    }
+
+    private List<SurfSpotDTO> mapSurfSpotsToDTOs(List<SurfSpot> surfSpots, String userId) {
+        Set<Long> activeContestSpotIds = loadActiveContestSpotIdsForCurrentYear();
+        Set<Long> surfedSpotIds = Collections.emptySet();
+        Set<Long> watchedSpotIds = Collections.emptySet();
+        boolean includeUserFlags = userId != null;
+        if (includeUserFlags && !surfSpots.isEmpty()) {
+            List<Long> spotIds = surfSpots.stream()
+                    .map(SurfSpot::getId)
+                    .filter(Objects::nonNull)
+                    .toList();
+            surfedSpotIds = userSurfSpotService.findSurfedSpotIdsIn(userId, spotIds);
+            watchedSpotIds = watchListService.findWatchedSpotIdsIn(userId, spotIds);
+        }
+        Set<Long> finalSurfedSpotIds = surfedSpotIds;
+        Set<Long> finalWatchedSpotIds = watchedSpotIds;
+        return surfSpots.stream()
+                .map(surfSpot -> mapToSurfSpotDTO(
+                        surfSpot,
+                        activeContestSpotIds,
+                        finalSurfedSpotIds,
+                        finalWatchedSpotIds,
+                        includeUserFlags))
+                .toList();
+    }
+
+    private SurfSpotDTO mapToSurfSpotDTO(
+            SurfSpot surfSpot,
+            Set<Long> activeContestSpotIds,
+            Set<Long> surfedSpotIds,
+            Set<Long> watchedSpotIds,
+            boolean includeUserFlags) {
         // SurfSpotDTO constructor now sets the path automatically
         SurfSpotDTO surfSpotDTO;
         try {
             surfSpotDTO = new SurfSpotDTO(surfSpot);
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException exception) {
             // Path generation should never silently degrade to an empty string.
             // If it fails, treat as server-side failure so the client shows error UI.
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     "Unable to generate surf spot path",
-                    e
+                    exception
             );
         }
 
-        if (userId != null) {
-            Long surfSpotId = surfSpot.getId();
-            // Check if this is a users surfed spot or in the Watchlist
-            boolean isSurfedSpot = userSurfSpotService.isUserSurfedSpot(userId, surfSpotId);
-            boolean isWatched = watchListService.isWatched(userId, surfSpotId);
-            surfSpotDTO.setIsSurfedSpot(isSurfedSpot);
-            surfSpotDTO.setIsWatched(isWatched);
+        Long surfSpotId = surfSpot.getId();
+        if (includeUserFlags && surfSpotId != null) {
+            surfSpotDTO.setIsSurfedSpot(surfedSpotIds.contains(surfSpotId));
+            surfSpotDTO.setIsWatched(watchedSpotIds.contains(surfSpotId));
         }
 
-        if (surfSpot.getId() != null && activeContestSpotIds != null) {
-            surfSpotDTO.setIsOnWslTourThisSeason(activeContestSpotIds.contains(surfSpot.getId()));
+        if (surfSpotId != null && activeContestSpotIds != null) {
+            surfSpotDTO.setIsOnWslTourThisSeason(activeContestSpotIds.contains(surfSpotId));
         } else {
             surfSpotDTO.setIsOnWslTourThisSeason(false);
         }

@@ -5,7 +5,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -149,5 +151,23 @@ class WatchListServiceTests {
         boolean result = watchListService.isWatched(testUserId, 1L);
 
         assertTrue(result);
+    }
+
+    @Test
+    void findWatchedSpotIdsInShouldReturnMatchingIds() {
+        when(watchListRepository.findSurfSpotIdsByUserIdAndSurfSpotIdIn(testUserId, List.of(1L, 2L)))
+                .thenReturn(Set.of(1L));
+
+        Set<Long> result = watchListService.findWatchedSpotIdsIn(testUserId, List.of(1L, 2L));
+
+        assertEquals(Set.of(1L), result);
+    }
+
+    @Test
+    void findWatchedSpotIdsInShouldReturnEmptyWithoutQueryWhenSpotIdsEmpty() {
+        Set<Long> result = watchListService.findWatchedSpotIdsIn(testUserId, List.of());
+
+        assertTrue(result.isEmpty());
+        verify(watchListRepository, never()).findSurfSpotIdsByUserIdAndSurfSpotIdIn(any(), any());
     }
 }

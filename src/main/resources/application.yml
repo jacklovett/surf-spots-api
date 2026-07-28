@@ -12,6 +12,8 @@ spring:
     properties:
       hibernate:
         default_schema: public
+        # Batch-load lazy associations / ElementCollections (list endpoints touch many spots)
+        default_batch_fetch_size: 25
     show-sql: false  # Set to true or use logging.level.org.hibernate.SQL: DEBUG in dev to inspect SQL
   cache:
     type: simple

@@ -122,10 +122,14 @@ class SurfSpotServiceTests {
         SurfSpot spot2 = createMockSurfSpot();
         List<SurfSpot> mockSurfSpots = Arrays.asList(spot1, spot2);
         when(surfSpotRepository.findWithinBoundsWithFilters(filters)).thenReturn(mockSurfSpots);
+        when(userSurfSpotService.findSurfedSpotIdsIn(eq(testUserId), any())).thenReturn(Collections.emptySet());
+        when(watchListService.findWatchedSpotIdsIn(eq(testUserId), any())).thenReturn(Collections.emptySet());
         List<SurfSpotDTO> result = surfSpotService.findSurfSpotsWithinBoundsWithFilters(boundingBox, filters);
         assertNotNull(result);
         assertEquals(2, result.size());
         verify(surfSpotRepository).findWithinBoundsWithFilters(filters);
+        verify(userSurfSpotService).findSurfedSpotIdsIn(eq(testUserId), any());
+        verify(watchListService).findWatchedSpotIdsIn(eq(testUserId), any());
     }
 
     @Test
@@ -816,10 +820,8 @@ class SurfSpotServiceTests {
         
         when(subRegionRepository.findBySlug(subRegionSlug)).thenReturn(Optional.of(subRegion));
         when(surfSpotRepository.findBySubRegionWithFilters(subRegion, filters)).thenReturn(surfSpots);
-        when(userSurfSpotService.isUserSurfedSpot("user123", 1L)).thenReturn(false);
-        when(userSurfSpotService.isUserSurfedSpot("user123", 2L)).thenReturn(true);
-        when(watchListService.isWatched("user123", 1L)).thenReturn(false);
-        when(watchListService.isWatched("user123", 2L)).thenReturn(false);
+        when(userSurfSpotService.findSurfedSpotIdsIn(eq("user123"), any())).thenReturn(Set.of(2L));
+        when(watchListService.findWatchedSpotIdsIn(eq("user123"), any())).thenReturn(Collections.emptySet());
 
         // Act
         List<SurfSpotDTO> result = surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(subRegionSlug, filters);
@@ -833,6 +835,10 @@ class SurfSpotServiceTests {
         assertTrue(result.get(1).getIsSurfedSpot());
         verify(subRegionRepository).findBySlug(subRegionSlug);
         verify(surfSpotRepository).findBySubRegionWithFilters(subRegion, filters);
+        verify(userSurfSpotService).findSurfedSpotIdsIn(eq("user123"), any());
+        verify(watchListService).findWatchedSpotIdsIn(eq("user123"), any());
+        verify(userSurfSpotService, never()).isUserSurfedSpot(any(), any());
+        verify(watchListService, never()).isWatched(any(), any());
     }
 
     @Test
@@ -929,8 +935,8 @@ class SurfSpotServiceTests {
         
         when(subRegionRepository.findBySlug(subRegionSlug)).thenReturn(Optional.of(subRegion));
         when(surfSpotRepository.findBySubRegionWithFilters(subRegion, filters)).thenReturn(surfSpots);
-        when(userSurfSpotService.isUserSurfedSpot("user123", 1L)).thenReturn(false);
-        when(watchListService.isWatched("user123", 1L)).thenReturn(false);
+        when(userSurfSpotService.findSurfedSpotIdsIn(eq("user123"), any())).thenReturn(Collections.emptySet());
+        when(watchListService.findWatchedSpotIdsIn(eq("user123"), any())).thenReturn(Collections.emptySet());
 
         // Act
         List<SurfSpotDTO> result = surfSpotService.findSurfSpotsBySubRegionSlugWithFilters(subRegionSlug, filters);

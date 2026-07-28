@@ -20,6 +20,7 @@ import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.response.ApiErrors;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -105,6 +106,17 @@ public class UserSurfSpotService {
     public boolean isUserSurfedSpot(String userId, Long spotId) {
         Optional<UserSurfSpot> existingEntry = userSurfSpotRepository.findByUserIdAndSurfSpotId(userId, spotId);
         return existingEntry.isPresent();
+    }
+
+    /**
+     * Spot IDs from {@code spotIds} that the user has marked as surfed.
+     * One query for list endpoints instead of per-spot exists checks.
+     */
+    public Set<Long> findSurfedSpotIdsIn(String userId, Collection<Long> spotIds) {
+        if (userId == null || spotIds == null || spotIds.isEmpty()) {
+            return Collections.emptySet();
+        }
+        return userSurfSpotRepository.findSurfSpotIdsByUserIdAndSurfSpotIdIn(userId, spotIds);
     }
 
     public void removeUserSurfSpot(String userId, Long spotId) {
