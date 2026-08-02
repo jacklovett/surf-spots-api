@@ -9,7 +9,8 @@ public enum Hazard {
     ROCKS("Rocks"),
     REEF("Reef"),
     CROCODILES("Crocodiles"),
-    LOCALISM("Localism");
+    LOCALISM("Localism"),
+    POLLUTION("Pollution");
 
     private final String displayName;
 
