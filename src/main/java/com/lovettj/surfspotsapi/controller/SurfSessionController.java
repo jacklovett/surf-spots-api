@@ -50,8 +50,9 @@ public class SurfSessionController {
     @ApiFailureMessage(action = "load", target = "surf session")
     public ResponseEntity<ApiResponse<SurfSessionListItemDTO>> getInProgressSession() {
         String userId = authenticatedUserResolver.requireCurrentUserId();
-        SurfSessionListItemDTO payload = surfSessionService.getInProgressSessionForUser(userId);
-        return ResponseEntity.ok(ApiResponse.success(payload));
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        surfSessionService.getInProgressSessionForUser(userId).orElse(null)));
     }
 
     @PostMapping("/surf-sessions/{sessionId}/end")

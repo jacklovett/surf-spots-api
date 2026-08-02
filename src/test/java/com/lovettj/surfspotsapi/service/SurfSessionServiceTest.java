@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -670,12 +671,22 @@ class SurfSessionServiceTest {
                         "u1", SessionStatus.IN_PROGRESS))
                 .thenReturn(Optional.of(liveSession));
 
-        SurfSessionListItemDTO inProgress = surfSessionService.getInProgressSessionForUser("u1");
+        SurfSessionListItemDTO inProgress =
+                surfSessionService.getInProgressSessionForUser("u1").orElseThrow();
 
         assertEquals(Long.valueOf(42L), inProgress.getId());
         assertEquals(SessionStatus.IN_PROGRESS, inProgress.getStatus());
         assertNull(inProgress.getSurfSpotId());
         assertEquals("Live session", inProgress.getSurfSpotName());
+    }
+
+    @Test
+    void getInProgressSessionForUserShouldReturnEmptyWhenNone() {
+        when(surfSessionRepository.findFirstByUserIdAndStatusOrderBySessionStartInstantDescCreatedAtDesc(
+                        "u1", SessionStatus.IN_PROGRESS))
+                .thenReturn(Optional.empty());
+
+        assertTrue(surfSessionService.getInProgressSessionForUser("u1").isEmpty());
     }
 
     @Test

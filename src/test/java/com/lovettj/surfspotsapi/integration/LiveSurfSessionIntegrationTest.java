@@ -3,9 +3,7 @@ package com.lovettj.surfspotsapi.integration;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import org.springframework.web.server.ResponseStatusException;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -80,7 +78,7 @@ class LiveSurfSessionIntegrationTest {
         assertEquals("Europe/Dublin", persistedStart.getStartIanaZoneId());
 
         SurfSessionListItemDTO inProgress =
-                surfSessionService.getInProgressSessionForUser(testUser.getId());
+                surfSessionService.getInProgressSessionForUser(testUser.getId()).orElseThrow();
         assertEquals(started.getId(), inProgress.getId());
         assertNull(inProgress.getSurfSpotId());
         assertEquals("Live session", inProgress.getSurfSpotName());
@@ -125,9 +123,7 @@ class LiveSurfSessionIntegrationTest {
         assertEquals(SessionStatus.COMPLETED, persisted.getStatus());
         assertEquals("Clean waves", persisted.getSessionNotes());
 
-        assertThrows(
-                ResponseStatusException.class,
-                () -> surfSessionService.getInProgressSessionForUser(testUser.getId()));
+        assertTrue(surfSessionService.getInProgressSessionForUser(testUser.getId()).isEmpty());
     }
 
     @Test

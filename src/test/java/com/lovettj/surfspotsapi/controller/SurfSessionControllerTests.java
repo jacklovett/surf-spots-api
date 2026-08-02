@@ -23,6 +23,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import java.sql.SQLException;
@@ -605,7 +606,8 @@ class SurfSessionControllerTests extends BaseControllerTest {
                 .id(7L)
                 .status(SessionStatus.IN_PROGRESS)
                 .build();
-        when(surfSessionService.getInProgressSessionForUser(TEST_USER_ID)).thenReturn(inProgress);
+        when(surfSessionService.getInProgressSessionForUser(TEST_USER_ID))
+                .thenReturn(Optional.of(inProgress));
 
         mockMvc.perform(get("/api/surf-sessions/in-progress").cookie(sessionCookie()))
                 .andExpect(status().isOk())
@@ -614,14 +616,14 @@ class SurfSessionControllerTests extends BaseControllerTest {
     }
 
     @Test
-    void testGetInProgressSessionShouldReturnNotFoundWhenNoSession() throws Exception {
+    void testGetInProgressSessionShouldReturnOkWithNullDataWhenNoSession() throws Exception {
         when(surfSessionService.getInProgressSessionForUser(TEST_USER_ID))
-                .thenThrow(new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
+                .thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/surf-sessions/in-progress").cookie(sessionCookie()))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value(ApiErrors.SURF_SESSION_NOT_FOUND));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").value(org.hamcrest.Matchers.nullValue()));
     }
 
     // --- POST /api/surf-sessions/{sessionId}/end ---

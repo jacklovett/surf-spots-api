@@ -52,6 +52,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -260,18 +261,20 @@ public class SurfSessionService {
         return dto;
     }
 
+    /**
+     * Live session for the user, if any. Empty when none is in progress - not an error
+     * (most users have no active session).
+     */
     @Transactional(readOnly = true)
-    public SurfSessionListItemDTO getInProgressSessionForUser(String userId) {
-        SurfSession session = surfSessionRepository
+    public Optional<SurfSessionListItemDTO> getInProgressSessionForUser(String userId) {
+        return surfSessionRepository
                 .findFirstByUserIdAndStatusOrderBySessionStartInstantDescCreatedAtDesc(
                         userId, SessionStatus.IN_PROGRESS)
-                .orElseThrow(
-                        () -> new ResponseStatusException(
-                                HttpStatus.NOT_FOUND, ApiErrors.SURF_SESSION_NOT_FOUND));
-
-        SurfSessionListItemDTO dto = toListItem(session);
-        applySignedMediaUrls(dto);
-        return dto;
+                .map(session -> {
+                    SurfSessionListItemDTO dto = toListItem(session);
+                    applySignedMediaUrls(dto);
+                    return dto;
+                });
     }
 
     /**
