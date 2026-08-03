@@ -69,6 +69,54 @@ app:
   live-session:
     overdue-notification-enabled: ${LIVE_SESSION_OVERDUE_NOTIFICATION_ENABLED:true}
     overdue-notification-check-ms: ${LIVE_SESSION_OVERDUE_NOTIFICATION_CHECK_MS:300000}
+  # Environmental alerts for watched spots (off by default).
+  environmental-alerts:
+    enabled: ${ENVIRONMENTAL_ALERTS_ENABLED:false}
+    sync-cron: ${ENVIRONMENTAL_ALERTS_SYNC_CRON:0 */30 * * * *}
+    http:
+      connect-timeout: 5s
+      read-timeout: 60s
+    # Provider blocks bind next to each provider. Add a new country = new @Component + properties.
+    uk:
+      enabled: true
+      provider-key: uk-overflow
+      country-slugs:
+        - united-kingdom
+      nation-region-slugs:
+        - england
+        - scotland
+        - wales
+        - northern-ireland
+      # Shared for Scottish Water + all ArcGIS company feeds (change once).
+      match-radius-metres: 3000
+      feed-cache-ttl: 5m
+      scottish-water:
+        enabled: true
+        api-url: https://api.scottishwater.co.uk/overflow-event-monitoring/v1/near-real-time
+        source-name: Scottish Water
+        source-url: https://www.scottishwater.co.uk/Your-Home/Your-Waste-Water/Overflows/Live-Overflow-Map
+      stream-companies:
+        - id: southwest-water
+          enabled: true
+          nation-region-slug: england
+          query-url: https://services-eu1.arcgis.com/OMdMOtfhATJPcHe3/arcgis/rest/services/NEH_outlets_PROD/FeatureServer/0/query
+          source-name: South West Water
+          source-url: https://www.southwestwater.co.uk/storm-overflow-map
+          field-style: southwest
+        - id: southern-water
+          enabled: true
+          nation-region-slug: england
+          query-url: https://services-eu1.arcgis.com/6qJmARkS2dt2IjVA/arcgis/rest/services/SouthernWater_StormOverflowActivity_PROD_view/FeatureServer/0/query
+          source-name: Southern Water
+          source-url: https://www.southernwater.co.uk/our-region/clean-rivers-and-seas-task-force/rivers-and-seas-watch/
+          field-style: southern
+        - id: welsh-water
+          enabled: true
+          nation-region-slug: wales
+          query-url: https://services3.arcgis.com/KLNF7YxtENPLYVey/arcgis/rest/services/Spill_Prod/FeatureServer/0/query
+          source-name: Welsh Water
+          source-url: https://corporate.dwrcymru.com/en/community/environment/storm-overflow-map
+          field-style: welsh-water
   mail:
     enabled: ${MAIL_ENABLED:true} # Set to false to disable email sending
     # Optional From header; use an address verified with your SMTP provider (e.g. Scaleway).

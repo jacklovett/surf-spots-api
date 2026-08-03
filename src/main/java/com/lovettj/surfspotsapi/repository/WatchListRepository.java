@@ -24,4 +24,7 @@ public interface WatchListRepository extends JpaRepository<WatchListSurfSpot, St
           """)
   Set<Long> findSurfSpotIdsByUserIdAndSurfSpotIdIn(
           @Param("userId") String userId, @Param("spotIds") Collection<Long> spotIds);
+
+  @Query("SELECT DISTINCT watchList.surfSpot.id FROM WatchListSurfSpot watchList")
+  List<Long> findDistinctWatchedSurfSpotIds();
 }

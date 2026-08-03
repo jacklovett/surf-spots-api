@@ -33,13 +33,20 @@ class NotificationServiceTest {
     @Mock
     private EventNotificationService eventNotificationService;
 
+    @Mock
+    private EnvironmentalAlertNotificationService environmentalAlertNotificationService;
+
     private NotificationService notificationService;
 
     @BeforeEach
     void setUp() {
-        notificationService = new NotificationService(swellSeasonService, eventNotificationService);
+        notificationService = new NotificationService(
+                swellSeasonService, eventNotificationService, environmentalAlertNotificationService);
         lenient()
                 .when(eventNotificationService.generateEventNotifications(anyMap()))
+                .thenReturn(Collections.emptyList());
+        lenient()
+                .when(environmentalAlertNotificationService.generateHazardNotifications(anyMap()))
                 .thenReturn(Collections.emptyList());
     }
 
@@ -467,6 +474,7 @@ class NotificationServiceTest {
         assertEquals("event", notifications.get(0).getType());
         assertEquals("swell", notifications.get(1).getType());
         verify(eventNotificationService).generateEventNotifications(anyMap());
+        verify(environmentalAlertNotificationService).generateHazardNotifications(anyMap());
     }
 
     // Helper methods

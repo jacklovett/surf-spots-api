@@ -170,4 +170,5 @@ class WatchListServiceTests {
         assertTrue(result.isEmpty());
         verify(watchListRepository, never()).findSurfSpotIdsByUserIdAndSurfSpotIdIn(any(), any());
     }
+
 }

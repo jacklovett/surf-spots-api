@@ -20,7 +20,6 @@ import com.lovettj.surfspotsapi.repository.UserRepository;
 import com.lovettj.surfspotsapi.repository.SurfSpotRepository;
 import com.lovettj.surfspotsapi.repository.UserSurfSpotRepository;
 import com.lovettj.surfspotsapi.response.ApiErrors;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -35,11 +34,12 @@ public class WatchListService {
     private final UserSurfSpotRepository userSurfSpotRepository;
     private final NotificationService notificationService;
 
-    public WatchListService(WatchListRepository watchListRepository, 
-                          UserRepository userRepository,
-                          SurfSpotRepository surfSpotRepository,
-                          UserSurfSpotRepository userSurfSpotRepository,
-                          NotificationService notificationService) {
+    public WatchListService(
+            WatchListRepository watchListRepository,
+            UserRepository userRepository,
+            SurfSpotRepository surfSpotRepository,
+            UserSurfSpotRepository userSurfSpotRepository,
+            NotificationService notificationService) {
         this.watchListRepository = watchListRepository;
         this.userRepository = userRepository;
         this.surfSpotRepository = surfSpotRepository;

@@ -41,6 +41,8 @@ app:
     csrf-origin-filter-enabled: false
   live-session:
     overdue-notification-enabled: false
+  environmental-alerts:
+    enabled: false
   seed:
     enabled: false
   mail:
