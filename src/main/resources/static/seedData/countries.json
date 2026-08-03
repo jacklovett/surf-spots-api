@@ -1322,24 +1322,6 @@
     ]
   },
   {
-    "name": "England",
-    "description": "From pubs to fish and chips, England has more than just a surf scene. Cornwall and Devon, with spots like Croyde and Fistral Beach, offer some of the best surf, but the North East coast, with beaches like Tynemouth and Saltburn, provides a colder, more rugged experience. Big wave surfer Andrew Cotton and longboarder Ben \"Skindog\" Skinner have helped put the UK on the surf map. Cask ales, particularly bitters, brewed with traditional methods, are a proud part of the culture, and there's always their love for tea. Whether you're catching waves or enjoying a pint, England’s charm and heritage are always present.",
-    "continent": {
-      "id": 3,
-      "name": "Europe"
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency Services (Police, Ambulance, Fire, Coastguard, Mountain rescue)",
-        "number": "999"
-      },
-      {
-        "label": "Same (EU)",
-        "number": "112"
-      }
-    ]
-  },
-  {
     "name": "Estonia",
     "description": "Surfing in Estonia is for the adventurous, with the Baltic Sea offering only occasional waves. Pärnu is the best spot, but don't expect consistent surf. Beyond the water, Estonia's medieval cities, cobblestone streets, and castles are a must-see, while its forests and islands provide a peaceful retreat. If you do manage to catch some waves, the country's famous saunas are the perfect way to warm up afterward. While not a major surf destination, Estonia’s unique charm offers an unforgettable experience.",
     "continent": {
@@ -1516,24 +1498,6 @@
     ]
   },
   {
-    "name": "Guernsey",
-    "description": "The waves on this Channel Island are heavily influenced by its dramatic tidal range, with the sea retreating hundreds of meters in just a few hours. Guernsey’s west coast picks up plenty of swell, with Vazon Bay offering the most consistent waves, while nearby spots like Portinfer and Perelle fire up when conditions align. The island’s surf scene is small but dedicated, and with no big crowds, scoring good waves feels all the more rewarding. Though part of the Channel Islands, off the coast of the British Isles, Guernsey has a character all its own, from rugged cliffs and crystal-clear water to rich history and a food scene famous for its dairy and seafood.",
-    "continent": {
-      "id": 3,
-      "name": "Europe"
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency Services (Police, Ambulance, Fire, Coastguard, Mountain rescue)",
-        "number": "999"
-      },
-      {
-        "label": "Same (EU)",
-        "number": "112"
-      }
-    ]
-  },
-  {
     "name": "Iceland",
     "description": "The land of fire and ice, the land of Vikings, and a surf destination for the truly brave. Known for constant volcanic activity, black sand beaches, countless waterfalls, and the alluring Northern Lights, Iceland is as breathtaking as it is unforgiving. The weather is chaotic, the waters brutally cold, and spots are hard to reach. On the northern side of the island, you have the rare opportunity to surf within the Arctic Circle, but ever-changing conditions mean you need to be in the right place at the right time. Iceland’s premier wave, Þorlákshöfn (Thorli Point), is a world-class right-hand point break now under serious threat from harbor expansion. Catch it while you still can and show some support. While you're here, explore beyond Reykjavík and its famous lagoon spas, try something unusual like fermented shark, sip Brennivín, or just grab a hot dog. But please obey the rules—if it's roped off or marked as dangerous, there's a reason.",
     "continent": {
@@ -1578,24 +1542,6 @@
     ]
   },
   {
-    "name": "Isle of Man",
-    "description": "While the Isle of Man is famous for its deadly TT motorcycle race, its surf scene is far more understated. The island has a handful of spots, with the best waves found on the west coast near Peel and Port Erin. Being part of the British Isles, the weather is of course unpredictable, and the waters cold, making every session a challenge. But for those who do paddle out, there’s a small yet dedicated surf community to share the lineup with. When the day’s done, swap the wetsuit for a pint at a local pub and soak in the laid-back atmosphere—far removed from the island’s high-speed reputation.",
-    "continent": {
-      "id": 3,
-      "name": "Europe"
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency Services (Police, Ambulance, Fire, Coastguard, Mountain rescue)",
-        "number": "999"
-      },
-      {
-        "label": "Same (EU)",
-        "number": "112"
-      }
-    ]
-  },
-  {
     "name": "Italy",
     "description": "More famous for Roman ruins and Renaissance art than waves, Italy still offers surf if you know where to look. With over 7,000 km of coastline, the best waves are found in Liguria, Tuscany, and Sardinia, where the Mediterranean can surprise with solid swells, especially in winter. The surf culture is laid-back, often mixed with beachside cafés, espressos, and the occasional curious nonna wondering why anyone would willingly jump into the sea in December. The waves may not rival those of the Atlantic, but the backdrop of historic towns, rolling vineyards, and some of the best food in the world more than makes up for it. And when the surf is flat, there’s always wine, pizza, and a long, lazy aperitivo to fall back on.",
     "continent": {
@@ -1622,24 +1568,6 @@
       {
         "label": "Coast guard",
         "number": "1530"
-      }
-    ]
-  },
-  {
-    "name": "Jersey",
-    "description": "When the Atlantic swell arrives, Jersey punches well above its weight. St. Ouen’s Bay is the heart of the island’s surf scene, its long sandy stretch catching reliable waves and hosting local contests that bring the community together. With some of the largest tidal swings in the world, timing your surf is everything. Away from the water, winding lanes lead to cosy pubs and seafood shacks where you can enjoy the island’s freshest catch. A perfect blend of surf, food, and island life makes Jersey a must-visit for any surf enthusiast.",
-    "continent": {
-      "id": 3,
-      "name": "Europe"
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency Services (Police, Ambulance, Fire, Coastguard, Mountain rescue)",
-        "number": "999"
-      },
-      {
-        "label": "Same (EU)",
-        "number": "112"
       }
     ]
   },
@@ -1724,24 +1652,6 @@
     ]
   },
   {
-    "name": "Northern Ireland",
-    "description": "When North Atlantic swells roll in, Northern Ireland’s coastline comes alive. Castlerock offers easygoing beach breaks, while Portrush serves up a mix — from the mellow West Strand to the exposed reef at Black Rocks. Start your day with a hearty Ulster fry, then explore rugged coastlines, wander clifftop paths, or marvel at the Giant’s Causeway’s surreal stone columns. In Belfast, visit the Titanic Quarter where the world-famous ship was built, and explore the museum that brings its story to life. Come evening, settle into a pub with a pint of stout or a glass of Bushmills whiskey, live trad music, and the kind of warm welcome this region is known for. While it might not boast the swell variety of its Celtic neighbours, Northern Ireland still delivers an atmospheric and rewarding surf escape.",
-    "continent": {
-      "id": 3,
-      "name": "Europe"
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency Services (Police, Ambulance, Fire, Coastguard, Mountain rescue)",
-        "number": "999"
-      },
-      {
-        "label": "Same (EU)",
-        "number": "112"
-      }
-    ]
-  },
-  {
     "name": "Norway",
     "description": "Cold-water surf doesn’t get more dramatic than this — think glassy Arctic peaks breaking beneath snow-dusted mountains. The Lofoten Islands are the heart of it all, with Unstad Beach offering consistent waves, a tight-knit surf community, and surreal backdrops you won’t find anywhere else. Fjords cut through the landscape like ancient scars, and traces of Viking heritage linger in windswept villages and old farmsteads. After a session, warm up in a wood-fired sauna, tuck into fresh cod, and if the skies are clear, watch the northern lights dance above the lineup. It’s remote, raw, and unforgettable.",
     "continent": {
@@ -1805,24 +1715,6 @@
     "emergencyNumbers": [
       {
         "label": "Emergency Services (Police, Ambulance, Fire)",
-        "number": "112"
-      }
-    ]
-  },
-  {
-    "name": "Scotland",
-    "description": "The home of Irn Bru and deep fried Mars bars, Scotland also provides some epic surf. Thurso East is a standout, delivering powerful right-hand barrels over reef, earning a reputation as one of Europe's best cold-water waves. Conditions can be harsh, but those willing to brave the elements are rewarded with smaller crowds and raw beauty. Between sessions, explore ancient castles scattered across the Highlands, hunt for Nessie at Loch Ness, and stroll the cobbled streets of Edinburgh before warming up with haggis and a proper whisky by the fire.",
-    "continent": {
-      "id": 3,
-      "name": "Europe"
-    },
-    "emergencyNumbers": [
-      {
-        "label": "Emergency Services (Police, Ambulance, Fire, Coastguard, Mountain rescue)",
-        "number": "999"
-      },
-      {
-        "label": "Same (EU)",
         "number": "112"
       }
     ]
@@ -1916,8 +1808,8 @@
     ]
   },
   {
-    "name": "Wales",
-    "description": "Known for its rugged coastline and medieval castles, Wales also offers great surfing opportunities, mostly along its southern shores. Rhossili Bay on the Gower Peninsula stands out with its long, consistent beach break and dramatic cliffside scenery, while further east, surf around Porthcawl offers a variety of breaks, catering to surfers of all levels. When you're not surfing, enjoy a traditional Welsh rarebit or cawl, and take in the breathtaking views of the Brecon Beacons or explore charming villages nestled within the rolling hills",
+    "name": "United Kingdom",
+    "description": "Four nations plus the Channel Islands and the Isle of Man, all sharing cold water, big tides, and a stubborn surf habit. Atlantic groundswell hits Cornwall and Devon first, then wraps into Wales, the Causeway Coast, and the reefs of Scotland's north coast when the charts light up. The North Sea and Irish Sea fill in the gaps with shorter windswell and emptier lineups. Expect winter storms, summer mush, surf schools from Newquay to Portrush, and a pub within walking distance of most car parks. Tea, cask ale, and the 999 number travel with you from St Ouen's Bay to Thurso East.",
     "continent": {
       "id": 3,
       "name": "Europe"

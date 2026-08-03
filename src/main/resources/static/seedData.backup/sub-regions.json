@@ -1,1 +1,886 @@
-[]
+[
+  {
+    "name": "Bournemouth, Christchurch and Poole Council",
+    "description": "The Boscombe artificial reef, built in the late 2000s in front of Boscombe Pier, was an ambitious attempt to create reliable south coast surf. While it never delivers perfectly consistent waves, it remains the go-to spot in the heart of the town, frequently surfed when winter south west swells push deep into the Channel. When swell angle and tide align, Boscombe and the surrounding Bournemouth beach can produce short, punchy peaks shaped by groynes and shifting sand. Long flat spells are common, and even the better days are brief, making local knowledge and timing far more important than any forecast.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.6,
+      -2.0,
+      50.8,
+      -1.7
+    ]
+  },
+  {
+    "name": "Brighton",
+    "description": "When a compact winter swell squeezes into the Channel, beaches around the marina and the piers can throw quick lefts and rights. It is nothing world class, but December and midwinter storms can give the best chance of a rideable window. Expect groynes, rips and the occasional water quality issue, plus crowds when it finally turns on.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.8,
+      -0.2,
+      50.9,
+      -0.1
+    ]
+  },
+  {
+    "name": "Cornwall",
+    "description": "The heart of UK surfing and where Atlantic swell hits first in England. Newquay’s Fistral is probably the most recognisable wave in the country, drawing surfers year‑round for small runners up to big swells that can activate the Cribbar’s big wave potential. Further south, Porthleven sits more exposed to open Atlantic swell, producing steeper, heavier waves that don’t always appear on the north coast. Cornwall offers more surfable days than anywhere else in England, but that reliability brings pressure, especially in summer when surf schools, visitors and party tourism crowd many lineups. Summer tends to be softer and busy, while autumn and winter bring bigger swell, stronger winds, and a more serious scene in the water.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      49.9,
+      -5.7,
+      50.9,
+      -4.2
+    ]
+  },
+  {
+    "name": "Cumbria",
+    "description": "Surf on the Cumbrian coast relies on Irish Sea weather systems and careful timing. When wind and tide cooperate, spots around Walney Island and Earnse Bay can produce workable beachbreak peaks, while more sheltered options suit smaller swells. Autumn and winter are the most reliable seasons, with large tides shaping conditions throughout the day. Consistency is limited, but patience is often rewarded.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      54.0,
+      -3.5,
+      54.8,
+      -2.5
+    ]
+  },
+  {
+    "name": "Devon",
+    "description": "Long sandy bays and headlands make this one of the most dependable surf corners of the south west. Croyde is the marquee beachbreak with punchier winter walls and easier summer surf, and Woolacombe offers a huge stretch that can handle a lot of swell. Putsborough and Saunton give options when wind and crowd change, and the North Devon World Surfing Reserve label reflects how central surfing is here.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.2,
+      -4.8,
+      51.2,
+      -3.0
+    ]
+  },
+  {
+    "name": "Dorset",
+    "description": "Patience is part of the deal on this stretch of the Jurassic Coast. Kimmeridge can deliver a proper right on bigger swells, while Swanage and Lyme Bay are more about short windows and tide sensitive peaks. Most of the time the surf is small or inconsistent, with the better days tied to the right Channel swell angle.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.5,
+      -2.8,
+      50.8,
+      -1.5
+    ]
+  },
+  {
+    "name": "Durham",
+    "description": "Cold water, shifting sand and a small local crew define the sessions here. Seaton Carew is the best known option, with beachbreak peaks that need a north or north east swell and a clean wind. The season leans hard toward late autumn through spring, when storms provide the push and the winds occasionally behave.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      54.5,
+      -1.8,
+      54.8,
+      -1.3
+    ]
+  },
+  {
+    "name": "East Sussex",
+    "description": "Channel swell is often modest here, so reading the tides and wind matters as much as the forecast. Camber Sands can offer playful sandbank peaks, and Birling Gap is a more exposed option when the swell has enough push. Eastbourne and Bexhill are generally fickle, but winter brings the most regular run of surfable days.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.7,
+      0.0,
+      51.0,
+      0.5
+    ]
+  },
+  {
+    "name": "East Yorkshire",
+    "description": "Most of the year it is small, but a clean northerly can make Bridlington worth the drive. The setup is simple beachbreak with groynes and rips, and the best sessions tend to happen around lower water when the banks line up. It is more of a beginner and improver zone than a guaranteed wave magnet.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      53.8,
+      -0.8,
+      54.5,
+      0.0
+    ]
+  },
+  {
+    "name": "Essex",
+    "description": "Think short period wind swell over a shallow seabed, with brief windows when the wind swings offshore. Walton on the Naze is the best known name, and nearby stretches around Jaywick and Clacton can produce rideable peaks on the right north facing weather. Outside the warmer months, it can work weekly, but size is usually limited.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      51.5,
+      0.5,
+      52.0,
+      1.3
+    ]
+  },
+  {
+    "name": "Hampshire",
+    "description": "For Hampshire surfers, the conversation usually comes back to Hayling Island when the charts show a rare south coast pulse. Sandbars near the harbour mouths can shape fun, soft walls that suit longboards, with the occasional storm swell giving shortboard moments. Strong tides and shore dumpy water at high tide are part of the learning curve.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.8,
+      -1.8,
+      51.3,
+      -0.8
+    ]
+  },
+  {
+    "name": "Isle of Wight",
+    "description": "Having more than one coastline makes it easier to hunt for a surfable corner. Compton Bay is the headline beachbreak, with other options like Freshwater and Sandown offering different levels of shelter and crowd. The island has decades of surf history, but it still depends on the right Channel swell and wind to feel truly on.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.5,
+      -1.6,
+      50.8,
+      -1.0
+    ]
+  },
+  {
+    "name": "Kent",
+    "description": "Chalk, sandbars and a surprising number of bays give this corner more variety than most people expect. Joss Bay remains the historic hub, Viking Bay leans toward slower longboard lines, and Ramsgate can get punchier along the pier on the right swell. A north or north east push in winter is the best recipe, with tides playing a big role.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      51.0,
+      0.5,
+      51.5,
+      1.5
+    ]
+  },
+  {
+    "name": "Lancashire",
+    "description": "Big tides and a shallow Irish Sea shelf keep the waves mellow, but there are workable beachbreak days for those who watch the wind. St Annes and the Blackpool stretch are the usual starting points, with peaks that come and go with the banks. Autumn and winter bring the most consistent swell, even if it is rarely powerful.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      53.5,
+      -3.0,
+      54.0,
+      -2.5
+    ]
+  },
+  {
+    "name": "Lincolnshire",
+    "description": "A north wind over the North Sea can stack up short waves on this long sandy coast. Mablethorpe and Skegness are the typical check spots, with groynes and shifting banks deciding whether it is surfable or flat. Winter is the best bet, but consistency is never the selling point.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      52.5,
+      0.0,
+      53.0,
+      1.5
+    ]
+  },
+  {
+    "name": "Norfolk",
+    "description": "A mix of sandbars and small reefs keeps the sessions varied when the North Sea has enough energy. Cromer and East Runton are the familiar names, Sea Palling can break over its reef, and Mundesley and Gorleston fill in the gaps. The best run is October to March on northerly swell, often with cold water and silty looking surf.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      52.5,
+      0.5,
+      53.0,
+      1.8
+    ]
+  },
+  {
+    "name": "North Tyneside",
+    "description": "If there is swell in the North Sea, Longsands is usually where the crowd goes first. Tynemouth, Cullercoats and nearby bays offer a mix of sand and rock, with the cleanest days coming with a north or north east swell and a west or south west wind. It can be busy, but it is also one of the most reliable surf scenes on the east coast.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      54.9,
+      -1.6,
+      55.1,
+      -1.4
+    ]
+  },
+  {
+    "name": "North Yorkshire",
+    "description": "Cayton Bay is the workhorse here, handling anything from small beginner waves to solid overhead days depending on the swell. Different sections light up across the tide, with faster waves at lower water and mellower lines when it fills in, plus options around Scarborough when wind direction changes. Late autumn through spring is prime time for size and consistency.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      54.8,
+      -2.0,
+      55.8,
+      -1.0
+    ]
+  },
+  {
+    "name": "Northumberland",
+    "description": "Long beaches, cold water and fewer bodies in the lineup are the main appeal. Bamburgh, Druridge and other open stretches pick up north and north east swells well, with the best days tied to clean winds and solid winter storms. It is a place for patient surfers who do not mind driving between peaks.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      55.0,
+      -2.0,
+      55.8,
+      -1.5
+    ]
+  },
+  {
+    "name": "Redcar and Cleveland",
+    "description": "Saltburn is the headline when the banks are right, offering one of the cleaner setups on this section of the North Sea. Coatham Sands and nearby beaches can also produce rideable peaks, but it is mostly a winter game with plenty of wind dependence. When it clicks, the wave quality can surprise for such an industrial backdrop.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      54.5,
+      -1.1,
+      54.7,
+      -0.7
+    ]
+  },
+  {
+    "name": "Suffolk",
+    "description": "Small, clean runners and longboard sessions are the usual reward on this low profile coast. Walberswick and the Southwold area pick up northerly swells best, with groynes and shifting sand deciding where the peaks appear. Expect more short lived windswell than long period groundswell, with winter providing the most chances.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      52.0,
+      1.0,
+      52.5,
+      1.8
+    ]
+  },
+  {
+    "name": "Sunderland",
+    "description": "Between headlands and small bays, you can often find a corner to surf even when it looks flat from the road. Seaburn and Roker are the regular checks, with Whitburn and Marsden offering different angles when the swell has enough push. Late autumn through spring is the season, with north and north east swells doing most of the work.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      54.8,
+      -1.5,
+      54.9,
+      -1.3
+    ]
+  },
+  {
+    "name": "Tyne and Wear",
+    "description": "A quick check from the city can pay off when a northerly swell meets a west wind and the beaches line up. From the Tynemouth side down toward South Shields, the coast offers multiple sand and rock setups that suit different tides. It is not remote or empty, but it is one of the most consistent places to get wet on the east coast.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      54.9,
+      -1.8,
+      55.0,
+      -1.3
+    ]
+  },
+  {
+    "name": "West Sussex",
+    "description": "Sheltered geography means this stretch needs the right storm track to get moving. West Wittering is a common target thanks to its sandbars, and the coast around Worthing and Littlehampton can show rideable peaks on the better winter pulses. Most sessions are about making the most of smaller swells and clean winds.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      50.7,
+      -0.8,
+      51.0,
+      -0.2
+    ]
+  },
+  {
+    "name": "Wirral",
+    "description": "This peninsula is more about opportunistic wind swell than guaranteed surf. New Brighton on the Wallasey side is the usual check, but the tides are huge and currents can be strong near the Mersey. Many days are better for wind sports, so timing and local knowledge matter when you are chasing an actual wave.",
+    "region": {
+      "id": 399
+    },
+    "boundingBox": [
+      53.2,
+      -3.2,
+      53.5,
+      -2.9
+    ]
+  },
+  {
+    "name": "Castel",
+    "description": "Northwest parish taking in Vazon and Cobo, the island’s main surf coast. Vazon is the primary beginner beach with a surf school and novice area; Cobo and Port Soif add sandy options. Tides strongly affect when breaks work.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.65,
+      49.45,
+      -2.58,
+      49.5
+    ]
+  },
+  {
+    "name": "L'Ancresse",
+    "description": "Northern bay and one of Guernsey’s best beach breaks when conditions align. Works best on the drop from high tide; hollow peaks and better right-handers. Inconsistent, mostly winter; Pembroke Bay sits alongside.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.6,
+      49.49,
+      -2.56,
+      49.51
+    ]
+  },
+  {
+    "name": "La Picaterre",
+    "description": "Small coastal locality on Guernsey with typical Channel Island exposure. Surf is limited and conditions depend on swell direction and tide; the island’s main breaks lie in Castel and L’Ancresse.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.6,
+      49.45,
+      -2.52,
+      49.47
+    ]
+  },
+  {
+    "name": "Saint Anne",
+    "description": "Main settlement on Alderney, part of the Bailiwick. The island has several beaches and some exposure to Atlantic swells; surf is sporadic and less documented than on Guernsey.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.22,
+      49.7,
+      -2.18,
+      49.73
+    ]
+  },
+  {
+    "name": "Saint Peter Port",
+    "description": "Capital and main port on the east coast. Havelet Bay and nearby spots can pick up swell; tides and wind matter. Reef breaks suit experienced surfers; beginners are directed to Vazon in Castel.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.54,
+      49.45,
+      -2.52,
+      49.46
+    ]
+  },
+  {
+    "name": "St. Andrew's",
+    "description": "Central parish with no coastline; the only landlocked parish on Guernsey. No direct surf; access to the coast is via neighbouring parishes such as Castel and St. Saviour.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.6,
+      49.44,
+      -2.56,
+      49.46
+    ]
+  },
+  {
+    "name": "St. Sampson",
+    "description": "Northern parish around the harbour and Braye du Valle. Some north-facing shore; surf is secondary to the port. Best waves remain in Castel and L’Ancresse.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.54,
+      49.48,
+      -2.52,
+      49.5
+    ]
+  },
+  {
+    "name": "St. Saviour",
+    "description": "West-coast parish with inland and coastal fringes. Closer to the main surf exposure than St. Andrew’s; conditions still depend on swell and tide, with Vazon and L’Ancresse the main spots.",
+    "region": {
+      "id": 400
+    },
+    "boundingBox": [
+      -2.64,
+      49.44,
+      -2.58,
+      49.46
+    ]
+  },
+  {
+    "name": "Gorey",
+    "description": "East coast harbour under Mont Orgueil, sheltered from the main Atlantic swell. Picks up easterly windswell and can offer an option when the west coast is blown out or oversized, with the same huge tidal range governing when and where it works.",
+    "region": {
+      "id": 402
+    },
+    "boundingBox": [
+      -2.1,
+      49.2,
+      -2.0,
+      49.3
+    ]
+  },
+  {
+    "name": "Le Hocq",
+    "description": "South coast headland that receives windswell from the south and east. A local spot that works on the right tide and wind, with the island's big tidal range making timing essential.",
+    "region": {
+      "id": 402
+    },
+    "boundingBox": [
+      -2.09,
+      49.16,
+      -2.06,
+      49.19
+    ]
+  },
+  {
+    "name": "Les Laveurs",
+    "description": "Sits inside St Ouen's Bay, the island's main swell magnet. Beach breaks and shifting banks with the Watersplash at the heart of the scene and some of Europe's last untapped big-wave reef potential when conditions align.",
+    "region": {
+      "id": 402
+    },
+    "boundingBox": [
+      -2.23,
+      49.22,
+      -2.2,
+      49.25
+    ]
+  },
+  {
+    "name": "Saint Helier",
+    "description": "South coast town where spots east of the harbour work on certain tides when Atlantic swell wraps or when local windswell builds. Tide knowledge is critical and the lineup can get busy when it turns on.",
+    "region": {
+      "id": 402
+    },
+    "boundingBox": [
+      -2.13,
+      49.18,
+      -2.1,
+      49.2
+    ]
+  },
+  {
+    "name": "Saint Saviour",
+    "description": "Parish wrapping the capital with access to town-side breaks and the bays either side. Tide timing governs everything and local knowledge pays when the swell and wind align.",
+    "region": {
+      "id": 402
+    },
+    "boundingBox": [
+      -2.14,
+      49.17,
+      -2.09,
+      49.2
+    ]
+  },
+  {
+    "name": "Ards and North Down",
+    "description": "Eastern coast facing the Irish Sea, with Strangford Lough and the Ards Peninsula. Less exposed than the Causeway, but picks up swell when it wraps. Quieter lineups and cold water.",
+    "region": {
+      "id": 403
+    },
+    "boundingBox": [
+      -5.8,
+      54.4,
+      -5.4,
+      54.6
+    ]
+  },
+  {
+    "name": "Causeway Coast and Glens",
+    "description": "Portrush is the hub, with East Strand, West Strand and Whiterocks. Portstewart Strand, Benone and Castlerock along the same stretch. Atlantic swell, best in autumn and winter. The most surfed part of the Irish coast.",
+    "region": {
+      "id": 403
+    },
+    "boundingBox": [
+      -6.5,
+      54.9,
+      -5.9,
+      55.3
+    ]
+  },
+  {
+    "name": "Co Down",
+    "description": "Murlough under the Mourne Mountains is the main break, a long sandy beach that catches the wind and swell. Tyrella and Newcastle when it lines up. Strong winds, learner-friendly, quieter than the Causeway.",
+    "region": {
+      "id": 403
+    },
+    "boundingBox": [
+      -6.2,
+      54.1,
+      -5.5,
+      54.4
+    ]
+  },
+  {
+    "name": "Aberdeen City",
+    "description": "City beaches that face the North Sea and get whatever’s left of the NE swells. Students and oil workers paddle out when it’s on; the rest of the time it’s cold, flat or blown out. Fraserburgh up the road is where the real east coast crew surfs. Aberdeen’s for when you’re stuck in town and the charts say maybe.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -2.15,
+      57.1,
+      -2.05,
+      57.2
+    ]
+  },
+  {
+    "name": "Aberdeenshire",
+    "description": "Fraserburgh is the pick of the east coast: beaches that work, fickle points and reefs when the swell and wind align, and a proper local scene with the Broch Surf Club. The water’s the coldest in Scotland and the swell window’s fussy, so it’s mainly winter and you need to know the spots. Sandend and the rest of the coast north of Aberdeen reward the committed.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -2.6,
+      56.8,
+      -1.8,
+      57.7
+    ]
+  },
+  {
+    "name": "Angus",
+    "description": "Arbroath’s the name that comes up: beach and a left point that can get good on N swell and NW wind. Winter and spring are when it’s worth the drive from Dundee or Edinburgh. It’s part of the Forth and Tay surf belt, so there’s a scene, but the east coast’s never as reliable as the north or west. You take the windows when they come.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -2.8,
+      56.5,
+      -2.4,
+      56.8
+    ]
+  },
+  {
+    "name": "Argyll and Bute",
+    "description": "Westport on Kintyre and Tiree are the spots that get the Atlantic in; Mull and Islay have waves when you’re willing to hunt. It’s remote, the weather’s a coin flip, and the water’s cold. Tiree’s got a rep for sunshine and surf; the rest is for people who don’t need a crowd. Machir Bay on Islay is for experienced surf kayakers who know what they’re getting into.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -6.5,
+      55.2,
+      -5.0,
+      56.5
+    ]
+  },
+  {
+    "name": "Dumfries and Galloway",
+    "description": "Solway Firth coast with Southerness, Sandyhills and a handful of beaches that pick up Irish Sea windswell when the wind’s right. It’s fickle, often small, and the east coast crew don’t bother. If you’re in the borders or the south and the charts say there’s something, you might get a session. Nobody’s building a surf trip around it.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -4.9,
+      54.7,
+      -3.0,
+      55.3
+    ]
+  },
+  {
+    "name": "East Lothian",
+    "description": "Dunbar’s the hub: Belhaven and East Beach get the N and NE swells that make it down the coast, and when it’s on the Edinburgh crew’s all over it. Whitesands and Seacliff are the quieter options. Cold water, winter best; John Muir Country Park’s the backdrop. It’s the closest proper surf to the capital without going to Fife.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -2.65,
+      55.9,
+      -2.4,
+      56.05
+    ]
+  },
+  {
+    "name": "Edinburgh",
+    "description": "Portobello and Wardie Bay are the city beaches: sheltered by the Firth, they get NE swells when the angle’s right and the rest of the time they’re flat or blown. Students and locals paddle out because it’s there, not because it’s consistent. East Lothian and Fife are where you go when you want a proper session. This is for when you’ve got an hour and the charts say maybe.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -3.3,
+      55.92,
+      -3.1,
+      56.0
+    ]
+  },
+  {
+    "name": "Fife",
+    "description": "St Andrews has the name and the beaches: West Sands and East Sands get the N and NE swells, and the student population means there’s always someone in the water when it’s rideable. Elie, Burntisland and Aberdour fill out the coast. It’s variable, it’s cold, and winter’s when it’s worth it; summer’s for day trippers and the occasional small day.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -3.5,
+      56.0,
+      -2.6,
+      56.4
+    ]
+  },
+  {
+    "name": "Highland",
+    "description": "The council’s massive: north coast, west coast, Sutherland to Lochaber. Brims Ness, Dunnet Bay, Bettyhill, Melvich and a load of spots that only work when the swell and wind line up. It’s cold, it’s remote, and autumn’s the sweet spot for swell and daylight. You need to know where you’re going; the map’s big and the windows are small.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -6.2,
+      56.5,
+      -3.0,
+      58.7
+    ]
+  },
+  {
+    "name": "Moray",
+    "description": "Lossiemouth East Beach is the main draw: long sand and dunes, a surf school that’s been there years, and N and NE swells when the North Sea delivers. Sandend, Hopeman and Cullen are the backups. The Moray Firth’s not the north coast, so don’t expect Thurso; you get windows, you get cold water, and you get a scene that knows the spots. Winter’s when it’s on.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -3.4,
+      57.6,
+      -2.8,
+      57.8
+    ]
+  },
+  {
+    "name": "Orkney Islands",
+    "description": "North Atlantic exposure and a swell window that runs W to SE. Skara Brae, Marwick and Birsay get the waves when the weather plays ball; it’s point and reef, cold and windy, and hardly anyone’s out. Autumn and winter are when you bother. The islands are for people who don’t need a crowd or a guarantee.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -3.4,
+      58.7,
+      -2.4,
+      59.4
+    ]
+  },
+  {
+    "name": "Scottish Borders",
+    "description": "Short stretch of east coast with Coldingham Bay and Pease Bay as the main surf beaches. Sand between the headlands, N swell when it gets in, and a crowd that’s mostly Edinburgh-based. Cold water, winter and spring best. It’s not the north coast or Thurso; it’s the closest thing the borders have to a proper break.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -2.5,
+      55.8,
+      -2.0,
+      55.95
+    ]
+  },
+  {
+    "name": "Shetland Islands",
+    "description": "South mainland around Sumburgh, Quendale and Boddam gets both Atlantic and North Sea swell when the charts align. It’s exposed, it’s cold, and the lineups are empty because getting there’s half the mission. Autumn and winter; bring the full kit. Most people who surf here are exploring as much as scoring.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -1.8,
+      59.5,
+      -0.7,
+      60.85
+    ]
+  },
+  {
+    "name": "Thurso",
+    "description": "Thurso East is one of the best right-hand barrels in the UK: slate reef, cold, heavy, and fickle. It wants NW swell and SE wind; when it gets both it’s world class. The town beach handles smaller days. September to May is the window; winter’s short days and full 6mm. The Caithness crew know the score; everyone else is visiting.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -3.6,
+      58.5,
+      -3.2,
+      58.7
+    ]
+  },
+  {
+    "name": "Western Isles",
+    "description": "Outer Hebrides: Lewis, Harris, Uist, Barra. Atlantic in your face, multiple breaks, and a lot of driving and ferries to find them. It’s heavy, it’s cold, and it’s lightly surfed because the commitment’s real. Autumn and winter when the swell and weather align; the rest of the time you’re either scoring or you’re not. No crowds, no guarantees.",
+    "region": {
+      "id": 404
+    },
+    "boundingBox": [
+      -7.7,
+      56.9,
+      -6.1,
+      58.5
+    ]
+  },
+  {
+    "name": "Anglesey",
+    "description": "Island off the north Wales coast: Holyhead and the west side get the Irish Sea swell when it pushes in. It's not Pembrokeshire or the Gower; the exposure's different and the spots are quieter. Winter and spring for the best of it. The Menai Strait's not for surfing; the open coast is where you look.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -4.7,
+      53.2,
+      -4.0,
+      53.4
+    ]
+  },
+  {
+    "name": "Carmarthenshire",
+    "description": "South Wales coast: Pendine and the rest get the Bristol Channel and Atlantic when the swell wraps in. It's not the first place you'd send someone; the Gower and Pembrokeshire get the hype. But when the charts say go there's a scene and the beaches can work. Winter and spring.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -4.8,
+      51.6,
+      -3.8,
+      52.1
+    ]
+  },
+  {
+    "name": "Ceredigion",
+    "description": "Borth's the main beach: long, sandy, and when the SW swell hits it can get heavy. Aberystwyth's the student town; Llangrannog and New Quay fill out the coast. Cardigan Bay's more sheltered than Pembrokeshire so you need the right swell; when it's on the mid Wales crew are out. Winter and storm swells for the best of it.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -4.6,
+      52.2,
+      -3.8,
+      52.6
+    ]
+  },
+  {
+    "name": "Conwy",
+    "description": "North Wales coast between the Llyn and the English border. A few beaches pick up Irish Sea swell when the angle's right; it's not the most consistent stretch but the crowds are lighter than the Gower. Winter and spring. The mountains are the main draw; the surf's for when the charts say maybe.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -4.0,
+      53.1,
+      -3.5,
+      53.3
+    ]
+  },
+  {
+    "name": "County Borough of Bridgend",
+    "description": "Coast between the Gower and the Vale: Porthcawl and the rest get Bristol Channel and Atlantic when the swell wraps in. Reef and beach; the scene's smaller than Pembrokeshire but the wave count's real when it's on. Winter and spring for the best of it. Rest Bay and the points reward the committed.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -3.8,
+      51.4,
+      -3.5,
+      51.6
+    ]
+  },
+  {
+    "name": "Gower",
+    "description": "Rhossili and Llangennith are the names: west-facing, Atlantic swell, and when it's on it's as good as anywhere in Wales. Three peaks at Llangennith, the Worm's Head at Rhossili, and a crowd that knows the score. Caswell and the south side are mellower. Winter and spring for the heavy days; summer's for learners and the camps. Swansea's round the corner; the Gower's the wave.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -4.25,
+      51.55,
+      -4.0,
+      51.65
+    ]
+  },
+  {
+    "name": "Gwynedd",
+    "description": "The Llyn peninsula and the north coast: Abersoch, Pwllheli and the beaches that face Cardigan Bay and the Irish Sea. It's more sheltered than Pembrokeshire; you need the right swell direction. The scenery's the draw; the surf's when the charts say go. Winter and spring. Quieter than the Gower and Pembs.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -4.6,
+      52.8,
+      -3.9,
+      53.3
+    ]
+  },
+  {
+    "name": "Neath Port Talbot",
+    "description": "Coast between Swansea and Bridgend: Aberavon and the rest get the Bristol Channel when the swell pushes in. Industrial backdrop, real wave when it's on, and a local crew. It's not the Gower or Pembrokeshire for scenery but the wave count's there. Winter and spring.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -3.9,
+      51.6,
+      -3.6,
+      51.75
+    ]
+  },
+  {
+    "name": "Newgale",
+    "description": "The beach: two miles of pebble and sand facing west, one of Pembrokeshire's most consistent spots. When the Atlantic's pumping it can close out; when it's smaller it's learner-friendly and the campsite's right there. St David's up the road, Whitesands round the corner. The whole county surfs; Newgale's where a lot of them go.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -5.15,
+      51.85,
+      -5.05,
+      51.9
+    ]
+  },
+  {
+    "name": "Pembrokeshire",
+    "description": "The county that gets the Atlantic: Freshwater West when it's big and the comps roll in, Newgale for consistency, Whitesands when you want a bit of shelter. West and south facing, so the swell window's good and the winter can get heavy. St David's, the camps, and a scene that's been at it for decades. One of the UK's best surf regions.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -5.4,
+      51.6,
+      -4.7,
+      52.1
+    ]
+  },
+  {
+    "name": "Swansea",
+    "description": "The city: the Gower's next door and that's where the waves are. Swansea Bay gets the odd day when the swell wraps in; the real surf's at Langland, Caswell and the peninsula. Students and locals paddle out when it's on. Winter and spring; summer's for the beach. Don't confuse the city with the Gower.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -4.15,
+      51.6,
+      -3.9,
+      51.7
+    ]
+  },
+  {
+    "name": "Vale of Glamorgan",
+    "description": "Coast between Cardiff and Bridgend: cold water, Bristol Channel swell when it pushes in, and a handful of spots that work when the charts say go. It's not Pembrokeshire or the Gower; the scene's smaller and the exposure's different. Winter and spring for the best of it. The committed know the beaches.",
+    "region": {
+      "id": 405
+    },
+    "boundingBox": [
+      -3.5,
+      51.4,
+      -3.3,
+      51.5
+    ]
+  }
+]

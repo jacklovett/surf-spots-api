@@ -1,1 +1,4773 @@
-[]
+[
+  {
+    "name": "Ain Barbar",
+    "status": "Approved",
+    "description": "Hollow left point wrapping off the rocky headland at the fishing harbour west of Annaba toward Seraïdi. Breaks over boulders on north to northwest Mediterranean swell, cleaning up with west to southwest winds. Fickle by open-ocean standards, but when it turns on it stands apart from the sandier eastern beachbreaks. Empty lineup, works through the tide, rocks in the impact zone.",
+    "latitude": 36.9916,
+    "longitude": 7.558,
+    "region": {
+      "id": 1
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "N - NW",
+    "windDirection": "W - SW",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.5,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Cafe"
+    ],
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Annaba"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Algiers"
+  },
+  {
+    "name": "Decaplage",
+    "status": "Approved",
+    "description": "Shelving sandbar beachbreak on the Aïn Taya coast east of Algiers that wakes up on winter mistral northwest swell. Peaks peel left and right over sand, usually short and punchy with the short-period energy typical of the western Mediterranean. One of the regularly surfed Algiers beachbreaks, and the local lineup stays modest even when it is working. Best from autumn through early spring with offshore south winds; summers are often flat.",
+    "latitude": 36.7881,
+    "longitude": 3.3207,
+    "region": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "S",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "facilities": [
+      "WC"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/decaplage/584204214e65fad6a7709ce3",
+      "https://www.allosurf.net/meteo/surf/deca-plage-meteo-ww3-27-gfs-27-1-a-16-jours-1062257.html"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Algiers"
+  },
+  {
+    "name": "Plage Mandjane",
+    "status": "Approved",
+    "description": "Sandy beachbreak fronting El Kala on Algeria's far eastern coast near the Tunisian border. Left and right peaks form over sand on north and northwest swell, with short-period windswell often filling the quieter gaps. South winds clean the faces; summers usually go flat while winter through early spring carries most of the surfable days. The peak stays empty even when it is working, and you can park beside the sand.",
+    "latitude": 36.8965,
+    "longitude": 8.4344,
+    "region": {
+      "id": 3
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "S",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-mandjane/584204214e65fad6a7709ce4",
+      "https://www.surf-forecast.com/breaks/Plage-Mordjane"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Algiers"
+  },
+  {
+    "name": "Aïn El Turk",
+    "status": "Approved",
+    "description": "Oran's western corniche opens into a long resort beach where hotels and cafes sit behind the dunes and winter Mediterranean swell can still find sandbars worth surfing. Peaks break both ways when northwest energy arrives, usually softer and more approachable than the rockier points further east along the Algerian coast. South winds clean the faces; summers often go flat or wind-chopped under the tourist rush.",
+    "latitude": 35.7471,
+    "longitude": -0.7916,
+    "region": {
+      "id": 4
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "S",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub",
+      "Supermarket"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://windy.app/forecast2/spot/472207/Ain+el+turck"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Algiers"
+  },
+  {
+    "name": "Ambriz Beach",
+    "status": "Approved",
+    "description": "White-sand cove reached by 4x4 track off the Ambriz airport road on Angola's Bengo coast north of Luanda. Peaks break left and right over sand with scattered rock, picking up southwest groundswell through the dry season when east to northeast winds clean the faces. Lineups stay empty; rocks and rips are the main watch-outs, and Ambriz town sits a short drive inland for basic staging.",
+    "latitude": -7.8411,
+    "longitude": 13.0981,
+    "region": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Ambriz-Point"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Praia da Musserra",
+    "status": "Approved",
+    "description": "Sandy cove a few kilometres south of Ambriz on Angola's Bengo coast, reached by coastal track near the town airport stretch. Southwest groundswell builds A-frame peaks over sand, usually softer on ordinary days and punchier when longer-period energy arrives. East to northeast winds clean the faces through the dry season; rips matter more than crowds on this remote northern strip.",
+    "latitude": -7.8861,
+    "longitude": 13.1261,
+    "region": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/praia-da-musserra/640a1cff4eb375e7c88bc694"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Praia do Bimbe",
+    "status": "Approved",
+    "description": "Between Egito Praia and the Lobito approaches, a remote Benguela sand stretch picks up South Atlantic southwest swell with little of the infrastructure that marks the Restinga further south. Peaks peel left and right over sand, usually softer and smaller than the better-known breaks toward Cabo Ledo. East to northeast winds clean the faces through the dry season, when long-period groundswell lines up and the coastal road remains the main access.",
+    "latitude": -12.1347,
+    "longitude": 13.688,
+    "region": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/praia-do-bimbe/640a1cfd99dd445af9fa9951"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Praia do Golo",
+    "status": "Approved",
+    "description": "Low-key sand peaks on a remote Benguela stretch north of Lobito, where southwest groundswell usually arrives smaller and softer than at Angola's better-known points. Left and right break over sand, east to northeast winds clean the faces, and lineups stay empty through the South Atlantic season. Access is from the coastal road, with no resort strip behind the beach.",
+    "latitude": -12.129,
+    "longitude": 13.6916,
+    "region": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/praia-do-golo/640a1cfb606c4519ada80b4c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Praia da Chitamba",
+    "status": "Approved",
+    "description": "Limestone cliffs back a golden sand beach at Fazenda Filomena on the Sumbe municipality coast, where southwest Atlantic groundswell builds A-frame peaks over sand. Softer days suit less experienced surfers when east to northeast winds clean the faces. Remote by Angolan resort standards, with empty lineups through the South Atlantic dry season and access from the coastal road rather than a hotel strip.",
+    "latitude": -11.6866,
+    "longitude": 13.7901,
+    "region": {
+      "id": 7
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/praia-da-chitamba/640a1d01e92030c5e79546a4"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Quicombo",
+    "status": "Approved",
+    "description": "Left-hand point wrapping over flat rock ledges at a fishing village south of the provincial capital on the Cuanza Sul coast. Needs solid southwest swell to wake up, then offers longer walls than the surrounding sand beaches, with east to northeast winds the cleaner option. Sand fills over the rock in places; watch the ledges and rips. Lineups stay empty even when it is working, and access is a short coastal drive from Sumbe via the river valley.",
+    "latitude": -11.3166,
+    "longitude": 13.8126,
+    "region": {
+      "id": 7
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.5,
+    "maxSurfHeight": 3.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/quicombo/584204214e65fad6a7709b81"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Sumbe",
+    "status": "Approved",
+    "description": "Provincial capital on the Cuanza Sul coast with workable sandbanks when southwest groundswell arrives, plus a better-known stretch a short drive south at Praia de Namoradas where waves break close to shore over sand with rock underneath. Peaks favour lefts but can go both ways, cleaning up with east to northeast winds. Rips are the main hazard, crowds stay thin, and the Avenida Marginal holds hotels and beach restaurants for staging.",
+    "latitude": -11.2276,
+    "longitude": 13.8339,
+    "region": {
+      "id": 7
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sumbe/584204214e65fad6a7709b7d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Barra da Cuanza",
+    "status": "Approved",
+    "description": "Where the Cuanza River meets the Atlantic under multi-coloured cliffs, rocky reef and sand throw lefts and the occasional right on west to southwest swell. Isolated park-edge stretch south of Luanda; rocks and rivermouth currents are the main hazards. East to northeast winds preferred, with low to mid tide the cleaner window.",
+    "latitude": -9.35,
+    "longitude": 13.15,
+    "region": {
+      "id": 8
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/barra-da-cuanza/584204214e65fad6a7709b7e"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Buraco",
+    "status": "Approved",
+    "description": "Left point in a small fishing cove about forty kilometres south of Luanda, reached by coastal road and sometimes 4x4 after rain. Southwest groundswell peels along rock and sand with empty lineups on most days. East to northeast winds clean the faces through the South Atlantic dry season.",
+    "latitude": -9.03,
+    "longitude": 13.0,
+    "region": {
+      "id": 8
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/buraco/584204214e65fad6a7709b7c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Cabo Ledo",
+    "status": "Approved",
+    "description": "Long left wrapping off the southern headland of a cliff-backed bay about two hours south of Luanda, known locally as Praia dos Surfistas. Sand and rock bottom stays mellow on smaller days and punchier outside when the swell jumps; northeast winds and mid to high tide favour the classic wall. Surf lodges and beach restaurants sit behind the sand, and rips run hard along the point on bigger days.",
+    "latitude": -9.6782,
+    "longitude": 13.2004,
+    "region": {
+      "id": 8
+    },
+    "type": "Point Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Campsite"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/cabo-ledo/584204214e65fad6a7709b7f"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Chicala",
+    "status": "Approved",
+    "description": "Soft beachbreak on Luanda's Ilha side, minutes from the airport and the capital's waterfront strip. Left and right peaks over sand on southwest swell, with east to northeast winds the cleaner option. Water quality can suffer after rain, rips run along the banks, and crowds stay modest for a city wave.",
+    "latitude": -8.83,
+    "longitude": 13.2,
+    "region": {
+      "id": 8
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/chicala/584204204e65fad6a7709b77"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Miradouro",
+    "status": "Approved",
+    "description": "Exposed left point about an hour south of Luanda on a rough track that needs 4x4 when wet. Peels over sand and mixed bottom on southwest swell, cleaning up with east to northeast winds, and rarely draws a crowd. Low to mid tide is the more makeable window.",
+    "latitude": -9.25,
+    "longitude": 13.09,
+    "region": {
+      "id": 8
+    },
+    "type": "Point Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/miradouro/584204204e65fad6a7709b79"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Mussulo",
+    "status": "Approved",
+    "description": "Left point on the northern tip of the Mussulo spit. Most people cross by boat or watercraft from the Samba road jetties through strong bay-entrance currents; a long sandy 4x4 track from the south also reaches the peninsula. Needs solid southwest swell before it wakes up, and peak size often stays smaller than the open chart suggests. East to northeast winds clean the faces; rips matter more than crowds.",
+    "latitude": -8.87,
+    "longitude": 13.14,
+    "region": {
+      "id": 8
+    },
+    "type": "Point Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "None",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mussulo/584204204e65fad6a7709b7a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Shipwreck",
+    "status": "Approved",
+    "description": "Rusting hull on the sand where the Mussulo spit joins the mainland marks this exposed beachbreak south of Luanda. Sandbar peaks break left and right beyond the wreck on southwest swell, with east to northeast winds preferred. Stronger and more open than the city banks; watch rips and the wreck itself.",
+    "latitude": -9.05,
+    "longitude": 13.05,
+    "region": {
+      "id": 8
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/shipwreck/584204214e65fad6a7709b7b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Praia da Mucula",
+    "status": "Approved",
+    "description": "Far northern Angola's Mucula Cove faces the open Atlantic with long sand beaches and little of the infrastructure that marks the Luanda corridor. Peaks peel left and right over sand on southwest swell, cleaning up with east to northeast winds through the dry season. Access is from the coastal road near the small Mucula settlement; N'Zeto is the nearest town hub about half an hour south.",
+    "latitude": -6.9711,
+    "longitude": 12.8172,
+    "region": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/praia-da-mucula/6409fb3099dd446686f29585"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Luanda"
+  },
+  {
+    "name": "Boa Vista Bahia",
+    "status": "Approved",
+    "description": "West-facing bay fronting Sal Rei, where northwest Atlantic swell wraps past Ilheu de Sal Rei into sandbanks and shallow reef near Tortuga Beach and the harbour approaches. Soft peaks suit beginners on smaller days; longer walls appear further into the bay when the swell jumps. Northeast trades often blow offshore off the town, and hotels, restaurants, and surf schools sit a short walk from the sand.",
+    "latitude": 16.1639,
+    "longitude": -22.9109,
+    "region": {
+      "id": 12
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/boa-vista-bahia/640b8af0de81d5778509be60"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Praia de Chaves",
+    "status": "Approved",
+    "description": "Long dune-backed sand stretch on Boa Vista's northwest coast, a short drive south of Sal Rei toward Rabil. Beachbreak peaks peel left and right over sand when north to northwest swell arrives, with south to southeast winds the cleaner option on a coast that often sees strong trades. Resort strip behind parts of the beach; rips run along the banks when the swell is up.",
+    "latitude": 16.1075,
+    "longitude": -22.923,
+    "region": {
+      "id": 12
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "S - SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/praia-de-chaves/640b8afc4878eb0c8219d22a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Praia de Santa Monica",
+    "status": "Approved",
+    "description": "Endless white sand on Boa Vista's remote southwest coast near Povoacao Velha, where south to southwest swell builds left-leaning beachbreak peaks along an open dune shore. Northeast trades clean the faces when they blow; access is by coastal track and the beach stays empty compared with the Sal Rei bay. Rips and exposure are the main watch-outs; little infrastructure sits behind the sand.",
+    "latitude": 15.9778,
+    "longitude": -22.8319,
+    "region": {
+      "id": 12
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Alibaba",
+    "status": "Approved",
+    "description": "Long right wrapping over volcanic reef on Sal's west coast near the airport corridor, one of the island's premium walls when medium to large northwest swell arrives. East to southeast trades clean the faces; the ride can run for a long section before the channel. Strong currents and shallow rock reward experience; lineups stay thinner than at Ponta Preta.",
+    "latitude": 16.72,
+    "longitude": -22.99,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.5,
+    "maxSurfHeight": 4.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Alibaba"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Curral Joul",
+    "status": "Approved",
+    "description": "Exposed right reef a short hop north of Alibaba on Sal's west coast, often the first spot to wake up on northwest swell when the rest of the island looks small. Hollow and heavy when the period jumps; east to southeast winds preferred. Access is typically via the coastal track from Fontana or Alibaba; rocks and no easy exit on big days.",
+    "latitude": 16.7326,
+    "longitude": -22.9871,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Advanced",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 4.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/curral-joul/640b8ad24519057d69dc118e"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Fontana",
+    "status": "Approved",
+    "description": "Small west-coast bay north of Curral Joul with a sandy launch and a hollow right off the northern point. Works on west to northwest swell with east to southeast winds; often used as a staging cove before dropping down the reef line. Less crowded than Ponta Preta, still reef and rock underfoot.",
+    "latitude": 16.74,
+    "longitude": -22.99,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Fontana"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Fragata",
+    "status": "Approved",
+    "description": "East-coast beach and reef a short drive from Santa Maria along Costa da Fragata, where northeast swell can wake long lefts over mixed sand and rock when the trades ease. West wind is the cleaner offshore; usual northeast trades often blow the faces out. Inconsistent compared with the west-coast reefs; sharks have been reported on this side of Sal.",
+    "latitude": 16.62,
+    "longitude": -22.9,
+    "region": {
+      "id": 13
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "N - NE",
+    "windDirection": "W",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Sharks",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Fragata"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Monte Grande Beach",
+    "status": "Approved",
+    "description": "Remote sand stretch on Sal's northeastern coast, reached by 4x4 track away from the Santa Maria circuit. North to northeast swell can build beachbreak peaks, but prevailing trades often blow cross-onshore and spoil the faces. Empty lineups; rips and exposure matter more than crowds.",
+    "latitude": 16.8115,
+    "longitude": -22.8978,
+    "region": {
+      "id": 13
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NE",
+    "windDirection": "W - SW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/monte-grande-beach/640b8b094878ebb05519d570"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Monte Leão",
+    "status": "Approved",
+    "description": "West-facing bay under the Monte Leao headland near Sal's airport road, where northwest swell builds a longer right over mixed sand and reef. Often mellower than Alibaba or Curral Joul on the same pulse; north to northeast winds can clean the inside. Shared with windsurfers on some days; rocks and urchins on the reef edge.",
+    "latitude": 16.7,
+    "longitude": -22.98,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/monte-le-o/640b8ac6b6d769d62a908f85"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Nhã Marco",
+    "status": "Approved",
+    "description": "Coastal stretch near the Nhã Marco settlement on Sal's west side between Murdeira and the airport reefs. West to northwest swell can find reef and rock shelves with east trades cleaning the faces; quieter than the named Alibaba to Fontana line. Limited writeups beyond forecast pins; treat as exploratory west-coast reef.",
+    "latitude": 16.7024,
+    "longitude": -22.9428,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Palha Verde",
+    "status": "Approved",
+    "description": "West-coast pocket near the Palha Verde locality, inland of the Alibaba to Fontana reef line on Sal. Same northwest-swell window and east to southeast trades as the better-charted neighbours; rock bottom and empty lineups. Thin documentation outside forecast maps.",
+    "latitude": 16.715,
+    "longitude": -22.935,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Palmeira",
+    "status": "Approved",
+    "description": "Left-hand lava reef on Sal's northwest coast near the fishing port of Palmeira, a short drive from Espargos and the airport. Holds smaller west to northwest swell better than some south-island rights, with a channel for the paddle out and east to southeast winds preferred. Shallow rock and closeouts on the inside; crowds stay thin.",
+    "latitude": 16.75,
+    "longitude": -22.98,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/palmeira/640b8ae4b6d7691b94909741"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Ponta do Sino",
+    "status": "Approved",
+    "description": "Southern tip of Sal near the Ponta do Sino lighthouse, where southwest and wrapping swell build beach and reef peaks left and right over sand with rock underneath. More consistent and mellow than Ponta Preta; north to northeast trades often clean the faces. Short drive or walk from Santa Maria; rocks in the impact zone.",
+    "latitude": 16.59,
+    "longitude": -22.93,
+    "region": {
+      "id": 13
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ponta-do-sino/640b8aa7e92030d2a2dd2e2f"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Ponta Preta",
+    "status": "Approved",
+    "description": "Cape Verde's standout right off the black volcanic headland west of Santa Maria. Northwest to north groundswell peels over sharp reef for long walls and occasional barrels, with east to northeast trades the classic offshore. Mid tide is the cleaner window; low tide goes dangerously shallow. Walk or short taxi from town; share the peak with kiters and windsurfers on windy days.",
+    "latitude": 16.572,
+    "longitude": -22.957,
+    "region": {
+      "id": 13
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "N - NW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid - High",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.2,
+    "maxSurfHeight": 4.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ponta-preta/584204204e65fad6a7709ae9"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Prainha",
+    "status": "Approved",
+    "description": "Small beach pocket on the Santa Maria strip of southern Sal, between the resort sand and the tip toward Ponta do Sino. Soft peaks over sand on south to southwest swell, with north to northeast winds preferred; surf schools and hotels sit behind the dunes. Quieter alternative to the main town banks on ordinary days.",
+    "latitude": 16.6,
+    "longitude": -22.9167,
+    "region": {
+      "id": 13
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Beginner",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Reguinho",
+    "status": "Approved",
+    "description": "Northern Sal coast near the Reguinho locality, well away from the Santa Maria hub. North swell can find open beach and mixed bottom when the angle is right; trades often blow cross-shore. Remote access, empty lineups, and thin published surf detail beyond forecast pins.",
+    "latitude": 16.8495,
+    "longitude": -22.916,
+    "region": {
+      "id": 13
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NE",
+    "windDirection": "S - SW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Rife",
+    "status": "Approved",
+    "description": "Also known locally as Calheta Funda, a west-coast cove south of Murdeira where rock shelves throw mellow rights into a channel. About a twenty-minute drive from Santa Maria; suits longboards on ordinary northwest swell with east trades. Faster hollow sections appear on the bigger pulses; rocks underfoot.",
+    "latitude": 16.6504,
+    "longitude": -22.9476,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Santa Maria",
+    "status": "Approved",
+    "description": "Long resort beach fronting Sal's main surf town, with sand and scattered reef producing lefts and rights when south to southwest swell wraps in. Surf schools, board hire, and hotels line the shore; north to northwest winds clean the faces better than the usual trades. Softer than the west-coast reefs; submerged rocks still appear on some banks.",
+    "latitude": 16.592,
+    "longitude": -22.9147,
+    "region": {
+      "id": 13
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub",
+      "Supermarket"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel",
+      "Guesthouse"
+    ],
+    "facilities": [
+      "WC"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Santa-Maria_1"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Spoutnik",
+    "status": "Approved",
+    "description": "Left-hand reef near Santa Maria on Sal's south coast that prefers summer south to southwest swell when the winter northwest window goes quiet. North to northeast trades blow offshore here; rocks in the lineup and few crowds even when it is working. Short hop from town once the south swell shows.",
+    "latitude": 16.585,
+    "longitude": -22.905,
+    "region": {
+      "id": 13
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/spoutnik/640b8ab4b6d769b69b908b0b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Caju",
+    "status": "Approved",
+    "description": "Town-break lefts in Tarrafal bay on Santiago's northwest tip, where winter west to northwest swell finds sand and mixed rock in front of the fishing harbour. Softer and more approachable than the boulder reefs south toward Ponta Brava; east to northeast trades often clean the faces. Surf schools and beach bars stage from the sand; rips and rocks still matter on bigger days.",
+    "latitude": 15.278,
+    "longitude": -23.752,
+    "region": {
+      "id": 14
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "W - NW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Chao Bom",
+    "status": "Approved",
+    "description": "West-facing boulder reef along the coast near Chao Bom, a few kilometres southeast of Tarrafal on the road south. Same winter west to northwest window as Ponta Brava, with rights peeling over rock when the trades blow offshore from the east. Quieter than the town bay; rocks and urchins underfoot.",
+    "latitude": 15.255,
+    "longitude": -23.755,
+    "region": {
+      "id": 14
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Cocos Beach Praia",
+    "status": "Approved",
+    "description": "Also known as Praia Negra, the dark volcanic sand and cobble stretch inside Praia's port where lefts peel beside the shipwreck when south to southwest swell wraps in. North to northeast winds clean the faces; water quality can suffer beside the harbour. City access, modest crowds, and a more sheltered feel than the open Tarrafal reefs.",
+    "latitude": 14.92,
+    "longitude": -23.51,
+    "region": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Coca-s-Beach-Praia"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Coragi",
+    "status": "Approved",
+    "description": "Rocky left reef in Praia's Palmarejo district, west of the capital port. South to southeast swell lights it up more often than the fickle harbour banks, with north to northeast trades preferred; bodyboarders share the peak on good days. Large rocks and rips are the main hazards; short drive from central Praia.",
+    "latitude": 14.9035,
+    "longitude": -23.5177,
+    "region": {
+      "id": 14
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SE",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Coragi"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Ponta Brava",
+    "status": "Approved",
+    "description": "Right-hand point on Santiago's northwest coast in the Tarrafal / Ponta do Atum stretch, converting winter west to northwest swell over boulder reef. Mid to high tide is the cleaner window; east to northeast winds offshore. One of the island's better-known reefs south of the town bay, with empty lineups and sharp rock underfoot.",
+    "latitude": 15.265,
+    "longitude": -23.76,
+    "region": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid - High",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Sabi Sabi",
+    "status": "Approved",
+    "description": "Right-hand point on the sheltered west coast just north of Tarrafal de Sao Nicolau, where northwest to north Atlantic swell peels over boulder reef. East to northeast trades often blow offshore into the bay; low to mid tide is the cleaner window. Long walls on a good pulse, empty lineups, rocks and urchins underfoot. Town hotels and cafes sit a short hop south in Tarrafal.",
+    "latitude": 16.575,
+    "longitude": -24.36,
+    "region": {
+      "id": 15
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "N - NW",
+    "windDirection": "E - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sabi-sabi-s-o-nicolau/640b8af64878eb677519d099"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Miradouro",
+    "status": "Approved",
+    "description": "Long exposed sand stretch on Sao Vicente's east coast near Calhau, where north to northeast swell builds beachbreak peaks along an open shore. West to southwest winds clean the faces better than the usual trades; lineups stay empty, rips run hard, and Calhau village is the nearest food stop.",
+    "latitude": 16.86,
+    "longitude": -24.88,
+    "region": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NE",
+    "windDirection": "W - SW",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/miradouro/640b8b02de81d5158709c30b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Salamansa",
+    "status": "Approved",
+    "description": "North-facing fishing-village beach east of Mindelo, shared by surfers and kiters when north to northeast swell fills the bay. South to southwest winds are the cleaner window; northeast trades often blow onshore and mess the peaks. Soft banks suit intermediates on ordinary days; rights can stand up off the eastern headland when size arrives.",
+    "latitude": 16.905,
+    "longitude": -24.945,
+    "region": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NE",
+    "windDirection": "S - SW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/salamansa/640b8ad8de81d5b54509b7d9"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Sao Pedro",
+    "status": "Approved",
+    "description": "Broad sand bay by the airport on Sao Vicente's southwest tip, usually a punchy beachbreak or shore dump when south to southwest swell arrives. Northeast trades often blow offshore into the bay and favour wind sports as much as surfing; strong currents outside the banks are the main watch-out. Village guesthouses and fish restaurants sit behind the sand.",
+    "latitude": 16.826,
+    "longitude": -25.067,
+    "region": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Atlantic/Cape_Verde"
+  },
+  {
+    "name": "Agami",
+    "status": "Approved",
+    "description": "West of Alexandria at El Agamy, an exposed Mediterranean beachbreak where Egypt's modern wave-surf scene took root. North windswell builds left and right peaks over sand through winter, with southeast winds the cleaner option and any tide workable. Surf schools and hotels sit behind the beach; crowds can thicken on the better days.",
+    "latitude": 31.13,
+    "longitude": 29.78,
+    "region": {
+      "id": 17
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Agami"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Cairo"
+  },
+  {
+    "name": "Alexandria",
+    "status": "Approved",
+    "description": "Egypt's main Mediterranean surf city, where winter north swell lights up sandy beachbreaks and mixed rock corners along the hotel-lined coast. Southeast winds clean the faces; summers usually go flat or wind-chopped. Soft peaks suit beginners when size is modest, with a livelier local scene than the quieter west toward Matruh. Wave surfing only - not the Red Sea kite lagoons.",
+    "latitude": 31.2,
+    "longitude": 29.92,
+    "region": {
+      "id": 17
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel"
+    ],
+    "hazards": [
+      "Rips",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/alexandria/603fecd5c487aa27ce6387f1"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Cairo"
+  },
+  {
+    "name": "El Corniche",
+    "status": "Approved",
+    "description": "Exposed beachbreak along Alexandria's waterfront corniche, where winter north windswell builds left and right peaks over sand. Southeast winds clean the faces; any tide works. Hotels and cafes line the shore; when it is on, the lineup can get busy for Egypt.",
+    "latitude": 31.26,
+    "longitude": 29.98,
+    "region": {
+      "id": 17
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/El-Corniche"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Cairo"
+  },
+  {
+    "name": "Mandara",
+    "status": "Approved",
+    "description": "East-side Alexandria beachbreak at El Mandara, picking up the same winter north swell as the corniche with a touch more shelter from northeast wind. East-southeast is the cleaner offshore; rocks in the impact zone. Quieter than the central corniche on most days.",
+    "latitude": 31.28,
+    "longitude": 30.01,
+    "region": {
+      "id": 17
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "E - SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Mandara"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Cairo"
+  },
+  {
+    "name": "Shatby",
+    "status": "Approved",
+    "description": "Sandbar peaks in front of the Library of Alexandria stretch, where north windswell throws lefts and rights over sand. South-southeast winds preferred; works through the tide and rarely crowds even when rideable. Soft city wave, winter window.",
+    "latitude": 31.21,
+    "longitude": 29.92,
+    "region": {
+      "id": 17
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "S - SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Shatby"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Cairo"
+  },
+  {
+    "name": "Agiba Cove",
+    "status": "Approved",
+    "description": "Cliff-backed cove about 24 km west of Marsa Matruh where a left peels over shallow, sharp reef when solid northwest swell wraps into the bay. Needs real size to stand up; southwest wind cleans the face. Intermediate wave for paddlers who can handle reef - a tourist swimming cove on calm days, a serious takeoff when the Med fires.",
+    "latitude": 31.415,
+    "longitude": 27.007,
+    "region": {
+      "id": 18
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "W - NW",
+    "windDirection": "SW",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Reef"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surfnerd.com/surf-forecast/agiba-cove"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Cairo"
+  },
+  {
+    "name": "Marsa Matrouh",
+    "status": "Approved",
+    "description": "Western Mediterranean hub where Cairo and Alexandria surfers chase bigger winter north swell than the city beaches further east. Open sand and mixed rock along the bay and west toward Agiba; south to southeast winds are the cleaner window. More punch than Alexandria on a solid pulse, still wave surfing on Med swell rather than Red Sea wind sports.",
+    "latitude": 31.35,
+    "longitude": 27.24,
+    "region": {
+      "id": 18
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "N - NW",
+    "windDirection": "S - SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Mediterranean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/marsa-matrouh/603ff0d8e531e58d088fec14"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Cairo"
+  },
+  {
+    "name": "Elmina",
+    "status": "Approved",
+    "description": "Historic fort town on the Central Region coast where a rocky right point picks up south groundswell from the Gulf of Guinea. North winds clean the face; the wave works through the tide and usually stays empty despite the tourist traffic ashore. Rocks in the impact zone keep it an intermediate paddle rather than a soft intro session.",
+    "latitude": 5.07,
+    "longitude": -1.38,
+    "region": {
+      "id": 22
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/elmina/584204214e65fad6a7709b85"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Fete",
+    "status": "Approved",
+    "description": "Long multi-section right wrapping the headland at Gomoa Fetteh, where south swell links walls over rock and mixed bottom when tide and angle cooperate. North to northwest winds are the cleaner window; mid to high tide helps the sections connect. Resort access from the beach strip, with submerged rocks the main hazard and lineups that stay quiet most days.",
+    "latitude": 5.42,
+    "longitude": -0.46,
+    "region": {
+      "id": 22
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/fete/6409f8fcb6d7697a09401d0e"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Fort Good Hope",
+    "status": "Approved",
+    "description": "Reef and point setup under the old fort at Senya Beraku, peeling right on south swell along the Central Region shore. North to northwest winds groom the face; any tide can work when volume is there. Longer walls appear on solid pulses, with rocks underfoot and almost nobody in the water outside peak travel weeks.",
+    "latitude": 5.38,
+    "longitude": -0.5,
+    "region": {
+      "id": 22
+    },
+    "type": "Point Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.2,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/fort-good-hope/584204214e65fad6a7709b86"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Kokrobite",
+    "status": "Approved",
+    "description": "Main day-trip surf village west of Accra, where exposed sand peaks and mixed rock corners light up on south to southwest groundswell. North winds are the classic offshore; any tide works for soft lefts and rights that suit learners when size is modest. Hostels, cafes, and surf schools sit behind the beach; the lineup thickens on weekends but rarely packs out.",
+    "latitude": 5.5,
+    "longitude": -0.35,
+    "region": {
+      "id": 22
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hostel",
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/kokrobite/584204214e65fad6a7709b88"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "St. Charles",
+    "status": "Approved",
+    "description": "Right-hand reef and point near Anomabu's Fort St. Charles, picking up south swell on a fairly exposed Central Region stretch. North winds clean the faces; the wave holds through the tide with rock in the takeoff zone. Quieter than the Accra day-trip beaches, with town food and guesthouses a short walk from the shore.",
+    "latitude": 5.18,
+    "longitude": -1.12,
+    "region": {
+      "id": 22
+    },
+    "type": "Point Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/st-charles/584204214e65fad6a7709b8e"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Tills",
+    "status": "Approved",
+    "description": "Sand beach peaks in front of the resort strip at Gomoa Fetteh, usually softer and more forgiving than the rocky right that wraps the same headland. South to southwest swell builds lefts and rights; west to northwest winds often feel cleaner here than further along the point. Beginner-friendly when small, with rocks shared with the neighbouring ledge on bigger days.",
+    "latitude": 5.415,
+    "longitude": -0.455,
+    "region": {
+      "id": 22
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "W - NW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tills/6409f904b6d76996ff401dca"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "University",
+    "status": "Approved",
+    "description": "Exposed beachbreak by the university and castle stretch of Cape Coast, where south swell throws left and right peaks over sand and scattered rock. North winds with a bit of west shelter clean the faces; any tide works. City food and lodging sit close behind the sand, and the lineup stays light even when rideable.",
+    "latitude": 5.12,
+    "longitude": -1.21,
+    "region": {
+      "id": 22
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/university/584204214e65fad6a7709b87"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Accra",
+    "status": "Approved",
+    "description": "Capital-coast forecast pin on Greater Accra's urban shoreline, where south groundswell builds soft beach peaks over sand for day sessions close to the city. North to northwest winds are the cleaner window; any tide can produce rideable lefts and rights when energy is up. Hotels and street food sit behind the beach; treat it as an Accra check rather than a destination wave.",
+    "latitude": 5.576,
+    "longitude": -0.159,
+    "region": {
+      "id": 23
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/accra/6409f8f8451905009f8b92ca"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Labadi Beach",
+    "status": "Approved",
+    "description": "Exposed sand beachbreak on Accra's La shoreline, one of the capital's most surfed peaks when south swell arrives with north-northwest wind. Left and right banks work through the tide; rocks show in places and rips pick up on solid days. Hotels and beach clubs sit on the sand, so access is easy and the water can feel busier than quieter towns west of the city.",
+    "latitude": 5.56,
+    "longitude": -0.14,
+    "region": {
+      "id": 23
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Paid",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/labadi-beach/584204214e65fad6a7709b89"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Nyanyanu",
+    "status": "Approved",
+    "description": "River-influenced stretch west of Accra toward the Central Region fringe, where south swell throws a punchy right over sand with strong rips in the channel. Low tide is the cleaner window; north to northwest winds help shape the face. Intermediate paddle when the bank is defined, with light food and lodging in the village behind the mouth.",
+    "latitude": 5.47,
+    "longitude": -0.41,
+    "region": {
+      "id": 23
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Low",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/nyanyanu/6409f8fdb6d7694d09401c6c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Pram Pram",
+    "status": "Approved",
+    "description": "Beach and reef mix east of Accra toward Ningo, where south to southwest swell hits mixed bottom and builds lefts and rights for more experienced surfers. North to northwest winds clean the faces; rocks and the odd man-made obstruction sit in the zone. Town amenities are nearby, crowds stay low, and the wave asks more commitment than the soft city sandbanks.",
+    "latitude": 5.72,
+    "longitude": 0.12,
+    "region": {
+      "id": 23
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Supermarket"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/pram-pram/584204214e65fad6a7709b8a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Ankobra",
+    "status": "Approved",
+    "description": "Surfline pin at the Ankobra River mouth west of Axim, where south to southwest groundswell meets an exposed Western Region sand stretch. Forecast coverage is stronger than published break guides, so expect rivermouth rips and shifting banks rather than a fixed point. Remote relative to Busua; treat skill and tide as open until you see the bank.",
+    "latitude": 4.8873,
+    "longitude": -2.2654,
+    "region": {
+      "id": 24
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.2,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ankobra/6409f90599dd44e8b2f217ba"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Assini",
+    "status": "Approved",
+    "description": "Far-western Ghana pin near Half Assini (Awiane) on the Ivory Coast approaches, where open sand beach picks up south to southwest swell with little published spot detail. North to northeast winds are the usual grooming pattern for this coast. Sparse infrastructure compared with Busua; coords mark the town beach. Surfline's Assini forecast node is Ivory Coast Assinie-Mafia near Abidjan, not this pin, so no Surfline link here.",
+    "latitude": 5.0398,
+    "longitude": -2.89,
+    "region": {
+      "id": 24
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Axim",
+    "status": "Approved",
+    "description": "Exposed beach and reef around the fort town west of Cape Three Points, where southwest swell builds left and right peaks for intermediate to advanced surfers. Northeast winds clean the faces; rocks sit through the zone and crowds stay rare. Hotels and restaurants in town support a short stay if you are staging further west than Busua.",
+    "latitude": 4.87,
+    "longitude": -2.25,
+    "region": {
+      "id": 24
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.2,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/axim/584204214e65fad6a7709b82"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Betty's",
+    "status": "Approved",
+    "description": "Surfline forecast pin on the Western Region coast near the Takoradi approaches, with south to southwest swell and north wind the regional pattern but little independent break writeup. Seeded for map completeness from the Surfline node; confirm bottom and shape on arrival rather than from a published guide.",
+    "latitude": 4.8733,
+    "longitude": -1.7784,
+    "region": {
+      "id": 24
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/betty-s/584204214e65fad6a7709b84"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Black Mamba",
+    "status": "Approved",
+    "description": "Fast right point over boulders on the western side of the Busua bay, also called Busua Point in older atlases. South to southwest swell and north wind light it up best around mid tide, with hollow sections that ask for precise positioning. Intermediate to advanced only; short walk or paddle from the village, usually empty when the main sand beach is busy with schools.",
+    "latitude": 4.8004,
+    "longitude": -1.9381,
+    "region": {
+      "id": 24
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Advanced",
+    "tide": "Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel",
+      "Hostel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/busua-beach/584204214e65fad6a7709b83"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Busua Beach",
+    "status": "Approved",
+    "description": "Ghana's main surf hub, a crescent of sand west of Takoradi where south to southwest swell builds playful left and right peaks for learners and intermediates. North winds clean the bay; mid to high tide usually shapes better than low, when sections close out more. Surf camps, cafes, and guesthouses line the village; rips and western rocks are the watch-outs when size is up.",
+    "latitude": 4.808,
+    "longitude": -1.934,
+    "region": {
+      "id": 24
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel",
+      "Guesthouse",
+      "Campsite"
+    ],
+    "hazards": [
+      "Rips",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/busua-beach/584204214e65fad6a7709b83"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Cape Three Points",
+    "status": "Approved",
+    "description": "Southern tip of Ghana's mainland, where an exposed rocky right wraps the headland on south to southwest swell with northeast wind the cleaner window. Longer mellow walls suit intermediates when the angle is right; rising tide often helps. Dirt-track access and lodge stays near the point, with rocks throughout and almost nobody sharing the peak.",
+    "latitude": 4.74,
+    "longitude": -2.09,
+    "region": {
+      "id": 24
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.4,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/cape-three-points/584204214e65fad6a7709b80"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Dixcove",
+    "status": "Approved",
+    "description": "Punchy right under Fort Metal Cross, a short hop west of Busua along the Western Region shore. South to southwest groundswell and north to northeast wind define the window; the takeoff is steep over rock before the wave fades toward the channel. Intermediate to advanced, light crowds, with village food and rooms near the fort and occasional pollution in the bay.",
+    "latitude": 4.78,
+    "longitude": -1.95,
+    "region": {
+      "id": 24
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.7,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/dixcove/6409f8fb4eb375644f83432e"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Fort Sebastian",
+    "status": "Approved",
+    "description": "Exposed right point near Shama and Fort San Sebastian, on the coast toward Takoradi. South swell and north wind are the classic combo; the wave holds through the tide over rock with little company in the water. Staging from Takoradi or Shama for food and beds, street parking by the shore.",
+    "latitude": 4.92,
+    "longitude": -1.75,
+    "region": {
+      "id": 24
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/fort-sebastian/584204214e65fad6a7709b9a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Katakor",
+    "status": "Approved",
+    "description": "Reef break near Akwidaa and the Cape Three Points stretch, where south to southwest swell hits uneven reef and throws lefts and rights for experienced paddlers. North to northwest winds help; urchins and rock are real. Lodge and restaurant options sit in the bay area, and the lineup stays empty most of the year.",
+    "latitude": 4.75,
+    "longitude": -2.05,
+    "region": {
+      "id": 24
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.2,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/katakor/584204214e65fad6a7709b9c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Mutrakni Point",
+    "status": "Approved",
+    "description": "Exposed left point on the Western Region coast west of Busua, peeling on southwest swell with northeast wind the cleaner offshore. Rocks line the takeoff; the wave asks intermediate to advanced commitment and almost never draws a crowd. Sparse beach services compared with the Busua village strip.",
+    "latitude": 4.79,
+    "longitude": -2.17,
+    "region": {
+      "id": 24
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.2,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mutrakni-point/6409f8fae9203082f88cc1dd"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Takoradi",
+    "status": "Approved",
+    "description": "Port-city right reef on the Western Region coast, where south to southwest swell hits rock with north wind the grooming breeze. Intermediate wave with industrial staging rather than a surf-village feel; full town amenities for food and lodging if you are transferring toward Busua. Rocks in the zone, crowds rare.",
+    "latitude": 4.89,
+    "longitude": -1.75,
+    "region": {
+      "id": 24
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub",
+      "Supermarket"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/takoradi/6409f903451905179b8b94e7"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Accra"
+  },
+  {
+    "name": "Plage de Lido",
+    "status": "Approved",
+    "description": "Urban sand beachbreak on Port-Bouët's Atlantic front in Abidjan, used as a local training beach with regular city traffic in the water. Peaks pick up south Atlantic swell; north to northeast Harmattan mornings are cleaner before afternoon onshores mess the face. Lifeguards, food stalls, and board rental sit on the beach; rips are the main hazard on bigger days.",
+    "latitude": 5.2522,
+    "longitude": -4.0014,
+    "region": {
+      "id": 25
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-de-lido/6409ecdd4eb37584da807a12"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "Dagbego",
+    "status": "Approved",
+    "description": "Sandbar beachbreak near the Dagbé river mouth east of Sassandra, usually ridden as a right. Fairly consistent on south swell with north to northwest offshore; holds through the tide and stays empty. Also spelled Dabego on some forecast pages; same peak, not a second break. Coastal lodges and track access serve the strip.",
+    "latitude": 4.99,
+    "longitude": -5.97,
+    "region": {
+      "id": 26
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.2,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/dagbego/584204214e65fad6a7709cc8"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "Grand Dréwin",
+    "status": "Approved",
+    "description": "Right-hand point into a small sandy cove by a fishing village west of Sassandra, peeling over mixed reef and sand when solid south swell arrives. North to northwest winds clean the face; the wave works through the tide with rocks and currents in the zone. One of the west coast's better rights on a proper South Atlantic pulse, usually empty.",
+    "latitude": 4.9,
+    "longitude": -6.18,
+    "region": {
+      "id": 26
+    },
+    "type": "Point Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Grand-Drewin_1"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "Monogaga",
+    "status": "Approved",
+    "description": "Sheltered bay reef between Sassandra and San-Pédro that only wakes up on large south to southwest swell. Long right rides over rocky reef with sand patches once the bay is working; all tides. Access is a rough bush track to a fishing village; surfers are rare and services thin. Not on Surfline; use Surf-Forecast for the pin.",
+    "latitude": 4.8,
+    "longitude": -6.45,
+    "region": {
+      "id": 26
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.5,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "None",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Monogaga"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "San-Pédro",
+    "status": "Approved",
+    "description": "Mix of beach peaks and reef sections along the San-Pédro coast, where south swell builds lefts and rights for a port-city session. North to northwest mornings clean the faces before afternoon onshore; rocks and currents matter once size builds. Full town food and lodging; crowds stay small compared with Assinie.",
+    "latitude": 4.72,
+    "longitude": -6.63,
+    "region": {
+      "id": 26
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Supermarket"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Hostel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/san-pedro/6408ee48606c455e73721fde"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "Sassandra",
+    "status": "Approved",
+    "description": "Exposed right reef at the Sassandra headland and rivermouth on the Bas-Sassandra coast. South groundswell with north to northwest offshore is the classic window; rocks in the impact zone. Town restaurants and simple lodging sit close; quieter than Assinie even when the reef is working.",
+    "latitude": 4.94,
+    "longitude": -6.09,
+    "region": {
+      "id": 26
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NW",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sassandra/584204214e65fad6a7709cc7"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "Assinie",
+    "status": "Approved",
+    "description": "Main east-of-Abidjan surf hub on the Assinie-Mafia sand strip between the Aby Lagoon and the Gulf of Guinea. Fast beach peaks left and right on south swell; north to northeast Harmattan mornings are the cleaner window. Surf camps and lodges at Assouindé and Assinie supply boards and lessons; Surfline spells the pin Assini.",
+    "latitude": 5.13,
+    "longitude": -3.35,
+    "region": {
+      "id": 27
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/assini/6408ea234519054dbe5d23b9"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "La Passe",
+    "status": "Approved",
+    "description": "Beachbreak peaks at the eastern outlet where the Assinie lagoon system meets the Atlantic, with lefts and rights beside a stronger channel and rips. Same south swell and north to northeast offshore window as the Assinie strip; tide range is small so tide rarely locks you out. Quieter than the main camp peaks on most days.",
+    "latitude": 5.12,
+    "longitude": -3.28,
+    "region": {
+      "id": 27
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.2,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/la-passe/584204214e65fad6a7709cc9"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "Grand-Lahou",
+    "status": "Approved",
+    "description": "Exposed beachbreak west of Abidjan at the Bandama river and lagoon mouth on the Lagunes coast. Lefts and rights on south swell with north offshore; lineups stay thin. Town services are basic compared with Assinie; rips on the better banks are the main watch-out.",
+    "latitude": 5.14,
+    "longitude": -5.02,
+    "region": {
+      "id": 28
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/grand-lahou/584204214e65fad6a7709cca"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Abidjan"
+  },
+  {
+    "name": "Tico's",
+    "status": "Approved",
+    "description": "Exposed beachbreak near Buchanan in Grand Bassa County, about fifteen minutes from town on the track past the steel works and a small river bridge. Southwest groundswell builds left and right peaks over sand when northeast wind cleans the face; the spot is inconsistent but empty when it works. Urchins and rips are the main hazards on a proper pulse.",
+    "latitude": 5.84,
+    "longitude": -10.03,
+    "region": {
+      "id": 30
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tico-s/584204214e65fad6a7709b99"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Cassava",
+    "status": "Approved",
+    "description": "Left-hand point on the Robertsport peninsula in Grand Cape Mount County, one of the named sections along the Lake Piso headland chain. Southwest groundswell wraps into long walls over mixed rock and sand; northeast wind is the cleaner window. Less written up than Cotton Trees, but still a real session choice when the points are firing, with rocks and rips in the zone.",
+    "latitude": 6.745,
+    "longitude": -11.39,
+    "region": {
+      "id": 31
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/cassava/6409ee7f99dd44578cefacf0"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Cotton Trees",
+    "status": "Approved",
+    "description": "Flagship left on the Robertsport coast, named for the giant cotton trees above the takeoff near the lodge strip. On ordinary days it splits into inner and outer sections; on a solid southwest pulse the walls can link for a long run over rock and sand. Northeast offshore is preferred, with falling tide often best; rocks and currents keep it intermediate to advanced when size builds.",
+    "latitude": 6.75,
+    "longitude": -11.38,
+    "region": {
+      "id": 31
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Low - Mid",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/cotton-trees/6409ee814519052e0d892957"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "El Loco",
+    "status": "Approved",
+    "description": "Exposed left reef a short walk southwest of the main Robertsport lodge strip, also called Locos by local guides. Southwest swell and northeast wind are the classic combo; falling high tide helps the sections. More wind-exposed than the inner points, with rocks and rips and almost nobody sharing the peak. Forecast coverage is on Surf-Forecast rather than Surfline.",
+    "latitude": 6.73,
+    "longitude": -11.385,
+    "region": {
+      "id": 31
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "High",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "None",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/El-Loco"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Fisherman's Point",
+    "status": "Approved",
+    "description": "Longest, most forgiving left in the Robertsport bay, where fishing boats pull up on the sand and local kids learn on the inside. Soft walls over sand and rock on southwest swell; east wind offers some shelter when the outer points are blown. Works through the tide from waist high into rare hollow days, with rips and rocks still in play once it grows.",
+    "latitude": 6.755,
+    "longitude": -11.37,
+    "region": {
+      "id": 31
+    },
+    "type": "Point Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/fisherman-s-point/584204214e65fad6a7709b96"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Robertsport",
+    "status": "Approved",
+    "description": "Classic left along the Cape Mount peninsula that put this fishing town on the West African surf map. Long walls peel over flat rock and sand on southwest groundswell when northeast wind cleans the face; holds from chest high into solid overhead. Experienced paddlers get the best of it on the fuller days, with rocks and rips in the impact zone and lodges and the surf club close behind the beach.",
+    "latitude": 6.75,
+    "longitude": -11.367,
+    "region": {
+      "id": 31
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/robertsport/584204214e65fad6a7709b97"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Shipwreck",
+    "status": "Approved",
+    "description": "Left reef a short beach walk southwest of Cotton Trees, used when the inner Robertsport points are flat or blown. Southwest swell and northeast wind light it up; falling high tide is the usual call. Fun rather than world class, with rocks, rips, and empty lineups. Charted on Surf-Forecast; local guides treat it as a regular backup peak.",
+    "latitude": 6.74,
+    "longitude": -11.382,
+    "region": {
+      "id": 31
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "High",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "None",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Shipwreck"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Bernard Beach",
+    "status": "Approved",
+    "description": "Sand beachbreak in Sinkor near Old Road Junction, also known as Barn's Beach on older atlases. Southwest swell builds left and right peaks for a quick capital session; southeast to east wind can help before afternoon onshore. City food and lodging sit close; rips on the better banks are the main watch-out, and water quality varies with urban runoff.",
+    "latitude": 6.29,
+    "longitude": -10.775,
+    "region": {
+      "id": 32
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "SE - E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/bernard-beach/6409ee84e92030709f8a59a6"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Coopers Beach",
+    "status": "Approved",
+    "description": "Open sand peaks on the Montserrado coast east of central Monrovia, a Surfline pin used by locals when the capital strip has swell. Southwest groundswell with lighter morning wind is the cleaner window; lefts and rights over sand. Sparse writeups outside the forecast map, so treat fields as approximate; rips on bigger days.",
+    "latitude": 6.27,
+    "longitude": -10.74,
+    "region": {
+      "id": 32
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/coopers-beach/6409ee86606c458ad49d2080"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Dorothy's",
+    "status": "Approved",
+    "description": "Sand beachbreak on the Monrovia coast near the Mumba Point stretch, charted on Surfline with limited guide detail. Southwest swell builds short lefts and rights; morning offshore or light wind before the sea breeze. Urban access and amenities nearby; rips and variable water quality come with the capital setting.",
+    "latitude": 6.33,
+    "longitude": -10.8,
+    "region": {
+      "id": 32
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/dorothy-s/6409ee7e45190585a98928a8"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Mumba Point",
+    "status": "Approved",
+    "description": "Left point on Monrovia's rocky waterfront, also spelled Mamba Point in older guides and Stormrider history. Southwest swell wraps the curved rock coast into hollow walls when southeast wind is offshore; works through the tide. City access is instant, with rocks, rips, and pollution in the mix, and crowds stay light even when it is on.",
+    "latitude": 6.32,
+    "longitude": -10.82,
+    "region": {
+      "id": 32
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mumba-point/584204214e65fad6a7709b98"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Tropicana",
+    "status": "Approved",
+    "description": "Sand beachbreak at Thinkers Village east of central Monrovia, in front of the Tropicana beach club strip. Southwest swell builds left and right peaks over sand; lighter morning wind before onshore. Resort food and lodging sit on the beach; entry fees and weekend crowds are more of a social scene than a heavy surf destination, with rips on solid days.",
+    "latitude": 6.235,
+    "longitude": -10.68,
+    "region": {
+      "id": 32
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Pub"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Paid",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tropicana/6409ee824519050a298929b1"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Monrovia"
+  },
+  {
+    "name": "Lavanono",
+    "status": "Approved",
+    "description": "Remote left reef on Madagascar's deep south coast in Androy, reached by long 4x4 track from Fort Dauphin or Toliara. Southern Ocean groundswell peels over rocky reef when easterly trades clean the face; July through November is the usual window. Intermediate to advanced, empty lineups, rocks in the zone, with a simple lodge in the fishing village for staging.",
+    "latitude": -25.42,
+    "longitude": 44.94,
+    "region": {
+      "id": 33
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "E",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Ambinanibe",
+    "status": "Approved",
+    "description": "Exposed beachbreak south of Fort Dauphin on the Anosy coast, also called Vinanibe on older maps. South to southwest swell builds punchy peaks over sand; north wind is the cleaner window. Can get heavy on a solid pulse, with rips and a short drive from town for food and beds.",
+    "latitude": -25.07,
+    "longitude": 46.92,
+    "region": {
+      "id": 34
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ambinanibe-vinanibe-/663d0d9dbef8601019162389"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Baie de Galion",
+    "status": "Approved",
+    "description": "Sheltered bay on the Fort Dauphin peninsula in Anosy, picking up south swell that wraps into left and right peaks over mixed bottom. Northeast to north wind helps; a flexible option when the more exposed points are blown. Town access is quick, with rocks and rips still in play on bigger days.",
+    "latitude": -25.04,
+    "longitude": 47.01,
+    "region": {
+      "id": 34
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "N - NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/baie-de-galion/584204214e65fad6a7709c40"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Baie des Singes",
+    "status": "Approved",
+    "description": "Southeast-facing bay near Fort Dauphin used as the local learner and improver hub, with soft inside peaks and more size on the outer banks when south swell arrives. Northeast wind is often offshore on this aspect; surf school shacks sit above the high-tide line. Softer than Monseigneur, with rips once it grows.",
+    "latitude": -25.02,
+    "longitude": 46.97,
+    "region": {
+      "id": 34
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/baie-des-singes/584204214e65fad6a7709c3e"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Libanona",
+    "status": "Approved",
+    "description": "Exposed reef and beach peaks on Fort Dauphin's town waterfront, one of the most accessible Anosy sessions. South to southwest swell with north offshore; lefts and rights over rock and sand. Works often enough to be a daily check, with rips and rocks and full town amenities behind the beach.",
+    "latitude": -25.03,
+    "longitude": 46.99,
+    "region": {
+      "id": 34
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "N",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe",
+      "Supermarket"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/libanona/584204214e65fad6a7709c3f"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Monseigneur",
+    "status": "Approved",
+    "description": "Right-hand point into Monseigneur Bay at Fort Dauphin, peeling workable walls for long rides when southwest swell and west wind align. The classic Anosy right for intermediate paddlers; rocks and rips in the zone. Short access from town, usually empty outside peak travel weeks.",
+    "latitude": -25.03,
+    "longitude": 47.0,
+    "region": {
+      "id": 34
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW",
+    "windDirection": "W",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/monseigneur/584204214e65fad6a7709c3d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Chefs",
+    "status": "Approved",
+    "description": "Exposed left point on the Vezo reef chain south of Toliara in Atsimo-Andrefana, reached by boat from the Anakao or Saint Augustin staging. South swell with northeast offshore; coral, sharks, and rocks are real. Fairly consistent in the austral winter window, empty when it is on.",
+    "latitude": -23.68,
+    "longitude": 43.63,
+    "region": {
+      "id": 35
+    },
+    "type": "Point Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks",
+      "Sharks"
+    ],
+    "parking": "None",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/chefs/584204214e65fad6a7709c3c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Flame Balls",
+    "status": "Approved",
+    "description": "Flagship left reef on the Vezo barrier south of Toliara, also spelled Flameballs or Flame Bowls. Fast, hollow walls over shallow coral when south swell meets southeast offshore and tide lines up; mornings before the afternoon SE trade are the usual window. Boat access only, advanced when it is overhead, with sharks and reef cuts part of the deal.",
+    "latitude": -23.64,
+    "longitude": 43.6,
+    "region": {
+      "id": 35
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S",
+    "windDirection": "SE",
+    "skillLevel": "Advanced",
+    "tide": "Mid - High",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": false,
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Sharks"
+    ],
+    "parking": "None",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/flame-balls/584204214e65fad6a7709c39"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Googles",
+    "status": "Approved",
+    "description": "Boat reef near Saint Augustin and the Onilahy mouth south of Toliara, charted on Surfline under the Belitsaka nest. South swell and easterly offshore light up left and right sections over coral; tide knowledge matters. Thin guide writeups outside forecast maps, so treat some fields as approximate; coral and sharks in the zone.",
+    "latitude": -23.55,
+    "longitude": 43.76,
+    "region": {
+      "id": 35
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Sharks"
+    ],
+    "parking": "None",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Ifaty",
+    "status": "Approved",
+    "description": "Reef setups off the Ifaty coast north of Toliara, where south swell wraps the barrier into rideable peaks for boat or pirogue sessions. East to northeast wind cleans the faces; coral bottom and sharks. More of a zone pin than a single peak, with resort staging on shore and empty water most days.",
+    "latitude": -23.15,
+    "longitude": 43.61,
+    "region": {
+      "id": 35
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S - SW",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Sharks"
+    ],
+    "parking": "Free",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ifaty/584204214e65fad6a7709c37"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Jelly Babies",
+    "status": "Approved",
+    "description": "Sheltered right reef tucked inside the Flame Balls island chain on the Vezo barrier, a rarer right option when south swell funnels through a narrow channel. Northeast offshore preferred; often smaller and softer than the outer lefts. Boat access, coral and sharks, usually empty.",
+    "latitude": -23.64,
+    "longitude": 43.605,
+    "region": {
+      "id": 35
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks",
+      "Sharks"
+    ],
+    "parking": "None",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/jelly-babies/584204214e65fad6a7709c3a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Puss Puss",
+    "status": "Approved",
+    "description": "Exposed right reef next to Flame Balls on the Vezo chain, also written Puss-Puss or Pousse Pousse. South swell with northeast offshore; very consistent for the area when tide and wind cooperate. Boat only, coral sharks and rocks, empty lineups.",
+    "latitude": -23.65,
+    "longitude": 43.6,
+    "region": {
+      "id": 35
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Sharks"
+    ],
+    "parking": "None",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/puss-puss/584204214e65fad6a7709c3b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Resorts",
+    "status": "Approved",
+    "description": "Left and right reef sections on the Vezo barrier near the Anakao lodge strip, charted as Resorts or Resort on forecast sites. South swell with southeast offshore; boat access from the village. Coral and sharks, fairly consistent in winter, rarely crowded.",
+    "latitude": -23.61,
+    "longitude": 43.66,
+    "region": {
+      "id": 35
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse",
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks",
+      "Sharks"
+    ],
+    "parking": "None",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/resorts/6425acca4d6ed3347f3d8da7"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "TT's",
+    "status": "Approved",
+    "description": "Sheltered left reef on the Sarodrano sandspit south of Toliara, also called Tony's Tavarua in older guides. South swell with east-northeast offshore; boat from shore, hollow when lined up. Inconsistent and tidal, with sharks and rocks; empty when it works.",
+    "latitude": -23.52,
+    "longitude": 43.73,
+    "region": {
+      "id": 35
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S",
+    "windDirection": "E - NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks",
+      "Sharks"
+    ],
+    "parking": "None",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tt-s/584204214e65fad6a7709c38"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Antananarivo"
+  },
+  {
+    "name": "Djeno Point",
+    "status": "Approved",
+    "description": "Left-hand point about 30 km south of Pointe-Noire, peeling over uneven reef and sand when solid southwest swell wraps the headland. Northeast wind cleans the face; rising tide usually helps. ENI oil terminal sits on the same coast, so tar balls on the sand and in the water are part of the deal. Empty lineup for intermediate surfers who can handle rock in the impact zone.",
+    "latitude": -4.926,
+    "longitude": 11.932,
+    "region": {
+      "id": 59
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/djeno-point/6409fb37b6d76913ba409e19"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Brazzaville"
+  },
+  {
+    "name": "M'Vassa",
+    "status": "Approved",
+    "description": "Reef break further south along the Kouilou coast near Kotchi, where southwest swell peels left and right over uneven reef and turtles sometimes share the lineup. Northeast offshore is the grooming wind; rising tide preferred. Access is rough and remote, so treat it as an intermediate mission rather than a casual paddle.",
+    "latitude": -4.95,
+    "longitude": 11.96,
+    "region": {
+      "id": 59
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 1.8,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/m-vassa/6409fb39e92030019f8d45d0"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Brazzaville"
+  },
+  {
+    "name": "Mukiwa Beach",
+    "status": "Approved",
+    "description": "Open sand beach fronting the Mukiwa Beach Club on the Djeno strip, where southwest groundswell builds left and right peaks over sand. Northeast trades clean the faces; beach restaurants and bungalows sit behind the dunes. Tar from the nearby oil coast and rips on bigger days are the main watch-outs. Softer option when the point next door is too solid.",
+    "latitude": -4.931,
+    "longitude": 11.938,
+    "region": {
+      "id": 59
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mukiwa-beach/6409fb3eb6d769a0b940a01b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Brazzaville"
+  },
+  {
+    "name": "Cote Sauvage",
+    "status": "Approved",
+    "description": "Exposed beach and reef stretch on Pointe-Noire's Atlantic front, reliable on west-southwest swell with northeast offshore. Lefts off the sand and a left reef section when energy is up; no real shelter from cross shore. Bigger pulses turn this stretch heavy. Hotels and cafes behind the beach, crowds almost never an issue.",
+    "latitude": -4.81,
+    "longitude": 11.84,
+    "region": {
+      "id": 60
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW - W",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/cote-sauvage/6409fb3de920302fd78d46cb"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Brazzaville"
+  },
+  {
+    "name": "La Plage Sportive",
+    "status": "Approved",
+    "description": "Reef-held sand beachbreak in Mpita where left and right peaks stay shaped through a wide size range. Southwest swell and northeast wind are the classic combo; works across the tide with rising usually best. Beach restaurants and showers on the sand, friendly for beginners when it is waist to chest, more serious once it pushes overhead.",
+    "latitude": -4.809,
+    "longitude": 11.86,
+    "region": {
+      "id": 60
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 2.4,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/la-plage-sportive/6409fb34b6d7698fc6409cd6"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Brazzaville"
+  },
+  {
+    "name": "La Pyramide",
+    "status": "Approved",
+    "description": "Rarely surfed sand peaks beside an old derelict wharf that holds better banks, with a few reefs nearby for extras. South to west swell, northeast offshore, any tide but rising preferred. Expert end of the local scale; rocks and the wharf structure matter in the lineup. Empty even when the city beaches are working.",
+    "latitude": -4.805,
+    "longitude": 11.855,
+    "region": {
+      "id": 60
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Advanced",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 2.4,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/la-pyramide/6409fb36e92030f0418d4499"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Brazzaville"
+  },
+  {
+    "name": "Plage Mondaine",
+    "status": "Approved",
+    "description": "Atlantic city beach on the Ndili waterfront of Pointe-Noire (not the Brazzaville river beach of the same name). Soft left and right sand peaks on south to southwest swell with northeast wind; usually smaller than the Mpita stretch. Cafes and hotels nearby, light crowds, rips on the better days.",
+    "latitude": -4.77,
+    "longitude": 11.83,
+    "region": {
+      "id": 60
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "S - SW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-mondaine/6409fb3a606c45c968a00bd6"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Brazzaville"
+  }
+]
