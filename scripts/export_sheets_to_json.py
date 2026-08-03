@@ -302,7 +302,8 @@ def export_surf_spots(sheets, regions, sub_regions):
             continue
         
         # Column indices match SurfSpots row 1 headers (see README / DESCRIPTIONS.md).
-        # 0-14: name .. max_surf_height; 15-29: food_nearby .. webcams; 30: crowd_level (AE); 31: iana_zone_id (AF).
+        # 0-14: name .. max_surf_height; 15-29: food_nearby .. webcams;
+        # 30: crowd_level (AE); 31: iana_zone_id (AF); 32: is_wsl_tour_stop (AG).
         region_name = row[4] if len(row) > 4 else ''
         sub_region_name = row[5] if len(row) > 5 else ''
         region_id = region_map.get(region_name)
@@ -314,6 +315,7 @@ def export_surf_spots(sheets, regions, sub_regions):
             if len(row) > 31 and row[31] is not None and str(row[31]).strip()
             else None
         )
+        is_wsl_tour_stop = parse_boolean(row[32]) if len(row) > 32 else None
 
         spot = {
             'name': row[0],
@@ -349,6 +351,7 @@ def export_surf_spots(sheets, regions, sub_regions):
             'webcams': parse_comma_separated(row[29]) if len(row) > 29 else None,
             'crowdLevel': crowd_level_parsed,
             'ianaZoneId': iana_zone_id,
+            'isWslTourStop': is_wsl_tour_stop,
         }
         
         # Remove null/undefined/empty string values to keep JSON clean

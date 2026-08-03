@@ -292,6 +292,10 @@ public class SeedService {
             spot.setSubRegion(null);
           }
         }
+        // JSON seed omits this flag; column is NOT NULL so null must not reach Postgres.
+        if (spot.getIsWslTourStop() == null) {
+          spot.setIsWslTourStop(false);
+        }
         boolean skipSwell =
             Boolean.TRUE.equals(spot.getIsWavepool()) || Boolean.TRUE.equals(spot.getIsRiverWave());
         if (!skipSwell && spot.getLatitude() != null && spot.getLongitude() != null) {
