@@ -24,8 +24,7 @@ public class SurfSpotController {
   private final AuthenticatedUserResolver authenticatedUserResolver;
 
   public SurfSpotController(
-      SurfSpotService surfSpotService,
-      AuthenticatedUserResolver authenticatedUserResolver) {
+      SurfSpotService surfSpotService, AuthenticatedUserResolver authenticatedUserResolver) {
     this.surfSpotService = surfSpotService;
     this.authenticatedUserResolver = authenticatedUserResolver;
   }

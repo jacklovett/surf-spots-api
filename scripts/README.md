@@ -45,7 +45,7 @@ These utility scripts manage seed data for the Surf Spots application. They expo
 
 ### Set bucket CORS (Dockerized, reusable for all environments)
 
-Use `set-bucket-cors.ps1` (PowerShell) or `set-bucket-cors.sh` (WSL/Linux/macOS) to apply and verify Object Storage CORS without installing AWS CLI locally.
+Use `set-bucket-cors.ps1` (PowerShell) or `set-bucket-cors.sh` (Linux/macOS) to apply and verify Object Storage CORS without installing AWS CLI locally.
 Both scripts auto-load `../.env` by default, so no manual `source` is required.
 
 From `surf-spots-api/scripts`:
@@ -84,7 +84,7 @@ Custom env file path:
 ```
 
 ```bash
-ENV_FILE=/mnt/c/dev/surf-spots-api/.env ./set-bucket-cors.sh
+ENV_FILE=/path/to/surf-spots-api/.env ./set-bucket-cors.sh
 ```
 
 This command is idempotent and safe to rerun for dev/staging/prod.
@@ -93,63 +93,32 @@ This command is idempotent and safe to rerun for dev/staging/prod.
 
 **Step 1 – Export from Google Sheets**
 
-In a terminal (PowerShell or Command Prompt):
+Use Python 3 (`python3` on macOS/Linux, or `py -3` / `python` on Windows if that is your Python 3).
 
-```powershell
-cd c:\dev\surf-spots-api\scripts
+Credentials are auto-found if the Google service account JSON is in the monorepo root, or set:
+
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS=/path/to/your-service-account.json
 ```
 
-If you use a venv, activate it (optional):
-
-```powershell
-.\venv\Scripts\activate
-```
-
-Install deps once if needed:
-
-```powershell
-pip install -r requirements.txt
-```
-
-Run the export (credentials are auto-found if `surfspots-439420-115e3f376e26.json` is in `c:\dev\`):
-
-```powershell
-python export_sheets_to_json.py
-```
-
-Or set the key explicitly:
-
-```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS = "c:\dev\surfspots-439420-115e3f376e26.json"
-python export_sheets_to_json.py
-```
-
-**Step 2 – Restart the API so the seed runs**
-
-- **Docker:** From `c:\dev\surf-spots-api` run:
-  ```powershell
-  docker-compose -f docker-compose.dev.yml up --build api
-  ```
-  (or `restart api` if already built)
-- **Local (Maven):** From `c:\dev\surf-spots-api` run:
-  ```powershell
-  mvn spring-boot:run
-  ```
-  Stop and start again if it was already running.
-
-The seed runs on startup and updates the DB from the new JSON (links, emergency numbers, order).
-
----
-
-**One-off run (no venv):**
+**Dependencies (once).** Bare `pip install` on many Linux distros fails with `externally-managed-environment` - expected. Use a venv, or skip if the export already imports OK:
 
 ```bash
 cd surf-spots-api/scripts
-# Activate virtual environment if using one:
-# source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m venv venv   # once; on Debian/Ubuntu you may need: sudo apt install python3-venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
+**Export:**
+
+```bash
+cd surf-spots-api/scripts
+# source venv/bin/activate   # if you use the venv
 python3 export_sheets_to_json.py
 ```
+
+**Restart the API** so seed can load new JSON (host `./mvnw spring-boot:run` or Compose as you usually run it).
 
 The script will:
 - Read data from all sheets (Continents, Countries, Regions, SubRegions, SurfSpots)
@@ -172,6 +141,7 @@ The script converts:
 - **Arrays**: Comma-separated strings → JSON arrays
 - **Typical crowd** (`crowd_level`, column AE / index 30): optional; one of `EMPTY`, `FEW`, `BUSY`, `PACKED` (matches `CrowdLevel` in the API)
 - **IANA zone** (`iana_zone_id`, column AF / index 31): optional; e.g. `Pacific/Auckland` for `SurfSpot.ianaZoneId` (session wall-clock at the break; see API)
+- **WSL tour stop** (`is_wsl_tour_stop`, column AG / index 32): required boolean (`TRUE`/`FALSE`); maps to `SurfSpot.isWslTourStop`. Historical CT venue flag (same meaning as contest-link CLI).
 - **Numbers**: String numbers → Numeric values
 - **Bounding boxes**: JSON string arrays → Actual arrays
 

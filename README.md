@@ -11,7 +11,7 @@ docker compose -f docker-compose.dev.yml up -d
 ./mvnw spring-boot:run
 ```
 
-On Windows PowerShell (outside WSL), use `.\mvnw.cmd spring-boot:run` instead of `./mvnw`.
+On Windows PowerShell, use `.\mvnw.cmd spring-boot:run` instead of `./mvnw`.
 
 API: http://localhost:8080 — DevTools reloads on save. Mailpit UI: http://localhost:8025
 
@@ -298,46 +298,40 @@ The seed data is maintained in a Google Sheet with the following tabs:
 
 ### Exporting from Google Sheets
 
-When you're ready to update the seed data:
+When you're ready to update the seed data, use Python 3 (`python3` on macOS/Linux, or `py -3` / `python` on Windows if that is your Python 3).
 
-1. **Install Python dependencies** (if not already done):
-   
+1. **Credentials**:
+   - Place the Google service account JSON in the monorepo root, or set `GOOGLE_APPLICATION_CREDENTIALS` to that file
+   - Service account must have access to the Google Sheet
+
+2. **Dependencies** (once). On many Linux distros, bare `pip install` fails with `externally-managed-environment` - that is expected. Use a venv:
+
    ```bash
    cd surf-spots-api/scripts
+   python3 -m venv venv          # once; on Debian/Ubuntu you may need: sudo apt install python3-venv
+   source venv/bin/activate      # Windows: venv\Scripts\activate
    pip install -r requirements.txt
    ```
-   
-   **Note:** If you don't have `pip` installed, or prefer using a virtual environment:
-   - **Virtual environment (recommended):**
-     ```bash
-     python3 -m venv venv
-     source venv/bin/activate  # On Windows: venv\Scripts\activate
-     pip install -r requirements.txt
-     ```
-   - **System-wide installation:** Use `pip3` or `python3 -m pip` as appropriate for your system
 
-2. **Set up credentials**:
-   - Ensure `GOOGLE_APPLICATION_CREDENTIALS` environment variable points to your service account JSON file
-   - Or place `surfspots-439420-115e3f376e26.json` in the monorepo root (one level up from surf-spots-api)
-   - Make sure the service account has access to the Google Sheet
+   If the export script already runs (Google libs already installed), you can skip this step.
 
 3. **Export the sheets to JSON**:
    ```bash
    cd surf-spots-api/scripts
+   # if using venv: source venv/bin/activate   # Windows: venv\Scripts\activate
    python3 export_sheets_to_json.py
    ```
 
    This will:
+   - Back up existing JSON into `seedData.backup/`
    - Read all data from Google Sheets
    - Convert name-based foreign keys to ID-based references
    - Set `status: "Approved"` for all surf spots automatically
    - Export JSON files to `src/main/resources/static/seedData/`
 
-5. **Review the generated files**:
-   - Check the JSON files in `src/main/resources/static/seedData/`
-   - Verify the data looks correct
+4. **Review the generated files** in `src/main/resources/static/seedData/`
 
-6. **Commit to Git**:
+5. **Commit to Git** when ready, then restart the API if you need a fresh DB seed
 
 ### How SeedService Works
 

@@ -16,8 +16,7 @@ public class WatchListController {
   private final AuthenticatedUserResolver authenticatedUserResolver;
 
   public WatchListController(
-      WatchListService watchListService,
-      AuthenticatedUserResolver authenticatedUserResolver) {
+      WatchListService watchListService, AuthenticatedUserResolver authenticatedUserResolver) {
     this.watchListService = watchListService;
     this.authenticatedUserResolver = authenticatedUserResolver;
   }
