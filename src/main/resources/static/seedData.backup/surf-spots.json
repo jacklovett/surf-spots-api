@@ -35,7 +35,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Algiers"
+    "ianaZoneId": "Africa/Algiers",
+    "isWslTourStop": false
   },
   {
     "name": "Decaplage",
@@ -83,7 +84,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Algiers"
+    "ianaZoneId": "Africa/Algiers",
+    "isWslTourStop": false
   },
   {
     "name": "Plage Mandjane",
@@ -125,7 +127,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Algiers"
+    "ianaZoneId": "Africa/Algiers",
+    "isWslTourStop": false
   },
   {
     "name": "Aïn El Turk",
@@ -165,7 +168,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Algiers"
+    "ianaZoneId": "Africa/Algiers",
+    "isWslTourStop": false
   },
   {
     "name": "Ambriz Beach",
@@ -209,7 +213,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Praia da Musserra",
@@ -244,7 +249,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Praia do Bimbe",
@@ -279,7 +285,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Praia do Golo",
@@ -314,7 +321,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Praia da Chitamba",
@@ -349,7 +357,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Quicombo",
@@ -385,7 +394,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Sumbe",
@@ -427,7 +437,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Barra da Cuanza",
@@ -463,7 +474,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Buraco",
@@ -499,7 +511,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Cabo Ledo",
@@ -542,7 +555,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Chicala",
@@ -584,7 +598,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Miradouro",
@@ -619,7 +634,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Mussulo",
@@ -655,7 +671,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Shipwreck",
@@ -690,7 +707,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Praia da Mucula",
@@ -725,7 +743,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Luanda"
+    "ianaZoneId": "Africa/Luanda",
+    "isWslTourStop": false
   },
   {
     "name": "Boa Vista Bahia",
@@ -768,7 +787,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Praia de Chaves",
@@ -809,7 +829,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Praia de Santa Monica",
@@ -841,7 +862,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Alibaba",
@@ -877,7 +899,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Curral Joul",
@@ -913,7 +936,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Fontana",
@@ -948,7 +972,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Fragata",
@@ -984,7 +1009,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Monte Grande Beach",
@@ -1019,7 +1045,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Monte Leão",
@@ -1054,7 +1081,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Nhã Marco",
@@ -1084,7 +1112,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Palha Verde",
@@ -1114,7 +1143,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Palmeira",
@@ -1156,7 +1186,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Ponta do Sino",
@@ -1199,7 +1230,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Ponta Preta",
@@ -1243,7 +1275,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Prainha",
@@ -1282,7 +1315,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Reguinho",
@@ -1312,7 +1346,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Rife",
@@ -1344,7 +1379,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Santa Maria",
@@ -1394,7 +1430,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Spoutnik",
@@ -1436,7 +1473,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Caju",
@@ -1477,7 +1515,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Chao Bom",
@@ -1509,7 +1548,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Cocos Beach Praia",
@@ -1551,7 +1591,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Coragi",
@@ -1594,7 +1635,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Ponta Brava",
@@ -1626,7 +1668,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Sabi Sabi",
@@ -1669,7 +1712,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Miradouro",
@@ -1707,7 +1751,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Salamansa",
@@ -1748,7 +1793,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Sao Pedro",
@@ -1788,7 +1834,8 @@
     "swellSeasonName": "North Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Atlantic/Cape_Verde"
+    "ianaZoneId": "Atlantic/Cape_Verde",
+    "isWslTourStop": false
   },
   {
     "name": "Agami",
@@ -1830,7 +1877,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Cairo"
+    "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
   },
   {
     "name": "Alexandria",
@@ -1874,7 +1922,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Cairo"
+    "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
   },
   {
     "name": "El Corniche",
@@ -1916,7 +1965,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Cairo"
+    "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
   },
   {
     "name": "Mandara",
@@ -1959,7 +2009,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Cairo"
+    "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
   },
   {
     "name": "Shatby",
@@ -2001,7 +2052,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Cairo"
+    "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
   },
   {
     "name": "Agiba Cove",
@@ -2043,7 +2095,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Cairo"
+    "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
   },
   {
     "name": "Marsa Matrouh",
@@ -2086,7 +2139,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Cairo"
+    "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
   },
   {
     "name": "Elmina",
@@ -2128,7 +2182,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Fete",
@@ -2170,7 +2225,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Fort Good Hope",
@@ -2210,7 +2266,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Kokrobite",
@@ -2255,7 +2312,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "St. Charles",
@@ -2296,7 +2354,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Tills",
@@ -2338,7 +2397,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "University",
@@ -2382,7 +2442,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Accra",
@@ -2424,7 +2485,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Labadi Beach",
@@ -2467,7 +2529,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Nyanyanu",
@@ -2508,7 +2571,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Pram Pram",
@@ -2550,7 +2614,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Ankobra",
@@ -2582,7 +2647,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Assini",
@@ -2603,7 +2669,8 @@
     "swellSeasonName": "South Atlantic",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Axim",
@@ -2645,7 +2712,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Betty's",
@@ -2669,7 +2737,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Black Mamba",
@@ -2713,7 +2782,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Busua Beach",
@@ -2760,7 +2830,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Cape Three Points",
@@ -2802,7 +2873,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Dixcove",
@@ -2844,7 +2916,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Fort Sebastian",
@@ -2886,7 +2959,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Katakor",
@@ -2926,7 +3000,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Mutrakni Point",
@@ -2960,7 +3035,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Takoradi",
@@ -3006,7 +3082,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Accra"
+    "ianaZoneId": "Africa/Accra",
+    "isWslTourStop": false
   },
   {
     "name": "Plage de Lido",
@@ -3049,7 +3126,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "Dagbego",
@@ -3090,7 +3168,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "Grand Dréwin",
@@ -3132,7 +3211,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "Monogaga",
@@ -3170,7 +3250,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "San-Pédro",
@@ -3216,7 +3297,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "Sassandra",
@@ -3259,7 +3341,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "Assinie",
@@ -3303,7 +3386,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "La Passe",
@@ -3346,7 +3430,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "Grand-Lahou",
@@ -3388,7 +3473,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Abidjan"
+    "ianaZoneId": "Africa/Abidjan",
+    "isWslTourStop": false
   },
   {
     "name": "Tico's",
@@ -3430,7 +3516,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Cassava",
@@ -3473,7 +3560,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Cotton Trees",
@@ -3516,7 +3604,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "El Loco",
@@ -3558,7 +3647,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Fisherman's Point",
@@ -3601,7 +3691,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Robertsport",
@@ -3644,7 +3735,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Shipwreck",
@@ -3686,7 +3778,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Bernard Beach",
@@ -3729,7 +3822,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Coopers Beach",
@@ -3771,7 +3865,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Dorothy's",
@@ -3814,7 +3909,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Mumba Point",
@@ -3859,7 +3955,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Tropicana",
@@ -3902,7 +3999,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Monrovia"
+    "ianaZoneId": "Africa/Monrovia",
+    "isWslTourStop": false
   },
   {
     "name": "Lavanono",
@@ -3940,7 +4038,8 @@
     "swellSeasonName": "Southern Ocean",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Ambinanibe",
@@ -3982,7 +4081,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Baie de Galion",
@@ -4025,7 +4125,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Baie des Singes",
@@ -4067,7 +4168,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Libanona",
@@ -4112,7 +4214,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Monseigneur",
@@ -4156,7 +4259,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Chefs",
@@ -4197,7 +4301,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Flame Balls",
@@ -4237,7 +4342,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Googles",
@@ -4273,7 +4379,8 @@
     "swellSeasonName": "Southern Ocean",
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Ifaty",
@@ -4316,7 +4423,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Jelly Babies",
@@ -4357,7 +4465,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Puss Puss",
@@ -4397,7 +4506,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Resorts",
@@ -4441,7 +4551,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "TT's",
@@ -4481,7 +4592,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Indian/Antananarivo"
+    "ianaZoneId": "Indian/Antananarivo",
+    "isWslTourStop": false
   },
   {
     "name": "Djeno Point",
@@ -4523,7 +4635,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Brazzaville"
+    "ianaZoneId": "Africa/Brazzaville",
+    "isWslTourStop": false
   },
   {
     "name": "M'Vassa",
@@ -4558,7 +4671,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Brazzaville"
+    "ianaZoneId": "Africa/Brazzaville",
+    "isWslTourStop": false
   },
   {
     "name": "Mukiwa Beach",
@@ -4600,7 +4714,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Brazzaville"
+    "ianaZoneId": "Africa/Brazzaville",
+    "isWslTourStop": false
   },
   {
     "name": "Cote Sauvage",
@@ -4643,7 +4758,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Brazzaville"
+    "ianaZoneId": "Africa/Brazzaville",
+    "isWslTourStop": false
   },
   {
     "name": "La Plage Sportive",
@@ -4685,7 +4801,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Brazzaville"
+    "ianaZoneId": "Africa/Brazzaville",
+    "isWslTourStop": false
   },
   {
     "name": "La Pyramide",
@@ -4726,7 +4843,8 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "EMPTY",
-    "ianaZoneId": "Africa/Brazzaville"
+    "ianaZoneId": "Africa/Brazzaville",
+    "isWslTourStop": false
   },
   {
     "name": "Plage Mondaine",
@@ -4768,6 +4886,7 @@
     ],
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
-    "ianaZoneId": "Africa/Brazzaville"
+    "ianaZoneId": "Africa/Brazzaville",
+    "isWslTourStop": false
   }
 ]
