@@ -20,7 +20,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -218,19 +220,20 @@ public class SeedService {
         return;
       }
       logger.info("Read {} total entities from sub-regions.json", entities.length);
-      List<Region> allRegions = regionRepository.findAllByOrderByCountryNameAscNameAsc();
+      // Export JSON ids follow regions.json order, not DB ORDER BY country.name.
+      Map<Long, Region> regionsByExportId = buildRegionsByExportId();
       List<SubRegion> list = new ArrayList<>();
       for (SubRegion jsonEntity : entities) {
         SubRegion row = new SubRegion();
         row.setName(jsonEntity.getName());
         row.setDescription(jsonEntity.getDescription());
         if (jsonEntity.getRegion() != null && jsonEntity.getRegion().getId() != null) {
-          int index = jsonEntity.getRegion().getId().intValue() - 1;
-          if (index >= 0 && index < allRegions.size()) {
-            row.setRegion(allRegions.get(index));
+          Region region = regionsByExportId.get(jsonEntity.getRegion().getId());
+          if (region != null) {
+            row.setRegion(region);
           } else {
             logger.warn(
-                "Region index {} not found for sub-region '{}'",
+                "Region export id {} not found for sub-region '{}'",
                 jsonEntity.getRegion().getId(),
                 jsonEntity.getName());
           }
@@ -258,37 +261,33 @@ public class SeedService {
         return;
       }
       logger.info("Read {} total entities from surf-spots.json", entities.length);
-      List<Region> allRegions = regionRepository.findAllByOrderByCountryNameAscNameAsc();
-      List<SubRegion> allSubRegions = subRegionRepository.findAllByOrderByRegionNameAscNameAsc();
+      Map<Long, Region> regionsByExportId = buildRegionsByExportId();
+      Map<Long, SubRegion> subRegionsByExportId = buildSubRegionsByExportId(regionsByExportId);
       List<SurfSpot> list = new ArrayList<>();
       for (SurfSpot spot : entities) {
         if (spot.getRegion() != null && spot.getRegion().getId() != null) {
           Long jsonRegionId = spot.getRegion().getId();
-          int index = jsonRegionId.intValue() - 1;
-          if (index >= 0 && index < allRegions.size()) {
-            spot.setRegion(allRegions.get(index));
+          Region region = regionsByExportId.get(jsonRegionId);
+          if (region != null) {
+            spot.setRegion(region);
           } else {
             logger.warn(
-                "Region with JSON id {} (index {}) not found for surf spot '{}', skipping region reference. Total regions: {}",
+                "Region export id {} not found for surf spot '{}', skipping region reference",
                 jsonRegionId,
-                index,
-                spot.getName(),
-                allRegions.size());
+                spot.getName());
             spot.setRegion(null);
           }
         }
         if (spot.getSubRegion() != null && spot.getSubRegion().getId() != null) {
           Long jsonSubRegionId = spot.getSubRegion().getId();
-          int index = jsonSubRegionId.intValue() - 1;
-          if (index >= 0 && index < allSubRegions.size()) {
-            spot.setSubRegion(allSubRegions.get(index));
+          SubRegion subRegion = subRegionsByExportId.get(jsonSubRegionId);
+          if (subRegion != null) {
+            spot.setSubRegion(subRegion);
           } else {
             logger.warn(
-                "SubRegion with JSON id {} (index {}) not found for surf spot '{}', skipping sub-region reference. Total sub-regions: {}",
+                "SubRegion export id {} not found for surf spot '{}', skipping sub-region reference",
                 jsonSubRegionId,
-                index,
-                spot.getName(),
-                allSubRegions.size());
+                spot.getName());
             spot.setSubRegion(null);
           }
         }
@@ -315,6 +314,95 @@ public class SeedService {
       logger.error("Database access error while seeding from surf-spots.json: {}", e.getMessage(), e);
       throw e;
     }
+  }
+
+  /**
+   * Maps export region ids (1-based index in regions.json) to DB regions by country name + region
+   * name. Do not use DB sort order: export ids follow continent-grouped country order, while {@code
+   * findAllByOrderByCountryNameAscNameAsc} is global A-Z by country name and shifts Africa ids when
+   * e.g. American Samoa sorts between Algeria and Angola.
+   */
+  private Map<Long, Region> buildRegionsByExportId() throws IOException {
+    Region[] jsonRegions =
+        mapper.readValue(
+            getMainResource("static/seedData/regions.json").getInputStream(), Region[].class);
+    Map<String, Region> dbByCountryAndName = new HashMap<>();
+    for (Region region : regionRepository.findAll()) {
+      String countryName = region.getCountry() != null ? region.getCountry().getName() : null;
+      dbByCountryAndName.putIfAbsent(namesKey(countryName, region.getName()), region);
+    }
+    Map<Long, Region> byExportId = new HashMap<>();
+    if (jsonRegions == null) {
+      return byExportId;
+    }
+    for (int index = 0; index < jsonRegions.length; index++) {
+      Region jsonRegion = jsonRegions[index];
+      String countryName =
+          jsonRegion.getCountry() != null ? jsonRegion.getCountry().getName() : null;
+      Region dbRegion = dbByCountryAndName.get(namesKey(countryName, jsonRegion.getName()));
+      if (dbRegion != null) {
+        byExportId.put((long) index + 1, dbRegion);
+      } else {
+        logger.warn(
+            "No DB region for export id {} (country='{}', region='{}')",
+            index + 1,
+            countryName,
+            jsonRegion.getName());
+      }
+    }
+    return byExportId;
+  }
+
+  /**
+   * Maps export sub-region ids (1-based index in sub-regions.json) to DB sub-regions by parent region
+   * + name.
+   */
+  private Map<Long, SubRegion> buildSubRegionsByExportId(Map<Long, Region> regionsByExportId)
+      throws IOException {
+    SubRegion[] jsonSubRegions =
+        mapper.readValue(
+            getMainResource("static/seedData/sub-regions.json").getInputStream(), SubRegion[].class);
+    Map<String, SubRegion> dbByRegionAndName = new HashMap<>();
+    for (SubRegion subRegion : subRegionRepository.findAll()) {
+      Long regionId = subRegion.getRegion() != null ? subRegion.getRegion().getId() : null;
+      dbByRegionAndName.putIfAbsent(regionIdKey(regionId, subRegion.getName()), subRegion);
+    }
+    Map<Long, SubRegion> byExportId = new HashMap<>();
+    if (jsonSubRegions == null) {
+      return byExportId;
+    }
+    for (int index = 0; index < jsonSubRegions.length; index++) {
+      SubRegion jsonSubRegion = jsonSubRegions[index];
+      Region parentRegion = null;
+      if (jsonSubRegion.getRegion() != null && jsonSubRegion.getRegion().getId() != null) {
+        parentRegion = regionsByExportId.get(jsonSubRegion.getRegion().getId());
+      }
+      Long parentId = parentRegion != null ? parentRegion.getId() : null;
+      SubRegion dbSubRegion =
+          dbByRegionAndName.get(regionIdKey(parentId, jsonSubRegion.getName()));
+      if (dbSubRegion != null) {
+        byExportId.put((long) index + 1, dbSubRegion);
+      } else {
+        logger.warn(
+            "No DB sub-region for export id {} (regionExportId={}, name='{}')",
+            index + 1,
+            jsonSubRegion.getRegion() != null ? jsonSubRegion.getRegion().getId() : null,
+            jsonSubRegion.getName());
+      }
+    }
+    return byExportId;
+  }
+
+  private static String namesKey(String countryName, String regionName) {
+    return normalizeName(countryName) + "|" + normalizeName(regionName);
+  }
+
+  private static String regionIdKey(Long regionId, String name) {
+    return (regionId != null ? regionId : 0L) + "|" + normalizeName(name);
+  }
+
+  private static String normalizeName(String name) {
+    return name == null ? "" : name.trim().toLowerCase(Locale.ROOT);
   }
 
   private <T> void insertFromJson(

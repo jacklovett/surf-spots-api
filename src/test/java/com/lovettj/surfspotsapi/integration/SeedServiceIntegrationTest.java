@@ -127,6 +127,31 @@ class SeedServiceIntegrationTest {
     }
 
     @Test
+    void testSurfSpotsAttachToRegionsByExportCountryAndNameNotDbSortOrder() {
+        seedService.seedData();
+
+        SurfSpot caboLedo =
+                surfSpotRepository.findAll().stream()
+                        .filter(spot -> "Cabo Ledo".equals(spot.getName()))
+                        .findFirst()
+                        .orElseThrow(() -> new AssertionError("Cabo Ledo should be seeded"));
+        assertNotNull(caboLedo.getRegion(), "Cabo Ledo must have a region");
+        assertEquals("Luanda", caboLedo.getRegion().getName());
+        assertNotNull(caboLedo.getRegion().getCountry());
+        assertEquals("Angola", caboLedo.getRegion().getCountry().getName());
+
+        SurfSpot mucula =
+                surfSpotRepository.findAll().stream()
+                        .filter(spot -> "Praia da Mucula".equals(spot.getName()))
+                        .findFirst()
+                        .orElseThrow(() -> new AssertionError("Praia da Mucula should be seeded"));
+        assertNotNull(mucula.getRegion(), "Praia da Mucula must have a region");
+        assertEquals("Zaire", mucula.getRegion().getName());
+        assertNotNull(mucula.getRegion().getCountry());
+        assertEquals("Angola", mucula.getRegion().getCountry().getName());
+    }
+
+    @Test
     @Transactional
     void testSurfSpotCanPersistAndLoadForecastsAndWebcams() {
         seedService.seedData();

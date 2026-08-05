@@ -6,7 +6,7 @@ Sheet structure (row 1 = header, data from row 2):
   Continents:  A=name, B=description
   Countries:   A=name, B=description, C=continent_name, D=Emergency numbers
   Regions:     A=name, B=description, C=country_name, D=bounding_box
-  SubRegions:  A=name, B=description, C=region_name, D=bounding_box
+  SubRegions:  A=name, B=description, C=country_name, D=region_name, E=bounding_box
 
 Output order: continents A-Z, then countries by continent A-Z, then regions by country A-Z, then sub-regions by region A-Z.
 
@@ -28,7 +28,13 @@ from pathlib import Path
 CONTINENTS_NAME, CONTINENTS_DESC = 0, 1
 COUNTRIES_NAME, COUNTRIES_DESC, COUNTRIES_CONTINENT, COUNTRIES_EMERGENCY = 0, 1, 2, 3
 REGIONS_NAME, REGIONS_DESC, REGIONS_COUNTRY, REGIONS_BBOX = 0, 1, 2, 3
-SUBREGIONS_NAME, SUBREGIONS_DESC, SUBREGIONS_REGION, SUBREGIONS_BBOX = 0, 1, 2, 3
+SUBREGIONS_NAME, SUBREGIONS_DESC, SUBREGIONS_COUNTRY, SUBREGIONS_REGION, SUBREGIONS_BBOX = (
+    0,
+    1,
+    2,
+    3,
+    4,
+)
 
 # Google API imports (requires: pip install -r requirements.txt)
 from google.oauth2.service_account import Credentials  # type: ignore
@@ -256,19 +262,27 @@ def export_regions(sheets, countries):
 
 
 def export_sub_regions(sheets, regions):
-    """Export SubRegions. Sorted by region then A-Z by name."""
+    """Export SubRegions. Sorted by country/region then A-Z by name."""
     print('Exporting SubRegions...')
     data = get_sheet_data(sheets, 'SubRegions')
-    region_map = {r['name'].strip(): i + 1 for i, r in enumerate(regions)}
+    # Parent region is unique as (country_name, region_name) - both required on the sheet.
+    region_map = {
+        ((r.get('country') or {}).get('name') or '', r['name']): index + 1
+        for index, r in enumerate(regions)
+    }
 
     sub_regions = []
     for row in data:
         if not row or not row[SUBREGIONS_NAME]:
             continue
+        country_name = (row[SUBREGIONS_COUNTRY] if len(row) > SUBREGIONS_COUNTRY else '').strip()
         region_name = (row[SUBREGIONS_REGION] if len(row) > SUBREGIONS_REGION else '').strip()
-        region_id = region_map.get(region_name)
-        if region_name and not region_id:
-            print(f"  Warning: unknown region '{region_name}' for sub-region {row[SUBREGIONS_NAME]}")
+        region_id = region_map.get((country_name, region_name))
+        if (country_name or region_name) and not region_id:
+            print(
+                f"  Warning: unknown region country='{country_name}' region='{region_name}' "
+                f"for sub-region {row[SUBREGIONS_NAME]}"
+            )
         sub_region = {
             'name': row[SUBREGIONS_NAME].strip(),
             'description': (row[SUBREGIONS_DESC] if len(row) > SUBREGIONS_DESC else '').strip(),
@@ -292,9 +306,18 @@ def export_surf_spots(sheets, regions, sub_regions):
     
     data = get_sheet_data(sheets, 'SurfSpots')
     
-    # Create name to ID mappings
-    region_map = {r['name']: index + 1 for index, r in enumerate(regions)}
-    sub_region_map = {sr['name']: index + 1 for index, sr in enumerate(sub_regions)}
+    # Create name to ID mappings. Region names are not globally unique - key by country + name.
+    region_map = {
+        ((r.get('country') or {}).get('name') or '', r['name']): index + 1
+        for index, r in enumerate(regions)
+    }
+    sub_region_map = {}
+    for index, sub_region in enumerate(sub_regions):
+        region_id = (sub_region.get('region') or {}).get('id')
+        parent = regions[region_id - 1] if region_id and 1 <= region_id <= len(regions) else None
+        country_name = ((parent.get('country') or {}).get('name') if parent else None) or ''
+        region_name = parent['name'] if parent else ''
+        sub_region_map[(country_name, region_name, sub_region['name'])] = index + 1
     
     surf_spots = []
     for row in data:
@@ -304,10 +327,28 @@ def export_surf_spots(sheets, regions, sub_regions):
         # Column indices match SurfSpots row 1 headers (see README / DESCRIPTIONS.md).
         # 0-14: name .. max_surf_height; 15-29: food_nearby .. webcams;
         # 30: crowd_level (AE); 31: iana_zone_id (AF); 32: is_wsl_tour_stop (AG).
-        region_name = row[4] if len(row) > 4 else ''
-        sub_region_name = row[5] if len(row) > 5 else ''
-        region_id = region_map.get(region_name)
-        sub_region_id = sub_region_map.get(sub_region_name)
+        region_name = (row[4] if len(row) > 4 else '').strip()
+        sub_region_name = (row[5] if len(row) > 5 else '').strip()
+        # Spot rows only store region name; resolve against regions list (warn on ambiguity).
+        region_matches = [
+            (key, rid) for key, rid in region_map.items() if key[1] == region_name
+        ]
+        if region_name and len(region_matches) > 1:
+            print(
+                f"  Warning: region name '{region_name}' matches {len(region_matches)} countries "
+                f"for spot {row[0]}; using first match {region_matches[0][0][0]!r}"
+            )
+        region_id = region_matches[0][1] if region_matches else None
+        sub_region_id = None
+        if sub_region_name and region_id:
+            parent = regions[region_id - 1]
+            country_name = ((parent.get('country') or {}).get('name') if parent else None) or ''
+            parent_region_name = parent['name'] if parent else ''
+            sub_region_id = sub_region_map.get((country_name, parent_region_name, sub_region_name))
+        if region_name and not region_id:
+            print(f"  Warning: unknown region '{region_name}' for spot {row[0]}")
+        if sub_region_name and not sub_region_id:
+            print(f"  Warning: unknown sub-region '{sub_region_name}' for spot {row[0]}")
 
         crowd_level_parsed = parse_crowd_level(row[30]) if len(row) > 30 else None
         iana_zone_id = (
