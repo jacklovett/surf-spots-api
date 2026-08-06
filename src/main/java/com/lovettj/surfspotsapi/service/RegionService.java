@@ -39,7 +39,8 @@ public class RegionService {
   public Region getRegionByCountrySlugAndRegionSlug(String countrySlug, String regionSlug) {
     Country country = countryRepository.findBySlug(countrySlug)
         .orElseThrow(() -> new EntityNotFoundException("Country not found"));
-    return regionRepository.findByCountryIdAndSlug(country.getId(), regionSlug)
+    return regionRepository
+        .findByCountryIdAndSlugWithSubRegions(country.getId(), regionSlug)
         .orElseThrow(() -> new EntityNotFoundException("Region not found"));
   }
 

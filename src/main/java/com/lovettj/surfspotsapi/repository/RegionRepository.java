@@ -14,6 +14,15 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
   Optional<Region> findByCountryIdAndSlug(Long countryId, String slug);
 
+  @Query(
+      """
+      SELECT DISTINCT r FROM Region r
+      LEFT JOIN FETCH r.subRegions
+      WHERE r.country.id = :countryId AND r.slug = :slug
+      """)
+  Optional<Region> findByCountryIdAndSlugWithSubRegions(
+      @Param("countryId") Long countryId, @Param("slug") String slug);
+
   List<Region> findByCountryId(Long countryId);
 
   List<Region> findByCountryIdOrderByNameAsc(Long countryId);
