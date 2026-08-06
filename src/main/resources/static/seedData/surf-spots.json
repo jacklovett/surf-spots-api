@@ -748,6 +748,92 @@
     "isWslTourStop": false
   },
   {
+    "name": "Kribi",
+    "status": "Approved",
+    "description": "Fairly exposed sand beachbreak at Kribi on Cameroon's South Region coast. Surf-Forecast rates it more consistent than the Limbe stretch: southwest swell with east-southeast wind, lefts and rights, and usable through the tide. Stormrider notes rock-strewn sections along this coast, so watch the bottom. Rarely crowded; staging from Kribi town toward Campo.",
+    "latitude": 2.93,
+    "longitude": 9.9,
+    "region": {
+      "id": 10
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Kribi"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Douala",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Seme Beach",
+    "status": "Approved",
+    "description": "Exposed black-sand beachbreak on the Limbe to Idenau road at Mile 11, fronting the Seme Beach hotel stretch. Works only occasionally: needs solid southwest groundswell and a north wind to clean the face. Peaks break left and right over sand; a pushing mid to high tide helps bring waves over the shallow Gulf of Guinea shelf. Strong currents and rips; empty when it is on. Charted on Surf-Forecast as Seme Beach Limbe.",
+    "latitude": 4.01,
+    "longitude": 9.14,
+    "region": {
+      "id": 11
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "N",
+    "skillLevel": "Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Seme-Beach-Limbe"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Douala",
+    "isWslTourStop": false
+  },
+  {
     "name": "Boa Vista Bahia",
     "status": "Approved",
     "description": "West-facing bay fronting Sal Rei, where northwest Atlantic swell wraps past Ilheu de Sal Rei into sandbanks and shallow reef near Tortuga Beach and the harbour approaches. Soft peaks suit beginners on smaller days; longer walls appear further into the bay when the swell jumps. Northeast trades often blow offshore off the town, and hotels, restaurants, and surf schools sit a short walk from the sand.",
@@ -2142,6 +2228,212 @@
     "createdBy": "SYSTEM",
     "crowdLevel": "FEW",
     "ianaZoneId": "Africa/Cairo",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ferme aux Crocos",
+    "status": "Approved",
+    "description": "Exposed break north of Libreville charted on Surf-Forecast as a reef setup with left and right peaks. Southwest groundswell and east wind are the clean combo; spring and early summer are the better windows. Quite reliable for Gabon's Estuaire coast, but still rarely crowded. Sharks and river wildlife (including hippos on this stretch) are real hazards in the guides.",
+    "latitude": 0.53,
+    "longitude": 9.31,
+    "region": {
+      "id": 19
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW",
+    "windDirection": "E",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Sharks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Fermeaux-Crocos"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Libreville",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Gueque",
+    "status": "Approved",
+    "description": "Fairly exposed beachbreak near Libreville Leon M'Ba Airport. West-southwest to southwest groundswell with east-northeast wind; lefts and rights over sand. Surf-Forecast calls it inconsistent and often too small, so treat it as an opportunistic capital-area option. Empty when it works; sharks and hippos noted in the guides.",
+    "latitude": 0.43,
+    "longitude": 9.42,
+    "region": {
+      "id": 19
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Sharks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Gueque"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Libreville",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ngombe",
+    "status": "Approved",
+    "description": "Exposed left-hand point on the Estuaire coast southwest of Libreville. Southwest groundswell and east wind light it up; summer is the better season, but Surf-Forecast still rates it inconsistent. Rocks and sharks in the impact zone; rarely crowded. Staging from Libreville with a coastal drive.",
+    "latitude": 0.3,
+    "longitude": 9.3,
+    "region": {
+      "id": 19
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW",
+    "windDirection": "E",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Sharks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Ngombe"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Libreville",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Cap Lopez",
+    "status": "Approved",
+    "description": "Exposed sand beachbreak on the Cap Lopez peninsula near Port-Gentil, Gabon's best-known wave. Favours lefts on southwest groundswell with southeast wind; Surf-Forecast rates it fairly consistent and usable through the tide. Winter and May are strong windows. Watch for sharks and a bit of localism when a handful of expats are out. Taxi access from Port-Gentil.",
+    "latitude": -0.63,
+    "longitude": 8.7,
+    "region": {
+      "id": 21
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Sharks",
+      "Localism"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Cap-Lopez"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Libreville",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Palplanche",
+    "status": "Approved",
+    "description": "Exposed left point a kilometre from Cap Lopez on Mandji Island. Southwest swell and east-southeast wind; Surf-Forecast says it rarely breaks compared with Cap Lopez next door. Empty when it does. Sharks and wreck debris noted in the guides. Same Port-Gentil staging as Cap Lopez.",
+    "latitude": -0.62,
+    "longitude": 8.71,
+    "region": {
+      "id": 21
+    },
+    "type": "Point Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Sharks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "South Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Palplanche"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Libreville",
     "isWslTourStop": false
   },
   {

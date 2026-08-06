@@ -127,7 +127,7 @@
   },
   {
     "name": "South Region",
-    "description": "Sandy beaches and river mouths near Kribi and Campo; less consistent but seasonally surfable.",
+    "description": "Atlantic sand coast around Kribi toward Campo, with long beaches and river mouths. Kribi is the charted beachbreak on southwest groundswell, often windy and rarely crowded. Staging from Kribi town; quieter than West African hubs further west.",
     "country": {
       "id": 3,
       "name": "Cameroon"
@@ -141,7 +141,7 @@
   },
   {
     "name": "Southwest Region",
-    "description": "Volcanic coastline around Limbe with consistent beach and reef breaks; Cameroon's main surf hub.",
+    "description": "Volcanic black-sand coast around Limbe toward Idenau. Poor Gulf of Guinea swell exposure and a shallow shelf make rideable days infrequent; bigger mid-year southern hemisphere pulses matter most. Seme Beach is the main charted beachbreak; lineups stay empty when it turns on.",
     "country": {
       "id": 3,
       "name": "Cameroon"
@@ -253,7 +253,7 @@
   },
   {
     "name": "Estuaire",
-    "description": "Covers the surfable coastal stretch around Libreville and Pointe-Denis, including spots like Guegue and Ngombe. Expect steady point and beach breaks, best in spring and summer with SW swells.",
+    "description": "Libreville and Pointe-Denis coast: charted beach and point options at Gueque, Ngombe, and Ferme aux Crocos. Southwest groundswell with east winds; Surf-Forecast rates the Libreville beaches inconsistent and often too small. Empty lineups when it turns on.",
     "country": {
       "id": 6,
       "name": "Gabon"
@@ -267,7 +267,7 @@
   },
   {
     "name": "Mayumba",
-    "description": "A remote stretch near the Congo border with long, fast lefts breaking over sand. It’s isolated and rarely crowded, catching solid southern swells during the dry season.",
+    "description": "Remote Nyanga coast near the Congo border. WannaSurf charts long sand lefts on southern dry-season swell, but there is no Surf-Forecast break page yet, so no seed spots until coordinates and conditions are better pinned down.",
     "country": {
       "id": 6,
       "name": "Gabon"
@@ -281,7 +281,7 @@
   },
   {
     "name": "Ogooue Maritime",
-    "description": "Encompasses Port-Gentil and nearby beaches (e.g., Cap Lopez, Palplanche). Known for hollow, powerful beach breaks over sand, reliable with SW swells.",
+    "description": "Port-Gentil and Cap Lopez peninsula, Gabon's main surf hub. Cap Lopez is the more consistent sand beachbreak on southwest swell and southeast wind; Palplanche is a nearby left point that fires less often. Warm water, light crowds, April to September the usual window.",
     "country": {
       "id": 6,
       "name": "Gabon"

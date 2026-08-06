@@ -10,8 +10,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "N - NW",
-    "windDirection": "W - SW",
+    "swellDirection": "N-NW",
+    "windDirection": "W-SW",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Left",
@@ -49,7 +49,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
+    "swellDirection": "N-NW",
     "windDirection": "S",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -98,7 +98,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
+    "swellDirection": "N-NW",
     "windDirection": "S",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -141,7 +141,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
+    "swellDirection": "N-NW",
     "windDirection": "S",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -182,8 +182,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -227,8 +227,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -263,8 +263,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -299,8 +299,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -335,8 +335,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -371,8 +371,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate",
     "tide": "Mid",
     "waveDirection": "Left",
@@ -408,8 +408,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -451,8 +451,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate",
     "tide": "Low - Mid",
     "waveDirection": "Left and Right",
@@ -488,8 +488,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left",
@@ -525,8 +525,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Mid - High",
     "waveDirection": "Left",
@@ -569,8 +569,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -586,7 +586,8 @@
       "Hotel"
     ],
     "hazards": [
-      "Rips"
+      "Rips",
+      "Pollution"
     ],
     "parking": "Street",
     "boatRequired": false,
@@ -612,8 +613,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate",
     "tide": "Low - Mid",
     "waveDirection": "Left",
@@ -648,8 +649,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left",
@@ -685,8 +686,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -721,8 +722,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -757,8 +758,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
-    "windDirection": "E - NE",
+    "swellDirection": "N-NW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -801,8 +802,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
-    "windDirection": "S - SE",
+    "swellDirection": "N-NW",
+    "windDirection": "S-SE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Mid",
     "waveDirection": "Left and Right",
@@ -843,8 +844,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Mid",
     "waveDirection": "Left and Right",
@@ -876,8 +877,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Right",
@@ -913,8 +914,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Advanced",
     "tide": "Any",
     "waveDirection": "Right",
@@ -950,8 +951,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Right",
@@ -986,7 +987,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Rock",
-    "swellDirection": "N - NE",
+    "swellDirection": "N-NE",
     "windDirection": "W",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -1023,8 +1024,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NE",
-    "windDirection": "W - SW",
+    "swellDirection": "N-NE",
+    "windDirection": "W-SW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1059,8 +1060,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "N - NE",
+    "swellDirection": "W-NW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -1095,8 +1096,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -1126,8 +1127,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -1157,8 +1158,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Left",
@@ -1200,8 +1201,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1244,8 +1245,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "N - NW",
-    "windDirection": "E - NE",
+    "swellDirection": "N-NW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Mid - High",
     "waveDirection": "Right",
@@ -1289,8 +1290,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Beginner",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1329,8 +1330,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NE",
-    "windDirection": "S - SW",
+    "swellDirection": "N-NE",
+    "windDirection": "S-SW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1360,8 +1361,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -1393,8 +1394,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1444,8 +1445,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left",
@@ -1487,8 +1488,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "W - NW",
-    "windDirection": "E - NE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left",
@@ -1529,8 +1530,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - NE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -1562,8 +1563,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left",
@@ -1579,7 +1580,8 @@
       "Hotel"
     ],
     "hazards": [
-      "Rocks"
+      "Rocks",
+      "Pollution"
     ],
     "parking": "Street",
     "boatRequired": false,
@@ -1605,8 +1607,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SE",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SE",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left",
@@ -1649,8 +1651,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
-    "windDirection": "E - NE",
+    "swellDirection": "W-NW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Mid - High",
     "waveDirection": "Right",
@@ -1682,8 +1684,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "N - NW",
-    "windDirection": "E - NE",
+    "swellDirection": "N-NW",
+    "windDirection": "E-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Low - Mid",
     "waveDirection": "Right",
@@ -1726,8 +1728,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NE",
-    "windDirection": "W - SW",
+    "swellDirection": "N-NE",
+    "windDirection": "W-SW",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1765,8 +1767,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NE",
-    "windDirection": "S - SW",
+    "swellDirection": "N-NE",
+    "windDirection": "S-SW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1807,8 +1809,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -1848,7 +1850,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
+    "swellDirection": "N-NW",
     "windDirection": "SE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -1891,7 +1893,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
+    "swellDirection": "N-NW",
     "windDirection": "SE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -1936,7 +1938,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
+    "swellDirection": "N-NW",
     "windDirection": "SE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -1979,8 +1981,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
-    "windDirection": "E - SE",
+    "swellDirection": "N-NW",
+    "windDirection": "E-SE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -2023,8 +2025,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
-    "windDirection": "S - SE",
+    "swellDirection": "N-NW",
+    "windDirection": "S-SE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -2066,7 +2068,7 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "W - NW",
+    "swellDirection": "W-NW",
     "windDirection": "SW",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -2109,8 +2111,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "N - NW",
-    "windDirection": "S - SE",
+    "swellDirection": "N-NW",
+    "windDirection": "S-SE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -2153,7 +2155,7 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -2196,8 +2198,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Mid - High",
     "waveDirection": "Right",
@@ -2239,8 +2241,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -2280,7 +2282,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -2326,7 +2328,7 @@
     },
     "type": "Point Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -2368,8 +2370,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "W - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "W-NW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -2411,7 +2413,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -2456,8 +2458,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -2499,8 +2501,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -2543,8 +2545,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Low",
     "waveDirection": "Right",
@@ -2585,8 +2587,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -2628,8 +2630,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "minSurfHeight": 0.6,
     "maxSurfHeight": 2.2,
@@ -2661,8 +2663,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "boatRequired": false,
     "isWavepool": false,
     "isRiverWave": false,
@@ -2726,7 +2728,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "boatRequired": false,
     "isWavepool": false,
@@ -2751,7 +2753,7 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Advanced",
     "tide": "Mid",
@@ -2796,7 +2798,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Mid - High",
@@ -2844,7 +2846,7 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -2887,8 +2889,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Right",
@@ -2904,7 +2906,8 @@
       "Hotel"
     ],
     "hazards": [
-      "Rocks"
+      "Rocks",
+      "Pollution"
     ],
     "parking": "Street",
     "boatRequired": false,
@@ -2930,7 +2933,7 @@
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -2973,8 +2976,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -3049,7 +3052,7 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -3096,8 +3099,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -3140,8 +3143,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -3182,8 +3185,8 @@
     },
     "type": "Point Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Right",
@@ -3225,8 +3228,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Right",
@@ -3264,8 +3267,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -3311,8 +3314,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NW",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NW",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
     "waveDirection": "Right",
@@ -3355,8 +3358,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -3400,8 +3403,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -3444,8 +3447,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -3793,7 +3796,7 @@
     "type": "Beach Break",
     "beachBottomType": "Sand",
     "swellDirection": "SW",
-    "windDirection": "SE - E",
+    "windDirection": "SE-E",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -3810,7 +3813,8 @@
       "Guesthouse"
     ],
     "hazards": [
-      "Rips"
+      "Rips",
+      "Pollution"
     ],
     "parking": "Street",
     "boatRequired": false,
@@ -3897,7 +3901,8 @@
       "Guesthouse"
     ],
     "hazards": [
-      "Rips"
+      "Rips",
+      "Pollution"
     ],
     "parking": "Street",
     "boatRequired": false,
@@ -3943,7 +3948,8 @@
     ],
     "hazards": [
       "Rocks",
-      "Rips"
+      "Rips",
+      "Pollution"
     ],
     "parking": "Street",
     "boatRequired": false,
@@ -4013,7 +4019,7 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "E",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
@@ -4052,7 +4058,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Any",
@@ -4095,8 +4101,8 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
-    "windDirection": "N - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
     "waveDirection": "Left and Right",
@@ -4139,7 +4145,7 @@
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -4182,7 +4188,7 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "N",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -4356,8 +4362,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Mid",
     "waveDirection": "Left and Right",
@@ -4393,8 +4399,8 @@
     },
     "type": "Reef Break",
     "beachBottomType": "Reef",
-    "swellDirection": "S - SW",
-    "windDirection": "E - NE",
+    "swellDirection": "S-SW",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate",
     "tide": "Mid",
     "waveDirection": "Left and Right",
@@ -4566,7 +4572,7 @@
     "type": "Reef Break",
     "beachBottomType": "Reef",
     "swellDirection": "S",
-    "windDirection": "E - NE",
+    "windDirection": "E-NE",
     "skillLevel": "Intermediate - Advanced",
     "tide": "Mid",
     "waveDirection": "Left",
@@ -4596,17 +4602,4683 @@
     "isWslTourStop": false
   },
   {
+    "name": "Le Wharf",
+    "status": "Approved",
+    "description": "Disused jetty on the industrial shore south of Nouakchott, where northwest winter swell wraps off the broken piles into a short, fast right over sand. East winds are the cleaner window when strong northerlies otherwise rip the open coast; longshore currents pull hard away from the pier and water quality is poor beside the old port. Empty lineup for intermediate surfers who can handle urban industrial access and pollution.",
+    "latitude": 18.04,
+    "longitude": -16.03,
+    "region": {
+      "id": 36
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Pollution",
+      "Currents"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Le-Wharf-Ancien-Port"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Nouakchott",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Black Rocks",
+    "status": "Approved",
+    "description": "Outer reef ledge just south of Tamarin Bay on the Black River coast, picking up the same southwest pulses that light the famous left next door. Shorter walls over live coral when south to southwest swell meets a cleaner southerly breeze; works more often than Tamarin but rarely with the same length. Village access, reef cuts, and empty lineups outside peak travel weeks.",
+    "latitude": -20.32,
+    "longitude": 57.36,
+    "region": {
+      "id": 37
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S-SW",
+    "windDirection": "S",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/black-rocks-mauritius-/6418dcff6478f04687f99873"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Harbour Riviere Noire",
+    "status": "Approved",
+    "description": "Sandbar peaks inside Riviere Noire harbour on the Black River west coast, a softer option when the outer reefs are oversized or too shallow. Southwest swell and southeast trades clean left and right banks over sand; long-period pulses can close out. Used by locals and surf schools as the approachable session between Tamarin and Le Morne, with town food and lodging close and rips on the stronger days.",
+    "latitude": -20.36,
+    "longitude": 57.35,
+    "region": {
+      "id": 37
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "SW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/harbour-riviere-noire/6418dd059a43c4a324370ba4"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "One Eye's",
+    "status": "Approved",
+    "description": "Fast hollow left on the outer reef pass at Le Morne, framed by Le Morne Brabant. Southwest groundswell and southeast trades clean the face into deep water; outgoing tide drains the lagoon hard through the narrow gap, so currents can beat a paddle. Boat drop preferred over the long channel swim. Intermediate to advanced reef session, usually a light crowd of locals and visitors.",
+    "latitude": -20.47,
+    "longitude": 57.3,
+    "region": {
+      "id": 37
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid - High",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/one-eye-s/5842041f4e65fad6a7708d25"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Passe de L'Ambulante",
+    "status": "Approved",
+    "description": "Barrier-reef pass at the north end of the Le Morne lagoon with a usable left and a better right peeling into deep water. Southwest swell and southeast offshore; shallow live coral at low tide and a long paddle unless you arrange a boat. More consistent than Tamarin through the austral winter window, with reef and currents the main watch-outs and a relaxed local vibe away from the White Shorts scene.",
+    "latitude": -20.45,
+    "longitude": 57.32,
+    "region": {
+      "id": 37
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S-SW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid - High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/passe-de-l-ambulante/5842041f4e65fad6a7708d24"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Tamarin Bay",
+    "status": "Approved",
+    "description": "Classic outer-reef left in Tamarin Bay on Mauritius's west coast, made famous by Forgotten Island of Santosha. Needs a solid southwest pulse and cleaner south wind to unlock long almond walls over shallow coral; high and rising tide helps. Inconsistent by Indian Ocean standards, and the White Shorts local crew still shapes weekend etiquette. Intermediate to advanced when it is on, with reef underfoot and food and lodging in the village behind the path.",
+    "latitude": -20.33,
+    "longitude": 57.37,
+    "region": {
+      "id": 37
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW",
+    "windDirection": "S",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Mid - High",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks",
+      "Localism"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tamarin-bay/5842041f4e65fad6a7708d26"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Mont Choisy",
+    "status": "Approved",
+    "description": "Cluster of offshore reefs off the northwest beach near Pointe aux Canonniers, with two rights and two lefts over live coral. Southwest through north swell, ideally west, and an east offshore clean the peaks; mid to high tide is the working window. Bull sharks sometimes patrol the murkier water. Intermediate session with reef underfoot and village food and lodging behind the sand.",
+    "latitude": -20.015,
+    "longitude": 57.556,
+    "region": {
+      "id": 38
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW-N",
+    "windDirection": "E",
+    "skillLevel": "Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Sharks",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mont-choisy/64bbf84cb218aa694558128c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "La Ferme",
+    "status": "Approved",
+    "description": "West-side Rodrigues reef setup near the La Ferme coast on the outer Mascarene island east of mainland Mauritius. Small southwest to west pulses and southeast trades on high tide put enough water over sharp live coral for short lefts and rights. Fickle for a dedicated surf trip; expect empty lineups and kite traffic in the lagoon on trade-wind days.",
+    "latitude": -19.74,
+    "longitude": 63.32,
+    "region": {
+      "id": 39
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW-W",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.4,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/la-ferme/6418ebcda34c33c3ec1a89bc"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Passe Jimmy",
+    "status": "Approved",
+    "description": "Narrow gap in Rodrigues's eastern barrier reef off Baie Topaze, opposite Ile aux Sables. Longer high-performance left and abrupt hollow right over healthy live coral when small southwest to west swell meets southeast offshore on high tide. Boat across the lagoon from Baie du Nord or Port Mathurin; paddle is a long mission. Closes out past about two metres.",
+    "latitude": -19.703,
+    "longitude": 63.296,
+    "region": {
+      "id": 39
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW-W",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.4,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": true,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/passe-jimmy-/6418ebd39a43c47e7a3a274b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Graveyards",
+    "status": "Approved",
+    "description": "Exposed left reef on the Savanne south coast opposite the cemetery that gives the break its name. Southwest swell and northeast offshore; long paddle to a shallow live-coral takeoff that suits advanced riders when it lines up. Inconsistent compared with the Le Morne passes, with reef and currents in the zone and only a light local crowd on the better pulses.",
+    "latitude": -20.53,
+    "longitude": 57.51,
+    "region": {
+      "id": 40
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S-SW",
+    "windDirection": "NE",
+    "skillLevel": "Advanced",
+    "tide": "Mid - High",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/graveyards-mauritius-/6418dcf3a34c33757b176d3c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ilôt Sancho",
+    "status": "Approved",
+    "description": "Cove reef on the Savanne south coast near Saint Felix, throwing quirky lefts and rights along the reef edge. Southwest through southeast swell, ideally south, with north to northeast offshore; mid to high tide preferred. One of the more regular south-shore options, still intermediate over uneven coral, with sharks noted in local guides and a light crowd outside peak pulses.",
+    "latitude": -20.51,
+    "longitude": 57.45,
+    "region": {
+      "id": 40
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "SW-SE",
+    "windDirection": "N-NE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Sharks",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/il-t-sancho/6418dcf9e072f80b14019c7b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Maconde",
+    "status": "Approved",
+    "description": "Left reef under the Macondé cliffs near Baie du Cap on the Savanne and Black River border. Southwest groundswell meets northeast trades for cleaner faces; more consistent through the year than the sheltered west-coast icons. Road access above the ledge, intermediate to advanced walls over coral, with reef and rocks and a small local crowd when the south coast is working.",
+    "latitude": -20.5,
+    "longitude": 57.37,
+    "region": {
+      "id": 40
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S-SW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/maconde/6418dd0b970272ff798688ce"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Souillac",
+    "status": "Approved",
+    "description": "Left-hand point and reef setup at Souillac on the exposed Savanne south coast, one of the more regular south-shore options when southwest swell arrives. North to northeast wind cleans the faces; works across much of the year with a rising tide preferred on the better banks. Town amenities sit close, with reef and rocks and a moderate crowd when the charts light up.",
+    "latitude": -20.52,
+    "longitude": 57.52,
+    "region": {
+      "id": 40
+    },
+    "type": "Point Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "S-SW",
+    "windDirection": "N-NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "Southern Ocean",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Souillac"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Indian/Mauritius",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Agadir",
+    "status": "Approved",
+    "description": "City beach banks fronting Agadir's hotel strip, a softer fallback when the Taghazout points are maxed or the airport day is short. North-west Atlantic swell builds left and right peaks over sand; northeast wind cleans the faces better than the afternoon sea breeze. Surf schools and promenade cafes sit behind the dunes, with rips on bigger pulses and a busy summer crowd.",
+    "latitude": 30.42,
+    "longitude": -9.61,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 11
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/agadir/640a15894eb37585c389f4cb"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Amane Imodane",
+    "status": "Approved",
+    "description": "Quiet reef and rock setup on the Aglou Plage coast near Tiznit, a short hop from Azrau Zouggaghne. North-west swell finds lefts and rights over uneven bottom when east to northeast winds clean the faces; thinner crowds than Taghazout. Limited services on the beach strip; rocks underfoot and an exploratory feel south of Agadir.",
+    "latitude": 29.81,
+    "longitude": -9.825,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 12
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/amane-imodane/640a15a899dd44046bf8cdd6"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Anchor Point",
+    "status": "Approved",
+    "description": "Morocco's signature right along the rock shelf just north of Taghazout village. North-west groundswell links long walls with hollow sections when northeast winds hold the face; low to mid tide keeps the reef working. Intermediate to advanced when it connects, with the country's heaviest crowd and rocks underfoot. Camps, cafes, and taxis stage from the village a short walk or ride south.",
+    "latitude": 30.543,
+    "longitude": -9.715,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Reef"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/anchor-point/5842041f4e65fad6a7708cfd"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "PACKED",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Azrau Zouggaghne",
+    "status": "Approved",
+    "description": "Exposed Aglou Plage peak near Tiznit, neighbouring Amane Imodane on the same southern Souss strip. North-west swell wakes lefts and rights over rock and mixed bottom; northeast offshore preferred. Empty relative to Taghazout, with reef and rock hazards and sparse beach infrastructure.",
+    "latitude": 29.8,
+    "longitude": -9.84,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 12
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/azrau-zouggaghne/640a15a6606c452daea640b7"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Banana Point",
+    "status": "Approved",
+    "description": "Friendly right near Tamraght and Aourir, one of the progression peaks south of Taghazout's heavy points. North-west swell and northeast wind; works across much of the tide on ordinary days. Camps and schools pack the lineup in season; rocks still appear on the inside.",
+    "latitude": 30.479,
+    "longitude": -9.68,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 15
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/banana-point/640a1581606c454baaa63732"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Boilers",
+    "status": "Approved",
+    "description": "Fast right off Cap Rhir north of Taghazout, named for the ship boiler still visible on the reef. Needs solid north-west swell and holds shape when the wind stays northeast; low to mid tide is the cleaner window. Advanced takeoff beside shallow reef and wreck steel; fewer bodies than Anchor when it is on.",
+    "latitude": 30.605,
+    "longitude": -9.771,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Advanced",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.5,
+    "maxSurfHeight": 3.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/boilers/5842041f4e65fad6a7708cf3"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Desert Point",
+    "status": "Approved",
+    "description": "Long right point north of the Taghazout village cluster, quieter than Anchor because of the longer drive. North-west swell and northeast wind; low to mid tide throws hollow sections over sand with rock inside. Intermediate to advanced walls when it lines up, with currents and rock on the exit.",
+    "latitude": 30.58,
+    "longitude": -9.75,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/desert-point/6594761f9c1a9d1a56068a2d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Devils Rock",
+    "status": "Approved",
+    "description": "Right reef and point at Tamraght, a short hop south of Taghazout's main strip. North-west swell and northeast offshore; workable across tides for intermediates who can handle rock. Camps and schools keep it busy in winter; booties help on the reef.",
+    "latitude": 30.505,
+    "longitude": -9.695,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 15
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Reef"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/devils-rock/640a158399dd447e65f8c472"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Hash Point",
+    "status": "Approved",
+    "description": "Short right-hand point on the north edge of Taghazout village, where north-west Atlantic swell peels over mixed sand and rock within walking distance of the main road. Northeast wind cleans the face; low to mid tide is the cleaner window when the bank lines up. Village traffic and shallow rock sections are the filters; softer and shorter than Anchor Point on the same stretch.",
+    "latitude": 30.543,
+    "longitude": -9.713,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 1.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surf-forecast.com/breaks/Hash-Point"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Imsouane (Cathedral Point)",
+    "status": "Approved",
+    "description": "Steeper right on the north side of Imsouane Bay, more exposed than The Bay next door. North-west swell builds hollow sections over reef at lower tides; northeast wind preferred. Intermediate to advanced, with rock underfoot and a smaller crowd than Taghazout's Anchor strip.",
+    "latitude": 30.847,
+    "longitude": -9.824,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 13
+    },
+    "type": "Point Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Reef"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/imsouane-cathedral-point-/640a15514eb375465689e63f"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Imsouane (The Bay)",
+    "status": "Approved",
+    "description": "One of Africa's longest rights wrapping the fishing-village bay at Imsouane. North-west swell peels soft walls for hundreds of metres when northeast winds clean the face; works across much of the tide. Intermediate-friendly on ordinary days, busy with camps and schools, with rock and currents on the bigger pulses.",
+    "latitude": 30.838,
+    "longitude": -9.824,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 13
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/imsouane-the-bay-/58bdf7c682d034001252e3d6"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Killers",
+    "status": "Approved",
+    "description": "Powerful right between Anchor Point and the Cap Rhir reefs, longer paddle that thins the crowd. North-west swell and northeast wind; mid tide links barrel sections over rock. Advanced when it stands up, with reef, rock, and current in the impact zone.",
+    "latitude": 30.556,
+    "longitude": -9.725,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Advanced",
+    "tide": "Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.5,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Reef",
+      "Currents"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/killers/5842041f4e65fad6a7708cfa"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Mysteries",
+    "status": "Approved",
+    "description": "Right point tucked into the Taghazout shelf near Anchor, often quieter than the main peak. North-west swell and northeast wind; mid tide is the cleaner call over rock. Intermediate walls with a rocky takeoff and light crowd outside peak pulses.",
+    "latitude": 30.543,
+    "longitude": -9.706,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mysteries/5842041f4e65fad6a7708cf9"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Panorama Point",
+    "status": "Approved",
+    "description": "Sweeping right at the edge of Taghazout village that softens as the tide fills. North-west swell and northeast wind; mid to high tide suits intermediates and progressing beginners. Walkable from town, busy in season, with rock on the inside.",
+    "latitude": 30.54,
+    "longitude": -9.71,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/panorama-point-/640a158899dd441bfaf8c663"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Sidi Moussa d'Aglou",
+    "status": "Approved",
+    "description": "Beach and reef peaks at Aglou Plage near Tiznit, lefts and rights over sand and uneven rock. Southwest through north swell, ideally west, with east to northeast offshore; low to mid tide preferred on many banks. Quieter than Taghazout, with rocks and fishing lines in the zone and camping and guesthouses behind the sand.",
+    "latitude": 29.806,
+    "longitude": -9.833,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 12
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "SW-N",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Reef"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sidi-moussa-d-aglou/640a159f99dd44d9fff8cbb7"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Sidi-Rbat",
+    "status": "Approved",
+    "description": "Rivermouth beach at the Massa estuary inside Souss-Massa National Park, roughly midway from Agadir toward Tiznit. North-west swell builds left and right peaks over sand; northeast wind cleans the faces. Empty lineups, birdlife on the lagoon, and 4x4 or rough track access; rips matter more than crowds.",
+    "latitude": 30.085,
+    "longitude": -9.663,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 12
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "None",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sidi-rbat/640a1590606c45828fa63b89"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Spiders",
+    "status": "Approved",
+    "description": "Right reef just outside the Tamraght peaks near Devils Rock and Banana. North-west swell and northeast wind; mid tide links faster sections over flat rock and sand. Intermediate session with a rockier scramble than the village beach; lighter crowd than Banana on ordinary days.",
+    "latitude": 30.503,
+    "longitude": -9.687,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 15
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/spiders/640a158499dd446cccf8c51b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Tamri",
+    "status": "Approved",
+    "description": "Open beach north of Cap Rhir that picks up north-west swell when the Taghazout points look small. Northeast wind preferred; peaks break left and right over sand with strong currents on bigger days. Emptier than the village strip, used as a swell magnet and a bailout when everywhere else is flat.",
+    "latitude": 30.706,
+    "longitude": -9.833,
+    "region": {
+      "id": 46
+    },
+    "subRegion": {
+      "id": 14
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tamri/628d05f73a8e9823fa9812d1"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ain Diab",
+    "status": "Approved",
+    "description": "Casablanca's main Atlantic beachbreak along the Corniche, where contests and city shortboarders share shifting sand peaks. North-west swell and south-east winds clean the faces; all tides work when the banks hold. Shorebreak punch and weekend crowds are the real filters.",
+    "latitude": 33.5895,
+    "longitude": -7.6741,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips",
+      "Pollution"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ain-diab/640a0de1e92030a571918fb7"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "PACKED",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "And Tikinet",
+    "status": "Approved",
+    "description": "Open sand stretch on the Essaouira Province coast between the town beaches and Cap Sim. North-west Atlantic swell builds left and right peaks; east winds are the cleaner option when the trades ease. Quieter than Sidi Kaouki on ordinary days, with rips on bigger pulses.",
+    "latitude": 31.45,
+    "longitude": -9.8,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/and-tikinet/640a156999dd44409ef8be33"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Azalai Beach",
+    "status": "Approved",
+    "description": "Sandy banks south of Safi that pick up north-west swell when the factory reef is too heavy. Northeast wind cleans the faces; peaks break both ways over sand with rips on solid pulses. Soft option relative to The Money Wave, with thin local traffic.",
+    "latitude": 32.28,
+    "longitude": -9.25,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/azalai-beach/640a156199dd44a2e8f8bc24"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Boats point",
+    "status": "Approved",
+    "description": "Rocky right near the Sidi Ifni harbour approaches, named for fishing boats that work the same stretch. North-west swell and northeast wind; low to mid tide keeps the takeoff cleaner. Intermediate walls with rock underfoot and a thinner crowd than Mirleft's main beach.",
+    "latitude": 29.37,
+    "longitude": -10.18,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 3
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/boats-point/640a15964519053c41924962"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Bouznika Plage",
+    "status": "Approved",
+    "description": "Right reef off the north end of a crescent beach between Rabat and Casablanca, beside a quiet winter resort strip. North-west swell and south-east wind; low tide is essential or the wave softens away. Fun to challenging walls over reef, with rock on the inside.",
+    "latitude": 33.82,
+    "longitude": -7.15,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 10
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate - Advanced",
+    "tide": "Low",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/bouznika-plage/5842041f4e65fad6a7708cfb"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Cap Sim",
+    "status": "Approved",
+    "description": "Exposed reef headland south of Essaouira that holds more shape than the open town beaches when north-west swell arrives. Northeast wind preferred; mid tide on a falling tide is the cleaner window. Rocks and a protective local crew keep the lineup honest.",
+    "latitude": 31.39,
+    "longitude": -9.84,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Reef",
+      "Localism"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/cap-sim/640a1555606c4574a4a62c86"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Cap Spartel",
+    "status": "Approved",
+    "description": "Atlantic-facing sand and rock at the north-west tip of Africa near Tangier, where west to north-west swell wraps the cape. East winds clean the faces better than the Strait breeze; currents run hard on solid days. Fickle compared with central Morocco points, but a real option when the north coast lights up.",
+    "latitude": 35.792,
+    "longitude": -5.924,
+    "region": {
+      "id": 47
+    },
+    "subRegion": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "W-NW",
+    "windDirection": "E",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/cap-spartel/640a0ddf606c45d7eca45467"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Choudir",
+    "status": "Approved",
+    "description": "Quiet sand stretch on the Mohammedia to Casablanca corridor that wakes on north-west swell. South-east winds clean the peaks; lefts and rights shift with the banks. Lighter traffic than Ain Diab or Pont Blondin, with rips when the swell jumps.",
+    "latitude": 33.72,
+    "longitude": -7.28,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/choudir/640a1525e920306a21935b75"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Dar Bouazza",
+    "status": "Approved",
+    "description": "Exposed left point west of Casablanca, often called La Bobine, that peels on north-west groundswell. South to south-east wind preferred; low tide is the cleaner call over rock. Crowds build when it links, with wreck debris and rips in the zone.",
+    "latitude": 33.54,
+    "longitude": -7.82,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Point Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Low",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.8,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Rips",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/dar-bouazza/5842041f4e65fad6a7708cf6"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Dique Sur",
+    "status": "Approved",
+    "description": "South mole beach at Nador where Mediterranean north-east swell finds sand peaks beside the harbour wall. South-west winds clean the faces on rare clean days; any tide works when energy arrives. Small and inconsistent by Atlantic standards, with harbour runoff on the inside.",
+    "latitude": 35.175,
+    "longitude": -2.925,
+    "region": {
+      "id": 44
+    },
+    "subRegion": {
+      "id": 7
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NE",
+    "windDirection": "SW",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 1.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Currents",
+      "Pollution"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/dique-sur/640a154ab6d76906e846bd6d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Douar El Haitat",
+    "status": "Approved",
+    "description": "Rural sandbanks on the El Jadida to Oualidia stretch that pick up north-west swell with almost no lineup pressure. South-east wind preferred; peaks break both ways over sand. Empty relative to town beaches, with rips the main hazard when it stands up.",
+    "latitude": 32.85,
+    "longitude": -8.9,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/douar-el-haitat/640a157eb6d769063846ca2c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Doura",
+    "status": "Approved",
+    "description": "Rabat beach and rivermouth zone with open sand peaks and a more consistent left near the river outflow. North-west swell and east to south-east wind; works across the tide when banks hold. Reliable city option that can get dirty from runoff and busy on weekends.",
+    "latitude": 34.03,
+    "longitude": -6.84,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 10
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E-SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Pollution",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/doura/5842041f4e65fad6a7708cfe"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Eden Island",
+    "status": "Approved",
+    "description": "Sand peaks on the Mohammedia coast near the Eden resort strip. North-west swell and south-east wind; lefts and rights shift with the banks. Softer than the Bouznika reef and quieter than Ain Diab, with rips on bigger days.",
+    "latitude": 33.7,
+    "longitude": -7.35,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/eden-island/640a1526451905d25d922e23"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "El Jadida",
+    "status": "Approved",
+    "description": "Exposed beach and jetty peaks at the fortified Atlantic town south-west of Casablanca. North-west swell favours rights off the sandbanks; south-east wind cleans the faces. Consistent for the area without the Taghazout crowds, with rock near the harbour works.",
+    "latitude": 33.27,
+    "longitude": -8.52,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/el-jadida/640a1559b6d769df0f46c14a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "El Ma Lahlou",
+    "status": "Approved",
+    "description": "Sandy peaks on the windy Essaouira coast that still find rideable banks when north-west swell outruns the trades. East winds are the cleaner window; lefts and rights for progressing surfers. Thin crowd compared with Cap Sim on ordinary pulses.",
+    "latitude": 31.48,
+    "longitude": -9.78,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/el-ma-lahlou/640a1568606c45f862a63103"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "El Mkitaa",
+    "status": "Approved",
+    "description": "Low-profile sand stretch between El Jadida and Oualidia that wakes on north-west Atlantic swell. South-east wind preferred; peaks peel both ways with little local pressure. Empty lineups and strong rips when the swell jumps are the two constants.",
+    "latitude": 32.95,
+    "longitude": -8.75,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/el-mkitaa/640a157b99dd443633f8c281"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "El Oualidia",
+    "status": "Approved",
+    "description": "Sheltered lagoon-town beach and mixed reef peaks on the coast south of El Jadida. North-west swell and south-east wind; lefts and rights over sand and rock that work across the tide. Popular weekend escape with oyster farms behind the dunes and rock on some banks.",
+    "latitude": 32.75,
+    "longitude": -9.04,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/el-oualidia/640a154f606c455089a62b0a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "El Ouatia",
+    "status": "Approved",
+    "description": "Long windswept sand at the Tan-Tan Plage fishing port, also known as El Ouatia. North-west swell builds shifting peaks; northeast wind cleans the faces better than the afternoon sea breeze. Empty desert-coast surf with strong rips and almost no services outside town.",
+    "latitude": 28.5,
+    "longitude": -11.34,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 4
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/el-ouatia/640a15a0b6d769797b46d2c0"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Essaouira",
+    "status": "Approved",
+    "description": "Exposed town beach in front of the medina and ramparts where north-west swell meets Morocco's famous trade winds. East to south-east wind is the rare clean window; most days favour windsurf and kite over glassy walls. Soft peaks for learners when the wind drops, with rips on bigger pulses.",
+    "latitude": 31.51,
+    "longitude": -9.77,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E-SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/essaouira/628d058cf72b45289820e650"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Fetissa",
+    "status": "Approved",
+    "description": "Remote sandbanks north of Oualidia that catch north-west swell with almost no infrastructure. South-east wind preferred; lefts and rights shift along an empty stretch. Strong rips on solid days and a true exploratory feel between El Jadida and the lagoon town.",
+    "latitude": 32.7895,
+    "longitude": -8.9715,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/fetissa/640a15804eb37528fd89f192"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Haouzia",
+    "status": "Approved",
+    "description": "Sand stretch between Azemmour and El Jadida that picks up north-west swell on the same coast as the town beaches. South-east wind cleans the faces; peaks break both ways with light crowds. Quieter alternative when Sidi Bouzid packs out.",
+    "latitude": 33.3,
+    "longitude": -8.4,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/haouzia/640a1557e920302b489367dd"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Hjar Lamaarrad",
+    "status": "Approved",
+    "description": "Rocky coastal stretch north of Mehdya toward Moulay Bousselham that wakes on north-west swell. East wind preferred; mixed lefts and rights over rock and sand at lower tides. Empty relative to Rabat city beaches, with rock underfoot the main concern.",
+    "latitude": 34.55,
+    "longitude": -6.4,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Rock",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Intermediate",
+    "tide": "Low - Mid",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Rocks",
+      "Currents"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/hjar-lamaarrad/640a1523b6d769c08546b41c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Hofret Jmal",
+    "status": "Approved",
+    "description": "Quiet sandbanks on the Kénitra coast north of Mehdya. North-west swell and east wind; peaks peel both ways with almost no crowd. Soft option when Moulay Bousselham is busy, with rips on bigger winter pulses.",
+    "latitude": 34.7,
+    "longitude": -6.35,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/hofret-jmal/640a15214eb375080089daf5"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Id Bouchini",
+    "status": "Approved",
+    "description": "Cliff-backed beach between Mirleft and Legzira that catches north-west swell with cliff wind shelter on some banks. Northeast wind preferred; lefts and rights over sand with rock on the edges. Empty exploratory stretch with strong currents on solid days.",
+    "latitude": 29.5,
+    "longitude": -10.08,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 3
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/id-bouchini/640a15a5e92030d501937a9c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Jack Beach",
+    "status": "Approved",
+    "description": "Exposed sandbreak west of Casablanca near Dar Bouazza that works year-round on north-west swell. South-east wind cleans the faces; peaks break both ways with light crowds. Consistent city-escape beach with rips when the swell jumps.",
+    "latitude": 33.52,
+    "longitude": -7.87,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/jack-beach/640a0dda606c459820a45317"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Kofe Hmam",
+    "status": "Approved",
+    "description": "Low-key sand peaks on the Kénitra Atlantic strip near Hofret Jmal. North-west swell and east wind; lefts and rights for progressing surfers. Empty most days, with rips the main hazard when winter swell stands up.",
+    "latitude": 34.65,
+    "longitude": -6.38,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/kofe-hmam/640a15204eb375484189da92"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "La Izquierda",
+    "status": "Approved",
+    "description": "Left reef near Nador on Morocco's Mediterranean coast that needs north-east swell to show real walls. South-west wind cleans the face; works across much of the tide when energy arrives. Fickle compared with the Atlantic, with reef and rock underfoot.",
+    "latitude": 35.18,
+    "longitude": -2.93,
+    "region": {
+      "id": 44
+    },
+    "subRegion": {
+      "id": 7
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "NE",
+    "windDirection": "SW",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/la-izquierda/640a1546b6d7692a6446bc1a"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Lbarkou",
+    "status": "Approved",
+    "description": "Sandy coastal pin south of Safi near Mgad Jmel that picks up north-west swell. Northeast wind preferred; peaks break both ways over sand with almost no crowd. Soft alternative when The Money Wave is maxed or wind-blown.",
+    "latitude": 32.2,
+    "longitude": -9.3,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/lbarkou/640a155f4eb375e2f089e9f5"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Legzira",
+    "status": "Approved",
+    "description": "Famous red-arch beach between Mirleft and Sidi Ifni with a playful right reef near the entrance and softer sand peaks further along. North-west swell and northeast wind; works for learners through intermediates. Rock near the reef section and rips on bigger days.",
+    "latitude": 29.435,
+    "longitude": -10.117,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 3
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "All Levels",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/legzira/640a1593606c459b16a63c57"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Lkarkoura",
+    "status": "Approved",
+    "description": "Windy Essaouira Province sandbanks that still produce rideable peaks on north-west swell when east winds hold. Lefts and rights for progressing surfers; thinner than Cap Sim. Rips appear quickly once the swell climbs.",
+    "latitude": 31.47,
+    "longitude": -9.79,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/lkarkoura/640a15664519050cd8923d4c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Loualja",
+    "status": "Approved",
+    "description": "Sand stretch near Choudir and Eden Island on the Mohammedia corridor. North-west swell and south-east wind; peaks peel both ways with light local traffic. Workmanlike city-coast option with rips on solid pulses.",
+    "latitude": 33.71,
+    "longitude": -7.3,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/loualja/640a15274eb375311989dc6b"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Marsat Gaayad",
+    "status": "Approved",
+    "description": "Exposed sandbanks near Mehdya that stand up on solid north-west swell. East wind preferred; lefts and rights with more punch than the softer town peaks. Strong currents on overhead days and a thinner crowd than Mehdya Plage itself.",
+    "latitude": 34.3,
+    "longitude": -6.65,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/marsat-gaayad/640a153c4eb37582a189e0fc"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Mehdya Plage",
+    "status": "Approved",
+    "description": "Main beach at Mehdya near Kénitra where north-west swell builds sand peaks beside the lagoon mouth. East wind cleans the faces; works across the tide for progressing surfers. Popular local beach with rips and summer crowds.",
+    "latitude": 34.26,
+    "longitude": -6.68,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mehdya-plage/640a0dd84eb375bf28880e92"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Mgad Jmel",
+    "status": "Approved",
+    "description": "Sandy A-frames at Lebdahja south of Safi that suit learners when north-west swell is manageable. Northeast wind preferred; peaks break both ways over sand. Empty most sessions, with rips once winter swell climbs.",
+    "latitude": 32.22,
+    "longitude": -9.28,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mgad-jmel/640a155ee920303c24936980"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Mirleft",
+    "status": "Approved",
+    "description": "Cliff-town hub with several beach and cove peaks within a short drive, including the main Grande Plage banks. North-west swell and northeast wind; options for learners through intermediates. Rock on the cove edges and rips on open beach days.",
+    "latitude": 29.578,
+    "longitude": -10.034,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 3
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "All Levels",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mirleft/640a159299dd44c72bf8c8d5"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Moulay Bousselham",
+    "status": "Approved",
+    "description": "Shifty rivermouth beachbreak at a sleepy fishing village north of Kénitra. North-west swell feeds left and right peaks; east wind cleans the faces. Busier in summer but still emptier than Rabat in winter, with strong currents near the river mouth.",
+    "latitude": 34.878,
+    "longitude": -6.293,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/moulay-bousselham/6050c825384cc5b55b7a8b1c"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Mrah Sebiti",
+    "status": "Approved",
+    "description": "Quiet Atlantic sand between Asilah and Tangier that needs west to north-west swell to wake. East wind preferred; peaks break both ways with almost no crowd. Inconsistent northern option with rips when a solid pulse arrives.",
+    "latitude": 35.45,
+    "longitude": -6.05,
+    "region": {
+      "id": 47
+    },
+    "subRegion": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "W-NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/mrah-sebiti/640a152db6d769483446b68d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ord Omar",
+    "status": "Approved",
+    "description": "Sand stretch near Essaouira town with the same windy exposure as the medina beach. North-west swell and east wind; lefts and rights when the trades ease. Soft peaks for progression, with rips on bigger days.",
+    "latitude": 31.5,
+    "longitude": -9.76,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ord-omar/640a1578e920306d73936f81"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Oued Cherrat",
+    "status": "Approved",
+    "description": "Rivermouth sandbanks near Bouznika that stand up on north-west swell. South-east wind preferred; shifting lefts and rights with stronger currents than the neighbouring reef. Quieter than Bouznika Plage on ordinary days.",
+    "latitude": 33.8,
+    "longitude": -7.18,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 10
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/oued-cherrat/5842041f4e65fad6a7708cfc"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Oulad Ghanem",
+    "status": "Approved",
+    "description": "Rural sandbanks on the El Jadida to Oualidia coast that pick up north-west swell with empty lineups. South-east wind cleans the faces; peaks peel both ways. Strong rips on solid pulses and almost no beach services.",
+    "latitude": 32.9,
+    "longitude": -8.85,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/oulad-ghanem/640a157cb6d7690a9e46c997"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ouljat Ezzaouia",
+    "status": "Approved",
+    "description": "Ouljat sand stretch north of Safi toward Oualidia that catches solid north-west swell. Northeast wind preferred; lefts and rights with thin crowds. Empty exploratory banks with rips when the swell climbs.",
+    "latitude": 32.48,
+    "longitude": -9.18,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ouljat-ezzaouia/640a156f4eb375805d89eda9"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ouljat Oulad Ali",
+    "status": "Approved",
+    "description": "Open sandbanks north of Safi in the Ouljat cluster that wake on north-west Atlantic swell. Northeast wind cleans the faces; peaks break both ways with almost nobody out. Strong rips on overhead days are the main filter.",
+    "latitude": 32.45,
+    "longitude": -9.2,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ouljat-oulad-ali/640a156d606c452527a63244"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Ouljat Oulad Said",
+    "status": "Approved",
+    "description": "Northernmost Surfline Ouljat pin between Safi and Oualidia. North-west swell builds shifting sand peaks; northeast wind preferred. Empty relative to town beaches, with currents and rips on solid winter pulses.",
+    "latitude": 32.52,
+    "longitude": -9.15,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 6
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/ouljat-oulad-said/640a157199dd440957f8c005"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Paloma",
+    "status": "Approved",
+    "description": "Sand peaks near Mohammedia that share the same north-west swell window as Pont Blondin. South-east wind cleans the faces; lefts and rights for city surfers. Lighter than Ain Diab, with rips on bigger days.",
+    "latitude": 33.68,
+    "longitude": -7.42,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/paloma/640a0dde4519054bfb906049"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Azemmour",
+    "status": "Approved",
+    "description": "Beachbreak at Azemmour on the Oum Er-Rbia mouth coast. North-west swell and south-east wind; peaks peel both ways over sand. Consistent local option between Casablanca and El Jadida with rips near the river.",
+    "latitude": 33.29,
+    "longitude": -8.34,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-azemmour/640a156bb6d769a0fe46c597"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Azrou",
+    "status": "Approved",
+    "description": "Remote Essaouira Province sand south toward Tafedna that picks up north-west swell. East wind preferred; lefts and rights with rock on some banks. Empty relative to Sidi Kaouki, with rips on solid pulses.",
+    "latitude": 31.28,
+    "longitude": -9.82,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-azrou/640a157499dd444baef8c0d1"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Blanche",
+    "status": "Approved",
+    "description": "Vast empty sand between Sidi Ifni and Tan-Tan where Sahara dunes meet the Atlantic. North-west swell builds shifting peaks; northeast wind cleans the faces. Wilderness surf with powerful rips and no beach services.",
+    "latitude": 28.85,
+    "longitude": -10.95,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 4
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-blanche/640a1598606c4539b0a63d40"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Chelihate",
+    "status": "Approved",
+    "description": "Sand stretch on the Kénitra coast that wakes on north-west swell with east winds. Lefts and rights for progressing surfers; lighter traffic than Mehdya. Rips build quickly once the swell stands up.",
+    "latitude": 34.4,
+    "longitude": -6.55,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-chelihate/640a1539e9203031f4936043"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Club Asasoon",
+    "status": "Approved",
+    "description": "Club beach at Nador where Mediterranean north-east swell finds soft sand peaks. South-west wind is the cleaner window; any tide works when energy arrives. Small and inconsistent, suited to beginners on rare clean days.",
+    "latitude": 35.19,
+    "longitude": -2.91,
+    "region": {
+      "id": 44
+    },
+    "subRegion": {
+      "id": 7
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NE",
+    "windDirection": "SW",
+    "skillLevel": "Beginner",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 1.2,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Currents"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-club-asasoon/640a152c606c451cf9a62279"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage de Sidi Kacem",
+    "status": "Approved",
+    "description": "Atlantic beach south of Tangier toward Asilah that picks up west to north-west swell. East wind preferred; peaks break both ways over sand. More consistent than Cap Spartel for ordinary sessions, with rips on bigger days.",
+    "latitude": 35.52,
+    "longitude": -6.0,
+    "region": {
+      "id": 47
+    },
+    "subRegion": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "W-NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-de-sidi-kacem/640a1277b6d769dee1460cc3"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage de Skhirat",
+    "status": "Approved",
+    "description": "Resort beach between Rabat and Casablanca that catches north-west swell on sandbanks. East to south-east wind cleans the faces; lefts and rights for locals and weekenders. Softer than Bouznika reef, with summer crowds and rips.",
+    "latitude": 33.85,
+    "longitude": -7.03,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 10
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E-SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-de-skhirat/640a12754519058d799184cb"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage de Temara",
+    "status": "Approved",
+    "description": "Popular sand beach just south of Rabat that wakes on north-west swell. East to south-east wind preferred; peaks peel both ways with a busy local scene. Reliable city option with rips when the swell jumps.",
+    "latitude": 33.92,
+    "longitude": -6.95,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 10
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E-SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-de-temara/640a151bb6d7694bc046b20d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage des Nations",
+    "status": "Approved",
+    "description": "Long sand beach north of Salé toward Mehdya that picks up north-west swell. East wind cleans the faces; lefts and rights for progressing surfers. Popular weekend stretch with rips and a growing local crowd.",
+    "latitude": 34.08,
+    "longitude": -6.78,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 10
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-des-nations/640a152f606c453778a62322"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Half Moon",
+    "status": "Approved",
+    "description": "Crescent sand bay south of El Jadida that stands up on solid north-west swell. South-east wind preferred; punchier peaks than the town jetty banks. Stronger currents than Sidi Bouzid on overhead days, with lighter crowds.",
+    "latitude": 33.2,
+    "longitude": -8.6,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-half-moon/63a4479b431b0df32ddb09c2"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Harch",
+    "status": "Approved",
+    "description": "Mediterranean sand at Douar Baddou in Driouch Province that needs north-east swell to show. South-west wind cleans the faces; soft A-frames for beginners. Empty and inconsistent, with rips on rare bigger pulses.",
+    "latitude": 35.22,
+    "longitude": -3.75,
+    "region": {
+      "id": 44
+    },
+    "subRegion": {
+      "id": 7
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NE",
+    "windDirection": "SW",
+    "skillLevel": "Beginner",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 1.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-harch/640a151e606c452e11a61f31"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Les Princesses",
+    "status": "Approved",
+    "description": "Sand beach on the Temara to Rabat strip that wakes on north-west swell. East to south-east wind preferred; peaks peel both ways with a busy local scene. Soft to punchy depending on the banks, with rips on solid days.",
+    "latitude": 33.95,
+    "longitude": -6.92,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 10
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E-SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-les-princesses/631e373919dc5f6072757fb4"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Mhibet",
+    "status": "Approved",
+    "description": "Quiet Atlantic sand on the Asilah approaches that needs west to north-west swell. East wind cleans the faces; lefts and rights with almost no crowd. Fickle northern beach with rips when a real pulse arrives.",
+    "latitude": 35.4,
+    "longitude": -6.08,
+    "region": {
+      "id": 47
+    },
+    "subRegion": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "W-NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-mhibet/640a1529e92030a6ee935c93"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Oued Lihoud",
+    "status": "Approved",
+    "description": "Rivermouth sand near Tangier that picks up west to north-west Atlantic swell. East wind preferred; shifting peaks with currents near the river. Quiet relative to Cap Spartel tourist traffic.",
+    "latitude": 35.55,
+    "longitude": -5.98,
+    "region": {
+      "id": 47
+    },
+    "subRegion": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "W-NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-oued-lihoud/640a1535b6d769d99e46b830"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Sidi Boughaba",
+    "status": "Approved",
+    "description": "Sand beach beside the Sidi Boughaba lagoon near Mehdya. North-west swell and east wind; lefts and rights for progressing surfers. Quieter neighbour to Mehdya Plage, with rips when the swell climbs.",
+    "latitude": 34.25,
+    "longitude": -6.7,
+    "region": {
+      "id": 45
+    },
+    "subRegion": {
+      "id": 9
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-sidi-boughaba/640a1530e920306182935e2e"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Sol",
+    "status": "Approved",
+    "description": "Tangier-area sand that faces enough Atlantic to wake on west to north-west swell. East wind preferred; soft peaks for progressing surfers. Inconsistent compared with central Morocco, with rips on the better days.",
+    "latitude": 35.78,
+    "longitude": -5.8,
+    "region": {
+      "id": 47
+    },
+    "subRegion": {
+      "id": 16
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "W-NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 1.8,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-sol/640a154199dd444ff9f8b3f2"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Takaouch",
+    "status": "Approved",
+    "description": "Southern Essaouira Province sand near Plage Azrou that picks up north-west swell. East wind cleans the faces; lefts and rights with empty lineups. Rips on bigger pulses and a long drive from town.",
+    "latitude": 31.3,
+    "longitude": -9.83,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-takaouch/640a1576606c4579e4a63479"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Plage Tanda",
+    "status": "Approved",
+    "description": "Mediterranean beachbreak at Tanout Ou Znayed in Driouch Province. North-east swell and south-west wind; soft A-frames for beginners when energy arrives. Empty and seasonal, with rips on winter pulses.",
+    "latitude": 35.2035,
+    "longitude": -3.8032,
+    "region": {
+      "id": 44
+    },
+    "subRegion": {
+      "id": 7
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NE",
+    "windDirection": "SW",
+    "skillLevel": "Beginner",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.3,
+    "maxSurfHeight": 1.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/plage-tanda/640a153299dd44010af8b098"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Playa de Tamajarusch",
+    "status": "Approved",
+    "description": "Cliff cove beach near Mirleft with sand peaks and rock on the edges. North-west swell and northeast wind; softer option than the heavier southern points. Quiet lineup with currents when the swell jumps.",
+    "latitude": 29.55,
+    "longitude": -10.05,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 3
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/playa-de-tamajarusch/640a15a299dd443fe8f8cc83"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Pont Blondin",
+    "status": "Approved",
+    "description": "Classic Mohammedia pier and sand peaks that stand up on north-west swell. South-east wind preferred; lefts and rights with a strong local crew. City-access surf with rock near the works and occasional dirty water.",
+    "latitude": 33.69,
+    "longitude": -7.4,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 2
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.6,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rocks",
+      "Pollution"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/pont-blondin/6630f3442c6d8722b4ea6b6d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Sidi Abed",
+    "status": "Approved",
+    "description": "Sand stretch south of El Jadida toward Oualidia that wakes on north-west swell. South-east wind cleans the faces; peaks peel both ways with light crowds. Quieter than Sidi Bouzid, with rips on solid days.",
+    "latitude": 33.15,
+    "longitude": -8.65,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.0,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sidi-abed/640a155ce9203031c3936900"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Sidi Bouzid",
+    "status": "Approved",
+    "description": "Exposed beach and point mix just south of El Jadida that works year-round on north-west swell. South-east wind preferred; rising mid to high tide is often the cleaner window. Crowds and rock when it is on, with a protective local crew.",
+    "latitude": 33.25,
+    "longitude": -8.54,
+    "region": {
+      "id": 41
+    },
+    "subRegion": {
+      "id": 1
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "SE",
+    "skillLevel": "Intermediate",
+    "tide": "Mid - High",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Localism",
+      "Currents"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sidi-bouzid/640a155b4eb3752d0689e89d"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Sidi Ifni",
+    "status": "Approved",
+    "description": "Town beach and nearby peaks at the former Spanish outpost, including learner sand and heavier lefts toward the old cable-car works. North-west swell and northeast wind; options across skill levels. Rock near harbour works and rips on open beach days.",
+    "latitude": 29.38,
+    "longitude": -10.173,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 3
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "All Levels",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rocks",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sidi-ifni/640a15954519059160924906"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Sidi Kaouki",
+    "status": "Approved",
+    "description": "Exposed sandbar beach south of Essaouira that remains rideable when the town is blown out, though wind still rules many days. North-west swell and east winds; lefts and rights over sand with rock on the edges. Camps and schools keep it busy in season.",
+    "latitude": 31.41,
+    "longitude": -9.85,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant",
+      "Cafe"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Hotel",
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Rocks",
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/sidi-kaouki/640a15544eb375258989e6fe"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "BUSY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Tagrioualet",
+    "status": "Approved",
+    "description": "Quieter sand south of Cap Sim that still sees north-west swell when the headland is crowded. East wind preferred; softer peaks than the reef next door. Empty most days, with rips on solid pulses.",
+    "latitude": 31.35,
+    "longitude": -9.82,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.4,
+    "maxSurfHeight": 1.8,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tagrioualet/640a157ae920301c8a936ff1"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Tan-Tan Plage",
+    "status": "Approved",
+    "description": "Long Atlantic sand at Tan-Tan Plage where fishing boats and empty banks share the coast. North-west swell builds shifting peaks; northeast wind cleans the faces. Remote southern frontier surf with strong rips and sparse infrastructure.",
+    "latitude": 28.5,
+    "longitude": -11.34,
+    "region": {
+      "id": 42
+    },
+    "subRegion": {
+      "id": 4
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "NE",
+    "skillLevel": "Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Currents",
+      "Rips"
+    ],
+    "parking": "Street",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tan-tan-plage/640a15994519058646924a13"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "Tassaksout n-Tahna",
+    "status": "Approved",
+    "description": "Southernmost Surfline pin on the Essaouira Province map toward Tafedna. North-west swell wakes open sand peaks; east wind preferred. Empty exploratory surf with rock on some banks and rips once winter swell climbs.",
+    "latitude": 31.22,
+    "longitude": -9.85,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 5
+    },
+    "type": "Beach Break",
+    "beachBottomType": "Sand",
+    "swellDirection": "NW",
+    "windDirection": "E",
+    "skillLevel": "Beginner - Intermediate",
+    "tide": "Any",
+    "waveDirection": "Left and Right",
+    "minSurfHeight": 0.5,
+    "maxSurfHeight": 2.5,
+    "foodNearby": false,
+    "accommodationNearby": false,
+    "hazards": [
+      "Currents",
+      "Rips",
+      "Rocks"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/tassaksout-n-tahna/640a1573451905721a924012"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "EMPTY",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
+    "name": "The Money Wave",
+    "status": "Approved",
+    "description": "Powerful right reef south of Safi in front of the industrial plant, still one of Morocco's heaviest barrels on north-west swell. North to northeast wind holds the face; low to mid tide keeps the reef working. Advanced takeoff beside shallow reef and factory runoff.",
+    "latitude": 32.32,
+    "longitude": -9.26,
+    "region": {
+      "id": 43
+    },
+    "subRegion": {
+      "id": 6
+    },
+    "type": "Reef Break",
+    "beachBottomType": "Reef",
+    "swellDirection": "NW",
+    "windDirection": "N-NE",
+    "skillLevel": "Advanced",
+    "tide": "Low - Mid",
+    "waveDirection": "Right",
+    "minSurfHeight": 1.0,
+    "maxSurfHeight": 3.5,
+    "foodNearby": true,
+    "foodOptions": [
+      "Restaurant"
+    ],
+    "accommodationNearby": true,
+    "accommodationOptions": [
+      "Guesthouse"
+    ],
+    "hazards": [
+      "Reef",
+      "Rocks",
+      "Pollution"
+    ],
+    "parking": "Free",
+    "boatRequired": false,
+    "isWavepool": false,
+    "isRiverWave": false,
+    "swellSeasonName": "North Atlantic",
+    "forecasts": [
+      "https://www.surfline.com/surf-report/the-money-wave/5842041f4e65fad6a7708cf5"
+    ],
+    "createdBy": "SYSTEM",
+    "crowdLevel": "FEW",
+    "ianaZoneId": "Africa/Casablanca",
+    "isWslTourStop": false
+  },
+  {
     "name": "Djeno Point",
     "status": "Approved",
     "description": "Left-hand point about 30 km south of Pointe-Noire, peeling over uneven reef and sand when solid southwest swell wraps the headland. Northeast wind cleans the face; rising tide usually helps. ENI oil terminal sits on the same coast, so tar balls on the sand and in the water are part of the deal. Empty lineup for intermediate surfers who can handle rock in the impact zone.",
     "latitude": -4.926,
     "longitude": 11.932,
     "region": {
-      "id": 59
+      "id": 57
     },
     "type": "Point Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -4623,7 +9295,8 @@
       "Guesthouse"
     ],
     "hazards": [
-      "Rocks"
+      "Rocks",
+      "Pollution"
     ],
     "parking": "Free",
     "boatRequired": false,
@@ -4645,11 +9318,11 @@
     "latitude": -4.95,
     "longitude": 11.96,
     "region": {
-      "id": 59
+      "id": 57
     },
     "type": "Reef Break",
     "beachBottomType": "Rock",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -4681,11 +9354,11 @@
     "latitude": -4.931,
     "longitude": 11.938,
     "region": {
-      "id": 59
+      "id": 57
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",
@@ -4702,7 +9375,8 @@
       "Hotel"
     ],
     "hazards": [
-      "Rips"
+      "Rips",
+      "Pollution"
     ],
     "parking": "Free",
     "boatRequired": false,
@@ -4724,11 +9398,11 @@
     "latitude": -4.81,
     "longitude": 11.84,
     "region": {
-      "id": 60
+      "id": 58
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "SW - W",
+    "swellDirection": "SW-W",
     "windDirection": "NE",
     "skillLevel": "Intermediate",
     "tide": "Any",
@@ -4768,11 +9442,11 @@
     "latitude": -4.809,
     "longitude": 11.86,
     "region": {
-      "id": 60
+      "id": 58
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Beginner",
     "tide": "Any",
@@ -4811,11 +9485,11 @@
     "latitude": -4.805,
     "longitude": 11.855,
     "region": {
-      "id": 60
+      "id": 58
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Advanced",
     "tide": "Any",
@@ -4853,11 +9527,11 @@
     "latitude": -4.77,
     "longitude": 11.83,
     "region": {
-      "id": 60
+      "id": 58
     },
     "type": "Beach Break",
     "beachBottomType": "Sand",
-    "swellDirection": "S - SW",
+    "swellDirection": "S-SW",
     "windDirection": "NE",
     "skillLevel": "Beginner - Intermediate",
     "tide": "Any",

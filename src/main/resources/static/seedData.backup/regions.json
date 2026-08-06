@@ -561,128 +561,100 @@
   },
   {
     "name": "Casablanca-Settat",
-    "description": "Dense coastline of beach breaks and piers around Casablanca, with regular swell and an active local scene. Less consistent the farther south you go, but some exposed reefs offer more variety.",
+    "description": "Dense Atlantic coastline of beach breaks and piers from Mohammedia through Casablanca down toward El Jadida and Oualidia. Regular north-west swell and an active local scene; less point-break drama than further south, but reliable urban and town banks.",
     "country": {
       "id": 14,
       "name": "Morocco"
     },
     "boundingBox": [
-      32.0,
-      -8.9,
-      33.8,
-      -6.7
-    ]
-  },
-  {
-    "name": "Essaouira",
-    "description": "A laid-back region mixing mellow beach breaks with Imsouane’s famously long right-hand point. The old medina and fishing port give the area a strong cultural identity, while the growing surf scene adds a modern edge. Less hectic than Taghazout but still full of character.",
-    "country": {
-      "id": 14,
-      "name": "Morocco"
-    },
-    "boundingBox": [
-      30.9,
-      -10.0,
-      31.7,
-      -9.3
+      -9.05,
+      32.15,
+      -7.15,
+      33.75
     ]
   },
   {
     "name": "Guelmim-Oued Noun",
-    "description": "A vast and underexplored region, home to Morocco’s southernmost established surf scene. Around Sidi Ifni and Mirleft, rugged cliffs and remote beaches hide punchy beach breaks and rocky points. Further south, the coastline grows emptier, with potential for discovery but little infrastructure.",
+    "description": "Southern Atlantic frontier beyond Tiznit, from Mirleft and Sidi Ifni down through Tan-Tan. Rugged cliffs, remote beaches, and punchy beach and point setups with little infrastructure the further south you go.",
     "country": {
       "id": 14,
       "name": "Morocco"
     },
     "boundingBox": [
-      28.0,
-      -10.3,
-      30.5,
-      -8.2
+      -11.5,
+      27.8,
+      -9.85,
+      29.35
     ]
   },
   {
-    "name": "Marrakesh-Safi",
-    "description": "Marrakesh lures tourists with its souks and spice-scented alleys, but the coastline hides real treasure. Safi delivers Morocco’s heaviest right-hand barrel, while the surrounding shore offers uncrowded setups for those willing to search.",
+    "name": "Marrakech-Safi",
+    "description": "Atlantic coast of Marrakech-Safi, where Safi throws some of Morocco's heaviest right-hand barrels and Essaouira offers windier beach and point options with a strong kite scene. Less camp-dense than Taghazout, still a core winter swell destination.",
     "country": {
       "id": 14,
       "name": "Morocco"
     },
     "boundingBox": [
-      30.0,
-      -9.8,
-      32.5,
-      -7.0
+      -10.05,
+      30.95,
+      -8.85,
+      32.15
     ]
   },
   {
     "name": "Oriental",
-    "description": "Remote Mediterranean coastline with rare, wind-dependent waves near Saïdia and Ras Kebdana. Minimal infrastructure, few crowds, and highly inconsistent surf.",
+    "description": "Far eastern Mediterranean coast near Saïdia and Ras Kebdana. Rare, wind-dependent waves, minimal surf infrastructure, and highly inconsistent conditions compared with the Atlantic.",
     "country": {
       "id": 14,
       "name": "Morocco"
     },
     "boundingBox": [
-      32.0,
-      -3.0,
+      -2.35,
       35.0,
-      -1.0
+      -2.05,
+      35.2
     ]
   },
   {
-    "name": "Rabat-Salé-Kenitra",
-    "description": "Urban stretch with exposed beach breaks and jetties, particularly around the capital, Rabat. Picks up north-west swells and has a mix of easy-access city spots and heavier sandbar setups in rural pockets.",
+    "name": "Rabat-Salé-Kénitra",
+    "description": "Capital-region Atlantic stretch from Mehdia and Kénitra through Salé and Rabat. Exposed beach breaks and jetties on north-west swell, with easy city access and heavier sandbar days in the rural pockets.",
     "country": {
       "id": 14,
       "name": "Morocco"
     },
     "boundingBox": [
-      34.0,
-      -6.0,
-      34.5,
-      -5.5
+      -7.05,
+      33.75,
+      -6.2,
+      35.05
     ]
   },
   {
     "name": "Souss-Massa",
-    "description": "Once a quiet fishing village, now the poster child of Moroccan surf. Iconic right-hand points like Anchor Point and Killers fire through winter, drawing heavy crowds. The town's packed with surf camps, cafés, and foreign tourists, softening its Berber roots, but it's still the place for a tagine and some epic, but crowded waves.",
+    "description": "Morocco's main surf region south of Essaouira: Imsouane's long rights, the Taghazout and Tamraght point cluster, Agadir town banks, and emptier reefs toward Aglou and Tiznit. Winter north-west swell packs the famous points; shoulder seasons open quieter options.",
     "country": {
       "id": 14,
       "name": "Morocco"
     },
     "boundingBox": [
-      29.8,
-      -9.8,
-      30.6,
-      -8.5
+      -10.15,
+      29.35,
+      -9.4,
+      30.95
     ]
   },
   {
-    "name": "Tagazhout",
-    "description": "Once a quiet fishing village, now the poster child of Moroccan surf. Iconic right-hand points like Anchor Point and Killers fire through winter, drawing heavy crowds. The town's packed with surf camps, cafés, and foreign tourists, softening its Berber roots — but it’s still the place for a tagine and some epic, but crowded waves.",
+    "name": "Tanger-Tétouan-Al Hoceïma",
+    "description": "Northern tip spanning Atlantic beaches around Tangier and Asilah plus the Mediterranean toward Tetouan and Al Hoceïma. Wind-dependent and inconsistent next to the southern point breaks, but handy for ferry arrivals from Spain.",
     "country": {
       "id": 14,
       "name": "Morocco"
     },
     "boundingBox": [
-      30.5,
-      -9.7,
-      30.6,
-      -9.4
-    ]
-  },
-  {
-    "name": "Tangier-Tetouan-Al Hoceima",
-    "description": "Covering Morocco’s Mediterranean coastline near the Strait of Gibraltar. Surf is inconsistent, with small wind swell and rare Atlantic pulses reaching select sheltered breaks.",
-    "country": {
-      "id": 14,
-      "name": "Morocco"
-    },
-    "boundingBox": [
-      35.6,
-      -6.2,
-      36.2,
-      -4.5
+      -6.15,
+      35.05,
+      -3.85,
+      36.05
     ]
   },
   {
