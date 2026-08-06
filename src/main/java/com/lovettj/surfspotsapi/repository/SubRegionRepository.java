@@ -13,7 +13,14 @@ public interface SubRegionRepository extends JpaRepository<SubRegion, Long> {
 
   List<SubRegion> findByRegionIdOrderByNameAsc(Long regionId);
 
-  @Query("SELECT s FROM SubRegion s LEFT JOIN s.region r ORDER BY r.name, s.name")
+  @Query(
+      """
+      SELECT s FROM SubRegion s
+      LEFT JOIN s.region r
+      LEFT JOIN r.country c
+      LEFT JOIN c.continent cont
+      ORDER BY cont.name, c.name, r.name, s.name
+      """)
   List<SubRegion> findAllByOrderByRegionNameAscNameAsc();
 }
 

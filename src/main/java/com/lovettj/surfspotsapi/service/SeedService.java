@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -108,26 +109,17 @@ public class SeedService {
       }
       logger.info("Read {} total entities from countries.json", entities.length);
       List<Country> list = new ArrayList<>(Arrays.asList(entities));
-      List<Continent> allContinents = continentRepository.findAllByOrderByNameAsc();
       for (Country country : list) {
         if (country.getContinent() != null) {
-          Continent continent = null;
-          if (country.getContinent().getName() != null && !country.getContinent().getName().isBlank()) {
-            continent =
-                continentRepository.findByNameIgnoreCase(country.getContinent().getName()).orElse(null);
-          }
-          if (continent == null && country.getContinent().getId() != null) {
-            int index = country.getContinent().getId().intValue() - 1;
-            if (index >= 0 && index < allContinents.size()) {
-              continent = allContinents.get(index);
-            }
-          }
+          String continentName = country.getContinent().getName();
+          Continent continent =
+              continentName != null && !continentName.isBlank()
+                  ? continentRepository.findByNameIgnoreCase(continentName).orElse(null)
+                  : null;
           if (continent == null) {
-            logger.warn(
-                "Continent not found for country '{}' (name={}, id={}), skipping continent reference",
-                country.getName(),
-                country.getContinent().getName(),
-                country.getContinent().getId());
+            throw new IllegalStateException(
+                "Continent not found for country '%s' (name=%s). Refusing index fallback."
+                    .formatted(country.getName(), continentName));
           }
           country.setContinent(continent);
         }
@@ -155,7 +147,6 @@ public class SeedService {
         throw new IllegalStateException("No seed data found in regions.json");
       }
       logger.info("Read {} total entities from regions.json", entities.length);
-      List<Country> allCountries = countryRepository.findAllByOrderByContinentNameAscNameAsc();
       List<Region> list = new ArrayList<>();
       for (Region jsonEntity : entities) {
         Region row = new Region();
@@ -163,33 +154,21 @@ public class SeedService {
         row.setDescription(jsonEntity.getDescription());
         row.setBoundingBox(jsonEntity.getBoundingBox());
         if (jsonEntity.getCountry() != null) {
-          Country country = null;
-          if (jsonEntity.getCountry().getName() != null && !jsonEntity.getCountry().getName().isBlank()) {
-            country = countryRepository.findByNameIgnoreCase(jsonEntity.getCountry().getName()).orElse(null);
-            if (country == null) {
-              logger.warn(
-                  "Country name '{}' not found for region '{}', trying index fallback",
-                  jsonEntity.getCountry().getName(),
-                  jsonEntity.getName());
-            }
-          }
-          if (country == null && jsonEntity.getCountry().getId() != null) {
-            int index = jsonEntity.getCountry().getId().intValue() - 1;
-            if (index >= 0 && index < allCountries.size()) {
-              country = allCountries.get(index);
-            }
-          }
+          String countryName = jsonEntity.getCountry().getName();
+          Country country =
+              countryName != null && !countryName.isBlank()
+                  ? countryRepository.findByNameIgnoreCase(countryName).orElse(null)
+                  : null;
           if (country == null) {
-            logger.warn(
-                "Country not found for region '{}' (name={}, id={}), skipping country reference",
-                jsonEntity.getName(),
-                jsonEntity.getCountry().getName(),
-                jsonEntity.getCountry().getId());
+            throw new IllegalStateException(
+                "Country not found for region '%s' (name=%s). Refusing index fallback."
+                    .formatted(jsonEntity.getName(), countryName));
           }
           row.setCountry(country);
         }
         list.add(row);
       }
+      // LinkedHashMap keeps regions.json order so DB ids follow continent → country → region.
       List<Region> deduplicated =
           new ArrayList<>(
               list.stream()
@@ -197,7 +176,8 @@ public class SeedService {
                       Collectors.toMap(
                           r -> regionKey(r.getCountry() != null ? r.getCountry().getId() : null, r.getName()),
                           r -> r,
-                          (first, second) -> first))
+                          (first, second) -> first,
+                          LinkedHashMap::new))
                   .values());
       regionRepository.saveAll(deduplicated);
       regionRepository.flush();

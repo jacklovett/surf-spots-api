@@ -18,7 +18,13 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
   List<Region> findByCountryIdOrderByNameAsc(Long countryId);
 
-  @Query("SELECT r FROM Region r LEFT JOIN r.country c ORDER BY c.name, r.name")
+  @Query(
+      """
+      SELECT r FROM Region r
+      LEFT JOIN r.country c
+      LEFT JOIN c.continent cont
+      ORDER BY cont.name, c.name, r.name
+      """)
   List<Region> findAllByOrderByCountryNameAscNameAsc();
 
   /**
